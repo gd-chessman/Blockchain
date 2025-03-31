@@ -1,8 +1,12 @@
+import { useTranslations } from "next-intl"
 
-export default function Home() {
+export default function Home({ params }: { params: { locale: string } }) {
+  const t = useTranslations()
+
   return (
-    <main>
-      <h2 className="text-green-200">Đây là trang chủ</h2>
-    </main>
-  );
+    <div>
+      <h1>{t("title")}</h1>
+      <p>{t("description")}</p>
+    </div>
+  )
 }
