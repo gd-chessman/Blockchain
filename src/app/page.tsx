@@ -1,12 +1,9 @@
-import { useTranslations } from "next-intl"
+import React from 'react'
 
-export default function Home({ params }: { params: { locale: string } }) {
-  const t = useTranslations()
-
+export default function page() {
   return (
     <div>
-      <h1>{t("title")}</h1>
-      <p>{t("description")}</p>
+      <h2>Trang chủ</h2>
     </div>
   )
 }

@@ -16,7 +16,7 @@ export default function Navigation() {
   const navItems = [
     {
       name: "Dashboard",
-      href: "/",
+      href: "/dashboard",
       icon: <LayoutDashboard className="mr-2 h-5 w-5" />,
     },
     {

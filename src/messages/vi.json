@@ -1,5 +1,26 @@
 {
-    "title": "KCM - Giao dịch blockchain",
-    "description": "Nền tảng giao dịch và ví blockchain tiên tiến"
+  "Index": {
+    "title": "Xin chào thế giới!",
+    "description": "Đây là bản demo của next-intl",
+    "welcome": "Chào mừng đến với trang web của chúng tôi"
+  },
+  "Navigation": {
+    "home": "Trang chủ",
+    "about": "Giới thiệu",
+    "contact": "Liên hệ"
+  },
+  "Form": {
+    "name": "Họ tên",
+    "email": "Email",
+    "message": "Tin nhắn",
+    "submit": "Gửi",
+    "namePlaceholder": "Nhập họ tên của bạn",
+    "emailPlaceholder": "Nhập email của bạn",
+    "messagePlaceholder": "Nhập tin nhắn của bạn"
+  },
+  "LocaleSwitcher": {
+    "label": "Thay đổi ngôn ngữ",
+    "locale": "{locale, select, en {Tiếng Anh} vi {Tiếng Việt} other {Không xác định}}"
   }
-  
+}
+
