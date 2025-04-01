@@ -1,0 +1,273 @@
+"use client"
+
+import { useState } from "react"
+import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Copy, ExternalLink, Plus, Download, Shield } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { t } from "@/lang"
+
+export default function Wallet() {
+  const [walletName, setWalletName] = useState("-")
+
+  // Hàm xử lý sao chép địa chỉ
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text)
+    // Có thể thêm thông báo toast ở đây
+  }
+
+  return (
+    <div className="container mx-auto p-6">
+      {/* Wallet Info Section */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+        <div className="flex items-center">
+          <div className="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center mr-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <rect x="2" y="5" width="20" height="14" rx="2" />
+              <path d="M22 10h-4a2 2 0 0 0-2 2v0a2 2 0 0 0 2 2h4" />
+            </svg>
+          </div>
+          <h1 className="text-3xl font-bold">{t('wallet.title')}</h1>
+        </div>
+
+        <div className="mt-4 md:mt-0 flex items-center bg-white dark:bg-gray-800 rounded-lg p-3 shadow-sm">
+          <div className="mr-6">
+            <span className="text-sm text-gray-500 dark:text-gray-400">Wallet Name:</span>
+            <span className="ml-2 font-medium">{walletName}</span>
+          </div>
+          <div>
+            <span className="text-sm text-gray-500 dark:text-gray-400">SOL Balance:</span>
+            <Badge
+              variant="outline"
+              className="ml-2 bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400 border-green-200 dark:border-green-800"
+            >
+              0.0000 SOL
+            </Badge>
+          </div>
+        </div>
+      </div>
+
+      {/* Wallet Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        {/* Solana Wallet */}
+        <Card className="border-none shadow-md dark:shadow-blue-900/5">
+          <CardContent className="p-6">
+            <div className="flex items-center mb-4">
+              <div className="w-6 h-6 mr-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 397.7 311.7"
+                  fill="currentColor"
+                  className="text-purple-500"
+                >
+                  <path d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1l62.7-62.7zM64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1L64.6 3.8zM333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h317.4c5.8 0 8.7-7 4.6-11.1l-62.7-62.7z" />
+                </svg>
+              </div>
+              <h2 className="text-xl font-bold">{t('wallet.solanaWallet')}</h2>
+            </div>
+
+            <div className="relative mb-4">
+              <Input value="2Exba5...KTyP" readOnly className="pr-10 bg-gray-50 dark:bg-gray-900/50" />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute right-0 top-0 h-full"
+                onClick={() => handleCopy("2Exba57zoxmHZQmkhVwkNw3chuNyNvX9viWR3LKTyP")}
+              >
+                <Copy className="h-4 w-4" />
+              </Button>
+            </div>
+
+            <div className="text-xs text-gray-500 dark:text-gray-400 break-all">
+              2Exba57zoxmHZQmkhVwkNw3chuNyNvX9viWR3LKTyP
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* ETH Wallet */}
+        <Card className="border-none shadow-md dark:shadow-blue-900/5">
+          <CardContent className="p-6">
+            <div className="flex items-center mb-4">
+              <div className="w-6 h-6 mr-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 784.37 1277.39"
+                  fill="currentColor"
+                  className="text-blue-500"
+                >
+                  <path d="M392.07 0l-8.57 29.11v844.63l8.57 8.55 392.06-231.75Z" />
+                  <path d="M392.07 0L0 650.54l392.07 231.75V472.33Z" />
+                  <path d="M392.07 956.52l-4.83 5.89v300.87l4.83 14.1 392.3-552.49Z" />
+                  <path d="M392.07 1277.38V956.52L0 724.89Z" />
+                  <path d="M392.07 882.29l392.06-231.75-392.06-178.21Z" />
+                  <path d="M0 650.54l392.07 231.75V472.33Z" />
+                </svg>
+              </div>
+              <h2 className="text-xl font-bold">{t('wallet.ethWallet')}</h2>
+            </div>
+
+            <div className="relative mb-4">
+              <Input value="0x8D5A...E131" readOnly className="pr-10 bg-gray-50 dark:bg-gray-900/50" />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute right-0 top-0 h-full"
+                onClick={() => handleCopy("0x8D5A62fbc40f262EEa07D2F6Fe8805F9c7C7E131")}
+              >
+                <Copy className="h-4 w-4" />
+              </Button>
+            </div>
+
+            <div className="text-xs text-gray-500 dark:text-gray-400 break-all">
+              0x8D5A62fbc40f262EEa07D2F6Fe8805F9c7C7E131
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* BNB Wallet */}
+        <Card className="border-none shadow-md dark:shadow-blue-900/5">
+          <CardContent className="p-6">
+            <div className="flex items-center mb-4">
+              <div className="w-6 h-6 mr-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 2500 2500"
+                  fill="currentColor"
+                  className="text-yellow-500"
+                >
+                  <path d="M764.48,1050.52,1250,565l485.75,485.73,282.5-282.5L1250,0,482,768l282.49,282.5M0,1250,282.51,967.45,565,1249.94,282.49,1532.45Zm764.48,199.51L1250,1935l485.74-485.72,282.65,282.35-.14.15L1250,2500,482,1732l-.4-.4,282.91-282.12M1935,1250.12l282.51-282.51L2500,1250.1l-282.5,282.51Z" />
+                  <path d="M1536.52,1249.85h.12L1250,963.19,1038.13,1175h0l-24.34,24.35-50.2,50.21-.4.39.4.41L1250,1536.81l286.66-286.66.14-.16-.26-.14" />
+                </svg>
+              </div>
+              <h2 className="text-xl font-bold">{t('wallet.bnbWallet')}</h2>
+            </div>
+
+            <div className="relative mb-4">
+              <Input value="0x8D5A...E131" readOnly className="pr-10 bg-gray-50 dark:bg-gray-900/50" />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute right-0 top-0 h-full"
+                onClick={() => handleCopy("0x8D5A62fbc40f262EEa07D2F6Fe8805F9c7C7E131")}
+              >
+                <Copy className="h-4 w-4" />
+              </Button>
+            </div>
+
+            <div className="text-xs text-gray-500 dark:text-gray-400 break-all">
+              0x8D5A62fbc40f262EEa07D2F6Fe8805F9c7C7E131
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Get Private Key Button */}
+      <div className="flex justify-center mb-8">
+        <Button className="bg-green-500 hover:bg-green-600 text-white font-medium">
+          <Shield className="mr-2 h-5 w-5" />
+          {t('wallet.getPrivateKey')}
+        </Button>
+      </div>
+
+      {/* My Wallets Section */}
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold">{t('wallet.solanaWallet')}</h2>
+          <div className="flex gap-2">
+            <Button className="bg-green-500 hover:bg-green-600">
+              <Plus className="mr-2 h-4 w-4" />
+              Add Wallet
+            </Button>
+            <Button
+              variant="outline"
+              className="border-blue-500 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950/30"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Import Wallet
+            </Button>
+          </div>
+        </div>
+
+        <Card className="border-none shadow-md dark:shadow-blue-900/5">
+          <CardContent className="p-0">
+            <div className="rounded-lg overflow-hidden">
+              <Table>
+                <TableHeader>
+                  <TableRow className="bg-muted/50">
+                    <TableHead>Wallet Name</TableHead>
+                    <TableHead>Type</TableHead>
+                    <TableHead>Solana Address</TableHead>
+                    <TableHead>ETH/BNB Address</TableHead>
+                    <TableHead>key/wallet.a...</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow className="hover:bg-muted/30">
+                    <TableCell>
+                      <div className="flex items-center">
+                        <span>-</span>
+                        <Button variant="ghost" size="icon" className="ml-2 h-6 w-6">
+                          <ExternalLink className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800">
+                        Primary
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center">
+                        <span>2Exba5...KTyP</span>
+                        <Button variant="ghost" size="icon" className="ml-2 h-6 w-6">
+                          <Copy className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center">
+                        <span>0x8D5A...E131</span>
+                        <Button variant="ghost" size="icon" className="ml-2 h-6 w-6">
+                          <Copy className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        variant="outline"
+                        className="bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 border-blue-200 dark:border-blue-800"
+                      >
+                        Member
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center space-x-2">
+                        <Button variant="ghost" size="sm" className="h-8 px-2 text-blue-600">
+                          View
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  )
+}
+
