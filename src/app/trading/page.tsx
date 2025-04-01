@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { t } from "@/lang"
 import { useRouter } from "next/navigation";
+import { Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 
 const tokens = [
@@ -12,28 +15,37 @@ const tokens = [
     symbol: 'ENDIT',
     address: 'BBbk8Msyp8viNcZcWjSJc6rPGj1DKXaT72dktdtMpump',
     decimals: 18,
-    verified: 'Yes',
+    verified: '✓ ',
   },
   {
     name: 'ARCHIE',
     symbol: 'ENDIT',
     address: 'BBbk8Msyp8viNcZcWjSJc6rPGj1DKXaT72dktdtMpump',
     decimals: 18,
-    verified: 'Yes',
+    verified: '✓ ',
   },
   // Thêm các dữ liệu token khác nếu cần
 ];
 
 export default function Trading() {
-
+  const [searchQuery, setSearchQuery] = useState("")
   const router = useRouter()
 
   return (
     <div className="container mx-auto p-6">
       <Card className="mb-6 border-none shadow-md dark:shadow-blue-900/5">
-        <CardHeader>
+        <CardHeader className="flex justify-between flex-row items-center">
           <CardTitle>{t("trading.list_token_title")}</CardTitle>
           {/* <CardDescription>Your cryptocurrency holdings</CardDescription> */}
+          <div className="relative w-full md:w-auto mt-4 md:mt-0">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder={'Search by token name or address'}
+              className="pl-10 w-full md:w-[300px]"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
         </CardHeader>
         <CardContent>
           <div className="rounded-lg overflow-hidden">
@@ -50,7 +62,7 @@ export default function Trading() {
               </TableHeader>
               <TableBody>
                 {tokens.map((token, index) => (
-                  <TableRow key={index} className="hover:bg-muted/30 cursor-pointer" onClick={()=> router.push('trading/token')}>
+                  <TableRow key={index} className="hover:bg-muted/30 cursor-pointer" onClick={() => router.push('trading/token')}>
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <img src="https://d1hjkbq40fs2x4.cloudfront.net/2016-01-31/files/1045-2.jpg" alt="" className="size-10 rounded-full" />
@@ -63,16 +75,16 @@ export default function Trading() {
                     <TableCell>{token.verified}</TableCell>
                     <TableCell>
                       <div className="flex space-x-2">
-                       
-                          <Button
-        
-                            variant="outline"
-                            size="sm"
-                            className="bg-blue-50 dark:bg-blue-900/20 text-green-600 dark:text-green-300 border-green-200 dark:border-green-800 hover:bg-green-100 dark:hover:bg-green-900/30"
-                          >
-                            {t('trading.buy')}
-                          </Button>
-      
+
+                        <Button
+
+                          variant="outline"
+                          size="sm"
+                          className="bg-blue-50 dark:bg-blue-900/20 text-green-600 dark:text-green-300 border-green-200 dark:border-green-800 hover:bg-green-100 dark:hover:bg-green-900/30"
+                        >
+                          {t('trading.buy')}
+                        </Button>
+
                       </div>
                     </TableCell>
                   </TableRow>

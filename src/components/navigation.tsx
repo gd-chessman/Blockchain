@@ -59,7 +59,7 @@ export default function Navigation() {
                 href={item.href}
                 className={cn(
                   "flex items-center px-3 py-2 rounded-lg transition-all hover:bg-white/10 text-sm font-medium",
-                  pathname === item.href ? "bg-white/20 shadow-sm" : "bg-transparent",
+                  pathname?.startsWith(item.href) ? "bg-white/20 shadow-sm" : "bg-transparent",
                 )}
               >
                 {item.icon}

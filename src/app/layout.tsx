@@ -30,7 +30,7 @@ export default function RootLayout({
               <main className="min-h-[calc(100vh-64px)]">{children}</main>
             </div>
           </ThemeProvider>
-          <ToastContainer />
+          <ToastContainer theme="dark" />
         </LangProvider>
       </body>
     </html>
