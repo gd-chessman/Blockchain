@@ -4,15 +4,18 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/libs/utils"
 import { Button } from "@/components/ui/button"
-import { LayoutDashboard, TrendingUp, Copy, Users, Wallet, Globe, BellIcon as BrandTelegram } from "lucide-react"
+import { LayoutDashboard, TrendingUp, Copy, Users, Wallet } from "lucide-react"
 import { useState } from "react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Logo } from "./logo"
 import { t } from "@/lang"
 import { LangToggle } from "./lang-toggle"
+import { Menu } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Navigation() {
   const pathname = usePathname()
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
     {
@@ -73,19 +76,26 @@ export default function Navigation() {
         <div className="flex items-center gap-2 md:gap-3">
           <ThemeToggle />
           <LangToggle />
-
           <Button className="bg-green-500 hover:bg-green-600 text-white font-medium">
-            <BrandTelegram className="mr-2 h-4 w-4" />
             Connect Telegram
           </Button>
         </div>
 
         {/* Menu mobile */}
-        <div className="md:hidden">{/* Hiển thị menu dạng dropdown cho mobile */}</div>
+        <div className="md:hidden flex mx-2">
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            <Menu />
+          </button>
+        </div>
       </div>
 
       {/* Menu mobile hiển thị khi click vào nút menu */}
-      {/* <div className="md:hidden">
+      <motion.div
+        initial={{ height: 0, opacity: 0 }}
+        animate={{ height: isMenuOpen ? "auto" : 0, opacity: isMenuOpen ? 1 : 0 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="overflow-hidden md:hidden"
+      >
         <div className="flex flex-col gap-1 px-4 pb-3">
           {navItems.map((item) => (
             <Link
@@ -93,16 +103,16 @@ export default function Navigation() {
               href={item.href}
               className={cn(
                 "flex items-center px-3 py-2 rounded-lg transition-all hover:bg-white/10 text-sm font-medium",
-                pathname === item.href ? "bg-white/20 shadow-sm" : "bg-transparent",
+                pathname?.startsWith(item.href) ? "bg-white/20 shadow-sm" : "bg-transparent",
               )}
+              onClick={() => setIsMenuOpen(false)}
             >
               {item.icon}
-              {item.name}
+              {t(`navigation.${item.name}`)}
             </Link>
           ))}
         </div>
-      </div> */}
+      </motion.div>
     </nav>
   )
 }
-

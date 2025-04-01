@@ -1074,6 +1074,15 @@ form-data@^4.0.0:
     es-set-tostringtag "^2.1.0"
     mime-types "^2.1.12"
 
+framer-motion@^12.6.2:
+  version "12.6.2"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-12.6.2.tgz#560b1a23d71ed062a2f6d7c2a000a53ef6ee37b4"
+  integrity sha512-7LgPRlPs5aG8UxeZiMCMZz8firC53+2+9TnWV22tuSi38D3IFRxHRUqOREKckAkt6ztX+Dn6weLcatQilJTMcg==
+  dependencies:
+    motion-dom "^12.6.1"
+    motion-utils "^12.5.0"
+    tslib "^2.4.0"
+
 fsevents@~2.3.2:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6"
@@ -1305,6 +1314,18 @@ moment@^2.30.1:
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.30.1.tgz#f8c91c07b7a786e30c59926df530b4eac96974ae"
   integrity sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==
 
+motion-dom@^12.6.1:
+  version "12.6.1"
+  resolved "https://registry.yarnpkg.com/motion-dom/-/motion-dom-12.6.1.tgz#2b8f53c0af51db75301f88f25fc4d4546424ba60"
+  integrity sha512-8XVsriTUEVOepoIDgE/LDGdg7qaKXWdt+wQA/8z0p8YzJDLYL8gbimZ3YkCLlj7bB2i/4UBD/g+VO7y9ZY0zHQ==
+  dependencies:
+    motion-utils "^12.5.0"
+
+motion-utils@^12.5.0:
+  version "12.5.0"
+  resolved "https://registry.yarnpkg.com/motion-utils/-/motion-utils-12.5.0.tgz#0e42a6b8030327166ca0d0ea0d5b86d64c21e51d"
+  integrity sha512-+hFFzvimn0sBMP9iPxBa9OtRX35ZQ3py0UHnb8U29VD+d8lQ8zH3dTygJWqK7av2v6yhg7scj9iZuvTS0f4+SA==
+
 mz@^2.7.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/mz/-/mz-2.7.0.tgz#95008057a56cafadc2bc63dde7f9ff6955948e32"
@@ -1502,6 +1523,11 @@ react-dom@^19:
   integrity sha512-Xs1hdnE+DyKgeHJeJznQmYMIBG3TKIHJJT95Q58nHLSrElKlGQqDTR2HQ9fx5CN/Gk6Vh/kupBTDLU11/nDk/g==
   dependencies:
     scheduler "^0.26.0"
+
+react-icons@^5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-5.5.0.tgz#8aa25d3543ff84231685d3331164c00299cdfaf2"
+  integrity sha512-MEFcXdkP3dLo8uumGI5xN3lDFNsRtrjbOEKDLD7yv76v4wpnEq2Lt2qeHaQOr34I/wPN3s3+N08WkQ+CW37Xiw==
 
 react-remove-scroll-bar@^2.3.7:
   version "2.3.8"
