@@ -4,6 +4,7 @@ import { Inter } from "next/font/google"
 import '@/styles/globals.scss'
 import Navigation from "@/components/navigation"
 import { ThemeProvider } from "@/components/theme-provider"
+import { LangProvider } from "@/lang/LangProvider"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -20,12 +21,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-300">
-            <Navigation />
-            <main className="min-h-[calc(100vh-64px)]">{children}</main>
-          </div>
-        </ThemeProvider>
+        <LangProvider>
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+            <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-300">
+              <Navigation />
+              <main className="min-h-[calc(100vh-64px)]">{children}</main>
+            </div>
+          </ThemeProvider>
+        </LangProvider>
       </body>
     </html>
   )

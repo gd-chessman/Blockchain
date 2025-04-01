@@ -8,34 +8,35 @@ import { LayoutDashboard, TrendingUp, Copy, Users, Wallet, Globe, BellIcon as Br
 import { useState } from "react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Logo } from "./logo"
+import { t } from "@/lang"
+import { LangToggle } from "./lang-toggle"
 
 export default function Navigation() {
   const pathname = usePathname()
-  const [language, setLanguage] = useState("US")
 
   const navItems = [
     {
-      name: "Dashboard",
+      name: "dashboard",
       href: "/dashboard",
       icon: <LayoutDashboard className="mr-2 h-5 w-5" />,
     },
     {
-      name: "Trading",
+      name: "trading",
       href: "/trading",
       icon: <TrendingUp className="mr-2 h-5 w-5" />,
     },
     {
-      name: "Copy Trade",
+      name: "copytrade",
       href: "/copy-trade",
       icon: <Copy className="mr-2 h-5 w-5" />,
     },
     {
-      name: "Master Trade",
+      name: "mastertrade",
       href: "/master-trade",
       icon: <Users className="mr-2 h-5 w-5" />,
     },
     {
-      name: "Wallet",
+      name: "wallet",
       href: "/wallet",
       icon: <Wallet className="mr-2 h-5 w-5" />,
     },
@@ -62,7 +63,7 @@ export default function Navigation() {
                 )}
               >
                 {item.icon}
-                {item.name}
+                {t(`navigation.${item.name}`)}
               </Link>
             ))}
           </div>
@@ -71,11 +72,7 @@ export default function Navigation() {
         {/* Các nút chức năng bên phải */}
         <div className="flex items-center gap-2 md:gap-3">
           <ThemeToggle />
-
-          <Button variant="ghost" className="text-white hover:bg-white/10 border-blue-500/30">
-            <Globe className="mr-2 h-4 w-4" />
-            {language}
-          </Button>
+          <LangToggle />
 
           <Button className="bg-green-500 hover:bg-green-600 text-white font-medium">
             <BrandTelegram className="mr-2 h-4 w-4" />
