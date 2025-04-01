@@ -4,45 +4,24 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/libs/utils"
 import { Button } from "@/components/ui/button"
-import { LayoutDashboard, TrendingUp, Copy, Users, Wallet } from "lucide-react"
+import { LayoutDashboard, TrendingUp, Copy, Users, Wallet, Menu } from "lucide-react"
 import { useState } from "react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Logo } from "./logo"
 import { t } from "@/lang"
 import { LangToggle } from "./lang-toggle"
-import { Menu } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"
 
 export default function Navigation() {
   const pathname = usePathname()
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const navItems = [
-    {
-      name: "dashboard",
-      href: "/dashboard",
-      icon: <LayoutDashboard className="mr-2 h-5 w-5" />,
-    },
-    {
-      name: "trading",
-      href: "/trading",
-      icon: <TrendingUp className="mr-2 h-5 w-5" />,
-    },
-    {
-      name: "copytrade",
-      href: "/copy-trade",
-      icon: <Copy className="mr-2 h-5 w-5" />,
-    },
-    {
-      name: "mastertrade",
-      href: "/master-trade",
-      icon: <Users className="mr-2 h-5 w-5" />,
-    },
-    {
-      name: "wallet",
-      href: "/wallet",
-      icon: <Wallet className="mr-2 h-5 w-5" />,
-    },
+    { name: "dashboard", href: "/dashboard", icon: <LayoutDashboard className="mr-2 h-5 w-5" /> },
+    { name: "trading", href: "/trading", icon: <TrendingUp className="mr-2 h-5 w-5" /> },
+    { name: "copytrade", href: "/copy-trade", icon: <Copy className="mr-2 h-5 w-5" /> },
+    { name: "mastertrade", href: "/master-trade", icon: <Users className="mr-2 h-5 w-5" /> },
+    { name: "wallet", href: "/wallet", icon: <Wallet className="mr-2 h-5 w-5" /> },
   ]
 
   return (
@@ -89,12 +68,20 @@ export default function Navigation() {
         </div>
       </div>
 
+      {/* Lớp phủ */}
+      {isMenuOpen && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={() => setIsMenuOpen(false)}
+        />
+      )}
+
       {/* Menu mobile hiển thị khi click vào nút menu */}
       <motion.div
         initial={{ height: 0, opacity: 0 }}
         animate={{ height: isMenuOpen ? "auto" : 0, opacity: isMenuOpen ? 1 : 0 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="overflow-hidden md:hidden"
+        className="overflow-hidden md:hidden fixed top-16 left-0 w-full bg-blue-600 dark:bg-blue-900 z-50 shadow-lg"
       >
         <div className="flex flex-col gap-1 px-4 pb-3">
           {navItems.map((item) => (

@@ -117,7 +117,7 @@ export default function MasterTrade() {
                         <TableCell className="text-right">
                           <Button
                             size="sm"
-                            className="bg-blue-600 hover:bg-blue-700"
+                            className="bg-blue-500 dark:bg-blue-400 hover:bg-blue-700"
                             onClick={() => handleConnect(trader.id)}
                           >
                             Connect
