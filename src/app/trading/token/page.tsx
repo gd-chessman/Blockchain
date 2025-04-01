@@ -30,7 +30,7 @@ export default function Trading() {
         <div className="text-sm text-muted-foreground mt-2 md:mt-0">Market is open • 24h Volume: $1.2B</div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
         <div className="flex flex-col gap-6">
           <Card className="border-none shadow-md dark:shadow-blue-900/5">
             <CardHeader>
@@ -46,7 +46,7 @@ export default function Trading() {
                         Value
                       </Button>
                   </div>
-                  <div className="grid grid-cols-2 gap-6 text-sm">
+                  <div className="grid grid-cols-2 gap-4 text-sm">
                     <span className="text-muted-foreground">Name:</span>
                     <span className="text-right">Footls Take Over</span>
                     <span className="text-muted-foreground">Symbol:</span>
@@ -81,7 +81,7 @@ export default function Trading() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 gap-4">
-                <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50 max-h-svh overflow-auto">
+                <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50 max-h-[64vh] overflow-auto">
                   <div className="space-y-4">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((i) => (
                       <div key={i} className={`flex text-sm gap-6 cursor-pointer ${i < 15 ? "border-b-2 pb-2" : ""}`}>
@@ -100,7 +100,7 @@ export default function Trading() {
           </Card>
 
         </div>
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-3">
           <Card className="mb-6 border-none shadow-md dark:shadow-blue-900/5">
             <CardHeader>
               <div className="flex items-center justify-between">
@@ -138,7 +138,8 @@ export default function Trading() {
               </div>
             </CardContent>
           </Card>
-          <Card className="mb-6 border-none shadow-md dark:shadow-blue-900/5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Card className="mb-6 border-none shadow-md dark:shadow-blue-900/5 lg:col-span-2">
             <CardHeader>
               <CardTitle>Place Order</CardTitle>
             </CardHeader>
@@ -248,6 +249,23 @@ export default function Trading() {
               </Tabs>
             </CardContent>
           </Card>
+
+          <Card className="border-none shadow-md dark:shadow-blue-900/5 ">
+            <CardHeader>
+              <CardTitle>{t("trading.listConnect")}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 gap-4">
+                <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50 max-h-svh overflow-auto">
+                  <div className="space-y-4">
+                    {t("trading.noConnections")}
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          </div>
 
         </div>
 
