@@ -5,6 +5,8 @@ import '@/styles/globals.scss'
 import Navigation from "@/components/navigation"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LangProvider } from "@/lang/LangProvider"
+import { ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -28,6 +30,7 @@ export default function RootLayout({
               <main className="min-h-[calc(100vh-64px)]">{children}</main>
             </div>
           </ThemeProvider>
+          <ToastContainer />
         </LangProvider>
       </body>
     </html>

@@ -85,7 +85,7 @@ export default function Navigation() {
       </div>
 
       {/* Menu mobile hiển thị khi click vào nút menu */}
-      <div className="md:hidden">
+      {/* <div className="md:hidden">
         <div className="flex flex-col gap-1 px-4 pb-3">
           {navItems.map((item) => (
             <Link
@@ -101,7 +101,7 @@ export default function Navigation() {
             </Link>
           ))}
         </div>
-      </div>
+      </div> */}
     </nav>
   )
 }
