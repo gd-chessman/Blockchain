@@ -3,12 +3,12 @@ import {toast} from "react-toastify";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 const axiosClient = axios.create({
-  baseURL: `${apiUrl}/api`,
+  baseURL: `${apiUrl}/api/v1`,
 });
 
 axiosClient.interceptors.request.use(
   (config) => {
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    const user = JSON.parse(localStorage.getItem('auth_token') || 'null');
     const accessToken = user ? user.token : null;
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
@@ -25,12 +25,12 @@ axiosClient.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      console.error('Lỗi 401: Unauthorized');
-      localStorage.removeItem('user');
-      toast.warning("Đã hết phiên đăng nhập");
-      setTimeout(() => {
-        window.location.href = '/login';
-      }, 3000);
+      // console.error('Lỗi 401: Unauthorized');
+      // localStorage.removeItem('user');
+      // toast.warning("Đã hết phiên đăng nhập");
+      // setTimeout(() => {
+      //   window.location.href = '/login';
+      // }, 3000);
     }else if(error.code === "ERR_NETWORK"){
       toast.error("Máy chủ đang gặp sự cố !");
     }
