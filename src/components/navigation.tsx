@@ -1,29 +1,61 @@
-"use client"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { cn } from "@/libs/utils"
-import { Button } from "@/components/ui/button"
-import { LayoutDashboard, TrendingUp, Copy, Users, Wallet, Menu } from "lucide-react"
-import { useState } from "react"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { Logo } from "./logo"
-import { t } from "@/lang"
-import { LangToggle } from "./lang-toggle"
-import { motion } from "framer-motion"
-import { useAuth } from "@/hooks/useAuth"
+"use client";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/libs/utils";
+import { Button } from "@/components/ui/button";
+import {
+  LayoutDashboard,
+  TrendingUp,
+  Copy,
+  Users,
+  Wallet,
+  Menu,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { Logo } from "./logo";
+import { t } from "@/lang";
+import { LangToggle } from "./lang-toggle";
+import { motion } from "framer-motion";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Navigation() {
-  const pathname = usePathname()
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAuthenticated, logout } = useAuth();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const navItems = [
-    { name: "dashboard", href: "/dashboard", icon: <LayoutDashboard className="mr-2 h-5 w-5" /> },
-    { name: "trading", href: "/trading", icon: <TrendingUp className="mr-2 h-5 w-5" /> },
-    { name: "copytrade", href: "/copy-trade", icon: <Copy className="mr-2 h-5 w-5" /> },
-    { name: "mastertrade", href: "/master-trade", icon: <Users className="mr-2 h-5 w-5" /> },
-    { name: "wallet", href: "/wallet", icon: <Wallet className="mr-2 h-5 w-5" /> },
-  ]
+    {
+      name: "dashboard",
+      href: "/dashboard",
+      icon: <LayoutDashboard className="mr-2 h-5 w-5" />,
+    },
+    {
+      name: "trading",
+      href: "/trading",
+      icon: <TrendingUp className="mr-2 h-5 w-5" />,
+    },
+    {
+      name: "copytrade",
+      href: "/copy-trade",
+      icon: <Copy className="mr-2 h-5 w-5" />,
+    },
+    {
+      name: "mastertrade",
+      href: "/master-trade",
+      icon: <Users className="mr-2 h-5 w-5" />,
+    },
+    {
+      name: "wallet",
+      href: "/wallet",
+      icon: <Wallet className="mr-2 h-5 w-5" />,
+    },
+  ];
 
   return (
     <nav className="bg-gradient-to-r bg-primary text-white sticky top-0 z-50 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90 border-b">
@@ -42,7 +74,9 @@ export default function Navigation() {
                 href={item.href}
                 className={cn(
                   "flex items-center px-3 py-2 rounded-lg transition-all hover:bg-white/10 text-sm font-medium",
-                  pathname?.startsWith(item.href) ? "bg-white/20 shadow-sm" : "bg-transparent",
+                  pathname?.startsWith(item.href)
+                    ? "bg-white/20 shadow-sm"
+                    : "bg-transparent"
                 )}
               >
                 {item.icon}
@@ -56,20 +90,28 @@ export default function Navigation() {
         <div className="flex items-center gap-2 md:gap-3">
           <ThemeToggle />
           <LangToggle />
-          {
-            !isAuthenticated && (
-              <Button className="bg-green-500 hover:bg-green-600 text-white font-medium" onClick={() => window.open("https://t.me/kcomeme_connect_wallet_bot?start", "_blank")} suppressHydrationWarning={true}>
-                Connect Telegram
-              </Button>
-            )
-          }
-          {
-            isAuthenticated && (
-              <Button className="bg-green-500 hover:bg-green-600 text-white font-medium" suppressHydrationWarning={true}>
-                Mã code
-              </Button>
-            )
-          }
+          {mounted && (
+            <>
+              {!isAuthenticated && (
+                <Button
+                  className="bg-green-500 hover:bg-green-600 text-white font-medium"
+                  onClick={() =>
+                    window.open(
+                      "https://t.me/kcomeme_connect_wallet_bot?start",
+                      "_blank"
+                    )
+                  }
+                >
+                  Connect Telegram
+                </Button>
+              )}
+              {isAuthenticated && (
+                <Button className="bg-green-500 hover:bg-green-600 text-white font-medium">
+                  Mã code
+                </Button>
+              )}
+            </>
+          )}
         </div>
 
         {/* Menu mobile */}
@@ -91,7 +133,10 @@ export default function Navigation() {
       {/* Menu mobile hiển thị khi click vào nút menu */}
       <motion.div
         initial={{ height: 0, opacity: 0 }}
-        animate={{ height: isMenuOpen ? "auto" : 0, opacity: isMenuOpen ? 1 : 0 }}
+        animate={{
+          height: isMenuOpen ? "auto" : 0,
+          opacity: isMenuOpen ? 1 : 0,
+        }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
         className="overflow-hidden md:hidden fixed top-16 left-0 w-full bg-blue-600 dark:bg-blue-900 z-50 shadow-lg"
       >
@@ -102,7 +147,9 @@ export default function Navigation() {
               href={item.href}
               className={cn(
                 "flex items-center px-3 py-2 rounded-lg transition-all hover:bg-white/10 text-sm font-medium",
-                pathname?.startsWith(item.href) ? "bg-white/20 shadow-sm" : "bg-transparent",
+                pathname?.startsWith(item.href)
+                  ? "bg-white/20 shadow-sm"
+                  : "bg-transparent"
               )}
               onClick={() => setIsMenuOpen(false)}
             >
@@ -113,5 +160,5 @@ export default function Navigation() {
         </div>
       </motion.div>
     </nav>
-  )
+  );
 }

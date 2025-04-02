@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { TrendingUp, Users, Star } from "lucide-react"
@@ -34,10 +34,10 @@ export default function CopyTrade() {
                     <div className="flex justify-between items-start">
                       <div className="flex items-center">
                         <Avatar className="h-10 w-10 mr-3 border-2 border-blue-100 dark:border-blue-900">
-                          <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
+                          {/* <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
                           <AvatarFallback className="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
                             T{i}
-                          </AvatarFallback>
+                          </AvatarFallback> */}
                         </Avatar>
                         <div>
                           <CardTitle className="text-lg">Trader {i}</CardTitle>
@@ -95,7 +95,7 @@ export default function CopyTrade() {
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Button className="w-full bg-blue-600 hover:bg-blue-700">Copy Trader</Button>
+                    <Button className="w-full bg-primary opacity-90 hover:opacity-100 text-white">Copy Trader</Button>
                   </CardFooter>
                 </Card>
               ))}
@@ -117,10 +117,10 @@ export default function CopyTrade() {
                     >
                       <div className="flex items-center">
                         <Avatar className="h-10 w-10 mr-3 border-2 border-blue-100 dark:border-blue-900">
-                          <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
+                          {/* <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
                           <AvatarFallback className="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
                             T{i}
-                          </AvatarFallback>
+                          </AvatarFallback> */}
                         </Avatar>
                         <div>
                           <div className="font-medium">Trader {i}</div>
