@@ -26,7 +26,7 @@ export default function Navigation() {
   ]
 
   return (
-    <nav className="bg-gradient-to-r from-blue-600 to-blue-500 dark:from-blue-900 dark:to-blue-800 text-white sticky top-0 z-50 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90 border-b border-blue-700/50 dark:border-blue-950/50">
+    <nav className="bg-gradient-to-r bg-primary text-white sticky top-0 z-50 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90 border-b">
       <div className="container mx-auto flex items-center justify-between py-3 px-4">
         {/* Logo bên trái */}
         <div className="flex-shrink-0">

@@ -3,6 +3,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { AuthService } from '@/services/auth';
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect } from 'react'
+import { toast } from 'react-toastify';
 
 export default function TelegramLogin() {
     const {isAuthenticated, login } = useAuth();
@@ -24,8 +25,15 @@ export default function TelegramLogin() {
         try {
             const data = {id: telegramId, code : code}
             const res = await AuthService.login(data);
-            login(res.token);
-            router.push('/dashboard')
+            console.log(res)
+            if(res.status == 401){
+                toast.warn("Xác thực không hợp lệ!")
+            }
+            if(res.status == 200){
+                login(res.token);
+                router.push('/dashboard')
+            }
+
         } catch (error: any) {
             console.log(error)
         }
