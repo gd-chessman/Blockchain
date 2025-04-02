@@ -22,6 +22,7 @@ import { toast } from "react-toastify"
 
 export default function Wallet() {
   const [walletName, setWalletName] = useState("-")
+  const [showPrivateKey, setShowPrivateKey] = useState(false)
   const { data: inforWallet } = useQuery({
     queryKey: ['infor-wallet'],
     queryFn: getInforWallets,
@@ -355,14 +356,25 @@ export default function Wallet() {
           </DialogHeader>
           
           <div className="grid gap-4 py-4">
+            <div className="flex justify-end">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowPrivateKey(!showPrivateKey)}
+                className="text-sm"
+              >
+                {showPrivateKey ? "Hide Keys" : "Show Keys"}
+              </Button>
+            </div>
+
             <div className="grid gap-2">
               <Label htmlFor="solana-key">Solana Private Key</Label>
               <div className="relative">
                 <Input
                   id="solana-key"
-                  value={privateKeys?.sol_private_key}
+                  value={showPrivateKey ? privateKeys?.sol_private_key : "••••••••••••••••••••••••••••••••"}
                   readOnly
-                  className="pr-10 bg-gray-50 dark:bg-gray-900/50"
+                  className="pr-10 bg-gray-50 dark:bg-gray-900/50 truncate"
                 />
                 <Button
                   variant="ghost"
@@ -380,9 +392,9 @@ export default function Wallet() {
               <div className="relative">
                 <Input
                   id="eth-key"
-                  value={privateKeys?.eth_private_key}
+                  value={showPrivateKey ? privateKeys?.eth_private_key : "••••••••••••••••••••••••••••••••"}
                   readOnly
-                  className="pr-10 bg-gray-50 dark:bg-gray-900/50"
+                  className="pr-10 bg-gray-50 dark:bg-gray-900/50 truncate"
                 />
                 <Button
                   variant="ghost"
@@ -400,9 +412,9 @@ export default function Wallet() {
               <div className="relative">
                 <Input
                   id="bnb-key"
-                  value={privateKeys?.bnb_private_key}
+                  value={showPrivateKey ? privateKeys?.bnb_private_key : "••••••••••••••••••••••••••••••••"}
                   readOnly
-                  className="pr-10 bg-gray-50 dark:bg-gray-900/50"
+                  className="pr-10 bg-gray-50 dark:bg-gray-900/50 truncate"
                 />
                 <Button
                   variant="ghost"
@@ -419,7 +431,10 @@ export default function Wallet() {
           <DialogFooter>
             <Button
               variant="outline"
-              onClick={() => setIsPrivateKeyOpen(false)}
+              onClick={() => {
+                setIsPrivateKeyOpen(false)
+                setShowPrivateKey(false)
+              }}
             >
               Close
             </Button>
