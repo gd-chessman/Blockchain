@@ -18,6 +18,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
+import { toast } from "react-toastify"
 
 export default function Wallet() {
   const [walletName, setWalletName] = useState("-")
@@ -33,6 +34,7 @@ export default function Wallet() {
   // Hàm xử lý sao chép địa chỉ
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text)
+    toast.success("Copied to clipboard!") 
     // Có thể thêm thông báo toast ở đây
   }
 
