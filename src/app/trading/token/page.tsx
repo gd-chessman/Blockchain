@@ -8,12 +8,21 @@ import { useState } from "react"
 import { t } from "@/lang"
 import { Copy } from "lucide-react";
 import { toast } from "react-toastify"
+import TradingChart, { generateChartData } from "@/components/chart/trading-chart"
+
+const chartData = generateChartData()
 
 export default function Trading() {
   const [value, setValue] = useState(0);
   const marks = [0, 25, 50, 75, 100];
   const [copySuccess, setCopySuccess] = useState(false);
   const address = "G5XYVieHj6s1aCMjWxwy1iTj4Ek8E8mjSK32Ctk7pump";
+
+  const handleTimeframeChange = (timeframe: string) => {
+    console.log(`Timeframe changed to: ${timeframe}`)
+    // Trong ứng dụng thực tế, bạn sẽ tải dữ liệu mới dựa trên khung thời gian
+  }
+
 
   const handleCopy = () => {
     navigator.clipboard.writeText(address).then(() => {
@@ -115,27 +124,8 @@ export default function Trading() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="h-[400px] border rounded-md flex items-center justify-center bg-white/50 dark:bg-gray-900/50">
-                <TrendingUp className="h-16 w-16 text-muted-foreground" />
-                <span className="ml-2 text-muted-foreground">Trading chart would appear here</span>
-              </div>
+            <TradingChart data={chartData} symbol="BTC/USDT" onTimeframeChange={handleTimeframeChange} />
 
-              <div className="grid grid-cols-5 gap-2 mt-4">
-                {["1H", "4H", "1D", "1W", "1M"].map((timeframe) => (
-                  <Button
-                    key={timeframe}
-                    variant="outline"
-                    size="sm"
-                    className={
-                      timeframe === "1D"
-                        ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
-                        : ""
-                    }
-                  >
-                    {timeframe}
-                  </Button>
-                ))}
-              </div>
             </CardContent>
           </Card>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -1,5 +1,4 @@
 "use client"
-
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/libs/utils"
@@ -11,10 +10,12 @@ import { Logo } from "./logo"
 import { t } from "@/lang"
 import { LangToggle } from "./lang-toggle"
 import { motion } from "framer-motion"
+import { useAuth } from "@/hooks/useAuth"
 
 export default function Navigation() {
   const pathname = usePathname()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { isAuthenticated, logout } = useAuth();
 
   const navItems = [
     { name: "dashboard", href: "/dashboard", icon: <LayoutDashboard className="mr-2 h-5 w-5" /> },
@@ -55,9 +56,20 @@ export default function Navigation() {
         <div className="flex items-center gap-2 md:gap-3">
           <ThemeToggle />
           <LangToggle />
-          <Button className="bg-green-500 hover:bg-green-600 text-white font-medium">
-            Connect Telegram
-          </Button>
+          {
+            !isAuthenticated && (
+              <Button className="bg-green-500 hover:bg-green-600 text-white font-medium" onClick={() => window.open("https://t.me/kcomeme_connect_wallet_bot?start", "_blank")} suppressHydrationWarning={true}>
+                Connect Telegram
+              </Button>
+            )
+          }
+          {
+            isAuthenticated && (
+              <Button className="bg-green-500 hover:bg-green-600 text-white font-medium" suppressHydrationWarning={true}>
+                Mã code
+              </Button>
+            )
+          }
         </div>
 
         {/* Menu mobile */}
