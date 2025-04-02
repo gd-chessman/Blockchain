@@ -9,37 +9,33 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Copy, Search } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { t } from "@/lang"
-
-// Dữ liệu mẫu cho các master traders
-const masterTraders = [
-  { id: 1, address: "BCA5...ZAjr", fullAddress: "BCA5a7d8f9e0ZAjr", type: "NORMAL", status: "Not Connected" },
-  { id: 2, address: "H5F6...WLGK", fullAddress: "H5F6b7c8d9e0WLGK", type: "VIP", status: "Not Connected" },
-  { id: 3, address: "BbFd...SCC9", fullAddress: "BbFda7b8c9d0SCC9", type: "VIP", status: "Not Connected" },
-  { id: 4, address: "EQqK...Z9EP", fullAddress: "EQqKa7b8c9d0Z9EP", type: "NORMAL", status: "Not Connected" },
-  { id: 5, address: "s4uJ...frdy", fullAddress: "s4uJa7b8c9d0frdy", type: "VIP", status: "Not Connected" },
-]
+import { useQuery } from "@tanstack/react-query"
+import { getMasters } from "@/services/api/MasterTradingService"
 
 export default function MasterTrade() {
+  const { data: masterTraders } = useQuery({
+    queryKey: ['master-trading/masters'],
+    queryFn: getMasters,
+  });
   const [activeTab, setActiveTab] = useState("not-connected")
   const [searchQuery, setSearchQuery] = useState("")
-
   // Lọc master traders dựa trên tab đang active và từ khóa tìm kiếm
-  const filteredTraders = masterTraders.filter((trader) => {
-    const matchesSearch = trader.fullAddress.toLowerCase().includes(searchQuery.toLowerCase())
+  // const filteredTraders = masterTraders.filter((trader: any) => {
+  //   const matchesSearch = trader.eth_address.toLowerCase().includes(searchQuery.toLowerCase())
 
-    switch (activeTab) {
-      case "not-connected":
-        return matchesSearch && trader.status === "Not Connected"
-      case "connected":
-        return matchesSearch && trader.status === "Connected"
-      case "disconnected":
-        return matchesSearch && trader.status === "Disconnected"
-      case "pending":
-        return matchesSearch && trader.status === "Pending"
-      default:
-        return matchesSearch
-    }
-  })
+  //   switch (activeTab) {
+  //     case "not-connected":
+  //       return matchesSearch && trader.status === "Not Connected"
+  //     case "connected":
+  //       return matchesSearch && trader.status === "Connected"
+  //     case "disconnected":
+  //       return matchesSearch && trader.status === "Disconnected"
+  //     case "pending":
+  //       return matchesSearch && trader.status === "Pending"
+  //     default:
+  //       return matchesSearch
+  //   }
+  // })
 
   const handleConnect = (traderId: number) => {
     console.log(`Connecting to trader with ID: ${traderId}`)
@@ -88,16 +84,16 @@ export default function MasterTrade() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filteredTraders.map((trader) => (
+                    {masterTraders?.map((trader: any) => (
                       <TableRow key={trader.id} className="hover:bg-muted/30">
                         <TableCell className="font-medium">
-                          <div className="flex items-center">
-                            {trader.address}
+                          <div className=" w-64 truncate">
+                            {trader.solana_address}
                             <Button
                               variant="ghost"
                               size="icon"
                               className="h-8 w-8 ml-2"
-                              onClick={() => handleCopyAddress(trader.fullAddress)}
+                              onClick={() => handleCopyAddress(trader.eth_address)}
                             >
                               <Copy className="h-4 w-4" />
                             </Button>
@@ -112,7 +108,7 @@ export default function MasterTrade() {
                           </Badge>
                         </TableCell>
                         <TableCell>
-                          <span className="text-muted-foreground">{trader.status}</span>
+                          <span className="text-muted-foreground">{trader.connection_status}</span>
                         </TableCell>
                         <TableCell className="text-right">
                           <Button

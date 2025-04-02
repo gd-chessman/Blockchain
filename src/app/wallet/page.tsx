@@ -10,18 +10,37 @@ import { Input } from "@/components/ui/input"
 import { t } from "@/lang"
 import { useQuery } from "@tanstack/react-query"
 import { getInforWallets } from "@/services/api/TelegramWalletService"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
 
 export default function Wallet() {
   const [walletName, setWalletName] = useState("-")
   const { data: inforWallet } = useQuery({
-    queryKey: ['inforWallet'],
+    queryKey: ['infor-wallet'],
     queryFn: getInforWallets,
   });
+
+  // Thêm state để quản lý popup
+  const [isAddWalletOpen, setIsAddWalletOpen] = useState(false)
+  const [newWalletName, setNewWalletName] = useState("")
 
   // Hàm xử lý sao chép địa chỉ
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text)
     // Có thể thêm thông báo toast ở đây
+  }
+
+  // Thêm handlers
+  const handleAddWallet = () => {
+    // Xử lý logic thêm ví ở đây
+    setIsAddWalletOpen(false)
+    setNewWalletName("")
   }
 
   return (
@@ -192,7 +211,10 @@ export default function Wallet() {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold">{t('wallet.solanaWallet')}</h2>
           <div className="flex gap-2">
-            <Button className="bg-green-500 hover:bg-green-600">
+            <Button 
+              className="bg-green-500 hover:bg-green-600" 
+              onClick={() => setIsAddWalletOpen(true)}
+            >
               <Plus className="mr-2 h-4 w-4" />
               Add Wallet
             </Button>
@@ -273,6 +295,47 @@ export default function Wallet() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Dialog for adding new wallet */}
+      <Dialog open={isAddWalletOpen} onOpenChange={setIsAddWalletOpen}>
+        <DialogContent className="sm:max-w-[425px] bg-card">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold">Add New Wallet</DialogTitle>
+          </DialogHeader>
+          
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="wallet-name">Wallet Name</Label>
+              <Input
+                id="wallet-name"
+                placeholder="Enter wallet name"
+                value={newWalletName}
+                onChange={(e) => setNewWalletName(e.target.value)}
+                className="bg-gray-50 dark:bg-gray-900/50"
+              />
+            </div>
+          </div>
+          
+          <DialogFooter className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setIsAddWalletOpen(false)
+                setNewWalletName("")
+              }}
+            >
+              Cancel
+            </Button>
+            <Button 
+              className="bg-green-500 hover:bg-green-600 text-white"
+              onClick={handleAddWallet}
+              disabled={!newWalletName.trim()}
+            >
+              Add Wallet
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

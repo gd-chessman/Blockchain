@@ -4,7 +4,7 @@ import axiosClient from "@/utils/axiosClient"
 export const getMasters = async ()=>{
     try {
         const temp = await axiosClient.get("/master-trading/masters")
-        return temp.data;
+        return temp.data.data;
     } catch (error) {
         console.log(error)
         return [];
