@@ -10,6 +10,7 @@ import {
   Users,
   Wallet,
   Menu,
+  Coins,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -30,6 +31,11 @@ export default function Navigation() {
   }, []);
 
   const navItems = [
+    {
+      name: "newcoin",
+      href: "/create-new-coin",
+      icon: <Coins className="mr-2 h-5 w-5" />,
+    },
     {
       name: "dashboard",
       href: "/dashboard",

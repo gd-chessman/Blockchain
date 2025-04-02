@@ -123,6 +123,7 @@
       "time": "Time"
   },
   "navigation": {
+      "newcoin": "Create New Coin",
       "dashboard": "Dashboard",
       "trading": "Trading",
       "copytrade": "Copy Trade",
