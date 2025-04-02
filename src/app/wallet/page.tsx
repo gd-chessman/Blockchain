@@ -18,7 +18,6 @@ export default function Wallet() {
     queryFn: getInforWallets,
   });
 
-  console.log(inforWallet)
   // Hàm xử lý sao chép địa chỉ
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text)
