@@ -1,0 +1,91 @@
+import axiosClient from "@/utils/axiosClient";
+
+export const login = async (item: any) => {
+    try {
+        const temp = await axiosClient.post(`/telegram-wallets/connect-wallets`, item,);
+        return temp.data;
+    } catch (e) {
+        console.log(e)
+        throw new Error("Error Login")
+    }
+}
+
+export const getInforWallets = async ()=>{
+    try {
+        const temp = await axiosClient.get("/telegram-wallets/info")
+        return temp.data;
+    } catch (error) {
+        console.log(error)
+        return {};
+    }
+}
+
+export const getMyWallets = async ()=>{
+    try {
+        const temp = await axiosClient.get("/telegram-wallets/get-my-wallets")
+        return temp.data;
+    } catch (error) {
+        console.log(error)
+        return {};
+    }
+}
+
+export const addWallet = async (item: any)=>{
+    try {
+        const temp = await axiosClient.post("/telegram-wallets/add-wallet", item)
+        return temp.data;
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
+export const useWallet = async (item: any)=>{
+    try {
+        const temp = await axiosClient.post("/telegram-wallets/use-wallet", item)
+        return temp.data;
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
+export const changeName = async (item: any)=>{
+    try {
+        const temp = await axiosClient.post("/telegram-wallets/change-wallet-name", item)
+        return temp.data;
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
+export const deleteWallet = async (item: any)=>{
+    try {
+        const temp = await axiosClient.post("/telegram-wallets/delete-wallet", item)
+        return temp.data;
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
+export const createToken = async (item: any)=>{
+    try {
+        const temp = await axiosClient.post("/telegram-wallets/create-token", item)
+        return temp.data;
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
+export const getMyTokens = async ()=>{
+    try {
+        const temp = await axiosClient.get("/telegram-wallets/get-my-tokens")
+        return temp.data;
+    } catch (error) {
+        console.log(error)
+        return {};
+    }
+}

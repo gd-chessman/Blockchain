@@ -1,6 +1,6 @@
 "use client"
 import { useAuth } from '@/hooks/useAuth';
-import { AuthService } from '@/services/auth';
+import { TelegramWalletService } from '@/services/api';
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { toast } from 'react-toastify';
@@ -24,7 +24,7 @@ export default function TelegramLogin() {
     const handleLogin = async() =>{
         try {
             const data = {id: telegramId, code : code}
-            const res = await AuthService.login(data);
+            const res = await TelegramWalletService.login(data);
             console.log(res)
             if(res.status == 401){
                 toast.warn("Xác thực không hợp lệ!")
