@@ -8,10 +8,9 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(
   (config) => {
-    const user = JSON.parse(localStorage.getItem('auth_token') || 'null');
-    const accessToken = user ? user.token : null;
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
+    const authToken = localStorage.getItem("auth_token");
+    if (authToken) {
+      config.headers.Authorization = `Bearer ${authToken}`;
     }
     return config;
   },

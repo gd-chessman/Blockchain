@@ -8,10 +8,17 @@ import { Copy, ExternalLink, Plus, Download, Shield } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { t } from "@/lang"
+import { useQuery } from "@tanstack/react-query"
+import { getInforWallets } from "@/services/api/TelegramWalletService"
 
 export default function Wallet() {
   const [walletName, setWalletName] = useState("-")
+  const { data: inforWallet } = useQuery({
+    queryKey: ['inforWallet'],
+    queryFn: getInforWallets,
+  });
 
+  console.log(inforWallet)
   // Hàm xử lý sao chép địa chỉ
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text)
@@ -218,7 +225,7 @@ export default function Wallet() {
                   <TableRow className="hover:bg-muted/30">
                     <TableCell>
                       <div className="flex items-center">
-                        <span>-</span>
+                        <span>{inforWallet?.wallet_name}</span>
                         <Button variant="ghost" size="icon" className="ml-2 h-6 w-6">
                           <ExternalLink className="h-3 w-3" />
                         </Button>
@@ -231,7 +238,7 @@ export default function Wallet() {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center">
-                        <span>2Exba5...KTyP</span>
+                        <span className="truncate w-64">{inforWallet?.solana_address}</span>
                         <Button variant="ghost" size="icon" className="ml-2 h-6 w-6">
                           <Copy className="h-3 w-3" />
                         </Button>
@@ -250,7 +257,7 @@ export default function Wallet() {
                         variant="outline"
                         className="bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 border-blue-200 dark:border-blue-800"
                       >
-                        Member
+                        {inforWallet?.role}
                       </Badge>
                     </TableCell>
                     <TableCell>
