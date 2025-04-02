@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { t } from "@/lang"
 import { useQuery } from "@tanstack/react-query"
-import { getInforWallets } from "@/services/api/TelegramWalletService"
+import { getInforWallets, getPrivate } from "@/services/api/TelegramWalletService"
 import {
   Dialog,
   DialogContent,
@@ -26,10 +26,15 @@ export default function Wallet() {
     queryKey: ['infor-wallet'],
     queryFn: getInforWallets,
   });
+  const { data: privateKeys } = useQuery({
+    queryKey: ['private-keys'],
+    queryFn: getPrivate,
+  });
 
   // Thêm state để quản lý popup
   const [isAddWalletOpen, setIsAddWalletOpen] = useState(false)
   const [newWalletName, setNewWalletName] = useState("")
+  const [isPrivateKeyOpen, setIsPrivateKeyOpen] = useState(false);
 
   // Hàm xử lý sao chép địa chỉ
   const handleCopy = (text: string) => {
@@ -202,7 +207,10 @@ export default function Wallet() {
 
       {/* Get Private Key Button */}
       <div className="flex justify-center mb-8">
-        <Button className="bg-green-500 hover:bg-green-600 text-white font-medium">
+        <Button 
+          className="bg-green-500 hover:bg-green-600 text-white font-medium"
+          onClick={() => setIsPrivateKeyOpen(true)}
+        >
           <Shield className="mr-2 h-5 w-5" />
           {t('wallet.getPrivateKey')}
         </Button>
@@ -334,6 +342,86 @@ export default function Wallet() {
               disabled={!newWalletName.trim()}
             >
               Add Wallet
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Private Keys Modal */}
+      <Dialog open={isPrivateKeyOpen} onOpenChange={setIsPrivateKeyOpen}>
+        <DialogContent className="sm:max-w-[425px] bg-card">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold">Private Keys</DialogTitle>
+          </DialogHeader>
+          
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="solana-key">Solana Private Key</Label>
+              <div className="relative">
+                <Input
+                  id="solana-key"
+                  value={privateKeys?.sol_private_key}
+                  readOnly
+                  className="pr-10 bg-gray-50 dark:bg-gray-900/50"
+                />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-0 top-0 h-full"
+                  onClick={() => handleCopy(privateKeys?.sol_private_key)}
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="eth-key">Ethereum Private Key</Label>
+              <div className="relative">
+                <Input
+                  id="eth-key"
+                  value={privateKeys?.eth_private_key}
+                  readOnly
+                  className="pr-10 bg-gray-50 dark:bg-gray-900/50"
+                />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-0 top-0 h-full"
+                  onClick={() => handleCopy(privateKeys?.eth_private_key)}
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="bnb-key">BNB Private Key</Label>
+              <div className="relative">
+                <Input
+                  id="bnb-key"
+                  value={privateKeys?.bnb_private_key}
+                  readOnly
+                  className="pr-10 bg-gray-50 dark:bg-gray-900/50"
+                />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-0 top-0 h-full"
+                  onClick={() => handleCopy(privateKeys?.bnb_private_key)}
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+          
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setIsPrivateKeyOpen(false)}
+            >
+              Close
             </Button>
           </DialogFooter>
         </DialogContent>
