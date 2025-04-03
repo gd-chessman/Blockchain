@@ -15,6 +15,7 @@ import { useQuery } from "@tanstack/react-query"
 import { getMyTokens } from "@/services/api/TelegramWalletService"
 import { useLang } from "@/lang"
 import { toast } from "react-toastify"
+import { useRouter } from "next/navigation"
 
 // Dữ liệu mẫu cho danh sách coin
 
@@ -60,6 +61,7 @@ export default function CreateCoin() {
 
   // Watch form values for preview
   const watchedValues = watch();
+  const router = useRouter();
 
   const onSubmit = async (data: FormData) => {
     // Sau khi tạo thành công, reset form và logo preview
@@ -401,7 +403,7 @@ export default function CreateCoin() {
                         </TableCell>
                         <TableCell>{coin.decimals}</TableCell>
                         <TableCell>
-                          <Button className="bg-green-500 hover:bg-green-600 text-white h-8">{t('createCoin.myCoins.tradeButton')}</Button>
+                          <Button  className="bg-green-500 hover:bg-green-600 text-white h-8" onClick={()=> router.push(`/trading/token?address=${coin.address}`)}>{t('createCoin.myCoins.tradeButton')}</Button>
                         </TableCell>
                       </TableRow>
                     ))}
