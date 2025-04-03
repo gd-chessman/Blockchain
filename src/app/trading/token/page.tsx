@@ -24,6 +24,14 @@ import { useQuery } from "@tanstack/react-query";
 import { useWebSocket } from "@/hooks/useWebSocket";
 import Link from "next/link";
 import { getOrders } from "@/services/api/TradingService";
+
+interface Order {
+  createdAt: string;
+  type: 'BUY' | 'SELL';
+  price: number;
+  amount: number;
+}
+
 const chartData = generateChartData();
 
 export default function Trading() {
@@ -50,7 +58,6 @@ export default function Trading() {
     queryKey: ["orders"],
     queryFn: getOrders,
   });
-  console.log(orders);
   const marks = [0, 25, 50, 75, 100];
   const [copySuccess, setCopySuccess] = useState(false);
 
@@ -419,33 +426,21 @@ export default function Trading() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="text-sm border-b">
-                      <td className="py-3">2024-03-20 14:30</td>
-                      <td className="py-3">
-                        <span className="text-green-500">Buy</span>
-                      </td>
-                      <td className="py-3">$43,256.78</td>
-                      <td className="py-3">0.5 BTC</td>
-                      <td className="py-3">$21,628.39</td>
-                    </tr>
-                    <tr className="text-sm border-b">
-                      <td className="py-3">2024-03-20 14:25</td>
-                      <td className="py-3">
-                        <span className="text-red-500">Sell</span>
-                      </td>
-                      <td className="py-3">$43,200.00</td>
-                      <td className="py-3">0.2 BTC</td>
-                      <td className="py-3">$8,640.00</td>
-                    </tr>
-                    <tr className="text-sm">
-                      <td className="py-3">2024-03-20 14:20</td>
-                      <td className="py-3">
-                        <span className="text-green-500">Buy</span>
-                      </td>
-                      <td className="py-3">$43,150.00</td>
-                      <td className="py-3">0.3 BTC</td>
-                      <td className="py-3">$12,945.00</td>
-                    </tr>
+                    {orders?.map((order: Order, index: number) => (
+                      <tr key={index} className="text-sm border-b">
+                        <td className="py-3">
+                          {new Date(order.created_at).toLocaleString()}
+                        </td>
+                        <td className="py-3">
+                          <span className={order.trade_type === 'buy' ? 'text-green-500' : 'text-red-500'}>
+                            {order.trade_type}
+                          </span>
+                        </td>
+                        <td className="py-3">${order.price}</td>
+                        <td className="py-3">{order.amount} BTC</td>
+                        <td className="py-3">${(order.price * order.amount) || ""}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
