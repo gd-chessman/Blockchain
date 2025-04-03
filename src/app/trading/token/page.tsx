@@ -30,6 +30,7 @@ interface Order {
   trade_type: 'buy' | 'sell';
   price: number;
   quantity: number;
+  status: 'pending' | 'completed' | 'cancelled';
 }
 
 const chartData = generateChartData();
@@ -423,6 +424,7 @@ export default function Trading() {
                       <th className="text-left py-3">Price</th>
                       <th className="text-left py-3">Amount</th>
                       <th className="text-left py-3">Total</th>
+                      <th className="text-left py-3">Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -439,6 +441,7 @@ export default function Trading() {
                         <td className="py-3">${order.price}</td>
                         <td className="py-3">{order.quantity}</td>
                         <td className="py-3">${(order.price * order.quantity).toFixed(8) || ""}</td>
+                        <td className="py-3 uppercase text-blue-600">{order.status}</td>
                       </tr>
                     ))}
                   </tbody>
