@@ -24,13 +24,14 @@ import { useQuery } from "@tanstack/react-query";
 import { useWebSocket } from "@/hooks/useWebSocket";
 import Link from "next/link";
 import { getOrders } from "@/services/api/TradingService";
+import { getMyTokens } from "@/services/api/TelegramWalletService";
 
 interface Order {
   created_at: string;
-  trade_type: 'buy' | 'sell';
+  trade_type: "buy" | "sell";
   price: number;
   quantity: number;
-  status: 'pending' | 'completed' | 'cancelled';
+  status: "pending" | "completed" | "cancelled";
 }
 
 const chartData = generateChartData();
@@ -55,6 +56,10 @@ export default function Trading() {
   const { data: tokenInfor, refetch } = useQuery({
     queryKey: ["token-infor", address],
     queryFn: () => getTokenInforByAddress(address),
+  });
+  const { data: memeCoins = [] , } = useQuery({
+    queryKey: ['my-tokens'],
+    queryFn: getMyTokens,
   });
   const { data: orders, refetch: refetchOrders } = useQuery({
     queryKey: ["orders"],
@@ -140,11 +145,17 @@ export default function Trading() {
                     </Button>
                   </div>
                   <div className="grid grid-cols-2 gap-4 text-sm">
-                    <span className="text-muted-foreground">{t("trading.name")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("trading.name")}:
+                    </span>
                     <span className="text-right">{tokenInfor?.name}</span>
-                    <span className="text-muted-foreground">{t("trading.symbol")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("trading.symbol")}:
+                    </span>
                     <span className="text-right">{tokenInfor?.symbol}</span>
-                    <span className="text-muted-foreground">{t("trading.address")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("trading.address")}:
+                    </span>
                     <div className="flex items-center justify-between">
                       <span className="text-right truncate">{address}</span>
                       <button
@@ -155,9 +166,13 @@ export default function Trading() {
                         <Copy className="h-4 w-4 text-blue-500 hover:text-blue-700" />
                       </button>
                     </div>
-                    <span className="text-muted-foreground">{t("trading.decimals")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("trading.decimals")}:
+                    </span>
                     <span className="text-right">{tokenInfor?.decimals}</span>
-                    <span className="text-muted-foreground">{t("trading.verified")}:</span>
+                    <span className="text-muted-foreground">
+                      {t("trading.verified")}:
+                    </span>
                     <span className="text-right text-green-600">
                       {tokenInfor?.isVerified ? "✓" : "x"}
                     </span>
@@ -183,15 +198,16 @@ export default function Trading() {
                         }`}
                         href={`/trading/token?address=${token.slt_address}`}
                       >
-                        
                         <img
-                           src={token.slt_logo_url}
+                          src={token.slt_logo_url}
                           alt=""
                           className="size-10 rounded-full"
                         />
                         <div>
                           <p>{token.slt_name}</p>{" "}
-                          <p className="text-muted-foreground text-xs">{token.slt_symbol}</p>{" "}
+                          <p className="text-muted-foreground text-xs">
+                            {token.slt_symbol}
+                          </p>{" "}
                         </div>
                         <small className="text-green-600 text-xl ml-auto block">
                           {token.slt_is_verified ? " ✓" : "x"}
@@ -205,27 +221,67 @@ export default function Trading() {
           </Card>
         </div>
         <div className="lg:col-span-3">
-          <Card className="mb-6 border-none shadow-md dark:shadow-blue-900/5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Card className="mb-6 border-none shadow-md dark:shadow-blue-900/5 lg:col-span-2">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle>BTC/USDT</CardTitle>
+                    <CardDescription>Bitcoin to Tether</CardDescription>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-2xl font-bold">$43,256.78</div>
+                    <div className="text-sm text-green-500">+3.2% (24h)</div>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <TradingChart
+                  data={chartData}
+                  symbol="BTC/USDT"
+                  onTimeframeChange={handleTimeframeChange}
+                />
+              </CardContent>
+            </Card>
+            <Card className="border-none shadow-md dark:shadow-blue-900/5 mb-6">
             <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle>BTC/USDT</CardTitle>
-                  <CardDescription>Bitcoin to Tether</CardDescription>
-                </div>
-                <div className="text-right">
-                  <div className="text-2xl font-bold">$43,256.78</div>
-                  <div className="text-sm text-green-500">+3.2% (24h)</div>
-                </div>
-              </div>
+              <CardTitle>My Coins</CardTitle>
             </CardHeader>
             <CardContent>
-              <TradingChart
-                data={chartData}
-                symbol="BTC/USDT"
-                onTimeframeChange={handleTimeframeChange}
-              />
+              <div className="grid grid-cols-1 gap-4">
+                <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50 max-h-[26rem] overflow-auto">
+                  <div className="space-y-4">
+                    {memeCoins.map((token: any, index: any) => (
+                      <Link
+                        key={index} // Assuming token has an 'id' field
+                        className={`flex text-sm gap-6 cursor-pointer ${
+                          index < tokens.length - 1 ? "border-b-2 pb-2" : ""
+                        }`}
+                        href={`/trading/token?address=${token.address}`}
+                      >
+                        <img
+                          src={token.logo_url}
+                          alt=""
+                          className="size-10 rounded-full"
+                        />
+                        <div>
+                          <p>{token.name}</p>{" "}
+                          <p className="text-muted-foreground text-xs">
+                            {token.symbol}
+                          </p>{" "}
+                        </div>
+                        <small className="text-green-600 text-xl ml-auto block">
+                          {token.is_verified ? " ✓" : "x"}
+                        </small>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
+
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card className="border-none shadow-md dark:shadow-blue-900/5 lg:col-span-2">
               <CardHeader>
@@ -234,8 +290,12 @@ export default function Trading() {
               <CardContent>
                 <Tabs defaultValue="limit">
                   <TabsList className="grid grid-cols-3 mb-4">
-                    <TabsTrigger value="limit">{t("trading.limit")}</TabsTrigger>
-                    <TabsTrigger value="market">{t("trading.market")}</TabsTrigger>
+                    <TabsTrigger value="limit">
+                      {t("trading.limit")}
+                    </TabsTrigger>
+                    <TabsTrigger value="market">
+                      {t("trading.market")}
+                    </TabsTrigger>
                     <TabsTrigger value="stop">{t("trading.stop")}</TabsTrigger>
                   </TabsList>
 
@@ -267,7 +327,9 @@ export default function Trading() {
                     </div> */}
 
                     <div>
-                      <label className="text-sm font-medium">{t("trading.amount")}</label>
+                      <label className="text-sm font-medium">
+                        {t("trading.amount")}
+                      </label>
                       <div className="flex mt-1">
                         <Input
                           type="number"
@@ -281,7 +343,9 @@ export default function Trading() {
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium">{t("trading.percentage")}</label>
+                      <label className="text-sm font-medium">
+                        {t("trading.percentage")}
+                      </label>
                       <div className="relative mt-2">
                         {/* Thanh trượt */}
                         <input
@@ -360,7 +424,9 @@ export default function Trading() {
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium">{t("trading.total")}</label>
+                      <label className="text-sm font-medium">
+                        {t("trading.total")}
+                      </label>
                       <div className="flex mt-1">
                         <Input
                           type="number"
@@ -436,14 +502,24 @@ export default function Trading() {
                           {new Date(order.created_at).toLocaleString()}
                         </td>
                         <td className="py-3">
-                          <span className={order.trade_type === 'buy' ? 'text-green-500 uppercase' : 'text-red-500 uppercase'}>
+                          <span
+                            className={
+                              order.trade_type === "buy"
+                                ? "text-green-500 uppercase"
+                                : "text-red-500 uppercase"
+                            }
+                          >
                             {t(`trading.${order.trade_type}`)}
                           </span>
                         </td>
                         <td className="py-3">${order.price}</td>
                         <td className="py-3">{order.quantity}</td>
-                        <td className="py-3">${(order.price * order.quantity).toFixed(8) || ""}</td>
-                        <td className="py-3 uppercase text-blue-600">{t(`trading.${order.status}`)}</td>
+                        <td className="py-3">
+                          ${(order.price * order.quantity).toFixed(8) || ""}
+                        </td>
+                        <td className="py-3 uppercase text-blue-600">
+                          {t(`trading.${order.status}`)}
+                        </td>
                       </tr>
                     ))}
                   </tbody>

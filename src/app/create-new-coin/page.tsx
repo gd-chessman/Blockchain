@@ -39,7 +39,7 @@ export default function CreateCoin() {
   const [isAmountEnabled, setIsAmountEnabled] = useState(true);
   const [amountValue, setAmountValue] = useState("");
   const { data: memeCoins = [] , refetch} = useQuery({
-    queryKey: ['private-keys'],
+    queryKey: ['my-tokens'],
     queryFn: getMyTokens,
   });
   const { t } = useLang();
