@@ -654,6 +654,7 @@
         "actions": "Actions"
       },
       "tradeButton": "Trade"
-    }
+    },
+    "copySuccess": "Address copied to clipboard"
   }
 }

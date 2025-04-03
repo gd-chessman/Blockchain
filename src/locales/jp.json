@@ -630,6 +630,7 @@
                 "actions": "操作"
             },
             "tradeButton": "取引"
-        }
+        },
+        "copySuccess": "アドレスをクリップボードにコピーしました"
     }
 }

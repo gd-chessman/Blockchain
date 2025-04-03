@@ -580,55 +580,56 @@
   },
   "createCoin": {
     "title": "Tạo Coin Mới",
-    "subtitle": "Tạo meme coin của riêng bạn trong vài phút",
-    "success": "Tạo coin thành công!",
-    "error": "Tạo coin thất bại. Vui lòng thử lại.",
+    "subtitle": "Tạo một đồng coin mới trên Solana",
     "tabs": {
-      "create": "Tạo",
+      "create": "Tạo Mới",
       "myCoins": "Coin Của Tôi"
     },
     "form": {
-      "name": "Tên",
-      "nameRequired": "Tên là bắt buộc",
+      "name": "Tên Coin",
+      "nameRequired": "Vui lòng nhập tên coin",
       "namePlaceholder": "Nhập tên coin",
-      "symbol": "Ký hiệu",
-      "symbolRequired": "Ký hiệu là bắt buộc",
-      "symbolPlaceholder": "Nhập ký hiệu coin",
-      "amount": "Số lượng",
-      "amountRequired": "Số lượng là bắt buộc",
+      "symbol": "Ký Hiệu",
+      "symbolRequired": "Vui lòng nhập ký hiệu",
+      "symbolPlaceholder": "Nhập ký hiệu",
+      "amount": "Số Lượng",
+      "amountRequired": "Vui lòng nhập số lượng",
       "amountPlaceholder": "Nhập số lượng",
-      "description": "Mô tả",
-      "descriptionPlaceholder": "Nhập mô tả coin",
+      "description": "Mô Tả",
+      "descriptionPlaceholder": "Nhập mô tả",
       "logo": "Logo",
-      "logoUpload": "Nhấn để tải lên logo",
-      "logoRequired": "Logo là bắt buộc",
-      "hideOptions": "Ẩn Tùy Chọn",
-      "showOptions": "Hiện Tùy Chọn",
+      "logoRequired": "Vui lòng tải lên logo",
+      "logoUpload": "Tải lên logo",
       "telegram": "Telegram",
       "telegramPlaceholder": "Nhập link Telegram",
       "website": "Website",
       "websitePlaceholder": "Nhập link website",
       "twitter": "Twitter",
       "twitterPlaceholder": "Nhập link Twitter",
+      "showOptions": "Hiện thêm tùy chọn",
+      "hideOptions": "Ẩn tùy chọn",
       "createButton": "Tạo Coin"
     },
     "preview": {
       "title": "Xem Trước",
       "defaultName": "Tên Coin",
-      "defaultSymbol": "KÝ HIỆU",
-      "defaultDescription": "Mô tả coin sẽ hiển thị ở đây"
+      "defaultSymbol": "SYMBOL",
+      "defaultDescription": "Mô tả coin"
     },
     "myCoins": {
       "title": "Coin Của Tôi",
       "count": "coin",
       "columns": {
         "coin": "Coin",
-        "symbol": "Ký hiệu",
-        "address": "Địa chỉ",
-        "decimals": "Số thập phân",
-        "actions": "Thao tác"
+        "symbol": "Ký Hiệu",
+        "address": "Địa Chỉ",
+        "decimals": "Số Thập Phân",
+        "actions": "Thao Tác"
       },
       "tradeButton": "Giao Dịch"
-    }
+    },
+    "success": "Tạo coin thành công!",
+    "error": "Lỗi khi tạo coin",
+    "copySuccess": "Đã sao chép địa chỉ vào clipboard"
   }
 }

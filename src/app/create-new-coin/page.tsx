@@ -82,7 +82,11 @@ export default function CreateCoin() {
 
   const handleCopyAddress = (address: string) => {
     navigator.clipboard.writeText(address);
+    setToastMessage(t('createCoin.copySuccess'));
     setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 3000);
   }
 
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
