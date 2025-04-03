@@ -114,7 +114,7 @@ export default function Trading() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <h1 className="text-3xl font-bold">{t("trading.title")}</h1>
         <div className="text-sm text-muted-foreground mt-2 md:mt-0">
-          Market is open • 24h Volume: $1.2B
+          {t("trading.marketIsOpen")} • 24h Volume: $1.2B
         </div>
       </div>
 
@@ -129,35 +129,35 @@ export default function Trading() {
                 <div className="p-3 border rounded-md bg-white/50 dark:bg-gray-900/50">
                   <div className="flex justify-between mb-6">
                     <span className={`text-sm font-medium text-green-500`}>
-                      Attributes
+                      {t("trading.attributes")}
                     </span>
                     <Button
                       variant="ghost"
                       size="sm"
                       className="h-6 text-blue-500 hover:text-blue-700"
                     >
-                      Value
+                      {t("trading.value")}
                     </Button>
                   </div>
                   <div className="grid grid-cols-2 gap-4 text-sm">
-                    <span className="text-muted-foreground">Name:</span>
+                    <span className="text-muted-foreground">{t("trading.name")}:</span>
                     <span className="text-right">{tokenInfor?.name}</span>
-                    <span className="text-muted-foreground">Symbol:</span>
+                    <span className="text-muted-foreground">{t("trading.symbol")}:</span>
                     <span className="text-right">{tokenInfor?.symbol}</span>
-                    <span className="text-muted-foreground">Address:</span>
+                    <span className="text-muted-foreground">{t("trading.address")}:</span>
                     <div className="flex items-center justify-between">
                       <span className="text-right truncate">{address}</span>
                       <button
                         onClick={handleCopy}
                         className="ml-2 p-1 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900"
-                        title="Copy address"
+                        title={t("trading.copyAddress")}
                       >
                         <Copy className="h-4 w-4 text-blue-500 hover:text-blue-700" />
                       </button>
                     </div>
-                    <span className="text-muted-foreground">Decimals:</span>
+                    <span className="text-muted-foreground">{t("trading.decimals")}:</span>
                     <span className="text-right">{tokenInfor?.decimals}</span>
-                    <span className="text-muted-foreground">Status:</span>
+                    <span className="text-muted-foreground">{t("trading.verified")}:</span>
                     <span className="text-right text-green-600">
                       {tokenInfor?.isVerified ? "✓" : "x"}
                     </span>
@@ -229,26 +229,26 @@ export default function Trading() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card className="border-none shadow-md dark:shadow-blue-900/5 lg:col-span-2">
               <CardHeader>
-                <CardTitle>Place Order</CardTitle>
+                <CardTitle>{t("trading.placeOrder")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <Tabs defaultValue="limit">
                   <TabsList className="grid grid-cols-3 mb-4">
-                    <TabsTrigger value="limit">Limit</TabsTrigger>
-                    <TabsTrigger value="market">Market</TabsTrigger>
-                    <TabsTrigger value="stop">Stop</TabsTrigger>
+                    <TabsTrigger value="limit">{t("trading.limit")}</TabsTrigger>
+                    <TabsTrigger value="market">{t("trading.market")}</TabsTrigger>
+                    <TabsTrigger value="stop">{t("trading.stop")}</TabsTrigger>
                   </TabsList>
 
                   <TabsContent value="limit" className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                       <Button className="bg-green-500 hover:bg-green-600">
-                        Buy
+                        {t("trading.buy")}
                       </Button>
                       <Button
                         variant="outline"
                         className="text-red-500 border-red-500 hover:bg-red-50 dark:hover:bg-red-950/30"
                       >
-                        Sell
+                        {t("trading.sell")}
                       </Button>
                     </div>
 
@@ -267,7 +267,7 @@ export default function Trading() {
                     </div> */}
 
                     <div>
-                      <label className="text-sm font-medium">Amount</label>
+                      <label className="text-sm font-medium">{t("trading.amount")}</label>
                       <div className="flex mt-1">
                         <Input
                           type="number"
@@ -281,7 +281,7 @@ export default function Trading() {
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium">Percentage</label>
+                      <label className="text-sm font-medium">{t("trading.percentage")}</label>
                       <div className="relative mt-2">
                         {/* Thanh trượt */}
                         <input
@@ -360,7 +360,7 @@ export default function Trading() {
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium">Total</label>
+                      <label className="text-sm font-medium">{t("trading.total")}</label>
                       <div className="flex mt-1">
                         <Input
                           type="number"
@@ -375,7 +375,7 @@ export default function Trading() {
                     </div>
 
                     <Button className="w-full bg-green-500 hover:bg-green-600">
-                      Buy Now
+                      {t("trading.buyNow")}
                     </Button>
                   </TabsContent>
 
@@ -414,19 +414,19 @@ export default function Trading() {
 
           <Card className="mt-6 border-none shadow-md dark:shadow-blue-900/5">
             <CardHeader>
-              <CardTitle>History Transactions</CardTitle>
+              <CardTitle>{t("trading.historyTransactions")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
                     <tr className="text-sm text-muted-foreground border-b">
-                      <th className="text-left py-3">Time</th>
-                      <th className="text-left py-3">Type</th>
-                      <th className="text-left py-3">Price</th>
-                      <th className="text-left py-3">Amount</th>
-                      <th className="text-left py-3">Total</th>
-                      <th className="text-left py-3">Status</th>
+                      <th className="text-left py-3">{t("trading.time")}</th>
+                      <th className="text-left py-3">{t("trading.type")}</th>
+                      <th className="text-left py-3">{t("trading.price")}</th>
+                      <th className="text-left py-3">{t("trading.amount")}</th>
+                      <th className="text-left py-3">{t("trading.total")}</th>
+                      <th className="text-left py-3">{t("trading.status")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -437,13 +437,13 @@ export default function Trading() {
                         </td>
                         <td className="py-3">
                           <span className={order.trade_type === 'buy' ? 'text-green-500 uppercase' : 'text-red-500 uppercase'}>
-                            {order.trade_type}
+                            {t(`trading.${order.trade_type}`)}
                           </span>
                         </td>
                         <td className="py-3">${order.price}</td>
                         <td className="py-3">{order.quantity}</td>
                         <td className="py-3">${(order.price * order.quantity).toFixed(8) || ""}</td>
-                        <td className="py-3 uppercase text-blue-600">{order.status}</td>
+                        <td className="py-3 uppercase text-blue-600">{t(`trading.${order.status}`)}</td>
                       </tr>
                     ))}
                   </tbody>

@@ -119,7 +119,12 @@
         "noConnections": "接続されたメンバーはいません",
         "selectAllMembers": "すべてのメンバーを選択",
         "unselectAllMembers": "すべての選択を解除",
-        "search_placeholder": "トークン名またはアドレスで検索..."
+        "search_placeholder": "トークン名またはアドレスで検索...",
+        "placeOrder": "注文する",
+        "percentage": "割合",
+        "marketIsOpen": "市場が開いています",
+        "attributes": "属性",
+        "value": "値"
     },
     "navigation": {
         "dashboard": "ダッシュボード",

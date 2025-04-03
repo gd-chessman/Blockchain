@@ -119,7 +119,12 @@
         "noConnections": "연결된 멤버가 없습니다",
         "selectAllMembers": "모든 멤버 선택",
         "unselectAllMembers": "모든 선택 해제",
-        "search_placeholder": "토큰 이름 또는 주소로 검색..."
+        "search_placeholder": "토큰 이름 또는 주소로 검색...",
+        "placeOrder": "주문하기",
+        "percentage": "비율",
+        "marketIsOpen": "시장이 열려있습니다",
+        "attributes": "속성",
+        "value": "값"
     },
     "navigation": {
         "dashboard": "대시보드",
@@ -232,7 +237,6 @@
         "failedTab": "실패",
         "tokenName": "토큰 이름",
         "tokenSymbol": "토큰 심볼",
-        "value": "값",
         "txTime": "시간",
         "txHash": "거래 해시",
         "errorReason": "오류 이유",
