@@ -491,6 +491,53 @@
                 "cancel": "キャンセル",
                 "connect": "今すぐ接続"
             }
+        },
+        "manage": {
+            "title": "マスタートレード管理",
+            "connectWithOtherMaster": "他のマスターと接続",
+            "createNewGroup": {
+                "title": "新規グループ作成",
+                "groupName": "グループ名",
+                "groupNamePlaceholder": "グループ名を入力",
+                "createButton": "グループ作成"
+            },
+            "groupManagement": {
+                "on": "オン",
+                "off": "オフ",
+                "delete": "削除",
+                "noGroups": "グループが見つかりません。新しいグループを作成して開始してください。",
+                "previous": "前へ",
+                "next": "次へ",
+                "columns": {
+                    "groupName": "グループ名",
+                    "status": "ステータス",
+                    "action": "操作"
+                }
+            },
+            "connectionManagement": {
+                "tabs": {
+                    "pending": "保留中",
+                    "connected": "接続済み",
+                    "paused": "一時停止",
+                    "blocked": "ブロック済み"
+                },
+                "join": "参加",
+                "noConnections": "このカテゴリに接続が見つかりません。",
+                "previous": "前へ",
+                "next": "次へ",
+                "columns": {
+                    "walletAddress": "ウォレットアドレス",
+                    "joinedGroups": "参加グループ",
+                    "status": "ステータス",
+                    "actions": "操作"
+                },
+                "noGroups": "グループなし",
+                "actions": {
+                    "connect": "接続",
+                    "unblock": "ブロック解除",
+                    "block": "ブロック"
+                }
+            }
         }
     },
     "wallet": {

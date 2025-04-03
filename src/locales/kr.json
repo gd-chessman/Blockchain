@@ -497,6 +497,53 @@
                 "cancel": "취소",
                 "connect": "지금 연결"
             }
+        },
+        "manage": {
+            "title": "마스터 트레이딩 관리",
+            "connectWithOtherMaster": "다른 마스터와 연결",
+            "createNewGroup": {
+                "title": "새 그룹 생성",
+                "groupName": "그룹 이름",
+                "groupNamePlaceholder": "그룹 이름을 입력하세요",
+                "createButton": "그룹 생성"
+            },
+            "groupManagement": {
+                "on": "켜기",
+                "off": "끄기",
+                "delete": "삭제",
+                "noGroups": "그룹이 없습니다. 새 그룹을 생성하여 시작하세요.",
+                "previous": "이전",
+                "next": "다음",
+                "columns": {
+                    "groupName": "그룹 이름",
+                    "status": "상태",
+                    "action": "작업"
+                }
+            },
+            "connectionManagement": {
+                "tabs": {
+                    "pending": "대기 중",
+                    "connected": "연결됨",
+                    "paused": "일시 중지",
+                    "blocked": "차단됨"
+                },
+                "join": "참여",
+                "noConnections": "이 카테고리에 연결이 없습니다.",
+                "previous": "이전",
+                "next": "다음",
+                "columns": {
+                    "walletAddress": "지갑 주소",
+                    "joinedGroups": "참여 그룹",
+                    "status": "상태",
+                    "actions": "작업"
+                },
+                "noGroups": "그룹 없음",
+                "actions": {
+                    "connect": "연결",
+                    "unblock": "차단 해제",
+                    "block": "차단"
+                }
+            }
         }
     },
     "wallet": {

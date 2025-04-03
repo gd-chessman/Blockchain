@@ -9,9 +9,24 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Copy } from "lucide-react"
+import { useLang } from "@/lang/useLang"
+
+type Group = {
+  id: number
+  name: string
+  status: "ON" | "OFF"
+}
+
+type Connection = {
+  id: number
+  walletAddress: string
+  fullAddress: string
+  joinedGroups: string[]
+  status: "pending" | "connected" | "paused" | "blocked"
+}
 
 // Dữ liệu mẫu cho các nhóm
-const groups = [
+const groups: Group[] = [
   { id: 1, name: "Group 02", status: "ON" },
   { id: 2, name: "Trading Group", status: "ON" },
   { id: 3, name: "Crypto Signals", status: "OFF" },
@@ -23,7 +38,7 @@ const groups = [
 ]
 
 // Dữ liệu mẫu cho các kết nối
-const connections = [
+const connections: Connection[] = [
   {
     id: 1,
     walletAddress: "2Exba5...KTyP",
@@ -62,6 +77,7 @@ const connections = [
 ]
 
 export default function ManageMasterTrade() {
+  const { t } = useLang()
   const [activeTab, setActiveTab] = useState("connected")
   const [groupName, setGroupName] = useState("")
   const [selectedConnections, setSelectedConnections] = useState<string[]>([])
@@ -152,25 +168,27 @@ export default function ManageMasterTrade() {
   return (
     <div className="container mx-auto p-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-        <h1 className="text-3xl font-bold">Manage Master Trade</h1>
-        <Button className="mt-4 md:mt-0 bg-green-500 hover:bg-green-600">Connect With Other Master</Button>
+        <h1 className="text-3xl font-bold">{t('masterTrade.manage.title')}</h1>
+        <Button className="mt-4 md:mt-0 bg-green-500 hover:bg-green-600">
+          {t('masterTrade.manage.connectWithOtherMaster')}
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Create New Group */}
         <Card className="border-none shadow-md dark:shadow-blue-900/5 flex flex-col justify-center gap-8">
           <CardHeader>
-            <CardTitle>Create New Group</CardTitle>
+            <CardTitle>{t('masterTrade.manage.createNewGroup.title')}</CardTitle>
           </CardHeader>
           <CardContent className="">
             <div className="space-y-4">
               <div>
                 <label htmlFor="groupName" className="block text-sm font-medium mb-1">
-                  Group Name
+                  {t('masterTrade.manage.createNewGroup.groupName')}
                 </label>
                 <Input
                   id="groupName"
-                  placeholder="Enter group name"
+                  placeholder={t('masterTrade.manage.createNewGroup.groupNamePlaceholder')}
                   value={groupName}
                   onChange={(e) => setGroupName(e.target.value)}
                 />
@@ -180,7 +198,7 @@ export default function ManageMasterTrade() {
                 onClick={handleCreateGroup}
                 disabled={!groupName.trim()}
               >
-                Create Group
+                {t('masterTrade.manage.createNewGroup.createButton')}
               </Button>
             </div>
           </CardContent>
@@ -188,20 +206,20 @@ export default function ManageMasterTrade() {
 
         {/* Group Management */}
         <Card className="border-none shadow-md dark:shadow-blue-900/5 lg:col-span-2">
-          <CardContent className="p-4 !pb-0">
+          <CardContent className="p-4">
             <div className="flex gap-2 mb-4">
               <Button
                 variant={selectedGroups.length > 0 ? "default" : "outline"}
                 size="sm"
                 className={selectedGroups.length > 0 ? "bg-green-500 hover:bg-green-600" : ""}
               >
-                On{" "}
+                {t('masterTrade.manage.groupManagement.on')}{" "}
                 <Badge variant="outline" className="ml-1 bg-white text-green-600">
                   {groups.filter((g) => g.status === "ON").length}
                 </Badge>
               </Button>
               <Button variant="outline" size="sm">
-                Off{" "}
+                {t('masterTrade.manage.groupManagement.off')}{" "}
                 <Badge variant="outline" className="ml-1">
                   {groups.filter((g) => g.status === "OFF").length}
                 </Badge>
@@ -211,7 +229,7 @@ export default function ManageMasterTrade() {
                 size="sm"
                 className={selectedGroups.length > 0 ? "text-red-500 border-red-200" : ""}
               >
-                Delete{" "}
+                {t('masterTrade.manage.groupManagement.delete')}{" "}
                 <Badge variant="outline" className="ml-1">
                   {selectedGroups.length}
                 </Badge>
@@ -223,9 +241,9 @@ export default function ManageMasterTrade() {
                 <Table>
                   <TableHeader className="sticky top-0 z-10 bg-background">
                     <TableRow className="bg-muted/50">
-                      <TableHead className="w-[200px]">Group Name</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead className="text-right">Action</TableHead>
+                      <TableHead className="w-[200px]">{t('masterTrade.manage.groupManagement.columns.groupName')}</TableHead>
+                      <TableHead>{t('masterTrade.manage.groupManagement.columns.status')}</TableHead>
+                      <TableHead className="text-right">{t('masterTrade.manage.groupManagement.columns.action')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -266,7 +284,7 @@ export default function ManageMasterTrade() {
                               }
                               onClick={() => handleToggleGroup(group.id, group.status === "ON" ? "OFF" : "ON")}
                             >
-                              {group.status === "ON" ? "OFF" : "ON"}
+                              {group.status === "ON" ? t('masterTrade.manage.groupManagement.off') : t('masterTrade.manage.groupManagement.on')}
                             </Button>
                             <Button
                               variant="outline"
@@ -274,7 +292,7 @@ export default function ManageMasterTrade() {
                               className="bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800"
                               onClick={() => handleDeleteGroup(group.id)}
                             >
-                              Delete
+                              {t('masterTrade.manage.groupManagement.delete')}
                             </Button>
                           </div>
                         </TableCell>
@@ -283,23 +301,14 @@ export default function ManageMasterTrade() {
                     {groups.length === 0 && (
                       <TableRow>
                         <TableCell colSpan={3} className="text-center py-4 text-muted-foreground">
-                          No groups found. Create a new group to get started.
+                          {t('masterTrade.manage.groupManagement.noGroups')}
                         </TableCell>
                       </TableRow>
                     )}
                   </TableBody>
                 </Table>
               </div>
-              {groups.length > 0 && (
-                <div className="flex items-center justify-end space-x-2 py-4">
-                  <Button variant="outline" size="sm" disabled={true}>
-                    Previous
-                  </Button>
-                  <Button variant="outline" size="sm" disabled={false}>
-                    Next
-                  </Button>
-                </div>
-              )}
+
             </div>
           </CardContent>
         </Card>
@@ -311,31 +320,31 @@ export default function ManageMasterTrade() {
               <div className="flex justify-between items-center mb-4">
                 <TabsList>
                   <TabsTrigger value="pending">
-                    Pending{" "}
+                    {t('masterTrade.manage.connectionManagement.tabs.pending')}{" "}
                     <Badge variant="outline" className="ml-1">
                       {connections.filter((c) => c.status === "pending").length}
                     </Badge>
                   </TabsTrigger>
                   <TabsTrigger value="connected">
-                    Connected{" "}
+                    {t('masterTrade.manage.connectionManagement.tabs.connected')}{" "}
                     <Badge variant="outline" className="ml-1">
                       {connections.filter((c) => c.status === "connected").length}
                     </Badge>
                   </TabsTrigger>
                   <TabsTrigger value="paused">
-                    Paused{" "}
+                    {t('masterTrade.manage.connectionManagement.tabs.paused')}{" "}
                     <Badge variant="outline" className="ml-1">
                       {connections.filter((c) => c.status === "paused").length}
                     </Badge>
                   </TabsTrigger>
                   <TabsTrigger value="blocked">
-                    Blocked{" "}
+                    {t('masterTrade.manage.connectionManagement.tabs.blocked')}{" "}
                     <Badge variant="outline" className="ml-1">
                       {connections.filter((c) => c.status === "blocked").length}
                     </Badge>
                   </TabsTrigger>
                 </TabsList>
-                <Button className="bg-green-500 hover:bg-green-600">Join</Button>
+                <Button className="bg-green-500 hover:bg-green-600">{t('masterTrade.manage.connectionManagement.join')}</Button>
               </div>
 
               <TabsContent value="pending" className="mt-0">
@@ -394,16 +403,6 @@ export default function ManageMasterTrade() {
 }
 
 // Component cho bảng kết nối
-interface ConnectionsTableProps {
-  connections: typeof connections
-  selectedConnections: string[]
-  onSelectAll: (checked: boolean) => void
-  onSelectConnection: (id: string, checked: boolean) => void
-  onToggleConnection: (id: number, action: string) => void
-  onBlockConnection: (id: number, block: boolean) => void
-  onCopyAddress: (address: string) => void
-}
-
 function ConnectionsTable({
   connections,
   selectedConnections,
@@ -412,7 +411,17 @@ function ConnectionsTable({
   onToggleConnection,
   onBlockConnection,
   onCopyAddress,
-}: ConnectionsTableProps) {
+}: {
+  connections: Connection[]
+  selectedConnections: string[]
+  onSelectAll: (checked: boolean) => void
+  onSelectConnection: (id: string, checked: boolean) => void
+  onToggleConnection: (id: number, action: string) => void
+  onBlockConnection: (id: number, block: boolean) => void
+  onCopyAddress: (address: string) => void
+}) {
+  const { t } = useLang()
+
   return (
     <div className="rounded-lg overflow-hidden">
       <div className="max-h-[400px] overflow-y-auto scrollbar-thin">
@@ -426,10 +435,10 @@ function ConnectionsTable({
                   aria-label="Select all"
                 />
               </TableHead>
-              <TableHead className="w-[250px]">Wallet Address</TableHead>
-              <TableHead>Joined Groups</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead className="w-[250px]">{t('masterTrade.manage.connectionManagement.columns.walletAddress')}</TableHead>
+              <TableHead>{t('masterTrade.manage.connectionManagement.columns.joinedGroups')}</TableHead>
+              <TableHead>{t('masterTrade.manage.connectionManagement.columns.status')}</TableHead>
+              <TableHead className="text-right">{t('masterTrade.manage.connectionManagement.columns.actions')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -467,7 +476,7 @@ function ConnectionsTable({
                       </Badge>
                     ))}
                     {connection.joinedGroups.length === 0 && (
-                      <span className="text-muted-foreground text-sm">No groups</span>
+                      <span className="text-muted-foreground text-sm">{t('masterTrade.manage.connectionManagement.noGroups')}</span>
                     )}
                   </div>
                 </TableCell>
@@ -495,7 +504,7 @@ function ConnectionsTable({
                       className="text-green-600 border-green-200 hover:bg-green-50 dark:hover:bg-green-950/30"
                       onClick={() => onToggleConnection(connection.id, "disconnect")}
                     >
-                      connect
+                      {t('masterTrade.manage.connectionManagement.actions.connect')}
                     </Button>
                   ) : connection.status === "blocked" ? (
                     <Button
@@ -504,7 +513,7 @@ function ConnectionsTable({
                       className="text-red-600 border-red-200 hover:bg-red-50 dark:hover:bg-red-950/30"
                       onClick={() => onBlockConnection(connection.id, false)}
                     >
-                      Unblock
+                      {t('masterTrade.manage.connectionManagement.actions.unblock')}
                     </Button>
                   ) : (
                     <Button
@@ -513,7 +522,7 @@ function ConnectionsTable({
                       className="text-red-600 border-red-200 hover:bg-red-50 dark:hover:bg-red-950/30"
                       onClick={() => onBlockConnection(connection.id, true)}
                     >
-                      Block
+                      {t('masterTrade.manage.connectionManagement.actions.block')}
                     </Button>
                   )}
                 </TableCell>
@@ -522,7 +531,7 @@ function ConnectionsTable({
             {connections.length === 0 && (
               <TableRow>
                 <TableCell colSpan={5} className="text-center py-4 text-muted-foreground">
-                  No connections found in this category.
+                  {t('masterTrade.manage.connectionManagement.noConnections')}
                 </TableCell>
               </TableRow>
             )}
@@ -532,10 +541,10 @@ function ConnectionsTable({
       {connections.length > 0 && (
         <div className="flex items-center justify-end space-x-2 py-4">
           <Button variant="outline" size="sm" disabled={true}>
-            Previous
+            {t('masterTrade.manage.connectionManagement.previous')}
           </Button>
           <Button variant="outline" size="sm" disabled={false}>
-            Next
+            {t('masterTrade.manage.connectionManagement.next')}
           </Button>
         </div>
       )}

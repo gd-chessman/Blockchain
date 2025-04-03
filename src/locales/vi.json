@@ -493,6 +493,53 @@
               "cancel": "Hủy",
               "connect": "Kết Nối Ngay"
           }
+      },
+      "manage": {
+          "title": "Quản Lý Master Trade",
+          "connectWithOtherMaster": "Kết Nối Với Master Khác",
+          "createNewGroup": {
+              "title": "Tạo Nhóm Mới",
+              "groupName": "Tên Nhóm",
+              "groupNamePlaceholder": "Nhập tên nhóm",
+              "createButton": "Tạo Nhóm"
+          },
+          "groupManagement": {
+              "on": "Bật",
+              "off": "Tắt",
+              "delete": "Xóa",
+              "noGroups": "Không tìm thấy nhóm nào. Tạo nhóm mới để bắt đầu.",
+              "previous": "Trước",
+              "next": "Tiếp",
+              "columns": {
+                  "groupName": "Tên Nhóm",
+                  "status": "Trạng Thái",
+                  "action": "Thao Tác"
+              }
+          },
+          "connectionManagement": {
+              "tabs": {
+                  "pending": "Đang Chờ",
+                  "connected": "Đã Kết Nối",
+                  "paused": "Tạm Dừng",
+                  "blocked": "Đã Chặn"
+              },
+              "join": "Tham Gia",
+              "noConnections": "Không tìm thấy kết nối nào trong danh mục này.",
+              "previous": "Trước",
+              "next": "Tiếp",
+              "columns": {
+                  "walletAddress": "Địa Chỉ Ví",
+                  "joinedGroups": "Nhóm Đã Tham Gia",
+                  "status": "Trạng Thái",
+                  "actions": "Thao Tác"
+              },
+              "noGroups": "Không có nhóm",
+              "actions": {
+                  "connect": "Kết Nối",
+                  "unblock": "Bỏ Chặn",
+                  "block": "Chặn"
+              }
+          }
       }
   },
   "wallet": {

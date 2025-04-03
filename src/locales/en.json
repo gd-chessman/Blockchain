@@ -517,6 +517,53 @@
               "cancel": "Cancel",
               "connect": "Connect Now"
           }
+      },
+      "manage": {
+          "title": "Master Trade Management",
+          "connectWithOtherMaster": "Connect with Other Master",
+          "createNewGroup": {
+              "title": "Create New Group",
+              "groupName": "Group Name",
+              "groupNamePlaceholder": "Enter group name",
+              "createButton": "Create Group"
+          },
+          "groupManagement": {
+              "on": "ON",
+              "off": "OFF",
+              "delete": "Delete",
+              "noGroups": "No groups found. Create a new group to get started.",
+              "previous": "Previous",
+              "next": "Next",
+              "columns": {
+                  "groupName": "Group Name",
+                  "status": "Status",
+                  "action": "Action"
+              }
+          },
+          "connectionManagement": {
+              "tabs": {
+                  "pending": "Pending",
+                  "connected": "Connected",
+                  "paused": "Paused",
+                  "blocked": "Blocked"
+              },
+              "join": "Join",
+              "noConnections": "No connections found in this category.",
+              "previous": "Previous",
+              "next": "Next",
+              "columns": {
+                  "walletAddress": "Wallet Address",
+                  "joinedGroups": "Joined Groups",
+                  "status": "Status",
+                  "actions": "Actions"
+              },
+              "noGroups": "No groups",
+              "actions": {
+                  "connect": "Connect",
+                  "unblock": "Unblock",
+                  "block": "Block"
+              }
+          }
       }
   },
   "wallet": {
