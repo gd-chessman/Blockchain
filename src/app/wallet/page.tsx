@@ -46,6 +46,7 @@ import bs58 from "bs58";
 import { Keypair } from "@solana/web3.js";
 import { TelegramWalletService } from "@/services/api";
 import { useAuth } from "@/hooks/useAuth";
+import { ToastNotification } from "@/components/ui/toast";
 
 export default function Wallet() {
   const { t } = useLang();
@@ -86,11 +87,14 @@ export default function Wallet() {
   const [newWalletName, setNewWalletName] = useState("");
   const [isPrivateKeyOpen, setIsPrivateKeyOpen] = useState(false);
 
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+
   // Hàm xử lý sao chép địa chỉ
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
-    toast.success("Copied to clipboard!");
-    // Có thể thêm thông báo toast ở đây
+    setToastMessage(t('notifications.addressCopied'));
+    setShowToast(true);
   };
 
   // Thêm handlers
@@ -101,8 +105,10 @@ export default function Wallet() {
     setIsAddWalletOpen(false);
     setNewWalletName("");
     refetchInforWallets();
-    toast.success("Wallet added successfully!"); // Thông báo thành công
+    setToastMessage("Wallet added successfully!");
+    setShowToast(true);
   };
+
   const handleImportWallet = async () => {
     const walletData = {
       name: importWalletName,
@@ -115,20 +121,22 @@ export default function Wallet() {
       setIsImportWalletOpen(false);
       setImportWalletName("");
       setImportPrivateKey("");
-      setDerivedSolanaAddress(null); // Xóa giá trị Derived Solana Address
+      setDerivedSolanaAddress(null);
       refetchInforWallets();
-      toast.success("Wallet imported successfully!");
+      setToastMessage("Wallet imported successfully!");
+      setShowToast(true);
     } catch (error) {
-      toast.error("Failed to import wallet. Please check your private key.");
+      setToastMessage("Failed to import wallet. Please check your private key.");
+      setShowToast(true);
     }
   };
 
   const handleDeleteWallet = async (id: string) => {
-    // Xử lý logic xóa ví ở đây
     const walletData = { wallet_id: id };
     const res = await TelegramWalletService.deleteWallet(walletData);
     refetchInforWallets();
-    toast.success("Wallet deleted successfully!"); // Thông báo thành công
+    setToastMessage("Wallet deleted successfully!");
+    setShowToast(true);
   };
 
   const handleImportPrivateKeyChange = async (value: string) => {
@@ -195,6 +203,12 @@ export default function Wallet() {
 
   return (
     <div className="container mx-auto p-6">
+      {showToast && (
+        <ToastNotification 
+          message={toastMessage}
+          onClose={() => setShowToast(false)} 
+        />
+      )}
       {/* Wallet Info Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <div className="flex items-center">
