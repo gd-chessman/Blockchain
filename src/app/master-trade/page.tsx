@@ -406,7 +406,7 @@ export default function MasterTrade() {
                             <Button
                               size="sm"
                               variant="outline"
-                              onClick={() => handleConnect(trader)}
+                              // onClick={() => handleConnect(trader)}
                             >
                               Cancel
                             </Button>

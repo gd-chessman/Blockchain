@@ -2,22 +2,20 @@
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '@/hooks/useAuth';
+import socket from '@/configs/socket';
 
 export default function Page() {
   const { isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      // Example API request
-      axios.get('http://localhost:8000')
-        .then(response => {
-          console.log('API Response:', response.data);
-        })
-        .catch(error => {
-          console.error('API Error:', error);
-        });
-    }
-  }, [isAuthenticated]);
+    socket.on('ws', (data) => {
+      console.log(data)
+    });
+
+    return () => {
+      socket.off('ws');
+    };
+  }, []);
 
   return (
     <div>
