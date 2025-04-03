@@ -11,7 +11,16 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Copy } from "lucide-react"
 
 // Dữ liệu mẫu cho các nhóm
-const groups = [{ id: 1, name: "Group 02", status: "ON" }]
+const groups = [
+  { id: 1, name: "Group 02", status: "ON" },
+  { id: 2, name: "Trading Group", status: "ON" },
+  { id: 3, name: "Crypto Signals", status: "OFF" },
+  { id: 4, name: "Bitcoin Traders", status: "ON" },
+  { id: 5, name: "Altcoin Hunters", status: "OFF" },
+  { id: 6, name: "DeFi Masters", status: "ON" },
+  { id: 7, name: "NFT Collectors", status: "OFF" },
+  { id: 8, name: "Whale Watchers", status: "ON" },
+]
 
 // Dữ liệu mẫu cho các kết nối
 const connections = [
@@ -19,8 +28,36 @@ const connections = [
     id: 1,
     walletAddress: "2Exba5...KTyP",
     fullAddress: "2Exba57zoxmHZQmkhVwkNw3chuNyNvX9viWR3LKTyP",
-    joinedGroups: ["Group 02"],
+    joinedGroups: ["Group 02", "Trading Group"],
     status: "connected",
+  },
+  {
+    id: 2,
+    walletAddress: "8D5A62...E131",
+    fullAddress: "8D5A62fbc40f262EEa07D2F6Fe8805F9c7C7E131",
+    joinedGroups: ["Crypto Signals"],
+    status: "paused",
+  },
+  {
+    id: 3,
+    walletAddress: "C8eKC6...SHP8",
+    fullAddress: "C8eKC6SHP8fbc40f262EEa07D2F6Fe8805F9c7C7",
+    joinedGroups: ["Bitcoin Traders", "Altcoin Hunters"],
+    status: "connected",
+  },
+  {
+    id: 4,
+    walletAddress: "DH6zw6...HMWT",
+    fullAddress: "DH6zw6HMWT40f262EEa07D2F6Fe8805F9c7C7E131",
+    joinedGroups: [],
+    status: "pending",
+  },
+  {
+    id: 5,
+    walletAddress: "4SHrFe...5Xgf",
+    fullAddress: "4SHrFe5Xgf40f262EEa07D2F6Fe8805F9c7C7E131",
+    joinedGroups: ["DeFi Masters"],
+    status: "blocked",
   },
 ]
 
@@ -121,11 +158,11 @@ export default function ManageMasterTrade() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Create New Group */}
-        <Card className="border-none shadow-md dark:shadow-blue-900/5">
+        <Card className="border-none shadow-md dark:shadow-blue-900/5 flex flex-col justify-center gap-8">
           <CardHeader>
             <CardTitle>Create New Group</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="">
             <div className="space-y-4">
               <div>
                 <label htmlFor="groupName" className="block text-sm font-medium mb-1">
@@ -151,7 +188,7 @@ export default function ManageMasterTrade() {
 
         {/* Group Management */}
         <Card className="border-none shadow-md dark:shadow-blue-900/5 lg:col-span-2">
-          <CardContent className="p-6">
+          <CardContent className="p-4 !pb-0">
             <div className="flex gap-2 mb-4">
               <Button
                 variant={selectedGroups.length > 0 ? "default" : "outline"}
@@ -182,75 +219,87 @@ export default function ManageMasterTrade() {
             </div>
 
             <div className="rounded-lg overflow-hidden">
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-muted/50">
-                    <TableHead className="w-[200px]">Group Name</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Action</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {groups.map((group) => (
-                    <TableRow key={group.id} className="hover:bg-muted/30">
-                      <TableCell className="font-medium">
-                        <div className="flex items-center">
-                          <Checkbox
-                            id={`group-${group.id}`}
-                            checked={selectedGroups.includes(group.id)}
-                            onCheckedChange={(checked: any) => handleSelectGroup(group.id, checked as boolean)}
-                            className="mr-2"
-                          />
-                          <label htmlFor={`group-${group.id}`}>{group.name}</label>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge
-                          variant="outline"
-                          className={
-                            group.status === "ON"
-                              ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800"
-                              : "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400 border-gray-200 dark:border-gray-800"
-                          }
-                        >
-                          {group.status}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
-                          <Button
+              <div className="max-h-[300px] overflow-y-auto scrollbar-thin">
+                <Table>
+                  <TableHeader className="sticky top-0 z-10 bg-background">
+                    <TableRow className="bg-muted/50">
+                      <TableHead className="w-[200px]">Group Name</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="text-right">Action</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {groups.map((group) => (
+                      <TableRow key={group.id} className="hover:bg-muted/30">
+                        <TableCell className="font-medium !py-2">
+                          <div className="flex items-center">
+                            <Checkbox
+                              id={`group-${group.id}`}
+                              checked={selectedGroups.includes(group.id)}
+                              onCheckedChange={(checked) => handleSelectGroup(group.id, checked as boolean)}
+                              className="mr-2"
+                            />
+                            <label htmlFor={`group-${group.id}`}>{group.name}</label>
+                          </div>
+                        </TableCell>
+                        <TableCell className="!py-2">
+                          <Badge
                             variant="outline"
-                            size="sm"
                             className={
-                              group.status === "OFF"
+                              group.status === "ON"
                                 ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800"
-                                : "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 border-orange-200 dark:border-orange-800"
+                                : "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400 border-gray-200 dark:border-gray-800"
                             }
-                            onClick={() => handleToggleGroup(group.id, group.status === "ON" ? "OFF" : "ON")}
                           >
-                            {group.status === "ON" ? "OFF" : "ON"}
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800"
-                            onClick={() => handleDeleteGroup(group.id)}
-                          >
-                            Delete
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                  {groups.length === 0 && (
-                    <TableRow>
-                      <TableCell colSpan={3} className="text-center py-4 text-muted-foreground">
-                        No groups found. Create a new group to get started.
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
+                            {group.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-right !py-2">
+                          <div className="flex justify-end gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className={
+                                group.status === "OFF"
+                                  ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800"
+                                  : "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 border-orange-200 dark:border-orange-800"
+                              }
+                              onClick={() => handleToggleGroup(group.id, group.status === "ON" ? "OFF" : "ON")}
+                            >
+                              {group.status === "ON" ? "OFF" : "ON"}
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800"
+                              onClick={() => handleDeleteGroup(group.id)}
+                            >
+                              Delete
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    {groups.length === 0 && (
+                      <TableRow>
+                        <TableCell colSpan={3} className="text-center py-4 text-muted-foreground">
+                          No groups found. Create a new group to get started.
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+              {groups.length > 0 && (
+                <div className="flex items-center justify-end space-x-2 py-4">
+                  <Button variant="outline" size="sm" disabled={true}>
+                    Previous
+                  </Button>
+                  <Button variant="outline" size="sm" disabled={false}>
+                    Next
+                  </Button>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -366,118 +415,130 @@ function ConnectionsTable({
 }: ConnectionsTableProps) {
   return (
     <div className="rounded-lg overflow-hidden">
-      <Table>
-        <TableHeader>
-          <TableRow className="bg-muted/50">
-            <TableHead className="w-[40px]">
-              <Checkbox
-                checked={connections.length > 0 && selectedConnections.length === connections.length}
-                onCheckedChange={onSelectAll}
-                aria-label="Select all"
-              />
-            </TableHead>
-            <TableHead className="w-[250px]">Wallet Address</TableHead>
-            <TableHead>Joined Groups</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {connections.map((connection) => (
-            <TableRow key={connection.id} className="hover:bg-muted/30">
-              <TableCell>
+      <div className="max-h-[400px] overflow-y-auto scrollbar-thin">
+        <Table>
+          <TableHeader className="sticky top-0 z-10 bg-background">
+            <TableRow className="bg-muted/50">
+              <TableHead className="w-[40px]">
                 <Checkbox
-                  checked={selectedConnections.includes(connection.id.toString())}
-                  onCheckedChange={(checked: any) => onSelectConnection(connection.id.toString(), checked as boolean)}
-                  aria-label={`Select connection ${connection.id}`}
+                  checked={connections.length > 0 && selectedConnections.length === connections.length}
+                  onCheckedChange={onSelectAll}
+                  aria-label="Select all"
                 />
-              </TableCell>
-              <TableCell>
-                <div className="flex items-center">
-                  <span>{connection.walletAddress}</span>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-6 w-6 ml-1"
-                    onClick={() => onCopyAddress(connection.fullAddress)}
-                  >
-                    <Copy className="h-3 w-3" />
-                  </Button>
-                </div>
-              </TableCell>
-              <TableCell>
-                <div className="flex flex-wrap gap-1">
-                  {connection.joinedGroups.map((group, index) => (
-                    <Badge
-                      key={index}
-                      variant="outline"
-                      className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200 dark:border-blue-800"
+              </TableHead>
+              <TableHead className="w-[250px]">Wallet Address</TableHead>
+              <TableHead>Joined Groups</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {connections.map((connection) => (
+              <TableRow key={connection.id} className="hover:bg-muted/30">
+                <TableCell>
+                  <Checkbox
+                    checked={selectedConnections.includes(connection.id.toString())}
+                    onCheckedChange={(checked) => onSelectConnection(connection.id.toString(), checked as boolean)}
+                    aria-label={`Select connection ${connection.id}`}
+                  />
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center">
+                    <span>{connection.walletAddress}</span>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6 ml-1"
+                      onClick={() => onCopyAddress(connection.fullAddress)}
                     >
-                      {group}
-                    </Badge>
-                  ))}
-                  {connection.joinedGroups.length === 0 && (
-                    <span className="text-muted-foreground text-sm">No groups</span>
+                      <Copy className="h-3 w-3" />
+                    </Button>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex flex-wrap gap-1">
+                    {connection.joinedGroups.map((group, index) => (
+                      <Badge
+                        key={index}
+                        variant="outline"
+                        className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200 dark:border-blue-800"
+                      >
+                        {group}
+                      </Badge>
+                    ))}
+                    {connection.joinedGroups.length === 0 && (
+                      <span className="text-muted-foreground text-sm">No groups</span>
+                    )}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <Badge
+                    variant="outline"
+                    className={
+                      connection.status === "connected"
+                        ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800"
+                        : connection.status === "pending"
+                          ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800"
+                          : connection.status === "paused"
+                            ? "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 border-orange-200 dark:border-orange-800"
+                            : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800"
+                    }
+                  >
+                    {connection.status}
+                  </Badge>
+                </TableCell>
+                <TableCell className="text-right">
+                  {connection.status === "connected" ? (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="text-green-600 border-green-200 hover:bg-green-50 dark:hover:bg-green-950/30"
+                      onClick={() => onToggleConnection(connection.id, "disconnect")}
+                    >
+                      connect
+                    </Button>
+                  ) : connection.status === "blocked" ? (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="text-red-600 border-red-200 hover:bg-red-50 dark:hover:bg-red-950/30"
+                      onClick={() => onBlockConnection(connection.id, false)}
+                    >
+                      Unblock
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="text-red-600 border-red-200 hover:bg-red-50 dark:hover:bg-red-950/30"
+                      onClick={() => onBlockConnection(connection.id, true)}
+                    >
+                      Block
+                    </Button>
                   )}
-                </div>
-              </TableCell>
-              <TableCell>
-                <Badge
-                  variant="outline"
-                  className={
-                    connection.status === "connected"
-                      ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800"
-                      : connection.status === "pending"
-                        ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800"
-                        : connection.status === "paused"
-                          ? "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 border-orange-200 dark:border-orange-800"
-                          : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800"
-                  }
-                >
-                  {connection.status}
-                </Badge>
-              </TableCell>
-              <TableCell className="text-right">
-                {connection.status === "connected" ? (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="text-green-600 border-green-200 hover:bg-green-50 dark:hover:bg-green-950/30"
-                    onClick={() => onToggleConnection(connection.id, "disconnect")}
-                  >
-                    connect
-                  </Button>
-                ) : connection.status === "blocked" ? (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="text-red-600 border-red-200 hover:bg-red-50 dark:hover:bg-red-950/30"
-                    onClick={() => onBlockConnection(connection.id, false)}
-                  >
-                    Unblock
-                  </Button>
-                ) : (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="text-red-600 border-red-200 hover:bg-red-50 dark:hover:bg-red-950/30"
-                    onClick={() => onBlockConnection(connection.id, true)}
-                  >
-                    Block
-                  </Button>
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-          {connections.length === 0 && (
-            <TableRow>
-              <TableCell colSpan={5} className="text-center py-4 text-muted-foreground">
-                No connections found in this category.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+                </TableCell>
+              </TableRow>
+            ))}
+            {connections.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={5} className="text-center py-4 text-muted-foreground">
+                  No connections found in this category.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      {connections.length > 0 && (
+        <div className="flex items-center justify-end space-x-2 py-4">
+          <Button variant="outline" size="sm" disabled={true}>
+            Previous
+          </Button>
+          <Button variant="outline" size="sm" disabled={false}>
+            Next
+          </Button>
+        </div>
+      )}
     </div>
   )
 }
