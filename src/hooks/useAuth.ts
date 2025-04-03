@@ -6,19 +6,27 @@ const useAuthStore = create((set: any) => {
   return {
     token: savedToken,
     isAuthenticated: !!savedToken,
+    
     login: (token: string) => {
       localStorage.setItem('auth_token', token);
       set({ token, isAuthenticated: true });
     },
+    
     logout: () => {
       localStorage.removeItem('auth_token');
       set({ token: null, isAuthenticated: false });
     },
+
+    updateToken: (newToken: string) => {
+      localStorage.removeItem('auth_token');
+      localStorage.setItem('auth_token', newToken);
+      set({ token: newToken });
+    }
   };
 });
 
 export const useAuth = () => {
-  const { token, isAuthenticated, login, logout } = useAuthStore();
+  const { token, isAuthenticated, login, logout, updateToken } = useAuthStore();
   
-  return { token, isAuthenticated, login, logout };
+  return { token, isAuthenticated, login, logout, updateToken };
 };

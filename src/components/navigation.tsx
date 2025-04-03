@@ -19,8 +19,14 @@ import { t } from "@/lang";
 import { LangToggle } from "./lang-toggle";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import { getInforWallets } from "@/services/api/TelegramWalletService";
 
 export default function Navigation() {
+  const { data: walletInfor, refetch } = useQuery({
+    queryKey: ["wallet-infor"],
+    queryFn: getInforWallets,
+  });
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAuthenticated, logout } = useAuth();
@@ -112,8 +118,8 @@ export default function Navigation() {
                 </Button>
               )}
               {isAuthenticated && (
-                <Button className="bg-green-500 hover:bg-green-600 text-white font-medium">
-                  Mã code
+                <Button className="bg-green-500 hover:bg-green-600 text-white font-medium w-40 truncate block">
+                  {walletInfor?.solana_address}
                 </Button>
               )}
             </>
