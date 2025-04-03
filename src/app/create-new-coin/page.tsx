@@ -34,7 +34,7 @@ export default function CreateCoin() {
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [fileImage, setFileImage] = useState<File | null>(null);
-  const { data: memeCoins = [] } = useQuery({
+  const { data: memeCoins = [] , refetch} = useQuery({
     queryKey: ['private-keys'],
     queryFn: getMyTokens,
   });
@@ -59,12 +59,12 @@ export default function CreateCoin() {
   const watchedValues = watch();
 
   const onSubmit = async (data: FormData) => {
-    // Xử lý logic tạo coin ở đây
     // Sau khi tạo thành công, reset form và logo preview
     data.image = fileImage;
-    const res = await TelegramWalletService.createToken(data)
-    // reset()
-    // setLogoPreview(null)
+    // const res = await TelegramWalletService.createToken(data)
+    reset()
+    setLogoPreview(null);
+    refetch()
   }
 
   const handleCopyAddress = (address: string) => {
