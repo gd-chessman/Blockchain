@@ -58,19 +58,18 @@ const [derivedSolanaAddress, setDerivedSolanaAddress] = useState<string | null>(
     toast.success("Wallet added successfully!") // Thông báo thành công
   }
   const handleImportWallet = async () => {
-    // Implement your wallet import logic here
     const walletData = {
       name: importWalletName, 
       private_key: importPrivateKey,
-      type: "imported"
+      type: "import"
     }
     
     try {
-      // Replace with your actual service method for importing wallet
       const res = await TelegramWalletService.addWallet(walletData)
       setIsImportWalletOpen(false)
       setImportWalletName("")
       setImportPrivateKey("")
+      setDerivedSolanaAddress(null) // Xóa giá trị Derived Solana Address
       refetchInforWallets()
       toast.success("Wallet imported successfully!")
     } catch (error) {
@@ -444,7 +443,14 @@ const [derivedSolanaAddress, setDerivedSolanaAddress] = useState<string | null>(
         </DialogContent>
       </Dialog>
 
-      <Dialog open={isImportWalletOpen} onOpenChange={setIsImportWalletOpen}>
+      <Dialog open={isImportWalletOpen} onOpenChange={(isOpen) => {
+  setIsImportWalletOpen(isOpen)
+  if (!isOpen) {
+    setImportWalletName("")
+    setImportPrivateKey("")
+    setDerivedSolanaAddress(null) // Xóa giá trị Derived Solana Address
+  }
+}}>
   <DialogContent className="sm:max-w-[425px] bg-card">
     <DialogHeader>
       <DialogTitle className="text-2xl font-bold">Import Wallet</DialogTitle>
