@@ -97,6 +97,7 @@
         "orderType": "주문 유형",
         "market": "시장가",
         "limit": "지정가",
+        "stop": "스탑",
         "placeBuyOrder": "매수 주문",
         "placeSellOrder": "매도 주문",
         "orderBook": "호가창",

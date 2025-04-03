@@ -97,6 +97,7 @@
         "orderType": "注文タイプ",
         "market": "成行",
         "limit": "指値",
+        "stop": "ストップ",
         "placeBuyOrder": "買い注文",
         "placeSellOrder": "売り注文",
         "orderBook": "板情報",

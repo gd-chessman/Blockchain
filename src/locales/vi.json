@@ -97,6 +97,7 @@
       "orderType": "Loại Lệnh",
       "market": "Thị Trường",
       "limit": "Giới Hạn",
+      "stop": "Dừng",
       "placeBuyOrder": "Đặt Lệnh Mua",
       "placeSellOrder": "Đặt Lệnh Bán",
       "orderBook": "Sổ Lệnh",
