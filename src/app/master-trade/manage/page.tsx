@@ -46,40 +46,6 @@ type Connection = {
   }[];
 };
 
-// Dữ liệu mẫu cho các nhóm
-const groups: Group[] = [
-  { 
-    mg_id: 1, 
-    mg_name: "Group 02", 
-    mg_master_wallet: 3251125,
-    mg_option: "trackingratio",
-    mg_fixed_price: "0.000000",
-    mg_fixed_ratio: 0,
-    mg_status: "on", 
-    created_at: "2025-04-04T01:15:47.434Z"
-  },
-  { 
-    mg_id: 2, 
-    mg_name: "Trading Group", 
-    mg_master_wallet: 3251125,
-    mg_option: "trackingratio",
-    mg_fixed_price: "0.000000",
-    mg_fixed_ratio: 0,
-    mg_status: "on", 
-    created_at: "2025-04-04T01:15:47.434Z"
-  },
-  { 
-    mg_id: 3, 
-    mg_name: "Crypto Signals", 
-    mg_master_wallet: 3251125,
-    mg_option: "trackingratio",
-    mg_fixed_price: "0.000000",
-    mg_fixed_ratio: 0,
-    mg_status: "delete", 
-    created_at: "2025-04-04T01:15:47.434Z"
-  },
-];
-
 
 export default function ManageMasterTrade() {
   const { data: myGroups = [] } = useQuery<Group[]>({
