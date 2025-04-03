@@ -40,7 +40,7 @@ const chartData = generateChartData();
 export default function Trading() {
   const { t } = useLang();
   const { tokenMessages } = useWsSubscribeTokens();
-  // const { getOrders, messages } = useWsGetOrders();
+  const { getOrdersWs, orderMessages } = useWsGetOrders()
   const [tokens, setTokens] = useState<
     {
       slt_name: string;
@@ -68,6 +68,11 @@ export default function Trading() {
     queryFn: getOrders,
     refetchInterval: 5000,
   });
+
+  useEffect(() => {
+    getOrdersWs({ token_address: address, limit: 10, trade_type: "buy" });
+  }, []);
+  console.log("orderMessages", orderMessages);
   const marks = [0, 25, 50, 75, 100];
   const [copySuccess, setCopySuccess] = useState(false);
 

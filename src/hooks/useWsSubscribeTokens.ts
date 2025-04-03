@@ -8,7 +8,7 @@ export function useWsSubscribeTokens() {
     const ws = new WebSocket(`${process.env.NEXT_PUBLIC_WS_URL}/ws`);
 
     ws.onopen = () => {
-      console.log("✅ Connected to WebSocket server");
+      console.log("✅ Connected to WebSocket server - useWsSubscribeTokens");
       ws.send(JSON.stringify({ method: "subscribeTokens" })); // Gửi message khi kết nối
     };
 
@@ -17,7 +17,7 @@ export function useWsSubscribeTokens() {
     };
 
     ws.onclose = () => {
-      console.log("❌ Disconnected from WebSocket server");
+      console.log("❌ Disconnected from WebSocket server - useWsSubscribeTokens");
     };
 
     ws.onerror = (error) => {
