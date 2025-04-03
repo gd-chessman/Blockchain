@@ -172,6 +172,7 @@ export default function Trading() {
                         />
                         <div>
                           <p>{token.name}</p>{" "}
+                          <p className="text-muted-foreground text-xs">{token.symbol}</p>{" "}
                         </div>
                         <small className="text-green-600 text-xl ml-auto block">
                           {token.isVerified ? " ✓" : "x"}
