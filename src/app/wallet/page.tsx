@@ -399,7 +399,7 @@ export default function Wallet() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {inforWallets && inforWallets?.map((wallet: any, index: string) => (
+                  {Array.isArray(inforWallets) && inforWallets?.map((wallet: any, index: number) => (
                     <TableRow key={index} className="hover:bg-muted/30">
                       <TableCell>
                         <div className="flex items-center">
