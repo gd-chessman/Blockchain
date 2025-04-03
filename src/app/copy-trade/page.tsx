@@ -15,7 +15,7 @@ export default function CopyTrade() {
         </div>
       </div>
 
-      <div className="mb-6">
+      {/* <div className="mb-6">
         <Tabs defaultValue="traders">
           <TabsList className="w-full md:w-auto grid grid-cols-3 md:inline-flex">
             <TabsTrigger value="traders">Top Traders</TabsTrigger>
@@ -34,10 +34,10 @@ export default function CopyTrade() {
                     <div className="flex justify-between items-start">
                       <div className="flex items-center">
                         <Avatar className="h-10 w-10 mr-3 border-2 border-blue-100 dark:border-blue-900">
-                          {/* <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
+                          <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
                           <AvatarFallback className="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
                             T{i}
-                          </AvatarFallback> */}
+                          </AvatarFallback>
                         </Avatar>
                         <div>
                           <CardTitle className="text-lg">Trader {i}</CardTitle>
@@ -117,10 +117,10 @@ export default function CopyTrade() {
                     >
                       <div className="flex items-center">
                         <Avatar className="h-10 w-10 mr-3 border-2 border-blue-100 dark:border-blue-900">
-                          {/* <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
+                          <AvatarImage src={`/placeholder.svg?height=40&width=40`} />
                           <AvatarFallback className="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
                             T{i}
-                          </AvatarFallback> */}
+                          </AvatarFallback>
                         </Avatar>
                         <div>
                           <div className="font-medium">Trader {i}</div>
@@ -163,7 +163,7 @@ export default function CopyTrade() {
             </Card>
           </TabsContent>
         </Tabs>
-      </div>
+      </div> */}
     </div>
   )
 }
