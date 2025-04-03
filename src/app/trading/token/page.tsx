@@ -432,13 +432,13 @@ export default function Trading() {
                           {new Date(order.created_at).toLocaleString()}
                         </td>
                         <td className="py-3">
-                          <span className={order.trade_type === 'buy' ? 'text-green-500' : 'text-red-500'}>
+                          <span className={order.trade_type === 'buy' ? 'text-green-500 uppercase' : 'text-red-500 uppercase'}>
                             {order.trade_type}
                           </span>
                         </td>
                         <td className="py-3">${order.price}</td>
-                        <td className="py-3">{order.amount} BTC</td>
-                        <td className="py-3">${(order.price * order.amount) || ""}</td>
+                        <td className="py-3">{order.quantity}</td>
+                        <td className="py-3">${(order.price * order.quantity).toFixed(8) || ""}</td>
                       </tr>
                     ))}
                   </tbody>
