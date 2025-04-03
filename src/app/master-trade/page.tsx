@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "@/components/ui/table";
 import { Copy, Search } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { t } from "@/lang";
+import { useLang } from "@/lang";
 import { useQuery } from "@tanstack/react-query";
 import { getMasters } from "@/services/api/MasterTradingService";
 import { Dialog, DialogContent, DialogTitle, DialogFooter, DialogHeader,} from "@/components/ui/dialog";
@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label";
 import { MasterTradingService } from "@/services/api";
 
 export default function MasterTrade() {
+  const { t } = useLang();
   const { data: masterTraders = [] } = useQuery({
     queryKey: ["master-trading/masters"],
     queryFn: getMasters,
