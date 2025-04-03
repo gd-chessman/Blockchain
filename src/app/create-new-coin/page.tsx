@@ -34,6 +34,8 @@ export default function CreateCoin() {
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [fileImage, setFileImage] = useState<File | null>(null);
+  const [isAmountEnabled, setIsAmountEnabled] = useState(true);
+  const [amountValue, setAmountValue] = useState("");
   const { data: memeCoins = [] , refetch} = useQuery({
     queryKey: ['private-keys'],
     queryFn: getMyTokens,
@@ -140,12 +142,45 @@ export default function CreateCoin() {
                     <div className="relative">
                       <Input
                         id="amount"
-                        {...register("amount", { required: t('createCoin.form.amountRequired') })}
+                        {...register("amount", { 
+                          required: t('createCoin.form.amountRequired'),
+                          disabled: !isAmountEnabled
+                        })}
                         type="number"
                         placeholder={t('createCoin.form.amountPlaceholder')}
+                        value={!isAmountEnabled ? "0" : amountValue}
+                        onChange={(e) => {
+                          setAmountValue(e.target.value);
+                          register("amount").onChange(e);
+                        }}
                       />
-                      <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
-                        (SOL)
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="h-6 w-6 p-0"
+                          onClick={() => {
+                            setIsAmountEnabled(!isAmountEnabled);
+                            if (!isAmountEnabled) {
+                              setAmountValue("");
+                            } else {
+                              setAmountValue("0");
+                            }
+                          }}
+                        >
+                          {isAmountEnabled ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M18 6 6 18"/>
+                              <path d="m6 6 12 12"/>
+                            </svg>
+                          ) : (
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M5 12h14"/>
+                            </svg>
+                          )}
+                        </Button>
+                        <span className="text-xs text-muted-foreground">(SOL)</span>
                       </div>
                     </div>
                     {errors.amount && (
