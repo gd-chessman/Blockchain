@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Copy, ExternalLink, Plus, Download, Shield, Trash } from "lucide-react"
+import { Copy, ExternalLink, Plus, Download, Shield, ShieldOff, Trash } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { t } from "@/lang"
@@ -464,17 +464,55 @@ const [derivedSolanaAddress, setDerivedSolanaAddress] = useState<string | null>(
       
       <div className="grid gap-2">
         <Label htmlFor="solana-private-key">Solana Private Key</Label>
-        <Input
-          id="solana-private-key"
-          placeholder="Enter your Solana private key"
-          value={importPrivateKey}
-          onChange={(e) => handleImportPrivateKeyChange(e.target.value)}
-          className="bg-gray-50 dark:bg-gray-900/50"
-          type="password"
-        />
+        <div className="relative">
+          <Input
+            id="solana-private-key"
+            placeholder="Enter your Solana private key"
+            value={importPrivateKey}
+            onChange={(e) => handleImportPrivateKeyChange(e.target.value)}
+            className="bg-gray-50 dark:bg-gray-900/50 pr-10"
+            type={showPrivateKey ? "text" : "password"}
+          />
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute right-0 top-0 h-full"
+            onClick={() => setShowPrivateKey(!showPrivateKey)}
+          >
+            {showPrivateKey ? (
+              <Shield className="h-4 w-4" />
+            ) : (
+              <ShieldOff className="h-4 w-4" />
+            )}
+          </Button>
+        </div>
         <p className="text-xs text-gray-500">
           Your private key is stored securely and never shared.
         </p>
+        {derivedSolanaAddress && (
+          <div className="mt-2">
+            <Label htmlFor="derived-solana-address">Derived Solana Address</Label>
+            <div className="relative">
+              <Input
+                id="derived-solana-address"
+                value={derivedSolanaAddress}
+                readOnly
+                className="bg-gray-50 dark:bg-gray-900/50 pr-10"
+              />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute right-0 top-0 h-full"
+                onClick={() => handleCopy(derivedSolanaAddress)}
+              >
+                <Copy className="h-4 w-4" />
+              </Button>
+            </div>
+            <p className="text-xs text-gray-500 mt-1">
+              This is the Solana address derived from your private key.
+            </p>
+          </div>
+        )}
       </div>
     </div>
     
