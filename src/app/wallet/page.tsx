@@ -21,6 +21,7 @@ import {
   Shield,
   ShieldOff,
   Trash,
+  X,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -30,6 +31,7 @@ import {
   getInforWallets,
   getMyWallets,
   getPrivate,
+  changeName,
 } from "@/services/api/TelegramWalletService";
 import {
   Dialog,
@@ -49,6 +51,9 @@ export default function Wallet() {
   const { payloadToken, updateToken } = useAuth();
   const [isDerivingAddress, setIsDerivingAddress] = useState(false);
   const [walletName, setWalletName] = useState("-");
+  const [isEditingWalletName, setIsEditingWalletName] = useState(false);
+  const [editingWalletName, setEditingWalletName] = useState("");
+  const [editingWalletId, setEditingWalletId] = useState<string | null>(null);
   const [showPrivateKey, setShowPrivateKey] = useState(false);
   const [isImportWalletOpen, setIsImportWalletOpen] = useState(false);
   const [importWalletName, setImportWalletName] = useState("");
@@ -173,6 +178,20 @@ export default function Wallet() {
     refecthWalletInfor();
   };
 
+  const handleUpdateWalletName = async () => {
+    try {
+      const res = await TelegramWalletService.changeName({
+        wallet_id: editingWalletId,
+        name: editingWalletName
+      })
+      setIsEditingWalletName(false);
+      setEditingWalletId(null);
+      refecthWalletInfor();
+    } catch (error) {
+      
+    }
+  };
+
   return (
     <div className="container mx-auto p-6">
       {/* Wallet Info Section */}
@@ -202,7 +221,45 @@ export default function Wallet() {
             <span className="text-sm text-gray-500 dark:text-gray-400">
               Wallet Name:
             </span>
-            <span className="ml-2 font-medium">{walletName}</span>
+            {isEditingWalletName ? (
+              <div className="inline-flex items-center ml-2">
+                <Input
+                  value={editingWalletName}
+                  onChange={(e) => setEditingWalletName(e.target.value)}
+                  className="h-7 w-40 mr-2"
+                  autoFocus
+                />
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 px-2"
+                  onClick={handleUpdateWalletName}
+                >
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 px-2"
+                  onClick={() => {
+                    setIsEditingWalletName(false);
+                    setEditingWalletId(null);
+                  }}
+                >
+                  <X className="h-4 w-4 text-red-500" />
+                </Button>
+              </div>
+            ) : (
+              <span 
+                className="ml-2 font-medium cursor-pointer hover:text-blue-500"
+                onClick={() => {
+                  setIsEditingWalletName(true);
+                  setEditingWalletId(null);
+                }}
+              >
+                {walletName}
+              </span>
+            )}
           </div>
           <div>
             <span className="text-sm text-gray-500 dark:text-gray-400">
@@ -403,12 +460,46 @@ export default function Wallet() {
                     <TableRow key={index} className="hover:bg-muted/30">
                       <TableCell>
                         <div className="flex items-center">
-                          <span>{wallet.wallet_name}</span>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="ml-2 h-6 w-6"
-                          ></Button>
+                          {isEditingWalletName && editingWalletId === wallet.wallet_id ? (
+                            <div className="flex items-center gap-2">
+                              <Input
+                                value={editingWalletName}
+                                onChange={(e) => setEditingWalletName(e.target.value)}
+                                className="h-7 w-40"
+                                autoFocus
+                              />
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-7 px-2"
+                                onClick={handleUpdateWalletName}
+                              >
+                                <CheckCircle className="h-4 w-4 text-green-500" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-7 px-2"
+                                onClick={() => {
+                                  setIsEditingWalletName(false);
+                                  setEditingWalletId(null);
+                                }}
+                              >
+                                <X className="h-4 w-4 text-red-500" />
+                              </Button>
+                            </div>
+                          ) : (
+                            <span 
+                              className="cursor-pointer hover:text-blue-500"
+                              onClick={() => {
+                                setIsEditingWalletName(true);
+                                setEditingWalletId(wallet.wallet_id);
+                                setEditingWalletName(wallet.wallet_name);
+                              }}
+                            >
+                              {wallet.wallet_name}
+                            </span>
+                          )}
                         </div>
                       </TableCell>
                       <TableCell>
