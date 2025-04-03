@@ -11,66 +11,10 @@ import { Copy } from 'lucide-react'
 import { Avatar } from "@/components/ui/avatar"
 import { useForm } from "react-hook-form"
 import { TelegramWalletService } from "@/services/api"
+import { useQuery } from "@tanstack/react-query"
+import { getMyTokens } from "@/services/api/TelegramWalletService"
 
 // Dữ liệu mẫu cho danh sách coin
-const memeCoins = [
-  {
-    id: 1,
-    name: "A Phú",
-    symbol: "apu",
-    address: "EfUK5G...1J3t",
-    decimals: 9,
-    image: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 2,
-    name: "Wao Wao",
-    symbol: "wao",
-    address: "C8eKC6...SHP8",
-    decimals: 9,
-    image: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 3,
-    name: "Ba Khánh",
-    symbol: "BK",
-    address: "DH6zw6...HMWT",
-    decimals: 9,
-    image: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 4,
-    name: "Phùng Khánh",
-    symbol: "PK",
-    address: "4SHrFe...5Xgf",
-    decimals: 9,
-    image: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 5,
-    name: "PULY",
-    symbol: "puly",
-    address: "AaYBq3...j4aw",
-    decimals: 9,
-    image: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 6,
-    name: "Meme Funny",
-    symbol: "mefun",
-    address: "488WXn...rHc6",
-    decimals: 9,
-    image: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 7,
-    name: "Phùng Khanh",
-    symbol: "PBK",
-    address: "6FdxeU...zk8Y",
-    decimals: 9,
-    image: "/placeholder.svg?height=40&width=40",
-  },
-]
 
 // Define form data type
 type FormData = {
@@ -78,7 +22,7 @@ type FormData = {
   symbol: string;
   amount: string;
   description: string;
-  image: FileList;
+  image: File | null;
   telegram?: string;
   website?: string;
   twitter?: string;
@@ -87,7 +31,12 @@ type FormData = {
 
 export default function CreateCoin() {
   const [showAdvanced, setShowAdvanced] = useState(false)
-  const [logoPreview, setLogoPreview] = useState<string | null>(null)
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
+  const [fileImage, setFileImage] = useState<File | null>(null);
+  const { data: memeCoins } = useQuery({
+    queryKey: ['private-keys'],
+    queryFn: getMyTokens,
+  });
   
   const { 
     register, 
@@ -109,11 +58,10 @@ export default function CreateCoin() {
   const watchedValues = watch();
 
   const onSubmit = async (data: FormData) => {
-    console.log("Form data:", data)
     // Xử lý logic tạo coin ở đây
     // Sau khi tạo thành công, reset form và logo preview
+    data.image = fileImage;
     const res = await TelegramWalletService.createToken(data)
-    console.log("Create token response:", res)
     // reset()
     // setLogoPreview(null)
   }
@@ -125,6 +73,7 @@ export default function CreateCoin() {
 
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    setFileImage(file || null);
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -388,12 +337,12 @@ export default function CreateCoin() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {memeCoins.map((coin) => (
-                      <TableRow key={coin.id} className="hover:bg-muted/30">
+                    {memeCoins?.map((coin: any) => (
+                      <TableRow key={coin.token_id} className="hover:bg-muted/30">
                         <TableCell>
                           <div className="flex items-center">
                             <Avatar className="h-8 w-8 mr-2">
-                              <img src={coin.image || "/placeholder.svg"} alt={coin.name} />
+                              <img src={coin.logo_url || "/placeholder.svg"} alt={coin.name} />
                               <p>{coin.symbol.substring(0, 2).toUpperCase()}</p>
                             </Avatar>
                             <span>{coin.name}</span>

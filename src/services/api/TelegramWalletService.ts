@@ -93,7 +93,7 @@ export const createToken = async (item: any)=>{
 export const getMyTokens = async ()=>{
     try {
         const temp = await axiosClient.get("/telegram-wallets/get-my-tokens")
-        return temp.data;
+        return temp.data.data;
     } catch (error) {
         console.log(error)
         return {};
