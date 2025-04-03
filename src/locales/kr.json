@@ -541,6 +541,8 @@
     "createCoin": {
         "title": "새 코인 만들기",
         "subtitle": "몇 분 안에 자신만의 밈 코인을 만드세요",
+        "success": "코인 생성 성공!",
+        "error": "코인 생성 실패. 다시 시도해주세요.",
         "tabs": {
             "create": "만들기",
             "myCoins": "내 코인"

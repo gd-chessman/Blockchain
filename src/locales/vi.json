@@ -534,6 +534,8 @@
   "createCoin": {
     "title": "Tạo Coin Mới",
     "subtitle": "Tạo meme coin của riêng bạn trong vài phút",
+    "success": "Tạo coin thành công!",
+    "error": "Tạo coin thất bại. Vui lòng thử lại.",
     "tabs": {
       "create": "Tạo",
       "myCoins": "Coin Của Tôi"

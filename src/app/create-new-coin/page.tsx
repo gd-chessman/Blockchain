@@ -69,25 +69,9 @@ export default function CreateCoin() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      // Thêm file image vào data trước khi gửi
-      const formData = {
-        ...data,
-        image: fileImage,
-        amount: isAmountEnabled ? data.amount : "0"
-      };
-
-      const res = await TelegramWalletService.createToken(formData);
+      const res = await TelegramWalletService.createToken(data);
       setToastMessage(t('createCoin.success'));
       setShowToast(true);
-      
-      // Reset form và state
-      reset();
-      setLogoPreview(null);
-      setFileImage(null);
-      setIsAmountEnabled(true);
-      setAmountValue("");
-      
-      // Refetch danh sách coin
       refetch();
     } catch (error) {
       console.error("Error creating meme coin:", error);
