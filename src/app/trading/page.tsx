@@ -53,7 +53,6 @@ export default function Trading() {
       messages.forEach((message) => {
         try {
           const parsedMessage = JSON.parse(message);
-          console.log(parsedMessage)
           setTokens(parsedMessage.data.tokens);
         } catch (error) {
           console.error("Error parsing JSON:", error);
