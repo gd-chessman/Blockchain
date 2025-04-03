@@ -454,7 +454,7 @@ export default function Wallet() {
                             className="h-8 px-2 text-blue-600"
                             onClick={() => handleChangeWallet(wallet.wallet_id)}
                           >
-                            fjfj
+                            {walletInfor?.solana_address === wallet.solana_address ? (<CheckCircle className="h-4 w-4" color="green" />) : (<Circle className="h-4 w-4" />)}
                           </Button>
                           <Button
                             variant="ghost"
