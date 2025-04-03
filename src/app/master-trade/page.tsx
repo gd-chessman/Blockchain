@@ -154,12 +154,12 @@ export default function MasterTrade() {
                           <TableCell>
                             <Badge
                               variant={
-                                trader.type === "VIP" ? "default" : "outline"
+                                trader.type === "vip" ? "default" : "outline"
                               }
                               className={
-                                trader.type === "VIP"
-                                  ? "bg-purple-500 hover:bg-purple-600"
-                                  : ""
+                                trader.type === "vip"
+                                  ? "bg-purple-500 hover:bg-purple-600 uppercase"
+                                  : "uppercase"
                               }
                             >
                               {trader.type}
