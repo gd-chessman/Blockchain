@@ -31,7 +31,7 @@ export default function Trading() {
       slt_address: string;
       slt_symbol: string;
       slt_decimals: number;
-      slt_isVerified: boolean;
+      slt_is_verified: boolean;
       slt_logo_url: string;
     }[]
   >([]);
@@ -41,7 +41,7 @@ export default function Trading() {
       slt_address: string;
       slt_symbol: string;
       slt_decimals: number;
-      slt_isVerified: boolean;
+      slt_is_verified: boolean;
       slt_logo_url: string;
     }[]
   >([]);
@@ -154,7 +154,7 @@ export default function Trading() {
                       <TableCell>{token.slt_symbol}</TableCell>
                       <TableCell>{token.slt_address}</TableCell>
                       <TableCell>{token.slt_decimals}</TableCell>
-                      <TableCell>{token.slt_isVerified ? "Yes" : "No"}</TableCell>
+                      <TableCell>{token.slt_is_verified ? "Yes" : "No"}</TableCell>
                       <TableCell>
                         <div className="flex space-x-2">
                           <Button

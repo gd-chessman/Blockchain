@@ -44,7 +44,7 @@ export default function Trading() {
       slt_address: string;
       slt_symbol: string;
       slt_decimals: number;
-      slt_isVerified: boolean;
+      slt_is_verified: boolean;
       slt_logo_url: string;
     }[]
   >([]);
@@ -194,7 +194,7 @@ export default function Trading() {
                           <p className="text-muted-foreground text-xs">{token.slt_symbol}</p>{" "}
                         </div>
                         <small className="text-green-600 text-xl ml-auto block">
-                          {token.slt_isVerified ? " ✓" : "x"}
+                          {token.slt_is_verified ? " ✓" : "x"}
                         </small>
                       </Link>
                     ))}
