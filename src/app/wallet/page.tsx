@@ -69,11 +69,11 @@ export default function Wallet() {
     queryFn: getPrivate,
   });
 
-    const [mounted, setMounted] = useState(false);
-  
-    useEffect(() => {
-      setMounted(true);
-    }, []);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Thêm state để quản lý popup
   const [isAddWalletOpen, setIsAddWalletOpen] = useState(false);
@@ -239,7 +239,7 @@ export default function Wallet() {
 
             <div className="relative mb-4">
               <Input
-                value={mounted && (payloadToken as any)?.sol_public_key || ""}
+                value={(mounted && (payloadToken as any)?.sol_public_key) || ""}
                 readOnly
                 className="pr-10 bg-gray-50 dark:bg-gray-900/50"
               />
@@ -256,7 +256,7 @@ export default function Wallet() {
             </div>
 
             <div className="text-xs text-gray-500 dark:text-gray-400 break-all">
-              {mounted && (payloadToken as any)?.sol_public_key || ""}
+              {(mounted && (payloadToken as any)?.sol_public_key) || ""}
             </div>
           </CardContent>
         </Card>
@@ -285,7 +285,7 @@ export default function Wallet() {
 
             <div className="relative mb-4">
               <Input
-                value={mounted && (payloadToken as any)?.eth_public_key || ""}
+                value={(mounted && (payloadToken as any)?.eth_public_key) || ""}
                 readOnly
                 className="pr-10 bg-gray-50 dark:bg-gray-900/50"
               />
@@ -302,7 +302,7 @@ export default function Wallet() {
             </div>
 
             <div className="text-xs text-gray-500 dark:text-gray-400 break-all">
-              {mounted && (payloadToken as any)?.eth_public_key || ""}
+              {(mounted && (payloadToken as any)?.eth_public_key) || ""}
             </div>
           </CardContent>
         </Card>
@@ -327,7 +327,7 @@ export default function Wallet() {
 
             <div className="relative mb-4">
               <Input
-                value={mounted && (payloadToken as any)?.eth_public_key || ""}
+                value={(mounted && (payloadToken as any)?.eth_public_key) || ""}
                 readOnly
                 className="pr-10 bg-gray-50 dark:bg-gray-900/50"
               />
@@ -344,7 +344,7 @@ export default function Wallet() {
             </div>
 
             <div className="text-xs text-gray-500 dark:text-gray-400 break-all">
-              {mounted && (payloadToken as any)?.eth_public_key || ""}
+              {(mounted && (payloadToken as any)?.eth_public_key) || ""}
             </div>
           </CardContent>
         </Card>
@@ -467,14 +467,22 @@ export default function Wallet() {
                               <Circle className="h-4 w-4" />
                             )}
                           </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-8 px-2 text-blue-600"
-                            onClick={() => handleDeleteWallet(wallet.wallet_id)}
-                          >
-                            <Trash size={24} color="red" />
-                          </Button>
+
+                          {walletInfor?.solana_address !==
+                          wallet.solana_address ? (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-8 px-2 text-blue-600"
+                              onClick={() =>
+                                handleDeleteWallet(wallet.wallet_id)
+                              }
+                            >
+                              <Trash size={24} color="red" />
+                            </Button>
+                          ) : (
+                            ""
+                          )}
                         </div>
                       </TableCell>
                     </TableRow>
