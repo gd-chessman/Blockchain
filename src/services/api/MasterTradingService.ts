@@ -24,7 +24,7 @@ export const getMyGroups = async ()=>{
 export const getMyConnects = async ()=>{
     try {
         const temp = await axiosClient.get("/master-trading/get-my-connects")
-        return temp;
+        return temp.data.data;
     } catch (error) {
         console.log(error)
         return [];

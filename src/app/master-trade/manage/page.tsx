@@ -33,11 +33,17 @@ type Group = {
 };
 
 type Connection = {
-  id: number;
-  walletAddress: string;
-  fullAddress: string;
-  joinedGroups: string[];
-  status: "pending" | "connected" | "paused" | "blocked";
+  connection_id: number;
+  member_id: number;
+  member_address: string;
+  status: "connect" | "pending" | "paused" | "blocked";
+  option_limit: string;
+  price_limit: string;
+  ratio_limit: number;
+  joined_groups: {
+    group_id: number;
+    group_name: string;
+  }[];
 };
 
 // Dữ liệu mẫu cho các nhóm
@@ -74,44 +80,6 @@ const groups: Group[] = [
   },
 ];
 
-// Dữ liệu mẫu cho các kết nối
-const connections: Connection[] = [
-  {
-    id: 1,
-    walletAddress: "2Exba5...KTyP",
-    fullAddress: "2Exba57zoxmHZQmkhVwkNw3chuNyNvX9viWR3LKTyP",
-    joinedGroups: ["Group 02", "Trading Group"],
-    status: "connected",
-  },
-  {
-    id: 2,
-    walletAddress: "8D5A62...E131",
-    fullAddress: "8D5A62fbc40f262EEa07D2F6Fe8805F9c7C7E131",
-    joinedGroups: ["Crypto Signals"],
-    status: "paused",
-  },
-  {
-    id: 3,
-    walletAddress: "C8eKC6...SHP8",
-    fullAddress: "C8eKC6SHP8fbc40f262EEa07D2F6Fe8805F9c7C7",
-    joinedGroups: ["Bitcoin Traders", "Altcoin Hunters"],
-    status: "connected",
-  },
-  {
-    id: 4,
-    walletAddress: "DH6zw6...HMWT",
-    fullAddress: "DH6zw6HMWT40f262EEa07D2F6Fe8805F9c7C7E131",
-    joinedGroups: [],
-    status: "pending",
-  },
-  {
-    id: 5,
-    walletAddress: "4SHrFe...5Xgf",
-    fullAddress: "4SHrFe5Xgf40f262EEa07D2F6Fe8805F9c7C7E131",
-    joinedGroups: ["DeFi Masters"],
-    status: "blocked",
-  },
-];
 
 export default function ManageMasterTrade() {
   const { data: myGroups = [] } = useQuery<Group[]>({
@@ -124,11 +92,12 @@ export default function ManageMasterTrade() {
       return response.data || [];
     },
   });
-  const { data: myConnects = [] } = useQuery({
+
+  const { data: myConnects = [] } = useQuery<Connection[]>({
     queryKey: ["my-connects-manage"],
     queryFn: getMyConnects,
   });
-  console.log(myGroups);
+
   const { t } = useLang();
   const [activeTab, setActiveTab] = useState("connected");
   const [groupName, setGroupName] = useState("");
@@ -136,12 +105,12 @@ export default function ManageMasterTrade() {
   const [selectedGroups, setSelectedGroups] = useState<number[]>([]);
 
   // Lọc kết nối dựa trên tab đang active
-  const filteredConnections = connections.filter((connection) => {
+  const filteredConnections = myConnects.filter((connection) => {
     switch (activeTab) {
       case "pending":
         return connection.status === "pending";
       case "connected":
-        return connection.status === "connected";
+        return connection.status === "connect";
       case "paused":
         return connection.status === "paused";
       case "blocked":
@@ -164,7 +133,7 @@ export default function ManageMasterTrade() {
   // Xử lý chọn/bỏ chọn tất cả kết nối
   const handleSelectAllConnections = (checked: boolean) => {
     if (checked) {
-      setSelectedConnections(filteredConnections.map((c) => c.id.toString()));
+      setSelectedConnections(filteredConnections.map((c) => c.connection_id.toString()));
     } else {
       setSelectedConnections([]);
     }
@@ -412,7 +381,7 @@ export default function ManageMasterTrade() {
                   <TabsTrigger value="pending">
                     {t("masterTrade.manage.connectionManagement.tabs.pending")}{" "}
                     <Badge variant="outline" className="ml-1">
-                      {connections.filter((c) => c.status === "pending").length}
+                      {myConnects.filter((c) => c.status === "pending").length}
                     </Badge>
                   </TabsTrigger>
                   <TabsTrigger value="connected">
@@ -421,7 +390,7 @@ export default function ManageMasterTrade() {
                     )}{" "}
                     <Badge variant="outline" className="ml-1">
                       {
-                        connections.filter((c) => c.status === "connected")
+                        myConnects.filter((c) => c.status === "connect")
                           .length
                       }
                     </Badge>
@@ -429,13 +398,13 @@ export default function ManageMasterTrade() {
                   <TabsTrigger value="paused">
                     {t("masterTrade.manage.connectionManagement.tabs.paused")}{" "}
                     <Badge variant="outline" className="ml-1">
-                      {connections.filter((c) => c.status === "paused").length}
+                      {myConnects.filter((c) => c.status === "paused").length}
                     </Badge>
                   </TabsTrigger>
                   <TabsTrigger value="blocked">
                     {t("masterTrade.manage.connectionManagement.tabs.blocked")}{" "}
                     <Badge variant="outline" className="ml-1">
-                      {connections.filter((c) => c.status === "blocked").length}
+                      {myConnects.filter((c) => c.status === "blocked").length}
                     </Badge>
                   </TabsTrigger>
                 </TabsList>
@@ -555,29 +524,29 @@ function ConnectionsTable({
           </TableHeader>
           <TableBody>
             {connections.map((connection) => (
-              <TableRow key={connection.id} className="hover:bg-muted/30">
+              <TableRow key={connection.connection_id} className="hover:bg-muted/30">
                 <TableCell>
                   <Checkbox
                     checked={selectedConnections.includes(
-                      connection.id.toString()
+                      connection.connection_id.toString()
                     )}
                     onCheckedChange={(checked) =>
                       onSelectConnection(
-                        connection.id.toString(),
+                        connection.connection_id.toString(),
                         checked as boolean
                       )
                     }
-                    aria-label={`Select connection ${connection.id}`}
+                    aria-label={`Select connection ${connection.connection_id}`}
                   />
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center">
-                    <span>{connection.walletAddress}</span>
+                    <span>{connection.member_address.slice(0, 6)}...{connection.member_address.slice(-4)}</span>
                     <Button
                       variant="ghost"
                       size="icon"
                       className="h-6 w-6 ml-1"
-                      onClick={() => onCopyAddress(connection.fullAddress)}
+                      onClick={() => onCopyAddress(connection.member_address)}
                     >
                       <Copy className="h-3 w-3" />
                     </Button>
@@ -585,16 +554,16 @@ function ConnectionsTable({
                 </TableCell>
                 <TableCell>
                   <div className="flex flex-wrap gap-1">
-                    {connection.joinedGroups.map((group, index) => (
+                    {connection.joined_groups.map((group) => (
                       <Badge
-                        key={index}
+                        key={group.group_id}
                         variant="outline"
                         className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200 dark:border-blue-800"
                       >
-                        {group}
+                        {group.group_name}
                       </Badge>
                     ))}
-                    {connection.joinedGroups.length === 0 && (
+                    {connection.joined_groups.length === 0 && (
                       <span className="text-muted-foreground text-sm">
                         {t("masterTrade.manage.connectionManagement.noGroups")}
                       </span>
@@ -605,7 +574,7 @@ function ConnectionsTable({
                   <Badge
                     variant="outline"
                     className={
-                      connection.status === "connected"
+                      connection.status === "connect"
                         ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800"
                         : connection.status === "pending"
                         ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800"
@@ -618,13 +587,13 @@ function ConnectionsTable({
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
-                  {connection.status === "connected" ? (
+                  {connection.status === "connect" ? (
                     <Button
                       variant="outline"
                       size="sm"
                       className="text-green-600 border-green-200 hover:bg-green-50 dark:hover:bg-green-950/30"
                       onClick={() =>
-                        onToggleConnection(connection.id, "disconnect")
+                        onToggleConnection(connection.connection_id, "disconnect")
                       }
                     >
                       {t(
@@ -636,7 +605,7 @@ function ConnectionsTable({
                       variant="outline"
                       size="sm"
                       className="text-red-600 border-red-200 hover:bg-red-50 dark:hover:bg-red-950/30"
-                      onClick={() => onBlockConnection(connection.id, false)}
+                      onClick={() => onBlockConnection(connection.connection_id, false)}
                     >
                       {t(
                         "masterTrade.manage.connectionManagement.actions.unblock"
@@ -647,7 +616,7 @@ function ConnectionsTable({
                       variant="outline"
                       size="sm"
                       className="text-red-600 border-red-200 hover:bg-red-50 dark:hover:bg-red-950/30"
-                      onClick={() => onBlockConnection(connection.id, true)}
+                      onClick={() => onBlockConnection(connection.connection_id, true)}
                     >
                       {t(
                         "masterTrade.manage.connectionManagement.actions.block"
