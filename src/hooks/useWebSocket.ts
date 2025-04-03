@@ -21,7 +21,7 @@ export function useWebSocket() {
     };
 
     ws.onerror = (error) => {
-      console.error("⚠️ WebSocket error:", error);
+
     };
 
     setSocket(ws);

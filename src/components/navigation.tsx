@@ -21,6 +21,7 @@ import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { getInforWallets } from "@/services/api/TelegramWalletService";
+import { truncateString } from "@/utils/format";
 
 export default function Navigation() {
   const { data: walletInfor, refetch } = useQuery({
@@ -118,8 +119,8 @@ export default function Navigation() {
                 </Button>
               )}
               {isAuthenticated && (
-                <Button className="bg-green-500 hover:bg-green-600 text-white font-medium w-40 truncate block">
-                  {walletInfor?.solana_address}
+                <Button className="bg-green-500 hover:bg-green-600 text-white font-medium w-48 block">
+                  {truncateString(walletInfor?.solana_address, 20)}
                 </Button>
               )}
             </>

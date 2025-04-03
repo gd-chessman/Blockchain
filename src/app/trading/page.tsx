@@ -12,7 +12,7 @@ import { useWebSocket } from "@/hooks/useWebSocket";
 export default function Trading() {
   const [searchQuery, setSearchQuery] = useState("");
   const { messages } = useWebSocket();
-  const [tokens, setTokens] = useState([]);
+  const [tokens, setTokens] = useState<{ name: string; address: string; symbol: string; decimals: number; isVerified: boolean }[]>([]);
   const router = useRouter();
 
   // Parse messages and extract tokens
@@ -86,7 +86,7 @@ export default function Trading() {
                     <TableCell>{token.symbol}</TableCell>
                     <TableCell>{token.address}</TableCell>
                     <TableCell>{token.decimals}</TableCell>
-                    <TableCell>{token.verified ? "Yes" : "No"}</TableCell>
+                    <TableCell>{token.isVerified ? "Yes" : "No"}</TableCell>
                     <TableCell>
                       <div className="flex space-x-2">
                         <Button
