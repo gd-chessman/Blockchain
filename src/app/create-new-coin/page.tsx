@@ -188,8 +188,8 @@ export default function CreateCoin() {
                     )}
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="md:col-span-2">
                       <label htmlFor="description" className="block text-sm font-medium mb-1">
                         {t('createCoin.form.description')}
                       </label>
@@ -197,7 +197,7 @@ export default function CreateCoin() {
                         id="description"
                         {...register("description")}
                         placeholder={t('createCoin.form.descriptionPlaceholder')}
-                        className="h-32"
+                        className="h-[200px]"
                       />
                     </div>
 
@@ -205,7 +205,7 @@ export default function CreateCoin() {
                       <label htmlFor="image" className="block text-sm font-medium mb-1">
                         {t('createCoin.form.logo')} <span className="text-muted-foreground">*</span>
                       </label>
-                      <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-md p-4 h-32">
+                      <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-md p-4 h-[200px]">
                         {logoPreview ? (
                           <div className="relative w-full h-full">
                             <img
