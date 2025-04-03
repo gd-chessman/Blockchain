@@ -71,7 +71,7 @@ export default function Trading() {
                   <TableRow
                     key={index}
                     className="hover:bg-muted/30 cursor-pointer"
-                    onClick={() => router.push("trading/token")}
+                    onClick={() => router.push(`trading/token?address=${token.address}`)}
                   >
                     <TableCell>
                       <div className="flex items-center gap-2">

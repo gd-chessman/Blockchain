@@ -18,14 +18,22 @@ import TradingChart, {
   generateChartData,
 } from "@/components/chart/trading-chart";
 import usePercent from "@/hooks/usePercent";
-
+import { useRouter, useSearchParams } from "next/navigation";
+import { getTokenInforByAddress } from "@/services/api/SolonaTokenService";
+import { useQuery } from "@tanstack/react-query";
 const chartData = generateChartData();
 
 export default function Trading() {
   const [value, setValue] = useState(0);
+
+  const searchParams = useSearchParams();
+  const address = searchParams?.get("address");
+  const { data: tokenInfor, refetch } = useQuery({
+    queryKey: ["token-infor", address],
+    queryFn: ()=> getTokenInforByAddress(address),
+  });
   const marks = [0, 25, 50, 75, 100];
   const [copySuccess, setCopySuccess] = useState(false);
-  const address = "G5XYVieHj6s1aCMjWxwy1iTj4Ek8E8mjSK32Ctk7pump";
 
   const handleTimeframeChange = (timeframe: string) => {
     console.log(`Timeframe changed to: ${timeframe}`);
@@ -48,13 +56,15 @@ export default function Trading() {
   };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(address).then(() => {
-      setCopySuccess(true);
-      toast.success("Address copied to clipboard!"); // Hiển thị thông báo thành công
-      setTimeout(() => setCopySuccess(false), 2000);
-    });
+    if (address) {
+      navigator.clipboard.writeText(address).then(() => {
+        setCopySuccess(true);
+        toast.success("Address copied to clipboard!"); // Hiển thị thông báo thành công
+      });
+    } else {
+      toast.error("Address is not available to copy!");
+    }
   };
-
   return (
     <div className="container mx-auto p-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
@@ -87,9 +97,9 @@ export default function Trading() {
                   </div>
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <span className="text-muted-foreground">Name:</span>
-                    <span className="text-right">Footls Take Over</span>
+                    <span className="text-right">{tokenInfor?.name}</span>
                     <span className="text-muted-foreground">Symbol:</span>
-                    <span className="text-right">FTO</span>
+                    <span className="text-right">{tokenInfor?.symbol}</span>
                     <span className="text-muted-foreground">Address:</span>
                     <div className="flex items-center justify-between">
                       <span className="text-right truncate">{address}</span>
@@ -102,9 +112,9 @@ export default function Trading() {
                       </button>
                     </div>
                     <span className="text-muted-foreground">Decimals:</span>
-                    <span className="text-right">9</span>
+                    <span className="text-right">{tokenInfor?.decimals}</span>
                     <span className="text-muted-foreground">Status:</span>
-                    <span className="text-right">✓ Verified</span>
+                    <span className="text-right">{tokenInfor?.isVerified ? "✓": "x" }</span>
                   </div>
                 </div>
               </div>
@@ -283,7 +293,11 @@ export default function Trading() {
                               className="w-24"
                             />
                           ) : (
-                            <Button variant="outline" size="sm" className="w-24">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="w-24"
+                            >
                               {percent}%
                             </Button>
                           )}
