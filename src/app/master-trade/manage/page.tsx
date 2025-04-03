@@ -28,7 +28,7 @@ type Group = {
   mg_option: string;
   mg_fixed_price: string;
   mg_fixed_ratio: number;
-  mg_status: "on" | "delete";
+  mg_status: "on" | "off" | "delete";
   created_at: string;
 };
 
@@ -69,7 +69,7 @@ export default function ManageMasterTrade() {
   const [groupName, setGroupName] = useState("");
   const [selectedConnections, setSelectedConnections] = useState<string[]>([]);
   const [selectedGroups, setSelectedGroups] = useState<number[]>([]);
-  const [activeGroupTab, setActiveGroupTab] = useState<"on" | "delete">("on");
+  const [activeGroupTab, setActiveGroupTab] = useState<"on" | "off" | "delete">("on");
 
   // Lọc kết nối dựa trên tab đang active
   const filteredConnections = myConnects.filter((connection) => {
@@ -92,6 +92,8 @@ export default function ManageMasterTrade() {
     switch (activeGroupTab) {
       case "on":
         return group.mg_status === "on";
+      case "off":
+        return group.mg_status === "off";
       case "delete":
         return group.mg_status === "delete";
       default:
@@ -232,6 +234,21 @@ export default function ManageMasterTrade() {
                   className="ml-1 bg-white text-green-600"
                 >
                   {myGroups.filter((g) => g.mg_status === "on").length}
+                </Badge>
+              </Button>
+              <Button 
+                variant={activeGroupTab === "off" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setActiveGroupTab("off")}
+                className={
+                  activeGroupTab === "off"
+                    ? "bg-orange-500 hover:bg-orange-600"
+                    : ""
+                }
+              >
+                {t("masterTrade.manage.groupManagement.off")}{" "}
+                <Badge variant="outline" className="ml-1">
+                  {myGroups.filter((g) => g.mg_status === "off").length}
                 </Badge>
               </Button>
               <Button 
