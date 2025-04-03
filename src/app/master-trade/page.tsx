@@ -47,19 +47,19 @@ export default function MasterTrade() {
 
   // Lọc master traders dựa trên tab đang active và từ khóa tìm kiếm
   const filteredTraders = masterTraders?.filter((trader: any) => {
-    const matchesSearch = trader.eth_address
+    const matchesSearch = trader.solana_address
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
 
     switch (activeTab) {
       case "not-connected":
-        return matchesSearch && trader.status === "Not Connected";
+        return matchesSearch && trader.connection_status === null;
       case "connect":
-        return matchesSearch && trader.status === "Connected";
+        return matchesSearch && trader.connection_status === "connect";
       case "disconnect":
-        return matchesSearch && trader.status === "Disconnected";
+        return matchesSearch && trader.connection_status === "Disconnected";
       case "pending":
-        return matchesSearch && trader.status === "Pending";
+        return matchesSearch && trader.connection_status === "Pending";
       default:
         return matchesSearch;
     }
@@ -132,10 +132,10 @@ export default function MasterTrade() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {masterTraders?.map((trader: any) => (
+                    {filteredTraders?.map((trader: any) => (
                       <TableRow key={trader.id} className="hover:bg-muted/30">
                         <TableCell className="font-medium">
-                          <div className=" w-64 truncate">
+                          <div className="w-64 truncate">
                             {trader.solana_address}
                             <Button
                               variant="ghost"
