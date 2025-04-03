@@ -40,12 +40,12 @@ export default function Trading() {
   const { messages } = useWebSocket();
   const [tokens, setTokens] = useState<
     {
-      name: string;
-      address: string;
-      symbol: string;
-      decimals: number;
-      isVerified: boolean;
-      logoUrl: string;
+      slt_name: string;
+      slt_address: string;
+      slt_symbol: string;
+      slt_decimals: number;
+      slt_isVerified: boolean;
+      slt_logo_url: string;
     }[]
   >([]);
   const [value, setValue] = useState(0);
@@ -69,7 +69,7 @@ export default function Trading() {
       messages.forEach((message) => {
         try {
           const parsedMessage = JSON.parse(message);
-          setTokens(parsedMessage.data.data.tokens);
+          setTokens(parsedMessage.data.tokens);
         } catch (error) {
           console.error("Error parsing JSON:", error);
         }
@@ -181,20 +181,20 @@ export default function Trading() {
                         className={`flex text-sm gap-6 cursor-pointer ${
                           index < tokens.length - 1 ? "border-b-2 pb-2" : ""
                         }`}
-                        href={`/trading/token?address=${token.address}`}
+                        href={`/trading/token?address=${token.slt_address}`}
                       >
                         
                         <img
-                           src={token.logoUrl}
+                           src={token.slt_logo_url}
                           alt=""
                           className="size-10 rounded-full"
                         />
                         <div>
-                          <p>{token.name}</p>{" "}
-                          <p className="text-muted-foreground text-xs">{token.symbol}</p>{" "}
+                          <p>{token.slt_name}</p>{" "}
+                          <p className="text-muted-foreground text-xs">{token.slt_symbol}</p>{" "}
                         </div>
                         <small className="text-green-600 text-xl ml-auto block">
-                          {token.isVerified ? " ✓" : "x"}
+                          {token.slt_isVerified ? " ✓" : "x"}
                         </small>
                       </Link>
                     ))}

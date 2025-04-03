@@ -27,22 +27,22 @@ export default function Trading() {
   const { messages } = useWebSocket();
   const [tokens, setTokens] = useState<
     {
-      name: string;
-      address: string;
-      symbol: string;
-      decimals: number;
-      isVerified: boolean;
-      logoUrl: string;
+      slt_name: string;
+      slt_address: string;
+      slt_symbol: string;
+      slt_decimals: number;
+      slt_isVerified: boolean;
+      slt_logo_url: string;
     }[]
   >([]);
   const [searchResults, setSearchResults] = useState<
     {
-      name: string;
-      address: string;
-      symbol: string;
-      decimals: number;
-      isVerified: boolean;
-      logoUrl: string;
+      slt_name: string;
+      slt_address: string;
+      slt_symbol: string;
+      slt_decimals: number;
+      slt_isVerified: boolean;
+      slt_logo_url: string;
     }[]
   >([]);
 
@@ -52,7 +52,8 @@ export default function Trading() {
       messages.forEach((message) => {
         try {
           const parsedMessage = JSON.parse(message);
-          setTokens(parsedMessage.data.data.tokens);
+          console.log(parsedMessage)
+          setTokens(parsedMessage.data.tokens);
         } catch (error) {
           console.error("Error parsing JSON:", error);
         }
@@ -137,23 +138,23 @@ export default function Trading() {
                       key={index}
                       className="hover:bg-muted/30 cursor-pointer"
                       onClick={() =>
-                        router.push(`trading/token?address=${token.address}`)
+                        router.push(`trading/token?address=${token.slt_address}`)
                       }
                     >
                       <TableCell>
                         <div className="flex items-center gap-2">
                           <img
-                            src={token.logoUrl}
+                            src={token.slt_logo_url}
                             alt="token logo"
                             className="size-10 rounded-full"
                           />
-                          <p>{token.name}</p>
+                          <p>{token.slt_name}</p>
                         </div>
                       </TableCell>
-                      <TableCell>{token.symbol}</TableCell>
-                      <TableCell>{token.address}</TableCell>
-                      <TableCell>{token.decimals}</TableCell>
-                      <TableCell>{token.isVerified ? "Yes" : "No"}</TableCell>
+                      <TableCell>{token.slt_symbol}</TableCell>
+                      <TableCell>{token.slt_address}</TableCell>
+                      <TableCell>{token.slt_decimals}</TableCell>
+                      <TableCell>{token.slt_isVerified ? "Yes" : "No"}</TableCell>
                       <TableCell>
                         <div className="flex space-x-2">
                           <Button
