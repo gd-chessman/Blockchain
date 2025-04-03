@@ -65,15 +65,35 @@ export default function CreateCoin() {
   const watchedValues = watch();
   const router = useRouter();
   const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   const onSubmit = async (data: FormData) => {
-    // Sau khi tạo thành công, reset form và logo preview
-    data.image = fileImage;
-    // const res = await TelegramWalletService.createToken(data)
-    reset()
-    setLogoPreview(null);
-    toast.success("Add Coin Success")
-    refetch()
+    try {
+      // Thêm file image vào data trước khi gửi
+      const formData = {
+        ...data,
+        image: fileImage,
+        amount: isAmountEnabled ? data.amount : "0"
+      };
+
+      const res = await TelegramWalletService.createToken(formData);
+      setToastMessage(t('createCoin.success'));
+      setShowToast(true);
+      
+      // Reset form và state
+      reset();
+      setLogoPreview(null);
+      setFileImage(null);
+      setIsAmountEnabled(true);
+      setAmountValue("");
+      
+      // Refetch danh sách coin
+      refetch();
+    } catch (error) {
+      console.error("Error creating meme coin:", error);
+      setToastMessage(t('createCoin.error'));
+      setShowToast(true);
+    }
   }
 
   const handleCopyAddress = (address: string) => {
@@ -97,7 +117,7 @@ export default function CreateCoin() {
     <div className="container mx-auto p-6">
       {showToast && (
         <ToastNotification 
-          message={t('notifications.addressCopied')} 
+          message={toastMessage}
           onClose={() => setShowToast(false)} 
         />
       )}
