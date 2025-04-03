@@ -23,6 +23,7 @@ import { getTokenInforByAddress } from "@/services/api/SolonaTokenService";
 import { useQuery } from "@tanstack/react-query";
 import { useWebSocket } from "@/hooks/useWebSocket";
 import Link from "next/link";
+import { getOrders } from "@/services/api/TradingService";
 const chartData = generateChartData();
 
 export default function Trading() {
@@ -45,6 +46,11 @@ export default function Trading() {
     queryKey: ["token-infor", address],
     queryFn: () => getTokenInforByAddress(address),
   });
+  const { data: orders, refetch: refetchOrders } = useQuery({
+    queryKey: ["orders"],
+    queryFn: getOrders,
+  });
+  console.log(orders);
   const marks = [0, 25, 50, 75, 100];
   const [copySuccess, setCopySuccess] = useState(false);
 
@@ -380,7 +386,7 @@ export default function Trading() {
               </CardContent>
             </Card>
 
-            <Card className="border-none shadow-md dark:shadow-blue-900/5 ">
+            <Card className="border-none shadow-md dark:shadow-blue-900/5">
               <CardHeader>
                 <CardTitle>{t("trading.listConnect")}</CardTitle>
               </CardHeader>
@@ -395,6 +401,56 @@ export default function Trading() {
               </CardContent>
             </Card>
           </div>
+
+          <Card className="mt-6 border-none shadow-md dark:shadow-blue-900/5">
+            <CardHeader>
+              <CardTitle>History Transactions</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="text-sm text-muted-foreground border-b">
+                      <th className="text-left py-3">Time</th>
+                      <th className="text-left py-3">Type</th>
+                      <th className="text-left py-3">Price</th>
+                      <th className="text-left py-3">Amount</th>
+                      <th className="text-left py-3">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="text-sm border-b">
+                      <td className="py-3">2024-03-20 14:30</td>
+                      <td className="py-3">
+                        <span className="text-green-500">Buy</span>
+                      </td>
+                      <td className="py-3">$43,256.78</td>
+                      <td className="py-3">0.5 BTC</td>
+                      <td className="py-3">$21,628.39</td>
+                    </tr>
+                    <tr className="text-sm border-b">
+                      <td className="py-3">2024-03-20 14:25</td>
+                      <td className="py-3">
+                        <span className="text-red-500">Sell</span>
+                      </td>
+                      <td className="py-3">$43,200.00</td>
+                      <td className="py-3">0.2 BTC</td>
+                      <td className="py-3">$8,640.00</td>
+                    </tr>
+                    <tr className="text-sm">
+                      <td className="py-3">2024-03-20 14:20</td>
+                      <td className="py-3">
+                        <span className="text-green-500">Buy</span>
+                      </td>
+                      <td className="py-3">$43,150.00</td>
+                      <td className="py-3">0.3 BTC</td>
+                      <td className="py-3">$12,945.00</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

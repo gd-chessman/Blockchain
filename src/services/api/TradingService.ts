@@ -10,10 +10,10 @@ export const getMasters = async (code: any)=>{
     }
 }
 
-export const getAmount = async ()=>{
+export const getOrders = async ()=>{
     try {
         const temp = await axiosClient.get("/trade/orders")
-        return temp.data;
+        return temp.data.data.orders;
     } catch (error) {
         console.log(error)
         return {};
