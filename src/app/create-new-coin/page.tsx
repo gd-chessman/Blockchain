@@ -36,6 +36,7 @@ export default function CreateCoin() {
   const { data: memeCoins } = useQuery({
     queryKey: ['private-keys'],
     queryFn: getMyTokens,
+    placeholderData: [],
   });
   
   const { 
