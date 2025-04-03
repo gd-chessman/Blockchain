@@ -18,7 +18,10 @@ import { TelegramWalletService } from "@/services/api"
 
 export default function Wallet() {
   const [walletName, setWalletName] = useState("-")
-  const [showPrivateKey, setShowPrivateKey] = useState(false)
+  const [showPrivateKey, setShowPrivateKey] = useState(false);
+  const [isImportWalletOpen, setIsImportWalletOpen] = useState(false)
+const [importWalletName, setImportWalletName] = useState("")
+const [importPrivateKey, setImportPrivateKey] = useState("")
   const { data: inforWallets, refetch: refetchInforWallets } = useQuery({
     queryKey: ['infor-wallet'],
     queryFn: getMyWallets,
@@ -49,6 +52,26 @@ export default function Wallet() {
     setNewWalletName("")
     refetchInforWallets()
     toast.success("Wallet added successfully!") // Thông báo thành công
+  }
+  const handleImportWallet = async () => {
+    // Implement your wallet import logic here
+    const walletData = {
+      name: importWalletName, 
+      private_key: importPrivateKey,
+      type: "imported"
+    }
+    
+    try {
+      // Replace with your actual service method for importing wallet
+      const res = await TelegramWalletService.addWallet(walletData)
+      setIsImportWalletOpen(false)
+      setImportWalletName("")
+      setImportPrivateKey("")
+      refetchInforWallets()
+      toast.success("Wallet imported successfully!")
+    } catch (error) {
+      toast.error("Failed to import wallet. Please check your private key.")
+    }
   }
 
   const handleDeleteWallet = async(id: string) => {
@@ -242,6 +265,7 @@ export default function Wallet() {
             <Button
               variant="outline"
               className="border-blue-500 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950/30"
+              onClick={() => setIsImportWalletOpen(true)}
             >
               <Download className="mr-2 h-4 w-4" />
               Import Wallet
@@ -372,6 +396,62 @@ export default function Wallet() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <Dialog open={isImportWalletOpen} onOpenChange={setIsImportWalletOpen}>
+  <DialogContent className="sm:max-w-[425px] bg-card">
+    <DialogHeader>
+      <DialogTitle className="text-2xl font-bold">Import Wallet</DialogTitle>
+    </DialogHeader>
+    
+    <div className="grid gap-4 py-4">
+      <div className="grid gap-2">
+        <Label htmlFor="import-wallet-name">Wallet Name</Label>
+        <Input
+          id="import-wallet-name"
+          placeholder="Enter wallet name"
+          value={importWalletName}
+          onChange={(e) => setImportWalletName(e.target.value)}
+          className="bg-gray-50 dark:bg-gray-900/50"
+        />
+      </div>
+      
+      <div className="grid gap-2">
+        <Label htmlFor="solana-private-key">Solana Private Key</Label>
+        <Input
+          id="solana-private-key"
+          placeholder="Enter your Solana private key"
+          value={importPrivateKey}
+          onChange={(e) => setImportPrivateKey(e.target.value)}
+          className="bg-gray-50 dark:bg-gray-900/50"
+          type="password"
+        />
+        <p className="text-xs text-gray-500">
+          Your private key is stored securely and never shared.
+        </p>
+      </div>
+    </div>
+    
+    <DialogFooter className="flex gap-2">
+      <Button
+        variant="outline"
+        onClick={() => {
+          setIsImportWalletOpen(false)
+          setImportWalletName("")
+          setImportPrivateKey("")
+        }}
+      >
+        Cancel
+      </Button>
+      <Button 
+        className="bg-blue-500 hover:bg-blue-600 text-white"
+        onClick={handleImportWallet}
+        disabled={!importWalletName.trim() || !importPrivateKey.trim()}
+      >
+        Import Wallet
+      </Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
 
       {/* Private Keys Modal */}
       <Dialog open={isPrivateKeyOpen} onOpenChange={setIsPrivateKeyOpen}>
