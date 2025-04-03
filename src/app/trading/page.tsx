@@ -17,6 +17,7 @@ import { useState, useEffect } from "react";
 import { useWebSocket } from "@/hooks/useWebSocket";
 import { SolonaTokenService } from "@/services/api";
 import { useDebounce } from "@/hooks/useDebounce";
+import { truncateString } from "@/utils/format";
 
 export default function Trading() {
   const router = useRouter();
@@ -152,7 +153,7 @@ export default function Trading() {
                         </div>
                       </TableCell>
                       <TableCell>{token.slt_symbol}</TableCell>
-                      <TableCell>{token.slt_address}</TableCell>
+                      <TableCell>{truncateString(token.slt_address, 36)}</TableCell>
                       <TableCell>{token.slt_decimals}</TableCell>
                       <TableCell>{token.slt_is_verified ? "Yes" : "No"}</TableCell>
                       <TableCell>
