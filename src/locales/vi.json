@@ -295,7 +295,8 @@
       "success": "Thành công",
       "error": "Lỗi",
       "warning": "Cảnh báo",
-      "info": "Thông tin"
+      "info": "Thông tin",
+      "addressCopied": "Đã sao chép địa chỉ"
   },
   "errors": {
       "somethingWentWrong": "Đã xảy ra lỗi",

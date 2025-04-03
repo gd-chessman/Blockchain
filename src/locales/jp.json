@@ -294,7 +294,8 @@
         "success": "成功",
         "error": "エラー",
         "warning": "警告",
-        "info": "情報"
+        "info": "情報",
+        "addressCopied": "アドレスをコピーしました"
     },
     "errors": {
         "somethingWentWrong": "問題が発生しました",

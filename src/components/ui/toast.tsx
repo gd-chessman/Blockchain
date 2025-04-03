@@ -4,6 +4,8 @@ import * as React from "react"
 import * as ToastPrimitives from "@radix-ui/react-toast"
 import { cva, type VariantProps } from "class-variance-authority"
 import { X } from "lucide-react"
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 import { cn } from "@/libs/utils"
 
@@ -115,6 +117,43 @@ ToastDescription.displayName = ToastPrimitives.Description.displayName
 type ToastProps = React.ComponentPropsWithoutRef<typeof Toast>
 
 type ToastActionElement = React.ReactElement<typeof ToastAction>
+
+interface ToastNotificationProps {
+  message: string;
+  duration?: number;
+  onClose?: () => void;
+}
+
+export const ToastNotification = ({ message, duration = 3000, onClose }: ToastNotificationProps) => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+      onClose?.();
+    }, duration);
+
+    return () => clearTimeout(timer);
+  }, [duration, onClose]);
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -100, opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50"
+        >
+          <div className="bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg">
+            {message}
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
 
 export {
   type ToastProps,

@@ -310,7 +310,8 @@
       "success": "Success",
       "error": "Error",
       "warning": "Warning",
-      "info": "Info"
+      "info": "Info",
+      "addressCopied": "Address copied"
   },
   "errors": {
       "somethingWentWrong": "Something went wrong. Please try again.",

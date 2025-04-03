@@ -293,7 +293,8 @@
         "success": "성공",
         "error": "오류",
         "warning": "경고",
-        "info": "정보"
+        "info": "정보",
+        "addressCopied": "주소가 복사되었습니다"
     },
     "errors": {
         "somethingWentWrong": "오류가 발생했습니다",

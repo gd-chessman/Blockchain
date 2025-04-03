@@ -17,6 +17,7 @@ import { useLang } from "@/lang"
 import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
 import { truncateString } from "@/utils/format"
+import { ToastNotification } from "@/components/ui/toast"
 
 // Dữ liệu mẫu cho danh sách coin
 
@@ -63,6 +64,7 @@ export default function CreateCoin() {
   // Watch form values for preview
   const watchedValues = watch();
   const router = useRouter();
+  const [showToast, setShowToast] = useState(false);
 
   const onSubmit = async (data: FormData) => {
     // Sau khi tạo thành công, reset form và logo preview
@@ -75,8 +77,8 @@ export default function CreateCoin() {
   }
 
   const handleCopyAddress = (address: string) => {
-    navigator.clipboard.writeText(address)
-    // Có thể thêm thông báo toast ở đây
+    navigator.clipboard.writeText(address);
+    setShowToast(true);
   }
 
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,6 +95,12 @@ export default function CreateCoin() {
 
   return (
     <div className="container mx-auto p-6">
+      {showToast && (
+        <ToastNotification 
+          message={t('notifications.addressCopied')} 
+          onClose={() => setShowToast(false)} 
+        />
+      )}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <h1 className="text-3xl font-bold">{t('createCoin.title')}</h1>
         <div className="text-sm text-muted-foreground mt-2 md:mt-0">{t('createCoin.subtitle')}</div>
@@ -398,15 +406,14 @@ export default function CreateCoin() {
                         </TableCell>
                         <TableCell>{coin.symbol}</TableCell>
                         <TableCell>
-                          <div className="flex items-center">
-                            <span>{truncateString(coin.address,14)}</span>
+                          <div className="flex items-center gap-2">
+                            <span className="truncate max-w-[200px]">{truncateString(coin.address, 14)}</span>
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-6 w-6 ml-1"
                               onClick={() => handleCopyAddress(coin.address)}
                             >
-                              <Copy className="h-3 w-3" />
+                              <Copy className="h-4 w-4" />
                             </Button>
                           </div>
                         </TableCell>
