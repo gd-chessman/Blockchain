@@ -14,14 +14,18 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { toast } from "react-toastify"
+import bs58 from 'bs58';
+import { Keypair } from '@solana/web3.js';
 import { TelegramWalletService } from "@/services/api"
 
 export default function Wallet() {
+  const [isDerivingAddress, setIsDerivingAddress] = useState(false);
   const [walletName, setWalletName] = useState("-")
   const [showPrivateKey, setShowPrivateKey] = useState(false);
   const [isImportWalletOpen, setIsImportWalletOpen] = useState(false)
 const [importWalletName, setImportWalletName] = useState("")
 const [importPrivateKey, setImportPrivateKey] = useState("")
+const [derivedSolanaAddress, setDerivedSolanaAddress] = useState<string | null>(null);
   const { data: inforWallets, refetch: refetchInforWallets } = useQuery({
     queryKey: ['infor-wallet'],
     queryFn: getMyWallets,
@@ -81,6 +85,49 @@ const [importPrivateKey, setImportPrivateKey] = useState("")
       refetchInforWallets()
       toast.success("Wallet deleted successfully!") // Thông báo thành công
   }
+
+  const handleImportPrivateKeyChange = async (value: string) => {
+    setImportPrivateKey(value);
+
+    // Reset derived address if input is empty
+    if (!value.trim()) {
+        setDerivedSolanaAddress(null);
+        return;
+    }
+
+    // Only process if key looks like it could be valid
+    if (value.length >= 32) {
+        setIsDerivingAddress(true);
+
+        try {
+            // Slight delay to avoid UI freezing during processing
+            await new Promise(resolve => setTimeout(resolve, 100));
+
+            // Convert the private key string to a Uint8Array
+            const privateKeyBytes = bs58.decode(value);
+
+            // Create a keypair from the private key
+            const keypair = Keypair.fromSecretKey(privateKeyBytes);
+
+            // Get the public key (Solana address)
+            const publicKey = keypair.publicKey.toString();
+
+            // Update the state with the derived address
+            setDerivedSolanaAddress(publicKey);
+        } catch (error) {
+            console.error('Error deriving Solana address:', error);
+            setDerivedSolanaAddress(null);
+        } finally {
+            setIsDerivingAddress(false);
+        }
+    } else {
+        setDerivedSolanaAddress(null);
+        // If key is too short, don't show error yet
+        if (value.length > 40) {
+        }
+    }
+};
+
 
 
 
@@ -421,7 +468,7 @@ const [importPrivateKey, setImportPrivateKey] = useState("")
           id="solana-private-key"
           placeholder="Enter your Solana private key"
           value={importPrivateKey}
-          onChange={(e) => setImportPrivateKey(e.target.value)}
+          onChange={(e) => handleImportPrivateKeyChange(e.target.value)}
           className="bg-gray-50 dark:bg-gray-900/50"
           type="password"
         />
