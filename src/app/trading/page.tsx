@@ -30,6 +30,16 @@ export default function Trading() {
       logoUrl: string;
     }[]
   >([]);
+  const [searchResults, setSearchResults] = useState<
+    {
+      name: string;
+      address: string;
+      symbol: string;
+      decimals: number;
+      isVerified: boolean;
+      logoUrl: string;
+    }[]
+  >([]);
   const router = useRouter();
 
   // Parse messages and extract tokens
@@ -48,11 +58,22 @@ export default function Trading() {
     }
   }, [messages]); // Runs every time messages change
 
-  const searchData = async()=>{
-    const res = await SolonaTokenService.getSearchTokenInfor(searchQuery)
-    console.log(res)
-  }
-console.log(tokens)
+  const searchData = async () => {
+    if (!searchQuery.trim()) {
+      setSearchResults([]);
+      return;
+    }
+    try {
+      const res = await SolonaTokenService.getSearchTokenInfor(searchQuery);
+      setSearchResults(res.tokens || []);
+    } catch (error) {
+      console.error("Error searching tokens:", error);
+      setSearchResults([]);
+    }
+  };
+
+  // Use search results if available, otherwise use WebSocket data
+  const displayTokens = searchQuery.trim() ? searchResults : tokens;
 
   return (
     <div className="container mx-auto p-6">
@@ -60,16 +81,26 @@ console.log(tokens)
         <CardHeader className="flex justify-between flex-row items-center">
           <CardTitle>{t("trading.list_token_title")}</CardTitle>
           <div className="relative w-full md:w-auto mt-4 md:mt-0">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" onClick={()=> searchData()}/>
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" onClick={searchData}/>
             <Input
               placeholder={"Search by token name or address"}
               className="pl-10 w-full md:w-[300px]"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                if (!e.target.value.trim()) {
+                  setSearchResults([]);
+                }
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  searchData();
+                }
+              }}
             />
           </div>
         </CardHeader>
-        {tokens && (
+        {displayTokens && (
           <CardContent>
             <div className="rounded-lg overflow-hidden">
               <Table>
@@ -84,7 +115,7 @@ console.log(tokens)
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {tokens.map((token, index) => (
+                  {displayTokens.map((token, index) => (
                     <TableRow
                       key={index}
                       className="hover:bg-muted/30 cursor-pointer"

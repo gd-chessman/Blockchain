@@ -14,7 +14,8 @@ export const getTokenInforByAddress = async (address: any)=>{
 export const getSearchTokenInfor= async (keyS: any, page = 1, limit = 30)=>{
     try {
         const temp = await axiosClient.get(`/solana-tokens/search?query=${keyS}&page=${page}&limit=${limit}`)
-        return temp.data.data;
+        console.log(temp)
+        return temp.data.data ;
     } catch (error) {
         console.log(error)
         return [];
