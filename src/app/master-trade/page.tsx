@@ -109,7 +109,7 @@ export default function MasterTrade() {
       </div>
 
       <Tabs defaultValue="not-connected" onValueChange={setActiveTab}>
-        <TabsList className="grid grid-cols-5 mb-6">
+        <TabsList className="grid grid-cols-4 mb-6">
           <TabsTrigger value="not-connected">{t("masterTrade.tabs.notConnected")} ({notConnectedCount})</TabsTrigger>
           <TabsTrigger value="connect">{t("masterTrade.tabs.connected")} ({connectedCount})</TabsTrigger>
           <TabsTrigger value="disconnect">{t("masterTrade.tabs.disconnected")} ({disconnectedCount})</TabsTrigger>
