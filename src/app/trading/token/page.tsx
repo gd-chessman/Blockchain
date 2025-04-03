@@ -26,10 +26,10 @@ import Link from "next/link";
 import { getOrders } from "@/services/api/TradingService";
 
 interface Order {
-  createdAt: string;
-  type: 'BUY' | 'SELL';
+  created_at: string;
+  trade_type: 'buy' | 'sell';
   price: number;
-  amount: number;
+  quantity: number;
 }
 
 const chartData = generateChartData();
