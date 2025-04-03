@@ -4,28 +4,24 @@ import { useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Copy, ExternalLink, Plus, Download, Shield } from "lucide-react"
+import { Copy, ExternalLink, Plus, Download, Shield, Trash } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { t } from "@/lang"
 import { useQuery } from "@tanstack/react-query"
-import { getInforWallets, getPrivate } from "@/services/api/TelegramWalletService"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
+import { getInforWallets, getMyWallets, getPrivate } from "@/services/api/TelegramWalletService"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { toast } from "react-toastify"
+import { TelegramWalletService } from "@/services/api"
 
 export default function Wallet() {
   const [walletName, setWalletName] = useState("-")
   const [showPrivateKey, setShowPrivateKey] = useState(false)
-  const { data: inforWallet } = useQuery({
+  const { data: inforWallets, refetch: refetchInforWallets } = useQuery({
     queryKey: ['infor-wallet'],
-    queryFn: getInforWallets,
+    queryFn: getMyWallets,
   });
   const { data: privateKeys } = useQuery({
     queryKey: ['private-keys'],
@@ -45,11 +41,25 @@ export default function Wallet() {
   }
 
   // Thêm handlers
-  const handleAddWallet = () => {
+  const handleAddWallet = async() => {
     // Xử lý logic thêm ví ở đây
+    const walletData = {name: newWalletName, type: "other"}
+    const res = await TelegramWalletService.addWallet(walletData)
     setIsAddWalletOpen(false)
     setNewWalletName("")
+    refetchInforWallets()
+    toast.success("Wallet added successfully!") // Thông báo thành công
   }
+
+  const handleDeleteWallet = async(id: string) => {
+      // Xử lý logic xóa ví ở đây
+      const walletData = {wallet_id: id}
+      const res = await TelegramWalletService.deleteWallet(walletData)
+      refetchInforWallets()
+      toast.success("Wallet deleted successfully!") // Thông báo thành công
+  }
+
+
 
   return (
     <div className="container mx-auto p-6">
@@ -254,52 +264,67 @@ export default function Wallet() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  <TableRow className="hover:bg-muted/30">
-                    <TableCell>
-                      <div className="flex items-center">
-                        <span>{inforWallet?.wallet_name}</span>
-                        <Button variant="ghost" size="icon" className="ml-2 h-6 w-6">
-                          <ExternalLink className="h-3 w-3" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800">
-                        Primary
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center">
-                        <span className="truncate w-64">{inforWallet?.solana_address}</span>
-                        <Button variant="ghost" size="icon" className="ml-2 h-6 w-6">
-                          <Copy className="h-3 w-3" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center">
-                        <span>0x8D5A...E131</span>
-                        <Button variant="ghost" size="icon" className="ml-2 h-6 w-6">
-                          <Copy className="h-3 w-3" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge
-                        variant="outline"
-                        className="bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 border-blue-200 dark:border-blue-800"
-                      >
-                        {inforWallet?.role}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        <Button variant="ghost" size="sm" className="h-8 px-2 text-blue-600">
-                          View
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
+                  {inforWallets?.map((wallet:any, index: string) => (
+                    <TableRow key={index} className="hover:bg-muted/30">
+                      <TableCell>
+                        <div className="flex items-center">
+                          <span>{wallet.wallet_name}</span>
+                          <Button variant="ghost" size="icon" className="ml-2 h-6 w-6">
+                            <ExternalLink className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800">
+                          {wallet.type || "Primary"}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center">
+                          <span className="truncate w-64">{wallet.solana_address}</span>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="ml-2 h-6 w-6"
+                            onClick={() => handleCopy(wallet.solana_address)}
+                          >
+                            <Copy className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center">
+                          <span>{wallet.eth_address || "N/A"}</span>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="ml-2 h-6 w-6"
+                            onClick={() => handleCopy(wallet.eth_address)}
+                          >
+                            <Copy className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge
+                          variant="outline"
+                          className="bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 border-blue-200 dark:border-blue-800"
+                        >
+                          {wallet.wallet_auth}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center space-x-2">
+                          <Button variant="ghost" size="sm" className="h-8 px-2 text-blue-600">
+                            View
+                          </Button>
+                          <Button variant="ghost" size="sm" className="h-8 px-2 text-blue-600" onClick={()=> handleDeleteWallet(wallet.wallet_id)}>
+                            <Trash size={24} color="red" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </div>

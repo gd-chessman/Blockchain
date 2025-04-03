@@ -23,7 +23,6 @@ export const getInforWallets = async ()=>{
 export const getPrivate = async ()=>{
     try {
         const temp = await axiosClient.post("/telegram-wallets/private-keys")
-        console.log(temp)
         return temp.data.data;
     } catch (error) {
         console.log(error)
@@ -34,7 +33,7 @@ export const getPrivate = async ()=>{
 export const getMyWallets = async ()=>{
     try {
         const temp = await axiosClient.get("/telegram-wallets/get-my-wallets")
-        return temp.data;
+        return temp.data.data;
     } catch (error) {
         console.log(error)
         return {};
@@ -74,7 +73,7 @@ export const changeName = async (item: any)=>{
 export const deleteWallet = async (item: any)=>{
     try {
         const temp = await axiosClient.post("/telegram-wallets/delete-wallet", item)
-        return temp.data;
+        return temp.data.data;
     } catch (error) {
         console.log(error)
         throw error;
