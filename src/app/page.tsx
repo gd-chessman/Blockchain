@@ -1,21 +1,19 @@
-'use client';
-import { useEffect } from 'react';
-import axios from 'axios';
-import { useAuth } from '@/hooks/useAuth';
-import socket from '@/configs/socket';
-import { useWebSocket } from '@/hooks/useWebSocket';
+'use client'; 
 
-export default function Page() {
-  const { messages } = useWebSocket();
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+   
+    router.push('/dashboard');
+  }, [router]);
 
   return (
     <div>
-      <h2>Trang chủ của tôi</h2>
-      <ul className="list-disc ml-4 mt-2">
-        {messages.map((msg, index) => (
-          <li key={index}>{msg}</li>
-        ))}
-      </ul>
+      Redirecting...
     </div>
   );
 }

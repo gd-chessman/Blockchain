@@ -226,7 +226,7 @@ export default function Trading() {
             </CardContent>
           </Card>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="mb-6 border-none shadow-md dark:shadow-blue-900/5 lg:col-span-2">
+            <Card className="border-none shadow-md dark:shadow-blue-900/5 lg:col-span-2">
               <CardHeader>
                 <CardTitle>Place Order</CardTitle>
               </CardHeader>
@@ -251,7 +251,7 @@ export default function Trading() {
                       </Button>
                     </div>
 
-                    <div>
+                    {/* <div>
                       <label className="text-sm font-medium">Price</label>
                       <div className="flex mt-1">
                         <Input
@@ -263,7 +263,7 @@ export default function Trading() {
                           USDT
                         </div>
                       </div>
-                    </div>
+                    </div> */}
 
                     <div>
                       <label className="text-sm font-medium">Amount</label>
