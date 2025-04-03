@@ -128,7 +128,8 @@
         "mastertrade": "マスタートレード",
         "wallet": "ウォレット",
         "settings": "設定",
-        "logout": "ログアウト"
+        "logout": "ログアウト",
+        "newcoin": "新規コイン作成"
     },
     "copyTrade": {
         "title": "コピートレード",

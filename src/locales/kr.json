@@ -128,7 +128,8 @@
         "mastertrade": "마스터 트레이딩",
         "wallet": "지갑",
         "settings": "설정",
-        "logout": "로그아웃"
+        "logout": "로그아웃",
+        "newcoin": "새 코인 생성"
     },
     "copyTrade": {
         "title": "카피 트레이딩",

@@ -128,7 +128,8 @@
       "mastertrade": "Giao Dịch Chuyên Gia",
       "wallet": "Ví",
       "settings": "Cài Đặt",
-      "logout": "Đăng Xuất"
+      "logout": "Đăng Xuất",
+      "newcoin": "Tạo Coin"
   },
   "copyTrade": {
       "title": "Sao Chép Giao Dịch",
