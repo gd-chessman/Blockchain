@@ -93,7 +93,7 @@ export default function Trading() {
                 }
               }}
               onKeyDown={(e) => {
-                if (e.key === 'Enter') {
+                if (e.key === 'Enter' && searchQuery.trim()) {
                   searchData();
                 }
               }}
