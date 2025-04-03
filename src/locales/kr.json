@@ -448,7 +448,54 @@
         "statusUpdatedSuccess": "상태 업데이트 성공",
         "failedToUpdateStatus": "상태 업데이트 실패",
         "groupDeactivated": "그룹이 비활성화되었습니다",
-        "processedMembersResult": "{{success}}명의 멤버 처리 성공, {{failed}}명 실패"
+        "processedMembersResult": "{{success}}명의 멤버 처리 성공, {{failed}}명 실패",
+        "tabs": {
+            "notConnected": "미연결",
+            "connected": "연결됨",
+            "disconnected": "연결 해제됨",
+            "pending": "대기 중"
+        },
+        "table": {
+            "walletAddress": "지갑 주소",
+            "type": "유형",
+            "status": "상태",
+            "actions": "작업"
+        },
+        "status": {
+            "notConnected": "미연결",
+            "connected": "연결됨",
+            "disconnected": "연결 해제됨",
+            "pending": "대기 중"
+        },
+        "actions": {
+            "connect": "연결",
+            "disconnect": "연결 해제",
+            "reconnect": "재연결",
+            "cancel": "취소",
+            "copyAddress": "주소 복사"
+        },
+        "noData": {
+            "notConnected": "거래자를 찾을 수 없습니다",
+            "connected": "연결된 마스터를 찾을 수 없습니다",
+            "disconnected": "연결 해제된 마스터를 찾을 수 없습니다",
+            "pending": "대기 중인 연결을 찾을 수 없습니다"
+        },
+        "dialog": {
+            "addWallet": {
+                "title": "새 지갑 추가",
+                "walletName": "지갑 이름",
+                "walletNamePlaceholder": "지갑 이름 입력",
+                "cancel": "취소",
+                "add": "지갑 추가"
+            },
+            "connect": {
+                "title": "연결 대상",
+                "maxCopyAmount": "최대 복사 금액 (SOL)",
+                "amountPlaceholder": "금액 입력",
+                "cancel": "취소",
+                "connect": "지금 연결"
+            }
+        }
     },
     "wallet": {
         "title": "지갑",

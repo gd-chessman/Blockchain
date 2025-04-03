@@ -390,7 +390,7 @@
       "noPermissionToUpdateGroups": "Bạn không có quyền cập nhật nhóm.",
       "groupNotFound": "Không tìm thấy nhóm.",
       "joinedGroups": "Nhóm đã tham gia",
-      "availableMasters": "Danh sách chuyên gia",
+      "availableMasters": "Các Master Có Sẵn",
       "searchPlaceholder": "Tìm kiếm theo địa chỉ ví...",
       "loadingJoinedGroups": "Đang tải nhóm đã tham gia...",
       "loadingMasters": "Đang tải dữ liệu...",
@@ -443,7 +443,54 @@
       "processing": "Đang xử lý...",
       "noSelectedConnections": "Vui lòng chọn ít nhất một kết nối",
       "pleaseSelectGroup": "Vui lòng chọn một nhóm",
-      "selectGroupToJoin": "Chọn nhóm để tham gia"
+      "selectGroupToJoin": "Chọn nhóm để tham gia",
+      "tabs": {
+          "notConnected": "Chưa Kết Nối",
+          "connected": "Đã Kết Nối",
+          "disconnected": "Đã Ngắt Kết Nối",
+          "pending": "Đang Chờ"
+      },
+      "table": {
+          "walletAddress": "Địa Chỉ Ví",
+          "type": "Loại",
+          "status": "Trạng Thái",
+          "actions": "Thao Tác"
+      },
+      "status": {
+          "notConnected": "Chưa Kết Nối",
+          "connected": "Đã Kết Nối",
+          "disconnected": "Đã Ngắt Kết Nối",
+          "pending": "Đang Chờ"
+      },
+      "actions": {
+          "connect": "Kết Nối",
+          "disconnect": "Ngắt Kết Nối",
+          "reconnect": "Kết Nối Lại",
+          "cancel": "Hủy",
+          "copyAddress": "Sao chép địa chỉ"
+      },
+      "noData": {
+          "notConnected": "Không tìm thấy trader nào",
+          "connected": "Không tìm thấy master đã kết nối",
+          "disconnected": "Không tìm thấy master đã ngắt kết nối",
+          "pending": "Không tìm thấy kết nối đang chờ"
+      },
+      "dialog": {
+          "addWallet": {
+              "title": "Thêm Ví Mới",
+              "walletName": "Tên Ví",
+              "walletNamePlaceholder": "Nhập tên ví",
+              "cancel": "Hủy",
+              "add": "Thêm Ví"
+          },
+          "connect": {
+              "title": "Kết Nối Với",
+              "maxCopyAmount": "Số Tiền Copy Tối Đa (SOL)",
+              "amountPlaceholder": "Nhập số tiền",
+              "cancel": "Hủy",
+              "connect": "Kết Nối Ngay"
+          }
+      }
   },
   "wallet": {
       "title": "Ví",

@@ -468,7 +468,54 @@
       "pleaseSelectGroup": "Please select a group",
       "selectGroupToJoin": "Select group to join",
       "joinGroupSuccess": "Successfully joined group",
-      "failedToJoinGroup": "Failed to join group"
+      "failedToJoinGroup": "Failed to join group",
+      "tabs": {
+          "notConnected": "Not Connected",
+          "connected": "Connected",
+          "disconnected": "Disconnected",
+          "pending": "Pending"
+      },
+      "table": {
+          "walletAddress": "Wallet Address",
+          "type": "Type",
+          "status": "Status",
+          "actions": "Actions"
+      },
+      "status": {
+          "notConnected": "Not Connected",
+          "connected": "Connected",
+          "disconnected": "Disconnected",
+          "pending": "Pending"
+      },
+      "actions": {
+          "connect": "Connect",
+          "disconnect": "Disconnect",
+          "reconnect": "Reconnect",
+          "cancel": "Cancel",
+          "copyAddress": "Copy address"
+      },
+      "noData": {
+          "notConnected": "No traders found",
+          "connected": "No connected masters found",
+          "disconnected": "No disconnected masters found",
+          "pending": "No pending connections found"
+      },
+      "dialog": {
+          "addWallet": {
+              "title": "Add New Wallet",
+              "walletName": "Wallet Name",
+              "walletNamePlaceholder": "Enter wallet name",
+              "cancel": "Cancel",
+              "add": "Add Wallet"
+          },
+          "connect": {
+              "title": "Connect to",
+              "maxCopyAmount": "Maximum Copy Amount (SOL)",
+              "amountPlaceholder": "Enter amount",
+              "cancel": "Cancel",
+              "connect": "Connect Now"
+          }
+      }
   },
   "wallet": {
       "title": "Wallet",

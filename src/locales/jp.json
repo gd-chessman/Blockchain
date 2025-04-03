@@ -442,7 +442,54 @@
         "processing": "処理中...",
         "noSelectedConnections": "少なくとも1つの接続を選択してください",
         "pleaseSelectGroup": "グループを選択してください",
-        "selectGroupToJoin": "参加するグループを選択"
+        "selectGroupToJoin": "参加するグループを選択",
+        "tabs": {
+            "notConnected": "未接続",
+            "connected": "接続済み",
+            "disconnected": "切断済み",
+            "pending": "保留中"
+        },
+        "table": {
+            "walletAddress": "ウォレットアドレス",
+            "type": "タイプ",
+            "status": "ステータス",
+            "actions": "アクション"
+        },
+        "status": {
+            "notConnected": "未接続",
+            "connected": "接続済み",
+            "disconnected": "切断済み",
+            "pending": "保留中"
+        },
+        "actions": {
+            "connect": "接続",
+            "disconnect": "切断",
+            "reconnect": "再接続",
+            "cancel": "キャンセル",
+            "copyAddress": "アドレスをコピー"
+        },
+        "noData": {
+            "notConnected": "トレーダーが見つかりません",
+            "connected": "接続済みのマスターが見つかりません",
+            "disconnected": "切断済みのマスターが見つかりません",
+            "pending": "保留中の接続が見つかりません"
+        },
+        "dialog": {
+            "addWallet": {
+                "title": "新しいウォレットを追加",
+                "walletName": "ウォレット名",
+                "walletNamePlaceholder": "ウォレット名を入力",
+                "cancel": "キャンセル",
+                "add": "ウォレットを追加"
+            },
+            "connect": {
+                "title": "接続先",
+                "maxCopyAmount": "最大コピー金額 (SOL)",
+                "amountPlaceholder": "金額を入力",
+                "cancel": "キャンセル",
+                "connect": "今すぐ接続"
+            }
+        }
     },
     "wallet": {
         "title": "ウォレット",

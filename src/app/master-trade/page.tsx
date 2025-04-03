@@ -110,10 +110,10 @@ export default function MasterTrade() {
 
       <Tabs defaultValue="not-connected" onValueChange={setActiveTab}>
         <TabsList className="grid grid-cols-4 mb-6">
-          <TabsTrigger value="not-connected">Not Connected ({notConnectedCount})</TabsTrigger>
-          <TabsTrigger value="connect">Connected ({connectedCount})</TabsTrigger>
-          <TabsTrigger value="disconnect">Disconnected ({disconnectedCount})</TabsTrigger>
-          <TabsTrigger value="pending">Pending ({pendingCount})</TabsTrigger>
+          <TabsTrigger value="not-connected">{t("masterTrade.tabs.notConnected")} ({notConnectedCount})</TabsTrigger>
+          <TabsTrigger value="connect">{t("masterTrade.tabs.connected")} ({connectedCount})</TabsTrigger>
+          <TabsTrigger value="disconnect">{t("masterTrade.tabs.disconnected")} ({disconnectedCount})</TabsTrigger>
+          <TabsTrigger value="pending">{t("masterTrade.tabs.pending")} ({pendingCount})</TabsTrigger>
         </TabsList>
 
         <TabsContent value="not-connected">
@@ -124,11 +124,11 @@ export default function MasterTrade() {
                   <TableHeader>
                     <TableRow className="bg-muted/50">
                       <TableHead className="w-[300px]">
-                        Wallet Address
+                        {t("masterTrade.table.walletAddress")}
                       </TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
+                      <TableHead>{t("masterTrade.table.type")}</TableHead>
+                      <TableHead>{t("masterTrade.table.status")}</TableHead>
+                      <TableHead className="text-right">{t("masterTrade.table.actions")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -145,6 +145,7 @@ export default function MasterTrade() {
                                 onClick={() =>
                                   handleCopyAddress(trader.solana_address)
                                 }
+                                title={t("masterTrade.actions.copyAddress")}
                               >
                                 <Copy className="h-4 w-4" />
                               </Button>
@@ -166,7 +167,7 @@ export default function MasterTrade() {
                           </TableCell>
                           <TableCell>
                             <span className="text-muted-foreground">
-                              {trader.connection_status === null ? "Not Connected" : trader.connection_status}
+                              {t(`masterTrade.status.${trader.connection_status || "notConnected"}`)}
                             </span>
                           </TableCell>
                           <TableCell className="text-right">
@@ -175,7 +176,7 @@ export default function MasterTrade() {
                               className="border-primary border-solid border-2 text-white"
                               onClick={() => handleConnect(trader)}
                             >
-                              Connect
+                              {t("masterTrade.actions.connect")}
                             </Button>
                           </TableCell>
                         </TableRow>
@@ -183,7 +184,7 @@ export default function MasterTrade() {
                     ) : (
                       <TableRow>
                         <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
-                          No traders found
+                          {t("masterTrade.noData.notConnected")}
                         </TableCell>
                       </TableRow>
                     )}
@@ -202,11 +203,11 @@ export default function MasterTrade() {
                   <TableHeader>
                     <TableRow className="bg-muted/50">
                       <TableHead className="w-[300px]">
-                        Wallet Address
+                        {t("masterTrade.table.walletAddress")}
                       </TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
+                      <TableHead>{t("masterTrade.table.type")}</TableHead>
+                      <TableHead>{t("masterTrade.table.status")}</TableHead>
+                      <TableHead className="text-right">{t("masterTrade.table.actions")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -223,6 +224,7 @@ export default function MasterTrade() {
                                 onClick={() =>
                                   handleCopyAddress(trader.solana_address)
                                 }
+                                title={t("masterTrade.actions.copyAddress")}
                               >
                                 <Copy className="h-4 w-4" />
                               </Button>
@@ -244,7 +246,7 @@ export default function MasterTrade() {
                           </TableCell>
                           <TableCell>
                             <span className="text-muted-foreground">
-                              {trader.connection_status}
+                              {t(`masterTrade.status.${trader.connection_status}`)}
                             </span>
                           </TableCell>
                           <TableCell className="text-right">
@@ -253,7 +255,7 @@ export default function MasterTrade() {
                               variant="destructive"
                               onClick={() => handleDisconnect(trader)}
                             >
-                              Disconnect
+                              {t("masterTrade.actions.disconnect")}
                             </Button>
                           </TableCell>
                         </TableRow>
@@ -261,7 +263,7 @@ export default function MasterTrade() {
                     ) : (
                       <TableRow>
                         <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
-                          No connected masters found
+                          {t("masterTrade.noData.connected")}
                         </TableCell>
                       </TableRow>
                     )}
@@ -280,11 +282,11 @@ export default function MasterTrade() {
                   <TableHeader>
                     <TableRow className="bg-muted/50">
                       <TableHead className="w-[300px]">
-                        Wallet Address
+                        {t("masterTrade.table.walletAddress")}
                       </TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
+                      <TableHead>{t("masterTrade.table.type")}</TableHead>
+                      <TableHead>{t("masterTrade.table.status")}</TableHead>
+                      <TableHead className="text-right">{t("masterTrade.table.actions")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -301,6 +303,7 @@ export default function MasterTrade() {
                                 onClick={() =>
                                   handleCopyAddress(trader.solana_address)
                                 }
+                                title={t("masterTrade.actions.copyAddress")}
                               >
                                 <Copy className="h-4 w-4" />
                               </Button>
@@ -322,7 +325,7 @@ export default function MasterTrade() {
                           </TableCell>
                           <TableCell>
                             <span className="text-muted-foreground">
-                              {trader.connection_status}
+                              {t(`masterTrade.status.${trader.connection_status}`)}
                             </span>
                           </TableCell>
                           <TableCell className="text-right">
@@ -331,7 +334,7 @@ export default function MasterTrade() {
                               className="border-primary border-solid border-2 text-white"
                               onClick={() => handleConnect(trader)}
                             >
-                              Reconnect
+                              {t("masterTrade.actions.reconnect")}
                             </Button>
                           </TableCell>
                         </TableRow>
@@ -339,7 +342,7 @@ export default function MasterTrade() {
                     ) : (
                       <TableRow>
                         <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
-                          No disconnected masters found
+                          {t("masterTrade.noData.disconnected")}
                         </TableCell>
                       </TableRow>
                     )}
@@ -358,11 +361,11 @@ export default function MasterTrade() {
                   <TableHeader>
                     <TableRow className="bg-muted/50">
                       <TableHead className="w-[300px]">
-                        Wallet Address
+                        {t("masterTrade.table.walletAddress")}
                       </TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
+                      <TableHead>{t("masterTrade.table.type")}</TableHead>
+                      <TableHead>{t("masterTrade.table.status")}</TableHead>
+                      <TableHead className="text-right">{t("masterTrade.table.actions")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -379,6 +382,7 @@ export default function MasterTrade() {
                                 onClick={() =>
                                   handleCopyAddress(trader.solana_address)
                                 }
+                                title={t("masterTrade.actions.copyAddress")}
                               >
                                 <Copy className="h-4 w-4" />
                               </Button>
@@ -400,16 +404,16 @@ export default function MasterTrade() {
                           </TableCell>
                           <TableCell>
                             <span className="text-muted-foreground">
-                              {trader.connection_status}
+                              {t(`masterTrade.status.${trader.connection_status}`)}
                             </span>
                           </TableCell>
                           <TableCell className="text-right">
                             <Button
                               size="sm"
                               variant="outline"
-                              // onClick={() => handleConnect(trader)}
+                              onClick={() => handleConnect(trader)}
                             >
-                              Cancel
+                              {t("masterTrade.actions.cancel")}
                             </Button>
                           </TableCell>
                         </TableRow>
@@ -417,7 +421,7 @@ export default function MasterTrade() {
                     ) : (
                       <TableRow>
                         <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
-                          No pending connections found
+                          {t("masterTrade.noData.pending")}
                         </TableCell>
                       </TableRow>
                     )}
@@ -432,16 +436,16 @@ export default function MasterTrade() {
         <DialogContent className="sm:max-w-[425px] bg-card">
           <AlertDialogHeader>
             <DialogTitle className="text-2xl font-bold">
-              Add New Wallet
+              {t("masterTrade.dialog.addWallet.title")}
             </DialogTitle>
           </AlertDialogHeader>
 
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="wallet-name">Wallet Name</Label>
+              <Label htmlFor="wallet-name">{t("masterTrade.dialog.addWallet.walletName")}</Label>
               <Input
                 id="wallet-name"
-                placeholder="Enter wallet name"
+                placeholder={t("masterTrade.dialog.addWallet.walletNamePlaceholder")}
                 value={newWalletName}
                 onChange={(e) => setNewWalletName(e.target.value)}
                 className="bg-gray-50 dark:bg-gray-900/50"
@@ -457,14 +461,14 @@ export default function MasterTrade() {
                 setNewWalletName("");
               }}
             >
-              Cancel
+              {t("masterTrade.dialog.addWallet.cancel")}
             </Button>
             <Button
               className="bg-green-500 hover:bg-green-600 text-white"
               onClick={handleAddWallet}
               disabled={!newWalletName.trim()}
             >
-              Add Wallet
+              {t("masterTrade.dialog.addWallet.add")}
             </Button>
           </AlertDialogFooter>
         </DialogContent>
@@ -473,7 +477,7 @@ export default function MasterTrade() {
         <DialogContent className="sm:max-w-[425px] bg-card">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">
-              Connect to <br />
+              {t("masterTrade.dialog.connect.title")} <br />
               <small className="text-xs w-full truncate">
                 {selectedTrader?.solana_address || "Trader"}
               </small>
@@ -482,10 +486,10 @@ export default function MasterTrade() {
 
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="max-copy-amount">Maximum Copy Amount (SOL)</Label>
+              <Label htmlFor="max-copy-amount">{t("masterTrade.dialog.connect.maxCopyAmount")}</Label>
               <Input
                 id="max-copy-amount"
-                placeholder="Enter amount"
+                placeholder={t("masterTrade.dialog.connect.amountPlaceholder")}
                 value={maxCopyAmount}
                 type="number"
                 onChange={(e) => setMaxCopyAmount(e.target.value)}
@@ -502,14 +506,14 @@ export default function MasterTrade() {
                 setMaxCopyAmount("");
               }}
             >
-              Cancel
+              {t("masterTrade.dialog.connect.cancel")}
             </Button>
             <Button
               className="bg-green-500 hover:bg-green-600 text-white"
               onClick={() => handleConnectMaster(selectedTrader)}
               disabled={!maxCopyAmount.trim()}
             >
-              Connect Now
+              {t("masterTrade.dialog.connect.connect")}
             </Button>
           </DialogFooter>
         </DialogContent>
