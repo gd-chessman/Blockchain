@@ -27,6 +27,7 @@ export default function Trading() {
       symbol: string;
       decimals: number;
       isVerified: boolean;
+      logoUrl: string;
     }[]
   >([]);
   const router = useRouter();
@@ -51,7 +52,7 @@ export default function Trading() {
     const res = await SolonaTokenService.getSearchTokenInfor(searchQuery)
     console.log(res)
   }
-
+console.log(tokens)
 
   return (
     <div className="container mx-auto p-6">
@@ -94,7 +95,7 @@ export default function Trading() {
                       <TableCell>
                         <div className="flex items-center gap-2">
                           <img
-                            src="https://d1hjkbq40fs2x4.cloudfront.net/2016-01-31/files/1045-2.jpg"
+                            src={token.logoUrl}
                             alt="token logo"
                             className="size-10 rounded-full"
                           />
