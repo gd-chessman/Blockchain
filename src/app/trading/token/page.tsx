@@ -58,6 +58,7 @@ export default function Trading() {
   const { data: orders, refetch: refetchOrders } = useQuery({
     queryKey: ["orders"],
     queryFn: getOrders,
+    refetchInterval: 5000,
   });
   const marks = [0, 25, 50, 75, 100];
   const [copySuccess, setCopySuccess] = useState(false);
