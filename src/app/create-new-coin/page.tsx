@@ -33,12 +33,10 @@ export default function CreateCoin() {
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [fileImage, setFileImage] = useState<File | null>(null);
-  const { data: memeCoins } = useQuery({
+  const { data: memeCoins = [] } = useQuery({
     queryKey: ['private-keys'],
     queryFn: getMyTokens,
-    placeholderData: [],
   });
-  
   const { 
     register, 
     handleSubmit, 
@@ -338,7 +336,7 @@ export default function CreateCoin() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {memeCoins?.map((coin: any) => (
+                    {Array.isArray(memeCoins) && memeCoins?.map((coin: any) => (
                       <TableRow key={coin.token_id} className="hover:bg-muted/30">
                         <TableCell>
                           <div className="flex items-center">
