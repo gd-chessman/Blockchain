@@ -144,7 +144,7 @@ export default function Navigation() {
           opacity: isMenuOpen ? 1 : 0,
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="overflow-hidden md:hidden fixed top-16 left-0 w-full bg-blue-600 dark:bg-blue-900 z-50 shadow-lg"
+        className="overflow-hidden md:hidden fixed top-16 left-0 w-full bg-primary z-50 shadow-lg"
       >
         <div className="flex flex-col gap-1 px-4 pb-3">
           {navItems.map((item) => (

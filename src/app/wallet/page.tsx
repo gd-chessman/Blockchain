@@ -340,7 +340,7 @@ const [derivedSolanaAddress, setDerivedSolanaAddress] = useState<string | null>(
                         <div className="flex items-center">
                           <span>{wallet.wallet_name}</span>
                           <Button variant="ghost" size="icon" className="ml-2 h-6 w-6">
-                            <ExternalLink className="h-3 w-3" />
+                       
                           </Button>
                         </div>
                       </TableCell>
