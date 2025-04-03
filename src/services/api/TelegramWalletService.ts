@@ -36,24 +36,7 @@ export const getMyWallets = async ()=>{
         return temp.data.data;
     } catch (error) {
         console.log(error)
-        return [
-        {
-            "wallet_id": 1,
-            "wallet_type": "main",
-            "wallet_name": "Main Wallet",
-            "solana_address": "5Kjdsfkjh3k4jh3k4jh3k4jh3k4jh3k4jh3k4jh3k4jh3k4jh3k4jh3k4jh3k4",
-            "eth_address": "0xabcdef1234567890abcdef1234567890abcdef1234",
-            "wallet_auth": "member"
-        },
-        {
-            "wallet_id": 2,
-            "wallet_type": "other",
-            "wallet_name": "Trading Wallet 1",
-            "solana_address": "6Kjdsfkjh3k4jh3k4jh3k4jh3k4jh3k4jh3k4jh3k4jh3k4jh3k4jh3k4jh3k4",
-            "eth_address": "0xbcdef1234567890abcdef1234567890abcdef1234",
-            "wallet_auth": "member"
-        }
-    ];
+        return [];
     }
 }
 
