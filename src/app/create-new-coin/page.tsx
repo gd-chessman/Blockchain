@@ -340,8 +340,7 @@ export default function CreateCoin() {
                       <TableRow key={coin.token_id} className="hover:bg-muted/30">
                         <TableCell>
                           <div className="flex items-center">
-                            <Avatar className="h-8 w-8 mr-2">
-                              <img src={coin.logo_url || "/placeholder.svg"} alt={coin.name} />
+                            <Avatar className="h-8 w-8 mr-2" src={coin.logo_url} alt={coin.name} >
                               <p>{coin.symbol.substring(0, 2).toUpperCase()}</p>
                             </Avatar>
                             <span>{coin.name}</span>
