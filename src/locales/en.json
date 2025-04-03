@@ -142,7 +142,8 @@
       "sell": "Sell",
       "limit": "Limit",
       "market": "Market",
-      "stop": "Stop"
+      "stop": "Stop",
+      "executed": "Executed"
   },
   "navigation": {
       "newcoin": "Create New Coin",

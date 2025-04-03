@@ -62,11 +62,11 @@ export default function Navigation() {
       href: "/trading",
       icon: <TrendingUp className="mr-2 h-5 w-5" />,
     },
-    {
-      name: "copytrade",
-      href: "/copy-trade",
-      icon: <Copy className="mr-2 h-5 w-5" />,
-    },
+    // {
+    //   name: "copytrade",
+    //   href: "/copy-trade",
+    //   icon: <Copy className="mr-2 h-5 w-5" />,
+    // },
     {
       name: "mastertrade",
       href: "/master-trade",
