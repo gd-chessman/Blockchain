@@ -21,7 +21,7 @@ import usePercent from "@/hooks/usePercent";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getTokenInforByAddress } from "@/services/api/SolonaTokenService";
 import { useQuery } from "@tanstack/react-query";
-import { useWebSocket } from "@/hooks/useWebSocket";
+import { useWsSubscribeTokens } from "@/hooks/useWsSubscribeTokens";
 import Link from "next/link";
 import { getOrders } from "@/services/api/TradingService";
 import { getMyTokens } from "@/services/api/TelegramWalletService";
@@ -38,7 +38,7 @@ const chartData = generateChartData();
 
 export default function Trading() {
   const { t } = useLang();
-  const { messages } = useWebSocket();
+  const { messages } = useWsSubscribeTokens();
   const [tokens, setTokens] = useState<
     {
       slt_name: string;

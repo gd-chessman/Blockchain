@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import { Search, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
-import { useWebSocket } from "@/hooks/useWebSocket";
+import { useWsSubscribeTokens } from "@/hooks/useWsSubscribeTokens";
 import { SolonaTokenService } from "@/services/api";
 import { useDebounce } from "@/hooks/useDebounce";
 import { truncateString } from "@/utils/format";
@@ -25,7 +25,7 @@ export default function Trading() {
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery, 2000); // 2 seconds delay
   const [isSearching, setIsSearching] = useState(false);
-  const { messages } = useWebSocket();
+  const { messages } = useWsSubscribeTokens();
   const [tokens, setTokens] = useState<
     {
       slt_name: string;

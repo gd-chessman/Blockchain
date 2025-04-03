@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export function useWebSocket() {
+export function useWsSubscribeTokens() {
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const [messages, setMessages] = useState<string[]>([]);
 
