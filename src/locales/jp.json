@@ -439,26 +439,40 @@
         "selectGroupToJoin": "参加するグループを選択"
     },
     "wallet": {
-        "title": "ウォレット情報",
-        "loading": "⏳ ウォレット情報を読み込み中...",
-        "loginRequired": "このページを表示するには、Telegramウォレットを接続してください",
-        "telegramRequired": "ウォレット情報を表示するには、Telegramアカウントを接続してください",
-        "noWalletInfo": "ウォレット情報がありません",
-        "solanaWallet": "Solanaウォレット",
+        "title": "ウォレット",
+        "solanaWallet": "ソラナウォレット",
         "ethWallet": "ETHウォレット",
         "bnbWallet": "BNBウォレット",
-        "addressCopied": "アドレスをクリップボードにコピーしました！",
-        "copyFailed": "アドレスをコピーできませんでした",
         "getPrivateKey": "秘密鍵を取得",
-        "walletPrivateKeys": "ウォレット秘密鍵",
-        "loadingKeys": "秘密鍵を読み込み中...",
-        "noKeys": "秘密鍵はありません",
-        "solanaPrivateKey": "Solana秘密鍵",
-        "ethereumPrivateKey": "Ethereum秘密鍵",
-        "bnbPrivateKey": "BNB秘密鍵",
-        "keyCopied": "秘密鍵をクリップボードにコピーしました！",
-        "keyFailed": "秘密鍵をコピーできませんでした",
-        "securityWarning": "秘密鍵を絶対に誰とも共有しないでください！"
+        "addWallet": "ウォレットを追加",
+        "importWallet": "ウォレットをインポート",
+        "table": {
+            "walletName": "ウォレット名",
+            "type": "タイプ",
+            "solanaAddress": "ソラナアドレス",
+            "ethBnbAddress": "ETH/BNBアドレス",
+            "keyWallet": "キー/ウォレット.a...",
+            "actions": "アクション"
+        },
+        "dialog": {
+            "addNewWallet": "新規ウォレットを追加",
+            "walletName": "ウォレット名",
+            "enterWalletName": "ウォレット名を入力",
+            "cancel": "キャンセル",
+            "addWallet": "ウォレットを追加",
+            "importWallet": "ウォレットをインポート",
+            "solanaPrivateKey": "ソラナ秘密鍵",
+            "enterSolanaPrivateKey": "ソラナ秘密鍵を入力",
+            "privateKeySecurity": "秘密鍵は安全に保存され、共有されることはありません。",
+            "derivedSolanaAddress": "生成されたソラナアドレス",
+            "derivedAddressInfo": "これは秘密鍵から生成されたソラナアドレスです。",
+            "privateKeys": "秘密鍵",
+            "hideKeys": "鍵を非表示",
+            "showKeys": "鍵を表示",
+            "ethereumPrivateKey": "イーサリアム秘密鍵",
+            "bnbPrivateKey": "BNB秘密鍵",
+            "close": "閉じる"
+        }
     },
     "common": {
         "actions": "アクション"

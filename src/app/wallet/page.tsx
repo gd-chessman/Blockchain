@@ -429,7 +429,7 @@ export default function Wallet() {
               onClick={() => setIsAddWalletOpen(true)}
             >
               <Plus className="mr-2 h-4 w-4" />
-              Add Wallet
+              {t("wallet.addWallet")}
             </Button>
             <Button
               variant="outline"
@@ -437,7 +437,7 @@ export default function Wallet() {
               onClick={() => setIsImportWalletOpen(true)}
             >
               <Download className="mr-2 h-4 w-4" />
-              Import Wallet
+              {t("wallet.importWallet")}
             </Button>
           </div>
         </div>
@@ -448,12 +448,12 @@ export default function Wallet() {
               <Table>
                 <TableHeader>
                   <TableRow className="bg-muted/50">
-                    <TableHead>Wallet Name</TableHead>
-                    <TableHead>Type</TableHead>
-                    <TableHead>Solana Address</TableHead>
-                    <TableHead>ETH/BNB Address</TableHead>
-                    <TableHead>key/wallet.a...</TableHead>
-                    <TableHead>Actions</TableHead>
+                    <TableHead>{t("wallet.table.walletName")}</TableHead>
+                    <TableHead>{t("wallet.table.type")}</TableHead>
+                    <TableHead>{t("wallet.table.solanaAddress")}</TableHead>
+                    <TableHead>{t("wallet.table.ethBnbAddress")}</TableHead>
+                    <TableHead>{t("wallet.table.keyWallet")}</TableHead>
+                    <TableHead>{t("wallet.table.actions")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -591,16 +591,16 @@ export default function Wallet() {
         <DialogContent className="sm:max-w-[425px] bg-card">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">
-              Add New Wallet
+              {t("wallet.dialog.addNewWallet")}
             </DialogTitle>
           </DialogHeader>
 
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="wallet-name">Wallet Name</Label>
+              <Label htmlFor="wallet-name">{t("wallet.dialog.walletName")}</Label>
               <Input
                 id="wallet-name"
-                placeholder="Enter wallet name"
+                placeholder={t("wallet.dialog.enterWalletName")}
                 value={newWalletName}
                 onChange={(e) => setNewWalletName(e.target.value)}
                 className="bg-gray-50 dark:bg-gray-900/50"
@@ -616,14 +616,14 @@ export default function Wallet() {
                 setNewWalletName("");
               }}
             >
-              Cancel
+              {t("wallet.dialog.cancel")}
             </Button>
             <Button
               className="bg-green-500 hover:bg-green-600 text-white"
               onClick={handleAddWallet}
               disabled={!newWalletName.trim()}
             >
-              Add Wallet
+              {t("wallet.dialog.addWallet")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -643,16 +643,16 @@ export default function Wallet() {
         <DialogContent className="sm:max-w-[425px] bg-card">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">
-              Import Wallet
+              {t("wallet.dialog.importWallet")}
             </DialogTitle>
           </DialogHeader>
 
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="import-wallet-name">Wallet Name</Label>
+              <Label htmlFor="import-wallet-name">{t("wallet.dialog.walletName")}</Label>
               <Input
                 id="import-wallet-name"
-                placeholder="Enter wallet name"
+                placeholder={t("wallet.dialog.enterWalletName")}
                 value={importWalletName}
                 onChange={(e) => setImportWalletName(e.target.value)}
                 className="bg-gray-50 dark:bg-gray-900/50"
@@ -660,11 +660,11 @@ export default function Wallet() {
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="solana-private-key">Solana Private Key</Label>
+              <Label htmlFor="solana-private-key">{t("wallet.dialog.solanaPrivateKey")}</Label>
               <div className="relative">
                 <Input
                   id="solana-private-key"
-                  placeholder="Enter your Solana private key"
+                  placeholder={t("wallet.dialog.enterSolanaPrivateKey")}
                   value={importPrivateKey}
                   onChange={(e) => handleImportPrivateKeyChange(e.target.value)}
                   className="bg-gray-50 dark:bg-gray-900/50 pr-20"
@@ -695,12 +695,12 @@ export default function Wallet() {
                 </div>
               </div>
               <p className="text-xs text-gray-500">
-                Your private key is stored securely and never shared.
+                {t("wallet.dialog.privateKeySecurity")}
               </p>
               {derivedSolanaAddress && (
                 <div className="mt-2">
                   <Label htmlFor="derived-solana-address">
-                    Derived Solana Address
+                    {t("wallet.dialog.derivedSolanaAddress")}
                   </Label>
                   <div className="relative">
                     <Input
@@ -719,7 +719,7 @@ export default function Wallet() {
                     </Button>
                   </div>
                   <p className="text-xs text-gray-500 mt-1">
-                    This is the Solana address derived from your private key.
+                    {t("wallet.dialog.derivedAddressInfo")}
                   </p>
                 </div>
               )}
@@ -735,14 +735,14 @@ export default function Wallet() {
                 setImportPrivateKey("");
               }}
             >
-              Cancel
+              {t("wallet.dialog.cancel")}
             </Button>
             <Button
               className="bg-blue-500 hover:bg-blue-600 text-white"
               onClick={handleImportWallet}
               disabled={!importWalletName.trim() || !importPrivateKey.trim()}
             >
-              Import Wallet
+              {t("wallet.dialog.importWallet")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -753,7 +753,7 @@ export default function Wallet() {
         <DialogContent className="sm:max-w-[425px] bg-card">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">
-              Private Keys
+              {t("wallet.dialog.privateKeys")}
             </DialogTitle>
           </DialogHeader>
 
@@ -765,12 +765,12 @@ export default function Wallet() {
                 onClick={() => setShowPrivateKey(!showPrivateKey)}
                 className="text-sm"
               >
-                {showPrivateKey ? "Hide Keys" : "Show Keys"}
+                {showPrivateKey ? t("wallet.dialog.hideKeys") : t("wallet.dialog.showKeys")}
               </Button>
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="solana-key">Solana Private Key</Label>
+              <Label htmlFor="solana-key">{t("wallet.dialog.solanaPrivateKey")}</Label>
               <div className="relative">
                 <Input
                   id="solana-key"
@@ -794,7 +794,7 @@ export default function Wallet() {
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="eth-key">Ethereum Private Key</Label>
+              <Label htmlFor="eth-key">{t("wallet.dialog.ethereumPrivateKey")}</Label>
               <div className="relative">
                 <Input
                   id="eth-key"
@@ -818,7 +818,7 @@ export default function Wallet() {
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="bnb-key">BNB Private Key</Label>
+              <Label htmlFor="bnb-key">{t("wallet.dialog.bnbPrivateKey")}</Label>
               <div className="relative">
                 <Input
                   id="bnb-key"
@@ -850,7 +850,7 @@ export default function Wallet() {
                 setShowPrivateKey(false);
               }}
             >
-              Close
+              {t("wallet.dialog.close")}
             </Button>
           </DialogFooter>
         </DialogContent>

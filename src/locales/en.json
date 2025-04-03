@@ -449,26 +449,40 @@
       "failedToJoinGroup": "Failed to join group"
   },
   "wallet": {
-      "title": "Wallet Info",
-      "loading": "⏳ Loading wallet information...",
-      "loginRequired": "Please connect your Telegram wallet to view this page",
-      "telegramRequired": "Please connect your Telegram account to view wallet information",
-      "noWalletInfo": "No wallet information",
+      "title": "Wallet",
       "solanaWallet": "Solana Wallet",
       "ethWallet": "ETH Wallet",
       "bnbWallet": "BNB Wallet",
-      "addressCopied": "Address copied to clipboard!",
-      "copyFailed": "Failed to copy address",
       "getPrivateKey": "Get Private Key",
-      "walletPrivateKeys": "Wallet Private Keys",
-      "loadingKeys": "Loading private keys...",
-      "noKeys": "No private keys",
-      "solanaPrivateKey": "Solana Private Key",
-      "ethereumPrivateKey": "Ethereum Private Key",
-      "bnbPrivateKey": "BNB Private Key",
-      "keyCopied": "Private key copied to clipboard!",
-      "keyFailed": "Failed to copy private key",
-      "securityWarning": "Never share your private key with anyone!"
+      "addWallet": "Add Wallet",
+      "importWallet": "Import Wallet",
+      "table": {
+          "walletName": "Wallet Name",
+          "type": "Type",
+          "solanaAddress": "Solana Address",
+          "ethBnbAddress": "ETH/BNB Address",
+          "keyWallet": "key/wallet.a...",
+          "actions": "Actions"
+      },
+      "dialog": {
+          "addNewWallet": "Add New Wallet",
+          "walletName": "Wallet Name",
+          "enterWalletName": "Enter wallet name",
+          "cancel": "Cancel",
+          "addWallet": "Add Wallet",
+          "importWallet": "Import Wallet",
+          "solanaPrivateKey": "Solana Private Key",
+          "enterSolanaPrivateKey": "Enter your Solana private key",
+          "privateKeySecurity": "Your private key is stored securely and never shared.",
+          "derivedSolanaAddress": "Derived Solana Address",
+          "derivedAddressInfo": "This is the Solana address derived from your private key.",
+          "privateKeys": "Private Keys",
+          "hideKeys": "Hide Keys",
+          "showKeys": "Show Keys",
+          "ethereumPrivateKey": "Ethereum Private Key",
+          "bnbPrivateKey": "BNB Private Key",
+          "close": "Close"
+      }
   },
   "common": {
       "actions": "Actions"
