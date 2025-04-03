@@ -1,7 +1,5 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -9,8 +7,10 @@ import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Copy } from "lucide-react"
+import { Copy } from 'lucide-react'
 import { Avatar } from "@/components/ui/avatar"
+import { useForm } from "react-hook-form"
+import { TelegramWalletService } from "@/services/api"
 
 // Dữ liệu mẫu cho danh sách coin
 const memeCoins = [
@@ -72,49 +72,67 @@ const memeCoins = [
   },
 ]
 
+// Define form data type
+type FormData = {
+  name: string;
+  symbol: string;
+  amount: string;
+  description: string;
+  image: FileList;
+  telegram?: string;
+  website?: string;
+  twitter?: string;
+  showName: boolean;
+}
+
 export default function CreateCoin() {
   const [showAdvanced, setShowAdvanced] = useState(false)
-  const [formData, setFormData] = useState({
-    name: "",
-    symbol: "",
-    amount: "",
-    description: "",
-    logo: null,
-    telegram: "",
-    website: "",
-    twitter: "",
-  })
   const [logoPreview, setLogoPreview] = useState<string | null>(null)
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
-
-  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0]
-      setFormData((prev: any) => ({ ...prev, logo: file }))
-
-      // Tạo URL preview cho hình ảnh
-      const reader = new FileReader()
-      reader.onload = (event) => {
-        setLogoPreview(event.target?.result as string)
-      }
-      reader.readAsDataURL(file)
+  
+  const { 
+    register, 
+    handleSubmit, 
+    formState: { errors }, 
+    reset, 
+    watch 
+  } = useForm<FormData>({
+    defaultValues: {
+      name: "",
+      symbol: "",
+      amount: "",
+      description: "",
+      showName: true,
     }
-  }
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("Form submitted:", formData)
-    // Xử lý tạo coin ở đây
+  // Watch form values for preview
+  const watchedValues = watch();
+
+  const onSubmit = async (data: FormData) => {
+    console.log("Form data:", data)
+    // Xử lý logic tạo coin ở đây
+    // Sau khi tạo thành công, reset form và logo preview
+    const res = await TelegramWalletService.createToken(data)
+    console.log("Create token response:", res)
+    // reset()
+    // setLogoPreview(null)
   }
 
   const handleCopyAddress = (address: string) => {
     navigator.clipboard.writeText(address)
     // Có thể thêm thông báo toast ở đây
   }
+
+  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLogoPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <div className="container mx-auto p-6">
@@ -136,19 +154,19 @@ export default function CreateCoin() {
                 <CardTitle>Create New Coin</CardTitle>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium mb-1">
                       Name
                     </label>
                     <Input
                       id="name"
-                      name="name"
-                      placeholder=""
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      required
+                      {...register("name", { required: "Name is required" })}
+                      placeholder="Enter coin name"
                     />
+                    {errors.name && (
+                      <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
+                    )}
                   </div>
 
                   <div>
@@ -157,12 +175,12 @@ export default function CreateCoin() {
                     </label>
                     <Input
                       id="symbol"
-                      name="symbol"
-                      placeholder=""
-                      value={formData.symbol}
-                      onChange={handleInputChange}
-                      required
+                      {...register("symbol", { required: "Symbol is required" })}
+                      placeholder="Enter coin symbol"
                     />
+                    {errors.symbol && (
+                      <p className="text-red-500 text-xs mt-1">{errors.symbol.message}</p>
+                    )}
                   </div>
 
                   <div>
@@ -172,16 +190,17 @@ export default function CreateCoin() {
                     <div className="relative">
                       <Input
                         id="amount"
-                        name="amount"
+                        {...register("amount", { required: "Amount is required" })}
+                        type="number"
                         placeholder="Enter initial liquidity amount in SOL"
-                        value={formData.amount}
-                        onChange={handleInputChange}
-                        required
                       />
                       <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
                         (SOL)
                       </div>
                     </div>
+                    {errors.amount && (
+                      <p className="text-red-500 text-xs mt-1">{errors.amount.message}</p>
+                    )}
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -191,16 +210,14 @@ export default function CreateCoin() {
                       </label>
                       <Textarea
                         id="description"
-                        name="description"
-                        placeholder=""
-                        value={formData.description}
-                        onChange={handleInputChange}
+                        {...register("description")}
+                        placeholder="Enter coin description"
                         className="h-32"
                       />
                     </div>
 
                     <div>
-                      <label htmlFor="logo" className="block text-sm font-medium mb-1">
+                      <label htmlFor="image" className="block text-sm font-medium mb-1">
                         Logo <span className="text-muted-foreground">*</span>
                       </label>
                       <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-md p-4 h-32">
@@ -216,7 +233,6 @@ export default function CreateCoin() {
                               className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center"
                               onClick={() => {
                                 setLogoPreview(null)
-                                setFormData((prev) => ({ ...prev, logo: null }))
                               }}
                             >
                               ×
@@ -241,15 +257,18 @@ export default function CreateCoin() {
                             <span className="text-xs text-muted-foreground mt-2">Click to upload</span>
                             <Input
                               id="logo"
-                              name="logo"
                               type="file"
                               accept="image/*"
                               className="hidden"
+                              {...register("image", { required: "Logo is required" })}
                               onChange={handleLogoChange}
                             />
                           </label>
                         )}
                       </div>
+                      {errors.image && (
+                        <p className="text-red-500 text-xs mt-1">{errors.image.message}</p>
+                      )}
                     </div>
                   </div>
 
@@ -272,10 +291,8 @@ export default function CreateCoin() {
                         </label>
                         <Input
                           id="telegram"
-                          name="telegram"
+                          {...register("telegram")}
                           placeholder="Enter Telegram group link"
-                          value={formData.telegram}
-                          onChange={handleInputChange}
                         />
                       </div>
 
@@ -285,10 +302,8 @@ export default function CreateCoin() {
                         </label>
                         <Input
                           id="website"
-                          name="website"
+                          {...register("website")}
                           placeholder="Enter website URL"
-                          value={formData.website}
-                          onChange={handleInputChange}
                         />
                       </div>
 
@@ -298,10 +313,8 @@ export default function CreateCoin() {
                         </label>
                         <Input
                           id="twitter"
-                          name="twitter"
+                          {...register("twitter")}
                           placeholder="Enter Twitter username"
-                          value={formData.twitter}
-                          onChange={handleInputChange}
                         />
                       </div>
                     </div>
@@ -326,11 +339,11 @@ export default function CreateCoin() {
                         <img
                           src={logoPreview || "/placeholder.svg"}
                           alt="Logo preview"
-                          className="size-48 object-contain mx-auto"
+                          className="size-64 object-contain mx-auto"
                         />
                       </div>
                     ) : (
-                      <div className="w-32 h-32 rounded-full bg-muted flex items-center justify-center mb-4 mx-auto">
+                      <div className="size-64 rounded-full bg-muted flex items-center justify-center mb-4 mx-auto">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-16 w-16 text-muted-foreground"
@@ -347,9 +360,9 @@ export default function CreateCoin() {
                         </svg>
                       </div>
                     )}
-                    <h3 className="text-xl font-bold">{formData.name || "Your Coin Name"}</h3>
-                    <p className="text-sm mt-1">{formData.symbol ? formData.symbol.toUpperCase() : "SYMBOL"}</p>
-                    <p className="mt-4 text-sm">{formData.description || "Your coin description will appear here"}</p>
+                    <h3 className="text-xl font-bold">{watchedValues.name || "Your Coin Name"}</h3>
+                    <p className="text-sm mt-1">{watchedValues.symbol ? watchedValues.symbol.toUpperCase() : "SYMBOL"}</p>
+                    <p className="mt-4 text-sm">{watchedValues.description || "Your coin description will appear here"}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -380,7 +393,7 @@ export default function CreateCoin() {
                         <TableCell>
                           <div className="flex items-center">
                             <Avatar className="h-8 w-8 mr-2">
-                              <img src={coin.image} alt={coin.name} />
+                              <img src={coin.image || "/placeholder.svg"} alt={coin.name} />
                               <p>{coin.symbol.substring(0, 2).toUpperCase()}</p>
                             </Avatar>
                             <span>{coin.name}</span>
@@ -416,4 +429,3 @@ export default function CreateCoin() {
     </div>
   )
 }
-

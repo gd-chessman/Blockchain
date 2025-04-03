@@ -82,7 +82,7 @@ export const deleteWallet = async (item: any)=>{
 
 export const createToken = async (item: any)=>{
     try {
-        const temp = await axiosClient.post("/telegram-wallets/create-token", item)
+        const temp = await axiosClient.post("/telegram-wallets/create-token", item, { headers : {'Content-Type': 'multipart/form-data',}})
         return temp.data;
     } catch (error) {
         console.log(error)
