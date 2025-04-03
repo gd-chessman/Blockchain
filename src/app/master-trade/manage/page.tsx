@@ -20,6 +20,7 @@ import { useLang } from "@/lang/useLang";
 import { MasterTradingService } from "@/services/api";
 import { useQuery } from "@tanstack/react-query";
 import { getMyConnects, getMyGroups } from "@/services/api/MasterTradingService";
+import { useRouter } from "next/navigation";
 
 type Group = {
   mg_id: number;
@@ -63,7 +64,7 @@ export default function ManageMasterTrade() {
     queryKey: ["my-connects-manage"],
     queryFn: getMyConnects,
   });
-
+  const router = useRouter();
   const { t } = useLang();
   const [activeTab, setActiveTab] = useState("connected");
   const [groupName, setGroupName] = useState("");
@@ -172,7 +173,7 @@ export default function ManageMasterTrade() {
     <div className="container mx-auto p-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <h1 className="text-3xl font-bold">{t("masterTrade.manage.title")}</h1>
-        <Button className="mt-4 md:mt-0 bg-green-500 hover:bg-green-600">
+        <Button className="mt-4 md:mt-0 bg-green-500 hover:bg-green-600" onClick={() => router.push("/master-trade")}>
           {t("masterTrade.manage.connectWithOtherMaster")}
         </Button>
       </div>
