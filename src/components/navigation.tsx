@@ -119,7 +119,7 @@ export default function Navigation() {
                 </Button>
               )}
               {isAuthenticated && (
-                <Button className="bg-green-500 hover:bg-green-600 text-white font-medium w-40 block">
+                <Button className="bg-green-500 hover:bg-green-600 text-white font-medium w-36 block">
                   {truncateString(walletInfor?.solana_address, 16)}
                 </Button>
               )}

@@ -141,7 +141,7 @@ export default function Trading() {
                     <span className="text-muted-foreground">Decimals:</span>
                     <span className="text-right">{tokenInfor?.decimals}</span>
                     <span className="text-muted-foreground">Status:</span>
-                    <span className="text-right">
+                    <span className="text-right text-green-600">
                       {tokenInfor?.isVerified ? "✓" : "x"}
                     </span>
                   </div>
