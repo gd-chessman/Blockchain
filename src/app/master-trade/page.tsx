@@ -5,35 +5,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "@/components/ui/table";
 import { Copy, Search } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { t } from "@/lang";
 import { useQuery } from "@tanstack/react-query";
 import { getMasters } from "@/services/api/MasterTradingService";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogFooter,
-  DialogHeader,
-} from "@/components/ui/dialog";
-import {
-  AlertDialogFooter,
-  AlertDialogHeader,
-} from "@/components/ui/alert-dialog";
+import { Dialog, DialogContent, DialogTitle, DialogFooter, DialogHeader,} from "@/components/ui/dialog";
+import { AlertDialogFooter, AlertDialogHeader,} from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { MasterTradingService } from "@/services/api";
 
 export default function MasterTrade() {
-  const { data: masterTraders } = useQuery({
+  const { data: masterTraders = [] } = useQuery({
     queryKey: ["master-trading/masters"],
     queryFn: getMasters,
   });
@@ -45,8 +29,14 @@ export default function MasterTrade() {
   const [isAddWalletOpen, setIsAddWalletOpen] = useState(false);
   const [newWalletName, setNewWalletName] = useState("");
 
-  // Lọc master traders dựa trên tab đang active và từ khóa tìm kiếm
-  const filteredTraders = masterTraders?.filter((trader: any) => {
+  // Count traders by connection status for tab indicators
+  const notConnectedCount = masterTraders.filter((trader: any) => trader.connection_status === null).length;
+  const connectedCount = masterTraders.filter((trader: any) => trader.connection_status === "connect").length;
+  const disconnectedCount = masterTraders.filter((trader: any) => trader.connection_status === "disconnect").length;
+  const pendingCount = masterTraders.filter((trader: any) => trader.connection_status === "pending").length;
+
+  // Fixed filter function to match the actual connection_status values
+  const filteredTraders = masterTraders.filter((trader: any) => {
     const matchesSearch = trader.solana_address
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
@@ -57,9 +47,9 @@ export default function MasterTrade() {
       case "connect":
         return matchesSearch && trader.connection_status === "connect";
       case "disconnect":
-        return matchesSearch && trader.connection_status === "Disconnected";
+        return matchesSearch && trader.connection_status === "disconnect";
       case "pending":
-        return matchesSearch && trader.connection_status === "Pending";
+        return matchesSearch && trader.connection_status === "pending";
       default:
         return matchesSearch;
     }
@@ -70,7 +60,7 @@ export default function MasterTrade() {
     setIsConnectModalOpen(true);
   };
 
-  const handleCopyAddress = (address: string) => {
+  const handleCopyAddress = (address: any) => {
     navigator.clipboard.writeText(address);
     // Có thể thêm thông báo toast ở đây
   };
@@ -91,6 +81,15 @@ export default function MasterTrade() {
     setMaxCopyAmount("");
   };
 
+
+  const handleDisconnect = async (disconnect: any)=>{
+    const data = {
+      master_wallet_id: disconnect.id,
+      status: "disconnect"
+    };
+    await MasterTradingService.masterSetConnect(data)
+  }
+
   return (
     <div className="container mx-auto p-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
@@ -110,10 +109,10 @@ export default function MasterTrade() {
 
       <Tabs defaultValue="not-connected" onValueChange={setActiveTab}>
         <TabsList className="grid grid-cols-4 mb-6">
-          <TabsTrigger value="not-connected">Not Connected (5)</TabsTrigger>
-          <TabsTrigger value="connect">Connected (0)</TabsTrigger>
-          <TabsTrigger value="disconnect">Disconnected (0)</TabsTrigger>
-          <TabsTrigger value="pending">Pending (0)</TabsTrigger>
+          <TabsTrigger value="not-connected">Not Connected ({notConnectedCount})</TabsTrigger>
+          <TabsTrigger value="connect">Connected ({connectedCount})</TabsTrigger>
+          <TabsTrigger value="disconnect">Disconnected ({disconnectedCount})</TabsTrigger>
+          <TabsTrigger value="pending">Pending ({pendingCount})</TabsTrigger>
         </TabsList>
 
         <TabsContent value="not-connected">
@@ -132,53 +131,61 @@ export default function MasterTrade() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filteredTraders?.map((trader: any) => (
-                      <TableRow key={trader.id} className="hover:bg-muted/30">
-                        <TableCell className="font-medium">
-                          <div className="w-64 truncate">
-                            {trader.solana_address}
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-8 w-8 ml-2"
-                              onClick={() =>
-                                handleCopyAddress(trader.eth_address)
+                    {filteredTraders.length > 0 ? (
+                      filteredTraders.map((trader: any) => (
+                        <TableRow key={trader.id} className="hover:bg-muted/30">
+                          <TableCell className="font-medium">
+                            <div className="w-64 truncate">
+                              {trader.solana_address}
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8 ml-2"
+                                onClick={() =>
+                                  handleCopyAddress(trader.solana_address)
+                                }
+                              >
+                                <Copy className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge
+                              variant={
+                                trader.type === "VIP" ? "default" : "outline"
+                              }
+                              className={
+                                trader.type === "VIP"
+                                  ? "bg-purple-500 hover:bg-purple-600"
+                                  : ""
                               }
                             >
-                              <Copy className="h-4 w-4" />
+                              {trader.type}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <span className="text-muted-foreground">
+                              {trader.connection_status === null ? "Not Connected" : trader.connection_status}
+                            </span>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <Button
+                              size="sm"
+                              className="border-primary border-solid border-2 text-white"
+                              onClick={() => handleConnect(trader)}
+                            >
+                              Connect
                             </Button>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <Badge
-                            variant={
-                              trader.type === "VIP" ? "default" : "outline"
-                            }
-                            className={
-                              trader.type === "VIP"
-                                ? "bg-purple-500 hover:bg-purple-600"
-                                : ""
-                            }
-                          >
-                            {trader.type}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <span className="text-muted-foreground">
-                            {trader.connection_status || "Not Connected"}
-                          </span>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <Button
-                            size="sm"
-                            className="border-primary border-solid border-2 text-white"
-                            onClick={() => handleConnect(trader)}
-                          >
-                            Connect
-                          </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
+                          No traders found
                         </TableCell>
                       </TableRow>
-                    ))}
+                    )}
                   </TableBody>
                 </Table>
               </div>
@@ -186,27 +193,157 @@ export default function MasterTrade() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="connected">
+        <TabsContent value="connect">
           <Card className="border-none shadow-md dark:shadow-blue-900/5">
-            <CardHeader>
-              <CardTitle>Connected Masters</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-center p-8 text-muted-foreground">
-                No connected masters found
+            <CardContent className="p-0">
+              <div className="rounded-lg overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-muted/50">
+                      <TableHead className="w-[300px]">
+                        Wallet Address
+                      </TableHead>
+                      <TableHead>Type</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredTraders.length > 0 ? (
+                      filteredTraders.map((trader: any) => (
+                        <TableRow key={trader.id} className="hover:bg-muted/30">
+                          <TableCell className="font-medium">
+                            <div className="w-64 truncate">
+                              {trader.solana_address}
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8 ml-2"
+                                onClick={() =>
+                                  handleCopyAddress(trader.solana_address)
+                                }
+                              >
+                                <Copy className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge
+                              variant={
+                                trader.type === "VIP" ? "default" : "outline"
+                              }
+                              className={
+                                trader.type === "VIP"
+                                  ? "bg-purple-500 hover:bg-purple-600"
+                                  : ""
+                              }
+                            >
+                              {trader.type}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <span className="text-muted-foreground">
+                              {trader.connection_status}
+                            </span>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => handleDisconnect(trader)}
+                            >
+                              Disconnect
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
+                          No connected masters found
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
 
-        <TabsContent value="disconnected">
+        <TabsContent value="disconnect">
           <Card className="border-none shadow-md dark:shadow-blue-900/5">
-            <CardHeader>
-              <CardTitle>Disconnected Masters</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-center p-8 text-muted-foreground">
-                No disconnected masters found
+            <CardContent className="p-0">
+              <div className="rounded-lg overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-muted/50">
+                      <TableHead className="w-[300px]">
+                        Wallet Address
+                      </TableHead>
+                      <TableHead>Type</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredTraders.length > 0 ? (
+                      filteredTraders.map((trader: any) => (
+                        <TableRow key={trader.id} className="hover:bg-muted/30">
+                          <TableCell className="font-medium">
+                            <div className="w-64 truncate">
+                              {trader.solana_address}
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8 ml-2"
+                                onClick={() =>
+                                  handleCopyAddress(trader.solana_address)
+                                }
+                              >
+                                <Copy className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge
+                              variant={
+                                trader.type === "VIP" ? "default" : "outline"
+                              }
+                              className={
+                                trader.type === "VIP"
+                                  ? "bg-purple-500 hover:bg-purple-600"
+                                  : ""
+                              }
+                            >
+                              {trader.type}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <span className="text-muted-foreground">
+                              {trader.connection_status}
+                            </span>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <Button
+                              size="sm"
+                              className="border-primary border-solid border-2 text-white"
+                              onClick={() => handleConnect(trader)}
+                            >
+                              Reconnect
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
+                          No disconnected masters found
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
               </div>
             </CardContent>
           </Card>
@@ -214,12 +351,77 @@ export default function MasterTrade() {
 
         <TabsContent value="pending">
           <Card className="border-none shadow-md dark:shadow-blue-900/5">
-            <CardHeader>
-              <CardTitle>Pending Connections</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-center p-8 text-muted-foreground">
-                No pending connections found
+            <CardContent className="p-0">
+              <div className="rounded-lg overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-muted/50">
+                      <TableHead className="w-[300px]">
+                        Wallet Address
+                      </TableHead>
+                      <TableHead>Type</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredTraders.length > 0 ? (
+                      filteredTraders.map((trader: any) => (
+                        <TableRow key={trader.id} className="hover:bg-muted/30">
+                          <TableCell className="font-medium">
+                            <div className="w-64 truncate">
+                              {trader.solana_address}
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8 ml-2"
+                                onClick={() =>
+                                  handleCopyAddress(trader.solana_address)
+                                }
+                              >
+                                <Copy className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge
+                              variant={
+                                trader.type === "VIP" ? "default" : "outline"
+                              }
+                              className={
+                                trader.type === "VIP"
+                                  ? "bg-purple-500 hover:bg-purple-600"
+                                  : ""
+                              }
+                            >
+                              {trader.type}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <span className="text-muted-foreground">
+                              {trader.connection_status}
+                            </span>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleConnect(trader)}
+                            >
+                              Cancel
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
+                          No pending connections found
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
               </div>
             </CardContent>
           </Card>
