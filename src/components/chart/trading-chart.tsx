@@ -62,8 +62,8 @@ export const generateChartData = (days = 30, startPrice = 43000): ChartDataPoint
       high: Number.parseFloat(high.toFixed(2)),
       low: Number.parseFloat(low.toFixed(2)),
       volume,
-      ma7: null,
-      ma25: null,
+      ma7: 0,
+      ma25: 0,
     })
   }
 
@@ -74,7 +74,7 @@ export const generateChartData = (days = 30, startPrice = 43000): ChartDataPoint
       for (let j = i - 6; j <= i; j++) {
         sum += data[j].close
       }
-      data[i].ma7 = Number.parseFloat((sum / 7).toFixed(2)) as number | null
+      data[i].ma7 = Number.parseFloat((sum / 7).toFixed(2))
     }
 
     if (i >= 24) {
@@ -122,7 +122,7 @@ export default function TradingChart({ data, symbol = "BTC/USDT", onTimeframeCha
 
   return (
     <>
-      <div className="h-[400px] border rounded-md bg-white/50 dark:bg-gray-900/50 overflow-hidden">
+      <div className="h-[364px] border rounded-md bg-white/50 dark:bg-gray-900/50 overflow-hidden">
         <ChartContainer
           config={{
             price: {
