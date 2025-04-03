@@ -11,6 +11,8 @@ import {
   Wallet,
   Menu,
   Coins,
+  LogOut,
+  Wallet2,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -22,6 +24,12 @@ import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { getInforWallets } from "@/services/api/TelegramWalletService";
 import { truncateString } from "@/utils/format";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Navigation() {
   const { data: walletInfor, refetch } = useQuery({
@@ -119,9 +127,23 @@ export default function Navigation() {
                 </Button>
               )}
               {isAuthenticated && (
-                <Button className="bg-green-500 hover:bg-green-600 text-white font-medium w-36 block">
-                  {truncateString(walletInfor?.solana_address, 14)}
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button className="bg-green-500 hover:bg-green-600 text-white font-medium w-36 block">
+                      {truncateString(walletInfor?.solana_address, 14)}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuItem className="cursor-pointer">
+                      <Wallet2 className="mr-2 h-4 w-4" />
+                      <span>Select Wallet</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="cursor-pointer text-red-600" onClick={logout}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Disconnect</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               )}
             </>
           )}
