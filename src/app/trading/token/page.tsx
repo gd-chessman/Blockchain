@@ -22,6 +22,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { getTokenInforByAddress } from "@/services/api/SolonaTokenService";
 import { useQuery } from "@tanstack/react-query";
 import { useWebSocket } from "@/hooks/useWebSocket";
+import Link from "next/link";
 const chartData = generateChartData();
 
 export default function Trading() {
@@ -159,12 +160,14 @@ export default function Trading() {
                 <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50 max-h-[64vh] overflow-auto">
                   <div className="space-y-4">
                     {tokens.map((token, index) => (
-                      <div
+                      <Link
                         key={index} // Assuming token has an 'id' field
                         className={`flex text-sm gap-6 cursor-pointer ${
                           index < tokens.length - 1 ? "border-b-2 pb-2" : ""
                         }`}
+                        href={`/trading/token?address=${token.address}`}
                       >
+                        
                         <img
                            src={token.logoUrl}
                           alt=""
@@ -177,7 +180,7 @@ export default function Trading() {
                         <small className="text-green-600 text-xl ml-auto block">
                           {token.isVerified ? " ✓" : "x"}
                         </small>
-                      </div>
+                      </Link>
                     ))}
                   </div>
                 </div>
