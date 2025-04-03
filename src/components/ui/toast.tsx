@@ -140,14 +140,20 @@ export const ToastNotification = ({ message, duration = 3000, onClose }: ToastNo
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ y: -100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -100, opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50"
+          initial={{ y: -100, opacity: 0, scale: 0.8 }}
+          animate={{ y: 0, opacity: 1, scale: 1 }}
+          exit={{ y: -100, opacity: 0, scale: 0.8 }}
+          transition={{ 
+            duration: 0.3,
+            ease: [0.4, 0, 0.2, 1]
+          }}
+          className="fixed top-12 left-1/2 transform -translate-x-1/2 z-50"
         >
-          <div className="bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg">
-            {message}
+          <div className="bg-white dark:bg-gray-800 px-4 py-3 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            <span className="text-gray-900 dark:text-gray-100 text-sm font-medium">
+              {message}
+            </span>
           </div>
         </motion.div>
       )}
