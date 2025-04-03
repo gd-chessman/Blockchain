@@ -472,5 +472,55 @@
   },
   "common": {
       "actions": "Actions"
+  },
+  "createCoin": {
+    "title": "Create New Coin",
+    "subtitle": "Create and manage your own meme coins",
+    "tabs": {
+      "create": "Create New Coin",
+      "myCoins": "My Coins"
+    },
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "Enter coin name",
+      "nameRequired": "Name is required",
+      "symbol": "Symbol",
+      "symbolPlaceholder": "Enter coin symbol",
+      "symbolRequired": "Symbol is required",
+      "amount": "Amount",
+      "amountPlaceholder": "Enter initial liquidity amount in SOL",
+      "amountRequired": "Amount is required",
+      "description": "Description",
+      "descriptionPlaceholder": "Enter coin description",
+      "logo": "Logo",
+      "logoRequired": "Logo is required",
+      "logoUpload": "Click to upload",
+      "showOptions": "Show Options",
+      "hideOptions": "Hide Options",
+      "telegram": "Telegram",
+      "telegramPlaceholder": "Enter Telegram group link",
+      "website": "Website",
+      "websitePlaceholder": "Enter website URL",
+      "twitter": "Twitter",
+      "twitterPlaceholder": "Enter Twitter username",
+      "createButton": "Create Coin"
+    },
+    "preview": {
+      "title": "Preview",
+      "defaultName": "Your Coin Name",
+      "defaultSymbol": "SYMBOL",
+      "defaultDescription": "Your coin description will appear here"
+    },
+    "myCoins": {
+      "title": "My Coins",
+      "columns": {
+        "coin": "Meme Coin",
+        "symbol": "Symbol",
+        "address": "Address",
+        "decimals": "Decimals",
+        "actions": "Actions"
+      },
+      "tradeButton": "Trade"
+    }
   }
 }

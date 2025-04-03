@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Pencil, TrendingUp } from "lucide-react";
 import { useEffect, useState } from "react";
-import { t } from "@/lang";
+import { useLang } from "@/lang";
 import { Copy } from "lucide-react";
 import { toast } from "react-toastify";
 import TradingChart, {
@@ -36,6 +36,7 @@ interface Order {
 const chartData = generateChartData();
 
 export default function Trading() {
+  const { t } = useLang();
   const { messages } = useWebSocket();
   const [tokens, setTokens] = useState<
     {

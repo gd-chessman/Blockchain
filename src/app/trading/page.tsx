@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { t } from "@/lang";
+import { useLang } from "@/lang";
 import { useRouter } from "next/navigation";
 import { Search, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -20,6 +20,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 
 export default function Trading() {
   const router = useRouter();
+  const { t } = useLang();
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery, 2000); // 2 seconds delay
   const [isSearching, setIsSearching] = useState(false);
@@ -87,23 +88,11 @@ export default function Trading() {
   // Use search results if available, otherwise use WebSocket data
   const displayTokens = debouncedSearchQuery.trim() ? searchResults : tokens;
 
-  // Pre-compute translations to avoid hook calls in render
-  const translations = {
-    listTokenTitle: t("trading.list_token_title"),
-    token: t("trading.token"),
-    symbol: t("trading.symbol"),
-    address: t("trading.address"),
-    decimals: t("trading.decimals"),
-    verified: t("trading.verified"),
-    action: t("trading.action"),
-    buy: t("trading.buy")
-  };
-
   return (
     <div className="container mx-auto p-6">
       <Card className="mb-6 border-none shadow-md dark:shadow-blue-900/5">
         <CardHeader className="flex justify-between flex-row items-center">
-          <CardTitle>{translations.listTokenTitle}</CardTitle>
+          <CardTitle>{t("trading.list_token_title")}</CardTitle>
           <div className="relative w-full md:w-auto mt-4 md:mt-0">
             {isSearching ? (
               <Loader2 className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground animate-spin" />
@@ -134,12 +123,12 @@ export default function Trading() {
               <Table>
                 <TableHeader>
                   <TableRow className="bg-muted/50">
-                    <TableHead>{translations.token}</TableHead>
-                    <TableHead>{translations.symbol}</TableHead>
-                    <TableHead>{translations.address}</TableHead>
-                    <TableHead>{translations.decimals}</TableHead>
-                    <TableHead>{translations.verified}</TableHead>
-                    <TableHead>{translations.action}</TableHead>
+                    <TableHead>{t("trading.token")}</TableHead>
+                    <TableHead>{t("trading.symbol")}</TableHead>
+                    <TableHead>{t("trading.address")}</TableHead>
+                    <TableHead>{t("trading.decimals")}</TableHead>
+                    <TableHead>{t("trading.verified")}</TableHead>
+                    <TableHead>{t("trading.action")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -172,7 +161,7 @@ export default function Trading() {
                             size="sm"
                             className="bg-blue-50 dark:bg-blue-900/20 text-green-600 dark:text-green-300 border-green-200 dark:border-green-800 hover:bg-green-100 dark:hover:bg-green-900/30"
                           >
-                            {translations.buy}
+                            {t("trading.buy")}
                           </Button>
                         </div>
                       </TableCell>

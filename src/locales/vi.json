@@ -459,5 +459,55 @@
       "keyCopied": "Đã sao chép khóa riêng tư vào bộ nhớ tạm!",
       "keyFailed": "Không thể sao chép khóa riêng tư",
       "securityWarning": "Không bao giờ chia sẻ khóa riêng tư của bạn với bất kỳ ai!"
+  },
+  "createCoin": {
+    "title": "Tạo Coin Mới",
+    "subtitle": "Tạo và quản lý meme coin của riêng bạn",
+    "tabs": {
+      "create": "Tạo Coin Mới",
+      "myCoins": "Coin Của Tôi"
+    },
+    "form": {
+      "name": "Tên",
+      "namePlaceholder": "Nhập tên coin",
+      "nameRequired": "Vui lòng nhập tên",
+      "symbol": "Ký hiệu",
+      "symbolPlaceholder": "Nhập ký hiệu coin",
+      "symbolRequired": "Vui lòng nhập ký hiệu",
+      "amount": "Số lượng",
+      "amountPlaceholder": "Nhập số lượng thanh khoản ban đầu bằng SOL",
+      "amountRequired": "Vui lòng nhập số lượng",
+      "description": "Mô tả",
+      "descriptionPlaceholder": "Nhập mô tả coin",
+      "logo": "Logo",
+      "logoRequired": "Vui lòng tải lên logo",
+      "logoUpload": "Nhấp để tải lên",
+      "showOptions": "Hiện Tùy Chọn",
+      "hideOptions": "Ẩn Tùy Chọn",
+      "telegram": "Telegram",
+      "telegramPlaceholder": "Nhập liên kết nhóm Telegram",
+      "website": "Trang web",
+      "websitePlaceholder": "Nhập URL trang web",
+      "twitter": "Twitter",
+      "twitterPlaceholder": "Nhập tên người dùng Twitter",
+      "createButton": "Tạo Coin"
+    },
+    "preview": {
+      "title": "Xem Trước",
+      "defaultName": "Tên Coin Của Bạn",
+      "defaultSymbol": "KÝ HIỆU",
+      "defaultDescription": "Mô tả coin của bạn sẽ hiển thị ở đây"
+    },
+    "myCoins": {
+      "title": "Coin Của Tôi",
+      "columns": {
+        "coin": "Meme Coin",
+        "symbol": "Ký hiệu",
+        "address": "Địa chỉ",
+        "decimals": "Số thập phân",
+        "actions": "Thao tác"
+      },
+      "tradeButton": "Giao dịch"
+    }
   }
 }

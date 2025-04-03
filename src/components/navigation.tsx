@@ -17,7 +17,7 @@ import {
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Logo } from "./logo";
-import { t } from "@/lang";
+import { useLang } from "@/lang";
 import { LangToggle } from "./lang-toggle";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
@@ -40,6 +40,7 @@ export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAuthenticated, logout } = useAuth();
   const [mounted, setMounted] = useState(false);
+  const { t } = useLang();
 
   useEffect(() => {
     setMounted(true);

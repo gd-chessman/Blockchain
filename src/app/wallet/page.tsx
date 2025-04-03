@@ -25,7 +25,7 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { t } from "@/lang";
+import { useLang } from "@/lang";
 import { useQuery } from "@tanstack/react-query";
 import {
   getInforWallets,
@@ -48,6 +48,7 @@ import { TelegramWalletService } from "@/services/api";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function Wallet() {
+  const { t } = useLang();
   const { payloadToken, updateToken } = useAuth();
   const [isDerivingAddress, setIsDerivingAddress] = useState(false);
   const [walletName, setWalletName] = useState("-");

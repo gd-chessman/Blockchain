@@ -461,5 +461,55 @@
     },
     "common": {
         "actions": "アクション"
+    },
+    "createCoin": {
+        "title": "新規コイン作成",
+        "subtitle": "独自のミームコインを作成・管理",
+        "tabs": {
+            "create": "新規コイン作成",
+            "myCoins": "マイコイン"
+        },
+        "form": {
+            "name": "名前",
+            "namePlaceholder": "コイン名を入力",
+            "nameRequired": "名前は必須です",
+            "symbol": "シンボル",
+            "symbolPlaceholder": "コインシンボルを入力",
+            "symbolRequired": "シンボルは必須です",
+            "amount": "数量",
+            "amountPlaceholder": "初期流動性のSOL数量を入力",
+            "amountRequired": "数量は必須です",
+            "description": "説明",
+            "descriptionPlaceholder": "コインの説明を入力",
+            "logo": "ロゴ",
+            "logoRequired": "ロゴは必須です",
+            "logoUpload": "クリックしてアップロード",
+            "showOptions": "オプションを表示",
+            "hideOptions": "オプションを非表示",
+            "telegram": "Telegram",
+            "telegramPlaceholder": "Telegramグループリンクを入力",
+            "website": "ウェブサイト",
+            "websitePlaceholder": "ウェブサイトURLを入力",
+            "twitter": "Twitter",
+            "twitterPlaceholder": "Twitterユーザー名を入力",
+            "createButton": "コインを作成"
+        },
+        "preview": {
+            "title": "プレビュー",
+            "defaultName": "あなたのコイン名",
+            "defaultSymbol": "シンボル",
+            "defaultDescription": "コインの説明がここに表示されます"
+        },
+        "myCoins": {
+            "title": "マイコイン",
+            "columns": {
+                "coin": "ミームコイン",
+                "symbol": "シンボル",
+                "address": "アドレス",
+                "decimals": "小数点以下桁数",
+                "actions": "アクション"
+            },
+            "tradeButton": "取引"
+        }
     }
 }

@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form"
 import { TelegramWalletService } from "@/services/api"
 import { useQuery } from "@tanstack/react-query"
 import { getMyTokens } from "@/services/api/TelegramWalletService"
+import { useLang } from "@/lang"
 
 // Dữ liệu mẫu cho danh sách coin
 
@@ -37,6 +38,7 @@ export default function CreateCoin() {
     queryKey: ['private-keys'],
     queryFn: getMyTokens,
   });
+  const { t } = useLang();
   const { 
     register, 
     handleSubmit, 
@@ -85,32 +87,32 @@ export default function CreateCoin() {
   return (
     <div className="container mx-auto p-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-        <h1 className="text-3xl font-bold">Create New Coin</h1>
-        <div className="text-sm text-muted-foreground mt-2 md:mt-0">Create and manage your own meme coins</div>
+        <h1 className="text-3xl font-bold">{t('createCoin.title')}</h1>
+        <div className="text-sm text-muted-foreground mt-2 md:mt-0">{t('createCoin.subtitle')}</div>
       </div>
 
       <Tabs defaultValue="create" className="w-full">
         <TabsList className="grid grid-cols-2 w-full md:w-[400px] mb-6">
-          <TabsTrigger value="create">Create New Coin</TabsTrigger>
-          <TabsTrigger value="my-coins">My Coins</TabsTrigger>
+          <TabsTrigger value="create">{t('createCoin.tabs.create')}</TabsTrigger>
+          <TabsTrigger value="my-coins">{t('createCoin.tabs.myCoins')}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="create">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card className="border-none shadow-md dark:shadow-blue-900/5">
               <CardHeader>
-                <CardTitle>Create New Coin</CardTitle>
+                <CardTitle>{t('createCoin.tabs.create')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium mb-1">
-                      Name
+                      {t('createCoin.form.name')}
                     </label>
                     <Input
                       id="name"
-                      {...register("name", { required: "Name is required" })}
-                      placeholder="Enter coin name"
+                      {...register("name", { required: t('createCoin.form.nameRequired') })}
+                      placeholder={t('createCoin.form.namePlaceholder')}
                     />
                     {errors.name && (
                       <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
@@ -119,12 +121,12 @@ export default function CreateCoin() {
 
                   <div>
                     <label htmlFor="symbol" className="block text-sm font-medium mb-1">
-                      Symbol
+                      {t('createCoin.form.symbol')}
                     </label>
                     <Input
                       id="symbol"
-                      {...register("symbol", { required: "Symbol is required" })}
-                      placeholder="Enter coin symbol"
+                      {...register("symbol", { required: t('createCoin.form.symbolRequired') })}
+                      placeholder={t('createCoin.form.symbolPlaceholder')}
                     />
                     {errors.symbol && (
                       <p className="text-red-500 text-xs mt-1">{errors.symbol.message}</p>
@@ -133,14 +135,14 @@ export default function CreateCoin() {
 
                   <div>
                     <label htmlFor="amount" className="block text-sm font-medium mb-1">
-                      Amount
+                      {t('createCoin.form.amount')}
                     </label>
                     <div className="relative">
                       <Input
                         id="amount"
-                        {...register("amount", { required: "Amount is required" })}
+                        {...register("amount", { required: t('createCoin.form.amountRequired') })}
                         type="number"
-                        placeholder="Enter initial liquidity amount in SOL"
+                        placeholder={t('createCoin.form.amountPlaceholder')}
                       />
                       <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
                         (SOL)
@@ -154,19 +156,19 @@ export default function CreateCoin() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="description" className="block text-sm font-medium mb-1">
-                        Description
+                        {t('createCoin.form.description')}
                       </label>
                       <Textarea
                         id="description"
                         {...register("description")}
-                        placeholder="Enter coin description"
+                        placeholder={t('createCoin.form.descriptionPlaceholder')}
                         className="h-32"
                       />
                     </div>
 
                     <div>
                       <label htmlFor="image" className="block text-sm font-medium mb-1">
-                        Logo <span className="text-muted-foreground">*</span>
+                        {t('createCoin.form.logo')} <span className="text-muted-foreground">*</span>
                       </label>
                       <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-md p-4 h-32">
                         {logoPreview ? (
@@ -202,13 +204,13 @@ export default function CreateCoin() {
                                 d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                               />
                             </svg>
-                            <span className="text-xs text-muted-foreground mt-2">Click to upload</span>
+                            <span className="text-xs text-muted-foreground mt-2">{t('createCoin.form.logoUpload')}</span>
                             <Input
                               id="logo"
                               type="file"
                               accept="image/*"
                               className="hidden"
-                              {...register("image", { required: "Logo is required" })}
+                              {...register("image", { required: t('createCoin.form.logoRequired') })}
                               onChange={handleLogoChange}
                             />
                           </label>
@@ -227,7 +229,7 @@ export default function CreateCoin() {
                       className="p-0 h-auto text-blue-500"
                       onClick={() => setShowAdvanced(!showAdvanced)}
                     >
-                      {showAdvanced ? "Hide Options" : "Show Options"}
+                      {showAdvanced ? t('createCoin.form.hideOptions') : t('createCoin.form.showOptions')}
                     </Button>
                   </div>
 
@@ -235,41 +237,41 @@ export default function CreateCoin() {
                     <div className="space-y-4 pt-2">
                       <div>
                         <label htmlFor="telegram" className="block text-sm font-medium mb-1">
-                          Telegram
+                          {t('createCoin.form.telegram')}
                         </label>
                         <Input
                           id="telegram"
                           {...register("telegram")}
-                          placeholder="Enter Telegram group link"
+                          placeholder={t('createCoin.form.telegramPlaceholder')}
                         />
                       </div>
 
                       <div>
                         <label htmlFor="website" className="block text-sm font-medium mb-1">
-                          Website
+                          {t('createCoin.form.website')}
                         </label>
                         <Input
                           id="website"
                           {...register("website")}
-                          placeholder="Enter website URL"
+                          placeholder={t('createCoin.form.websitePlaceholder')}
                         />
                       </div>
 
                       <div>
                         <label htmlFor="twitter" className="block text-sm font-medium mb-1">
-                          Twitter
+                          {t('createCoin.form.twitter')}
                         </label>
                         <Input
                           id="twitter"
                           {...register("twitter")}
-                          placeholder="Enter Twitter username"
+                          placeholder={t('createCoin.form.twitterPlaceholder')}
                         />
                       </div>
                     </div>
                   )}
 
                   <Button type="submit" className="w-full bg-green-500 hover:bg-green-600 mt-6">
-                    Create Coin
+                    {t('createCoin.form.createButton')}
                   </Button>
                 </form>
               </CardContent>
@@ -278,7 +280,7 @@ export default function CreateCoin() {
             <div className="hidden md:block">
               <Card className="border-none shadow-md dark:shadow-blue-900/5 h-full">
                 <CardHeader>
-                  <CardTitle>Preview</CardTitle>
+                  <CardTitle>{t('createCoin.preview.title')}</CardTitle>
                 </CardHeader>
                 <CardContent className="flex flex-col items-center justify-center h-full">
                   <div className="text-center text-muted-foreground">
@@ -308,9 +310,9 @@ export default function CreateCoin() {
                         </svg>
                       </div>
                     )}
-                    <h3 className="text-xl font-bold">{watchedValues.name || "Your Coin Name"}</h3>
-                    <p className="text-sm mt-1">{watchedValues.symbol ? watchedValues.symbol.toUpperCase() : "SYMBOL"}</p>
-                    <p className="mt-4 text-sm">{watchedValues.description || "Your coin description will appear here"}</p>
+                    <h3 className="text-xl font-bold">{watchedValues.name || t('createCoin.preview.defaultName')}</h3>
+                    <p className="text-sm mt-1">{watchedValues.symbol ? watchedValues.symbol.toUpperCase() : t('createCoin.preview.defaultSymbol')}</p>
+                    <p className="mt-4 text-sm">{watchedValues.description || t('createCoin.preview.defaultDescription')}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -321,18 +323,18 @@ export default function CreateCoin() {
         <TabsContent value="my-coins">
           <Card className="border-none shadow-md dark:shadow-blue-900/5">
             <CardHeader>
-              <CardTitle>My Coins</CardTitle>
+              <CardTitle>{t('createCoin.myCoins.title')}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="rounded-lg overflow-hidden">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/50">
-                      <TableHead>Meme Coin</TableHead>
-                      <TableHead>Symbol</TableHead>
-                      <TableHead>Address</TableHead>
-                      <TableHead>Decimals</TableHead>
-                      <TableHead>Actions</TableHead>
+                      <TableHead>{t('createCoin.myCoins.columns.coin')}</TableHead>
+                      <TableHead>{t('createCoin.myCoins.columns.symbol')}</TableHead>
+                      <TableHead>{t('createCoin.myCoins.columns.address')}</TableHead>
+                      <TableHead>{t('createCoin.myCoins.columns.decimals')}</TableHead>
+                      <TableHead>{t('createCoin.myCoins.columns.actions')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -362,7 +364,7 @@ export default function CreateCoin() {
                         </TableCell>
                         <TableCell>{coin.decimals}</TableCell>
                         <TableCell>
-                          <Button className="bg-green-500 hover:bg-green-600 text-white h-8">Trade</Button>
+                          <Button className="bg-green-500 hover:bg-green-600 text-white h-8">{t('createCoin.myCoins.tradeButton')}</Button>
                         </TableCell>
                       </TableRow>
                     ))}

@@ -3,8 +3,9 @@ import vi from '../locales/vi.json';
 import kr from '../locales/kr.json';
 import jp from '../locales/jp.json';
 import { useLang } from '@/lang/useLang';
+import { LangProvider } from '@/lang/LangProvider';
 
-type LangCodes = 'en' | 'vi' | 'kr' | 'jp';
+export type LangCodes = 'en' | 'vi' | 'kr' | 'jp';
 
 // Định nghĩa kiểu dữ liệu có thể chứa object lồng nhau
 type Translations = { [key: string]: string | Translations };
@@ -37,8 +38,11 @@ const getNestedTranslation = (translations: Translations, key: string): string =
   }, translations as Translations) as string || key;
 };
 
-export const t = (key: string) => {
-  const { lang } = useLang();  
-  const translations = langConfig.langsApp[lang as LangCodes] || {}; 
+// Export the translation function that takes language as a parameter
+export const getTranslation = (lang: LangCodes) => (key: string) => {
+  const translations = langConfig.langsApp[lang] || {};
   return getNestedTranslation(translations, key);
 };
+
+// Re-export useLang and LangProvider
+export { useLang, LangProvider };
