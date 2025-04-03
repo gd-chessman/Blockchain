@@ -14,6 +14,7 @@ import { TelegramWalletService } from "@/services/api"
 import { useQuery } from "@tanstack/react-query"
 import { getMyTokens } from "@/services/api/TelegramWalletService"
 import { useLang } from "@/lang"
+import { toast } from "react-toastify"
 
 // Dữ liệu mẫu cho danh sách coin
 
@@ -66,6 +67,7 @@ export default function CreateCoin() {
     // const res = await TelegramWalletService.createToken(data)
     reset()
     setLogoPreview(null);
+    toast.success("Add Coin Success")
     refetch()
   }
 
