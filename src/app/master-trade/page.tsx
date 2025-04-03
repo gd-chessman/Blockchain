@@ -11,6 +11,9 @@ import { Badge } from "@/components/ui/badge"
 import { t } from "@/lang"
 import { useQuery } from "@tanstack/react-query"
 import { getMasters } from "@/services/api/MasterTradingService"
+import { Dialog, DialogContent, DialogTitle, DialogFooter, DialogHeader } from "@/components/ui/dialog"
+import { AlertDialogFooter, AlertDialogHeader } from "@/components/ui/alert-dialog"
+import { Label } from "@/components/ui/label"
 
 export default function MasterTrade() {
   const { data: masterTraders } = useQuery({
@@ -19,6 +22,12 @@ export default function MasterTrade() {
   });
   const [activeTab, setActiveTab] = useState("not-connected")
   const [searchQuery, setSearchQuery] = useState("")
+  const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
+  const [selectedTrader, setSelectedTrader] = useState<any>(null);
+  const [maxCopyAmount, setMaxCopyAmount] = useState("");
+  const [isAddWalletOpen, setIsAddWalletOpen] = useState(false);
+  const [newWalletName, setNewWalletName] = useState("");
+
   // Lọc master traders dựa trên tab đang active và từ khóa tìm kiếm
   const filteredTraders = masterTraders.filter((trader: any) => {
     const matchesSearch = trader.eth_address.toLowerCase().includes(searchQuery.toLowerCase())
@@ -37,15 +46,21 @@ export default function MasterTrade() {
     }
   })
 
-  const handleConnect = (traderId: number) => {
-    console.log(`Connecting to trader with ID: ${traderId}`)
-    // Xử lý logic kết nối ở đây
-  }
+  const handleConnect = (trader: any) => {
+    setSelectedTrader(trader);
+    setIsConnectModalOpen(true);
+  };
 
   const handleCopyAddress = (address: string) => {
     navigator.clipboard.writeText(address)
     // Có thể thêm thông báo toast ở đây
   }
+
+  const handleAddWallet = () => {
+    console.log(`Adding wallet: ${newWalletName}`);
+    setIsAddWalletOpen(false);
+    setNewWalletName("");
+  };
 
   return (
     <div className="container mx-auto p-6">
@@ -114,7 +129,7 @@ export default function MasterTrade() {
                           <Button
                             size="sm"
                             className="border-primary border-solid border-2 text-white"
-                            onClick={() => handleConnect(trader.id)}
+                            onClick={() => handleConnect(trader)}
                           >
                             Connect
                           </Button>
@@ -167,6 +182,92 @@ export default function MasterTrade() {
           </Card>
         </TabsContent>
       </Tabs>
+      <Dialog open={isAddWalletOpen} onOpenChange={setIsAddWalletOpen}>
+        <DialogContent className="sm:max-w-[425px] bg-card">
+          <AlertDialogHeader>
+            <DialogTitle className="text-2xl font-bold">
+              Add New Wallet
+            </DialogTitle>
+          </AlertDialogHeader>
+
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="wallet-name">Wallet Name</Label>
+              <Input
+                id="wallet-name"
+                placeholder="Enter wallet name"
+                value={newWalletName}
+                onChange={(e) => setNewWalletName(e.target.value)}
+                className="bg-gray-50 dark:bg-gray-900/50"
+              />
+            </div>
+          </div>
+
+          <AlertDialogFooter className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setIsAddWalletOpen(false);
+                setNewWalletName("");
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="bg-green-500 hover:bg-green-600 text-white"
+              onClick={handleAddWallet}
+              disabled={!newWalletName.trim()}
+            >
+              Add Wallet
+            </Button>
+          </AlertDialogFooter>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={isConnectModalOpen} onOpenChange={setIsConnectModalOpen}>
+        <DialogContent className="sm:max-w-[425px] bg-card">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold">
+              Connect to {selectedTrader?.name || "Trader"}
+            </DialogTitle>
+          </DialogHeader>
+
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="max-copy-amount">Maximum Copy Amount (SOL)</Label>
+              <Input
+                id="max-copy-amount"
+                placeholder="Enter amount"
+                value={maxCopyAmount}
+                onChange={(e) => setMaxCopyAmount(e.target.value)}
+                className="bg-gray-50 dark:bg-gray-900/50"
+              />
+            </div>
+          </div>
+
+          <DialogFooter className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setIsConnectModalOpen(false);
+                setMaxCopyAmount("");
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="bg-green-500 hover:bg-green-600 text-white"
+              onClick={() => {
+                console.log(`Connecting to trader: ${selectedTrader?.id} with amount: ${maxCopyAmount}`);
+                setIsConnectModalOpen(false);
+                setMaxCopyAmount("");
+              }}
+              disabled={!maxCopyAmount.trim()}
+            >
+              Connect Now
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
