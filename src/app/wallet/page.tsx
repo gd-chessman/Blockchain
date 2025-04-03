@@ -567,21 +567,32 @@ export default function Wallet() {
                   placeholder="Enter your Solana private key"
                   value={importPrivateKey}
                   onChange={(e) => handleImportPrivateKeyChange(e.target.value)}
-                  className="bg-gray-50 dark:bg-gray-900/50 pr-10"
+                  className="bg-gray-50 dark:bg-gray-900/50 pr-20"
                   type={showPrivateKey ? "text" : "password"}
                 />
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-0 top-0 h-full"
-                  onClick={() => setShowPrivateKey(!showPrivateKey)}
-                >
-                  {showPrivateKey ? (
-                    <Shield className="h-4 w-4" />
-                  ) : (
-                    <ShieldOff className="h-4 w-4" />
-                  )}
-                </Button>
+                <div className="absolute right-0 top-0 h-full flex">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-full"
+                    onClick={() => handleCopy(importPrivateKey)}
+                    disabled={!importPrivateKey}
+                  >
+                    <Copy className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-full"
+                    onClick={() => setShowPrivateKey(!showPrivateKey)}
+                  >
+                    {showPrivateKey ? (
+                      <Shield className="h-4 w-4" />
+                    ) : (
+                      <ShieldOff className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
               </div>
               <p className="text-xs text-gray-500">
                 Your private key is stored securely and never shared.
