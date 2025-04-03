@@ -70,7 +70,7 @@ export default function Trading() {
   });
 
   useEffect(() => {
-    getOrdersWs({ token_address: address, limit: 10, trade_type: "buy" });
+    getOrdersWs({ token_address: address });
   }, []);
   console.log("orderMessages", orderMessages);
   const marks = [0, 25, 50, 75, 100];

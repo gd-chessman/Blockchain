@@ -9,6 +9,7 @@ export function useWsGetOrders() {
 
     ws.onopen = () => {
       console.log("✅ Connected to WebSocket server - useWsGetOrders");
+      ws.send(JSON.stringify({ method: "getOrders" }));
     };
 
     ws.onmessage = (event) => {
