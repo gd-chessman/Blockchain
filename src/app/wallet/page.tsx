@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,8 +14,8 @@ import {
 import {
   Copy,
   ExternalLink,
-  CheckCircle ,
-  Circle ,
+  CheckCircle,
+  Circle,
   Plus,
   Download,
   Shield,
@@ -46,7 +46,7 @@ import { TelegramWalletService } from "@/services/api";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function Wallet() {
-  const { updateToken } = useAuth();
+  const { payloadToken, updateToken } = useAuth();
   const [isDerivingAddress, setIsDerivingAddress] = useState(false);
   const [walletName, setWalletName] = useState("-");
   const [showPrivateKey, setShowPrivateKey] = useState(false);
@@ -68,6 +68,12 @@ export default function Wallet() {
     queryKey: ["private-keys"],
     queryFn: getPrivate,
   });
+
+    const [mounted, setMounted] = useState(false);
+  
+    useEffect(() => {
+      setMounted(true);
+    }, []);
 
   // Thêm state để quản lý popup
   const [isAddWalletOpen, setIsAddWalletOpen] = useState(false);
@@ -164,7 +170,7 @@ export default function Wallet() {
   const handleChangeWallet = async (id: string) => {
     const res = await TelegramWalletService.useWallet({ wallet_id: id });
     updateToken(res.token);
-    refecthWalletInfor()
+    refecthWalletInfor();
   };
 
   return (
@@ -233,7 +239,7 @@ export default function Wallet() {
 
             <div className="relative mb-4">
               <Input
-                value="2Exba5...KTyP"
+                value={mounted && (payloadToken as any)?.sol_public_key || ""}
                 readOnly
                 className="pr-10 bg-gray-50 dark:bg-gray-900/50"
               />
@@ -250,7 +256,7 @@ export default function Wallet() {
             </div>
 
             <div className="text-xs text-gray-500 dark:text-gray-400 break-all">
-              2Exba57zoxmHZQmkhVwkNw3chuNyNvX9viWR3LKTyP
+              {mounted && (payloadToken as any)?.sol_public_key || ""}
             </div>
           </CardContent>
         </Card>
@@ -279,7 +285,7 @@ export default function Wallet() {
 
             <div className="relative mb-4">
               <Input
-                value="0x8D5A...E131"
+                value={mounted && (payloadToken as any)?.eth_public_key || ""}
                 readOnly
                 className="pr-10 bg-gray-50 dark:bg-gray-900/50"
               />
@@ -296,7 +302,7 @@ export default function Wallet() {
             </div>
 
             <div className="text-xs text-gray-500 dark:text-gray-400 break-all">
-              0x8D5A62fbc40f262EEa07D2F6Fe8805F9c7C7E131
+              {mounted && (payloadToken as any)?.eth_public_key || ""}
             </div>
           </CardContent>
         </Card>
@@ -321,7 +327,7 @@ export default function Wallet() {
 
             <div className="relative mb-4">
               <Input
-                value="0x8D5A...E131"
+                value={mounted && (payloadToken as any)?.eth_public_key || ""}
                 readOnly
                 className="pr-10 bg-gray-50 dark:bg-gray-900/50"
               />
@@ -338,7 +344,7 @@ export default function Wallet() {
             </div>
 
             <div className="text-xs text-gray-500 dark:text-gray-400 break-all">
-              0x8D5A62fbc40f262EEa07D2F6Fe8805F9c7C7E131
+              {mounted && (payloadToken as any)?.eth_public_key || ""}
             </div>
           </CardContent>
         </Card>
@@ -454,7 +460,12 @@ export default function Wallet() {
                             className="h-8 px-2 text-blue-600"
                             onClick={() => handleChangeWallet(wallet.wallet_id)}
                           >
-                            {walletInfor?.solana_address === wallet.solana_address ? (<CheckCircle className="h-4 w-4" color="green" />) : (<Circle className="h-4 w-4" />)}
+                            {walletInfor?.solana_address ===
+                            wallet.solana_address ? (
+                              <CheckCircle className="h-4 w-4" color="green" />
+                            ) : (
+                              <Circle className="h-4 w-4" />
+                            )}
                           </Button>
                           <Button
                             variant="ghost"
