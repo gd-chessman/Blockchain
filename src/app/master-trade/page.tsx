@@ -20,22 +20,22 @@ export default function MasterTrade() {
   const [activeTab, setActiveTab] = useState("not-connected")
   const [searchQuery, setSearchQuery] = useState("")
   // Lọc master traders dựa trên tab đang active và từ khóa tìm kiếm
-  // const filteredTraders = masterTraders.filter((trader: any) => {
-  //   const matchesSearch = trader.eth_address.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredTraders = masterTraders.filter((trader: any) => {
+    const matchesSearch = trader.eth_address.toLowerCase().includes(searchQuery.toLowerCase())
 
-  //   switch (activeTab) {
-  //     case "not-connected":
-  //       return matchesSearch && trader.status === "Not Connected"
-  //     case "connected":
-  //       return matchesSearch && trader.status === "Connected"
-  //     case "disconnected":
-  //       return matchesSearch && trader.status === "Disconnected"
-  //     case "pending":
-  //       return matchesSearch && trader.status === "Pending"
-  //     default:
-  //       return matchesSearch
-  //   }
-  // })
+    switch (activeTab) {
+      case "not-connected":
+        return matchesSearch && trader.status === "Not Connected"
+      case "connect":
+        return matchesSearch && trader.status === "Connected"
+      case "disconnect":
+        return matchesSearch && trader.status === "Disconnected"
+      case "pending":
+        return matchesSearch && trader.status === "Pending"
+      default:
+        return matchesSearch
+    }
+  })
 
   const handleConnect = (traderId: number) => {
     console.log(`Connecting to trader with ID: ${traderId}`)
