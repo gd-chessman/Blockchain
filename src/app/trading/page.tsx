@@ -11,15 +11,18 @@ import {
 } from "@/components/ui/table";
 import { t } from "@/lang";
 import { useRouter } from "next/navigation";
-import { Search } from "lucide-react";
+import { Search, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
 import { useWebSocket } from "@/hooks/useWebSocket";
 import { SolonaTokenService } from "@/services/api";
+import { useDebounce } from "@/hooks/useDebounce";
 
 export default function Trading() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+  const debouncedSearchQuery = useDebounce(searchQuery, 2000); // 2 seconds delay
+  const [isSearching, setIsSearching] = useState(false);
   const { messages } = useWebSocket();
   const [tokens, setTokens] = useState<
     {
@@ -56,24 +59,33 @@ export default function Trading() {
     } else {
       console.error("messages is not an array:", messages);
     }
-  }, [messages]); // Runs every time messages change
+  }, [messages]);
 
-  const searchData = async () => {
-    if (!searchQuery.trim()) {
-      setSearchResults([]);
-      return;
-    }
-    try {
-      const res = await SolonaTokenService.getSearchTokenInfor(searchQuery);
-      setSearchResults(res.tokens || []);
-    } catch (error) {
-      console.error("Error searching tokens:", error);
-      setSearchResults([]);
-    }
-  };
+  // Effect to handle search when debounced value changes
+  useEffect(() => {
+    const searchData = async () => {
+      if (!debouncedSearchQuery.trim()) {
+        setSearchResults([]);
+        setIsSearching(false);
+        return;
+      }
+      setIsSearching(true);
+      try {
+        const res = await SolonaTokenService.getSearchTokenInfor(debouncedSearchQuery);
+        setSearchResults(res.tokens || []);
+      } catch (error) {
+        console.error("Error searching tokens:", error);
+        setSearchResults([]);
+      } finally {
+        setIsSearching(false);
+      }
+    };
+
+    searchData();
+  }, [debouncedSearchQuery]);
 
   // Use search results if available, otherwise use WebSocket data
-  const displayTokens = searchQuery.trim() ? searchResults : tokens;
+  const displayTokens = debouncedSearchQuery.trim() ? searchResults : tokens;
 
   // Pre-compute translations to avoid hook calls in render
   const translations = {
@@ -93,7 +105,11 @@ export default function Trading() {
         <CardHeader className="flex justify-between flex-row items-center">
           <CardTitle>{translations.listTokenTitle}</CardTitle>
           <div className="relative w-full md:w-auto mt-4 md:mt-0">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" onClick={searchData}/>
+            {isSearching ? (
+              <Loader2 className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground animate-spin" />
+            ) : (
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground cursor-pointer" />
+            )}
             <Input
               placeholder={"Search by token name or address"}
               className="pl-10 w-full md:w-[300px]"
@@ -106,7 +122,7 @@ export default function Trading() {
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && searchQuery.trim()) {
-                  searchData();
+                  setSearchQuery(searchQuery.trim());
                 }
               }}
             />
