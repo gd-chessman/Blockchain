@@ -69,6 +69,7 @@ export default function ManageMasterTrade() {
   const [groupName, setGroupName] = useState("");
   const [selectedConnections, setSelectedConnections] = useState<string[]>([]);
   const [selectedGroups, setSelectedGroups] = useState<number[]>([]);
+  const [activeGroupTab, setActiveGroupTab] = useState<"on" | "delete">("on");
 
   // Lọc kết nối dựa trên tab đang active
   const filteredConnections = myConnects.filter((connection) => {
@@ -81,6 +82,18 @@ export default function ManageMasterTrade() {
         return connection.status === "paused";
       case "blocked":
         return connection.status === "blocked";
+      default:
+        return true;
+    }
+  });
+
+  // Lọc nhóm dựa trên tab đang active
+  const filteredGroups = myGroups.filter((group) => {
+    switch (activeGroupTab) {
+      case "on":
+        return group.mg_status === "on";
+      case "delete":
+        return group.mg_status === "delete";
       default:
         return true;
     }
@@ -204,10 +217,11 @@ export default function ManageMasterTrade() {
           <CardContent className="p-4">
             <div className="flex gap-2 mb-4">
               <Button
-                variant={selectedGroups.length > 0 ? "default" : "outline"}
+                variant={activeGroupTab === "on" ? "default" : "outline"}
                 size="sm"
+                onClick={() => setActiveGroupTab("on")}
                 className={
-                  selectedGroups.length > 0
+                  activeGroupTab === "on"
                     ? "bg-green-500 hover:bg-green-600"
                     : ""
                 }
@@ -220,22 +234,19 @@ export default function ManageMasterTrade() {
                   {myGroups.filter((g) => g.mg_status === "on").length}
                 </Badge>
               </Button>
-              <Button variant="outline" size="sm">
-                {t("masterTrade.manage.groupManagement.off")}{" "}
-                <Badge variant="outline" className="ml-1">
-                  {myGroups.filter((g) => g.mg_status === "delete").length}
-                </Badge>
-              </Button>
-              <Button
-                variant="outline"
+              <Button 
+                variant={activeGroupTab === "delete" ? "default" : "outline"}
                 size="sm"
+                onClick={() => setActiveGroupTab("delete")}
                 className={
-                  selectedGroups.length > 0 ? "text-red-500 border-red-200" : ""
+                  activeGroupTab === "delete"
+                    ? "bg-red-500 hover:bg-red-600"
+                    : ""
                 }
               >
                 {t("masterTrade.manage.groupManagement.delete")}{" "}
                 <Badge variant="outline" className="ml-1">
-                  {selectedGroups.length}
+                  {myGroups.filter((g) => g.mg_status === "delete").length}
                 </Badge>
               </Button>
             </div>
@@ -259,7 +270,7 @@ export default function ManageMasterTrade() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {myGroups.map((group) => (
+                    {filteredGroups.map((group) => (
                       <TableRow key={group.mg_id} className="hover:bg-muted/30">
                         <TableCell className="font-medium !py-2">
                           <div className="flex items-center">
@@ -321,7 +332,7 @@ export default function ManageMasterTrade() {
                         </TableCell>
                       </TableRow>
                     ))}
-                    {myGroups.length === 0 && (
+                    {filteredGroups.length === 0 && (
                       <TableRow>
                         <TableCell
                           colSpan={3}
