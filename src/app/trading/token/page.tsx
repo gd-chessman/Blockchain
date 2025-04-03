@@ -25,6 +25,7 @@ import { useWsSubscribeTokens } from "@/hooks/useWsSubscribeTokens";
 import Link from "next/link";
 import { getOrders } from "@/services/api/TradingService";
 import { getMyTokens } from "@/services/api/TelegramWalletService";
+import { useWsGetOrders } from "@/hooks/useWsGetOrders";
 
 interface Order {
   created_at: string;
@@ -38,7 +39,8 @@ const chartData = generateChartData();
 
 export default function Trading() {
   const { t } = useLang();
-  const { messages } = useWsSubscribeTokens();
+  const { tokenMessages } = useWsSubscribeTokens();
+  // const { getOrders, messages } = useWsGetOrders();
   const [tokens, setTokens] = useState<
     {
       slt_name: string;
@@ -70,8 +72,8 @@ export default function Trading() {
   const [copySuccess, setCopySuccess] = useState(false);
 
   useEffect(() => {
-    if (Array.isArray(messages)) {
-      messages.forEach((message) => {
+    if (Array.isArray(tokenMessages)) {
+      tokenMessages.forEach((message) => {
         try {
           const parsedMessage = JSON.parse(message);
           setTokens(parsedMessage.data.tokens);
@@ -80,9 +82,9 @@ export default function Trading() {
         }
       });
     } else {
-      console.error("messages is not an array:", messages);
+      console.error("messages is not an array:", tokenMessages);
     }
-  }, [messages]);
+  }, [tokenMessages]);
 
   const handleTimeframeChange = (timeframe: string) => {
     console.log(`Timeframe changed to: ${timeframe}`);

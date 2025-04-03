@@ -25,7 +25,7 @@ export default function Trading() {
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery, 2000); // 2 seconds delay
   const [isSearching, setIsSearching] = useState(false);
-  const { messages } = useWsSubscribeTokens();
+  const { tokenMessages } = useWsSubscribeTokens();
   const [tokens, setTokens] = useState<
     {
       slt_name: string;
@@ -49,8 +49,8 @@ export default function Trading() {
 
   // Parse messages and extract tokens
   useEffect(() => {
-    if (Array.isArray(messages)) {
-      messages.forEach((message) => {
+    if (Array.isArray(tokenMessages)) {
+      tokenMessages.forEach((message) => {
         try {
           const parsedMessage = JSON.parse(message);
           setTokens(parsedMessage.data.tokens);
@@ -59,9 +59,9 @@ export default function Trading() {
         }
       });
     } else {
-      console.error("messages is not an array:", messages);
+      console.error("messages is not an array:", tokenMessages);
     }
-  }, [messages]);
+  }, [tokenMessages]);
 
   // Effect to handle search when debounced value changes
   useEffect(() => {

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 export function useWsSubscribeTokens() {
   const [socket, setSocket] = useState<WebSocket | null>(null);
-  const [messages, setMessages] = useState<string[]>([]);
+  const [tokenMessages, setTokenMessages] = useState<string[]>([]);
 
   useEffect(() => {
     const ws = new WebSocket(`${process.env.NEXT_PUBLIC_WS_URL}/ws`);
@@ -13,7 +13,7 @@ export function useWsSubscribeTokens() {
     };
 
     ws.onmessage = (event) => {
-      setMessages((prev) => [...prev, event.data]);
+      setTokenMessages((prev) => [...prev, event.data]);
     };
 
     ws.onclose = () => {
@@ -37,5 +37,5 @@ export function useWsSubscribeTokens() {
     }
   };
 
-  return { socket, messages, sendMessage };
+  return { socket, tokenMessages, sendMessage };
 }
