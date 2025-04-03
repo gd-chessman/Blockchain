@@ -29,6 +29,10 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
+        <link rel="icon" href="/logo.png" type="image/png" />
+      </head>
       <body className={`${inter.className} antialiased`}>
         <QueryClientProvider client={queryClient}>
           <LangProvider>

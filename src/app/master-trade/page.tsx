@@ -31,7 +31,7 @@ export default function MasterTrade() {
   const [newWalletName, setNewWalletName] = useState("");
 
   // Count traders by connection status for tab indicators
-  const notConnectedCount = masterTraders.filter((trader: any) => trader.connection_status === null).length;
+  const notConnectedCount = masterTraders.filter((trader: any) => trader.connection_status === null || trader.connection_status === "block").length;
   const connectedCount = masterTraders.filter((trader: any) => trader.connection_status === "connect").length;
   const disconnectedCount = masterTraders.filter((trader: any) => trader.connection_status === "disconnect").length;
   const pendingCount = masterTraders.filter((trader: any) => trader.connection_status === "pending").length;
@@ -44,7 +44,7 @@ export default function MasterTrade() {
 
     switch (activeTab) {
       case "not-connected":
-        return matchesSearch && trader.connection_status === null;
+        return matchesSearch && (trader.connection_status === null || trader.connection_status === "block");
       case "connect":
         return matchesSearch && trader.connection_status === "connect";
       case "disconnect":
@@ -109,7 +109,7 @@ export default function MasterTrade() {
       </div>
 
       <Tabs defaultValue="not-connected" onValueChange={setActiveTab}>
-        <TabsList className="grid grid-cols-4 mb-6">
+        <TabsList className="grid grid-cols-5 mb-6">
           <TabsTrigger value="not-connected">{t("masterTrade.tabs.notConnected")} ({notConnectedCount})</TabsTrigger>
           <TabsTrigger value="connect">{t("masterTrade.tabs.connected")} ({connectedCount})</TabsTrigger>
           <TabsTrigger value="disconnect">{t("masterTrade.tabs.disconnected")} ({disconnectedCount})</TabsTrigger>
