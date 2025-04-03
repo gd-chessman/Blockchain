@@ -538,50 +538,51 @@
         "actions": "작업"
     },
     "createCoin": {
-        "title": "새 코인 생성",
-        "subtitle": "자신만의 밈 코인 생성 및 관리",
+        "title": "새 코인 만들기",
+        "subtitle": "몇 분 안에 자신만의 밈 코인을 만드세요",
         "tabs": {
-            "create": "새 코인 생성",
+            "create": "만들기",
             "myCoins": "내 코인"
         },
         "form": {
             "name": "이름",
-            "namePlaceholder": "코인 이름 입력",
             "nameRequired": "이름은 필수입니다",
+            "namePlaceholder": "코인 이름 입력",
             "symbol": "심볼",
-            "symbolPlaceholder": "코인 심볼 입력",
             "symbolRequired": "심볼은 필수입니다",
+            "symbolPlaceholder": "코인 심볼 입력",
             "amount": "수량",
-            "amountPlaceholder": "초기 유동성 SOL 수량 입력",
             "amountRequired": "수량은 필수입니다",
+            "amountPlaceholder": "수량 입력",
             "description": "설명",
             "descriptionPlaceholder": "코인 설명 입력",
             "logo": "로고",
+            "logoUpload": "로고 업로드",
             "logoRequired": "로고는 필수입니다",
-            "logoUpload": "클릭하여 업로드",
-            "showOptions": "옵션 표시",
             "hideOptions": "옵션 숨기기",
+            "showOptions": "옵션 보기",
             "telegram": "텔레그램",
-            "telegramPlaceholder": "텔레그램 그룹 링크 입력",
+            "telegramPlaceholder": "텔레그램 링크 입력",
             "website": "웹사이트",
-            "websitePlaceholder": "웹사이트 URL 입력",
+            "websitePlaceholder": "웹사이트 링크 입력",
             "twitter": "트위터",
-            "twitterPlaceholder": "트위터 사용자명 입력",
-            "createButton": "코인 생성"
+            "twitterPlaceholder": "트위터 링크 입력",
+            "createButton": "코인 만들기"
         },
         "preview": {
             "title": "미리보기",
-            "defaultName": "당신의 코인 이름",
+            "defaultName": "코인 이름",
             "defaultSymbol": "심볼",
             "defaultDescription": "코인 설명이 여기에 표시됩니다"
         },
         "myCoins": {
             "title": "내 코인",
+            "count": "개",
             "columns": {
-                "coin": "밈 코인",
+                "coin": "코인",
                 "symbol": "심볼",
                 "address": "주소",
-                "decimals": "소수점 자릿수",
+                "decimals": "소수점",
                 "actions": "작업"
             },
             "tradeButton": "거래"

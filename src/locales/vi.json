@@ -532,52 +532,53 @@
   },
   "createCoin": {
     "title": "Tạo Coin Mới",
-    "subtitle": "Tạo và quản lý meme coin của riêng bạn",
+    "subtitle": "Tạo meme coin của riêng bạn trong vài phút",
     "tabs": {
-      "create": "Tạo Coin Mới",
+      "create": "Tạo",
       "myCoins": "Coin Của Tôi"
     },
     "form": {
       "name": "Tên",
+      "nameRequired": "Tên là bắt buộc",
       "namePlaceholder": "Nhập tên coin",
-      "nameRequired": "Vui lòng nhập tên",
       "symbol": "Ký hiệu",
+      "symbolRequired": "Ký hiệu là bắt buộc",
       "symbolPlaceholder": "Nhập ký hiệu coin",
-      "symbolRequired": "Vui lòng nhập ký hiệu",
       "amount": "Số lượng",
-      "amountPlaceholder": "Nhập số lượng thanh khoản ban đầu bằng SOL",
-      "amountRequired": "Vui lòng nhập số lượng",
+      "amountRequired": "Số lượng là bắt buộc",
+      "amountPlaceholder": "Nhập số lượng",
       "description": "Mô tả",
       "descriptionPlaceholder": "Nhập mô tả coin",
       "logo": "Logo",
-      "logoRequired": "Vui lòng tải lên logo",
-      "logoUpload": "Nhấp để tải lên",
-      "showOptions": "Hiện Tùy Chọn",
+      "logoUpload": "Nhấn để tải lên logo",
+      "logoRequired": "Logo là bắt buộc",
       "hideOptions": "Ẩn Tùy Chọn",
+      "showOptions": "Hiện Tùy Chọn",
       "telegram": "Telegram",
-      "telegramPlaceholder": "Nhập liên kết nhóm Telegram",
-      "website": "Trang web",
-      "websitePlaceholder": "Nhập URL trang web",
+      "telegramPlaceholder": "Nhập link Telegram",
+      "website": "Website",
+      "websitePlaceholder": "Nhập link website",
       "twitter": "Twitter",
-      "twitterPlaceholder": "Nhập tên người dùng Twitter",
+      "twitterPlaceholder": "Nhập link Twitter",
       "createButton": "Tạo Coin"
     },
     "preview": {
       "title": "Xem Trước",
-      "defaultName": "Tên Coin Của Bạn",
+      "defaultName": "Tên Coin",
       "defaultSymbol": "KÝ HIỆU",
-      "defaultDescription": "Mô tả coin của bạn sẽ hiển thị ở đây"
+      "defaultDescription": "Mô tả coin sẽ hiển thị ở đây"
     },
     "myCoins": {
       "title": "Coin Của Tôi",
+      "count": "coin",
       "columns": {
-        "coin": "Meme Coin",
+        "coin": "Coin",
         "symbol": "Ký hiệu",
         "address": "Địa chỉ",
         "decimals": "Số thập phân",
         "actions": "Thao tác"
       },
-      "tradeButton": "Giao dịch"
+      "tradeButton": "Giao Dịch"
     }
   }
 }

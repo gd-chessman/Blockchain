@@ -16,6 +16,7 @@ import { getMyTokens } from "@/services/api/TelegramWalletService"
 import { useLang } from "@/lang"
 import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
+import { truncateString } from "@/utils/format"
 
 // Dữ liệu mẫu cho danh sách coin
 
@@ -100,7 +101,12 @@ export default function CreateCoin() {
       <Tabs defaultValue="create" className="w-full">
         <TabsList className="grid grid-cols-2 w-full md:w-[400px] mb-6">
           <TabsTrigger value="create">{t('createCoin.tabs.create')}</TabsTrigger>
-          <TabsTrigger value="my-coins">{t('createCoin.tabs.myCoins')}</TabsTrigger>
+          <TabsTrigger value="my-coins" className="relative">
+            {t('createCoin.tabs.myCoins')}
+            <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              {memeCoins?.length || 0}
+            </span>
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="create">
@@ -361,8 +367,11 @@ export default function CreateCoin() {
 
         <TabsContent value="my-coins">
           <Card className="border-none shadow-md dark:shadow-blue-900/5">
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>{t('createCoin.myCoins.title')}</CardTitle>
+              <div className="text-sm text-muted-foreground">
+                {memeCoins?.length || 0} {t('createCoin.myCoins.count')}
+              </div>
             </CardHeader>
             <CardContent>
               <div className="rounded-lg overflow-hidden">
@@ -390,7 +399,7 @@ export default function CreateCoin() {
                         <TableCell>{coin.symbol}</TableCell>
                         <TableCell>
                           <div className="flex items-center">
-                            <span>{coin.address}</span>
+                            <span>{truncateString(coin.address,14)}</span>
                             <Button
                               variant="ghost"
                               size="icon"

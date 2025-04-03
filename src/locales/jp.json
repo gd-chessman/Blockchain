@@ -533,50 +533,51 @@
     },
     "createCoin": {
         "title": "新規コイン作成",
-        "subtitle": "独自のミームコインを作成・管理",
+        "subtitle": "数分で独自のミームコインを作成",
         "tabs": {
-            "create": "新規コイン作成",
+            "create": "作成",
             "myCoins": "マイコイン"
         },
         "form": {
             "name": "名前",
-            "namePlaceholder": "コイン名を入力",
             "nameRequired": "名前は必須です",
+            "namePlaceholder": "コイン名を入力",
             "symbol": "シンボル",
-            "symbolPlaceholder": "コインシンボルを入力",
             "symbolRequired": "シンボルは必須です",
+            "symbolPlaceholder": "コインシンボルを入力",
             "amount": "数量",
-            "amountPlaceholder": "初期流動性のSOL数量を入力",
             "amountRequired": "数量は必須です",
+            "amountPlaceholder": "数量を入力",
             "description": "説明",
             "descriptionPlaceholder": "コインの説明を入力",
             "logo": "ロゴ",
+            "logoUpload": "ロゴをアップロード",
             "logoRequired": "ロゴは必須です",
-            "logoUpload": "クリックしてアップロード",
+            "hideOptions": "オプションを隠す",
             "showOptions": "オプションを表示",
-            "hideOptions": "オプションを非表示",
-            "telegram": "Telegram",
-            "telegramPlaceholder": "Telegramグループリンクを入力",
+            "telegram": "テレグラム",
+            "telegramPlaceholder": "テレグラムリンクを入力",
             "website": "ウェブサイト",
-            "websitePlaceholder": "ウェブサイトURLを入力",
-            "twitter": "Twitter",
-            "twitterPlaceholder": "Twitterユーザー名を入力",
-            "createButton": "コインを作成"
+            "websitePlaceholder": "ウェブサイトリンクを入力",
+            "twitter": "ツイッター",
+            "twitterPlaceholder": "ツイッターリンクを入力",
+            "createButton": "コイン作成"
         },
         "preview": {
             "title": "プレビュー",
-            "defaultName": "あなたのコイン名",
+            "defaultName": "コイン名",
             "defaultSymbol": "シンボル",
             "defaultDescription": "コインの説明がここに表示されます"
         },
         "myCoins": {
             "title": "マイコイン",
+            "count": "個",
             "columns": {
-                "coin": "ミームコイン",
+                "coin": "コイン",
                 "symbol": "シンボル",
                 "address": "アドレス",
-                "decimals": "小数点以下桁数",
-                "actions": "アクション"
+                "decimals": "小数点",
+                "actions": "操作"
             },
             "tradeButton": "取引"
         }
