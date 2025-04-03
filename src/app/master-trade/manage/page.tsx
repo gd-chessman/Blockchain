@@ -19,7 +19,7 @@ import { Copy } from "lucide-react";
 import { useLang } from "@/lang/useLang";
 import { MasterTradingService } from "@/services/api";
 import { useQuery } from "@tanstack/react-query";
-import { getMyGroups } from "@/services/api/MasterTradingService";
+import { getMyConnects, getMyGroups } from "@/services/api/MasterTradingService";
 
 type Group = {
   mg_id: number;
@@ -123,6 +123,10 @@ export default function ManageMasterTrade() {
       }
       return response.data || [];
     },
+  });
+  const { data: myConnects = [] } = useQuery({
+    queryKey: ["my-connects-manage"],
+    queryFn: getMyConnects,
   });
   console.log(myGroups);
   const { t } = useLang();

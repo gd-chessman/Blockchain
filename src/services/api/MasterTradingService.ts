@@ -21,6 +21,16 @@ export const getMyGroups = async ()=>{
     }
 }
 
+export const getMyConnects = async ()=>{
+    try {
+        const temp = await axiosClient.get("/master-trading/get-my-connects")
+        return temp;
+    } catch (error) {
+        console.log(error)
+        return [];
+    }
+}
+
 export const getGroupById = async ()=>{
     try {
         const temp = await axiosClient.get("/master-trading/group/7")
