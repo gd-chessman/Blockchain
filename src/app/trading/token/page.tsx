@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Pencil, TrendingUp } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { t } from "@/lang";
 import { Copy } from "lucide-react";
 import { toast } from "react-toastify";
@@ -21,19 +21,46 @@ import usePercent from "@/hooks/usePercent";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getTokenInforByAddress } from "@/services/api/SolonaTokenService";
 import { useQuery } from "@tanstack/react-query";
+import { useWebSocket } from "@/hooks/useWebSocket";
 const chartData = generateChartData();
 
 export default function Trading() {
+  const { messages } = useWebSocket();
+  const [tokens, setTokens] = useState<
+    {
+      name: string;
+      address: string;
+      symbol: string;
+      decimals: number;
+      isVerified: boolean;
+      logoUrl: string;
+    }[]
+  >([]);
   const [value, setValue] = useState(0);
 
   const searchParams = useSearchParams();
   const address = searchParams?.get("address");
   const { data: tokenInfor, refetch } = useQuery({
     queryKey: ["token-infor", address],
-    queryFn: ()=> getTokenInforByAddress(address),
+    queryFn: () => getTokenInforByAddress(address),
   });
   const marks = [0, 25, 50, 75, 100];
   const [copySuccess, setCopySuccess] = useState(false);
+
+  useEffect(() => {
+    if (Array.isArray(messages)) {
+      messages.forEach((message) => {
+        try {
+          const parsedMessage = JSON.parse(message);
+          setTokens(parsedMessage.data.data.tokens);
+        } catch (error) {
+          console.error("Error parsing JSON:", error);
+        }
+      });
+    } else {
+      console.error("messages is not an array:", messages);
+    }
+  }, [messages]);
 
   const handleTimeframeChange = (timeframe: string) => {
     console.log(`Timeframe changed to: ${timeframe}`);
@@ -114,7 +141,9 @@ export default function Trading() {
                     <span className="text-muted-foreground">Decimals:</span>
                     <span className="text-right">{tokenInfor?.decimals}</span>
                     <span className="text-muted-foreground">Status:</span>
-                    <span className="text-right">{tokenInfor?.isVerified ? "✓": "x" }</span>
+                    <span className="text-right">
+                      {tokenInfor?.isVerified ? "✓" : "x"}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -129,29 +158,26 @@ export default function Trading() {
               <div className="grid grid-cols-1 gap-4">
                 <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50 max-h-[64vh] overflow-auto">
                   <div className="space-y-4">
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(
-                      (i) => (
-                        <div
-                          key={i}
-                          className={`flex text-sm gap-6 cursor-pointer ${
-                            i < 15 ? "border-b-2 pb-2" : ""
-                          }`}
-                        >
-                          <img
-                            src="https://d1hjkbq40fs2x4.cloudfront.net/2016-01-31/files/1045-2.jpg"
-                            alt=""
-                            className="size-10 rounded-full"
-                          />
-                          <div>
-                            <p>YUP Dog</p>
-                            <span>YUP Dog</span>
-                          </div>
-                          <small className="text-green-600 text-xl ml-auto block">
-                            ✓
-                          </small>
+                    {tokens.map((token, index) => (
+                      <div
+                        key={index} // Assuming token has an 'id' field
+                        className={`flex text-sm gap-6 cursor-pointer ${
+                          index < tokens.length - 1 ? "border-b-2 pb-2" : ""
+                        }`}
+                      >
+                        <img
+                           src={token.logoUrl}
+                          alt=""
+                          className="size-10 rounded-full"
+                        />
+                        <div>
+                          <p>{token.name}</p>{" "}
                         </div>
-                      )
-                    )}
+                        <small className="text-green-600 text-xl ml-auto block">
+                          {token.isVerified ? " ✓" : "x"}
+                        </small>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
