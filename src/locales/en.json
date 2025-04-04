@@ -425,7 +425,13 @@
       "actions": {
           "viewGroups": "View Groups",
           "pause": "Pause",
-          "restart": "Restart"
+          "restart": "Restart",
+          "connect": "Connect",
+          "disconnect": "Disconnect",
+          "reconnect": "Reconnect",
+          "cancel": "Cancel",
+          "copyAddress": "Copy Address",
+          "manage": "Master Manage"
       },
       "walletAddress": "Wallet Address",
       "inactive": "INACTIVE",
@@ -494,7 +500,8 @@
           "disconnect": "Disconnect",
           "reconnect": "Reconnect",
           "cancel": "Cancel",
-          "copyAddress": "Copy address"
+          "copyAddress": "Copy address",
+          "manage": "Master Manage"
       },
       "noData": {
           "notConnected": "No traders found",

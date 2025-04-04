@@ -393,7 +393,7 @@
       "noPermissionToUpdateGroups": "Bạn không có quyền cập nhật nhóm.",
       "groupNotFound": "Không tìm thấy nhóm.",
       "joinedGroups": "Nhóm đã tham gia",
-      "availableMasters": "Các Master Có Sẵn",
+      "availableMasters": "Chuyên Gia Có Sẵn",
       "searchPlaceholder": "Tìm kiếm theo địa chỉ ví...",
       "loadingJoinedGroups": "Đang tải nhóm đã tham gia...",
       "loadingMasters": "Đang tải dữ liệu...",
@@ -470,7 +470,8 @@
           "disconnect": "Ngắt Kết Nối",
           "reconnect": "Kết Nối Lại",
           "cancel": "Hủy",
-          "copyAddress": "Sao chép địa chỉ"
+          "copyAddress": "Sao chép địa chỉ",
+          "manage": "Quản Lý Chuyên Gia"
       },
       "noData": {
           "notConnected": "Không tìm thấy trader nào",

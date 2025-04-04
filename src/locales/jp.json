@@ -406,7 +406,13 @@
         "actions": {
             "viewGroups": "グループを表示",
             "pause": "一時停止",
-            "restart": "再開"
+            "restart": "再開",
+            "connect": "接続",
+            "disconnect": "切断",
+            "reconnect": "再接続",
+            "cancel": "キャンセル",
+            "copyAddress": "アドレスをコピー",
+            "manage": "マスター管理"
         },
         "walletAddress": "ウォレットアドレス",
         "inactive": "非アクティブ",
@@ -468,7 +474,8 @@
             "disconnect": "切断",
             "reconnect": "再接続",
             "cancel": "キャンセル",
-            "copyAddress": "アドレスをコピー"
+            "copyAddress": "アドレスをコピー",
+            "manage": "マスター管理"
         },
         "noData": {
             "notConnected": "トレーダーが見つかりません",
