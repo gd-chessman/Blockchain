@@ -160,7 +160,8 @@ export default function ManageMasterTrade() {
 
   // Xử lý xóa nhóm
   const handleDeleteGroup = async (id: number) => {
-    console.log(`Deleting group ${id}`);
+    await MasterTradingService.changeStatusGroup(id, "delete");
+    refetchMyGroups();
 
     // Xử lý xóa nhóm ở đây
   };
@@ -335,35 +336,37 @@ export default function ManageMasterTrade() {
                           </Badge>
                         </TableCell>
                         <TableCell className="text-right !py-2">
-                          <div className="flex justify-end gap-2">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className={
-                                group.mg_status === "delete"
-                                  ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800"
-                                  : "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 border-orange-200 dark:border-orange-800"
-                              }
-                              onClick={() =>
-                                handleToggleGroup(
-                                  group.mg_id,
-                                  group.mg_status === "on" ? "off" : "on"
-                                )
-                              }
-                            >
-                              {group.mg_status === "on"
-                                ? t("masterTrade.manage.groupManagement.off")
-                                : t("masterTrade.manage.groupManagement.on")}
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800"
-                              onClick={() => handleDeleteGroup(group.mg_id)}
-                            >
-                              {t("masterTrade.manage.groupManagement.delete")}
-                            </Button>
-                          </div>
+                          {activeGroupTab !== "delete" && (
+                            <div className="flex justify-end gap-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className={
+                                  group.mg_status === "delete"
+                                    ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800"
+                                    : "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 border-orange-200 dark:border-orange-800"
+                                }
+                                onClick={() =>
+                                  handleToggleGroup(
+                                    group.mg_id,
+                                    group.mg_status === "on" ? "off" : "on"
+                                  )
+                                }
+                              >
+                                {group.mg_status === "on"
+                                  ? t("masterTrade.manage.groupManagement.off")
+                                  : t("masterTrade.manage.groupManagement.on")}
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800"
+                                onClick={() => handleDeleteGroup(group.mg_id)}
+                              >
+                                {t("masterTrade.manage.groupManagement.delete")}
+                              </Button>
+                            </div>
+                          )}
                         </TableCell>
                       </TableRow>
                     ))}
