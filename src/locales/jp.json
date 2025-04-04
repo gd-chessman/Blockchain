@@ -153,7 +153,7 @@
         "detail": "詳細",
         "addWallet": "ウォレットを追加",
         "addFormTitle": "追跡を作成",
-        "walletAddress": "ウォレットアドレス",
+        "walletAddress": "ウォレットメンバー",
         "save": "保存",
         "cancel": "キャンセル",
         "edit": "コピートレードを編集",
@@ -421,7 +421,7 @@
             "copyAddress": "アドレスをコピー",
             "manage": "マスター管理"
         },
-        "walletAddress": "ウォレットアドレス",
+        "walletAddress": "ウォレットメンバー",
         "inactive": "非アクティブ",
         "running": "実行中",
         "pause": "一時停止",
@@ -465,7 +465,7 @@
             "pending": "保留中"
         },
         "table": {
-            "walletAddress": "ウォレットアドレス",
+            "walletAddress": "ウォレットメンバー",
             "type": "タイプ",
             "status": "ステータス",
             "actions": "アクション"
@@ -542,7 +542,7 @@
                 "previous": "前へ",
                 "next": "次へ",
                 "columns": {
-                    "walletAddress": "ウォレットアドレス",
+                    "walletAddress": "ウォレットメンバー",
                     "joinedGroups": "参加グループ",
                     "status": "ステータス",
                     "actions": "操作"

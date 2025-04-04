@@ -60,6 +60,7 @@ export default function Navigation() {
     const res = await useWallet({ wallet_id: walletId });
     updateToken(res.token);
     refetch();
+    window.location.reload();
   };
 
   useEffect(() => {

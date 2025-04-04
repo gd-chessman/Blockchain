@@ -170,7 +170,7 @@
       "detail": "Details",
       "addWallet": "Add Wallet",
       "addFormTitle": "Create Tracking",
-      "walletAddress": "Wallet Address",
+      "walletAddress": "Wallet Member",
       "save": "Save",
       "cancel": "Cancel",
       "edit": "Edit Copy Trade",
@@ -440,7 +440,7 @@
           "copyAddress": "Copy Address",
           "manage": "Master Manage"
       },
-      "walletAddress": "Wallet Address",
+      "walletAddress": "Wallet Member",
       "inactive": "INACTIVE",
       "running": "RUNNING",
       "pause": "PAUSED",
@@ -491,7 +491,7 @@
           "pending": "Pending"
       },
       "table": {
-          "walletAddress": "Wallet Address",
+          "walletAddress": "Wallet Member",
           "type": "Type",
           "status": "Status",
           "actions": "Actions"
@@ -568,7 +568,7 @@
               "previous": "Previous",
               "next": "Next",
               "columns": {
-                  "walletAddress": "Wallet Address",
+                  "walletAddress": "Wallet Member",
                   "joinedGroups": "Joined Groups",
                   "status": "Status",
                   "actions": "Actions"

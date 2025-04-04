@@ -154,7 +154,7 @@
       "detail": "Chi Tiết",
       "addWallet": "Thêm Ví",
       "addFormTitle": "Tạo Theo Dõi",
-      "walletAddress": "Địa Chỉ Ví",
+      "walletAddress": "Thành Viên Ví",
       "save": "Lưu",
       "cancel": "Hủy",
       "edit": "Sửa Sao Chép Giao Dịch",
@@ -407,7 +407,7 @@
       "errorUpdatingStatus": "Lỗi khi cập nhật trạng thái",
       "solAddress": "Địa Chỉ Sol",
       "priceRatio": "Giá/Tỷ Lệ",
-      "walletAddress": "Địa Chỉ Ví",
+      "walletAddress": "Thành Viên Ví",
       "inactive": "KHÔNG HOẠT ĐỘNG",
       "running": "ĐANG CHẠY",
       "pause": "TẠM DỪNG",
@@ -454,7 +454,7 @@
           "pending": "Đang Chờ"
       },
       "table": {
-          "walletAddress": "Địa Chỉ Ví",
+          "walletAddress": "Thành Viên Ví",
           "type": "Loại",
           "status": "Trạng Thái",
           "actions": "Thao Tác"
@@ -531,7 +531,7 @@
               "previous": "Trước",
               "next": "Tiếp",
               "columns": {
-                  "walletAddress": "Địa Chỉ Ví",
+                  "walletAddress": "Thành Viên Ví",
                   "joinedGroups": "Nhóm Đã Tham Gia",
                   "status": "Trạng Thái",
                   "actions": "Thao Tác"

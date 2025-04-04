@@ -78,7 +78,7 @@ export default function ManageMasterTrade() {
     queryFn: getMyConnects,
   });
 
-  const { data: walletInfor } = useQuery<WalletInfo>({
+  const { data: walletInfor, isLoading } = useQuery<WalletInfo>({
     queryKey: ["wallet-infor"],
     queryFn: getInforWallet,
   });
@@ -96,10 +96,10 @@ export default function ManageMasterTrade() {
   const [isJoinDialogOpen, setIsJoinDialogOpen] = useState(false);
 
   useEffect(() => {
-    if (walletInfor?.role !== "master") {
+    if (!isLoading && walletInfor?.role !== "master") {
       router.push("/master-trade");
     }
-  }, [walletInfor, router]);
+  }, [walletInfor, isLoading, router]);
 
   // Lọc kết nối dựa trên tab đang active
   const filteredConnections = myConnects.filter((connection) => {
@@ -642,6 +642,7 @@ function ConnectionsTable({
   onCopyAddress: (address: string) => void;
 }) {
   const { t } = useLang();
+  const isConnectedTab = connections.some(conn => conn.status === "connect");
 
   return (
     <div className="rounded-lg overflow-hidden">
@@ -649,16 +650,18 @@ function ConnectionsTable({
         <Table>
           <TableHeader className="sticky top-0 z-10 bg-background">
             <TableRow className="bg-muted/50">
-              <TableHead className="w-[40px]">
-                <Checkbox
-                  checked={
-                    connections.length > 0 &&
-                    selectedConnections.length === connections.length
-                  }
-                  onCheckedChange={onSelectAll}
-                  aria-label="Select all"
-                />
-              </TableHead>
+              {isConnectedTab && (
+                <TableHead className="w-[40px]">
+                  <Checkbox
+                    checked={
+                      connections.length > 0 &&
+                      selectedConnections.length === connections.length
+                    }
+                    onCheckedChange={onSelectAll}
+                    aria-label="Select all"
+                  />
+                </TableHead>
+              )}
               <TableHead className="w-[250px]">
                 {t(
                   "masterTrade.manage.connectionManagement.columns.walletAddress"
@@ -680,20 +683,22 @@ function ConnectionsTable({
           <TableBody>
             {connections.map((connection) => (
               <TableRow key={connection.connection_id} className="hover:bg-muted/30">
-                <TableCell>
-                  <Checkbox
-                    checked={selectedConnections.includes(
-                      connection.connection_id.toString()
-                    )}
-                    onCheckedChange={(checked) =>
-                      onSelectConnection(
-                        connection.connection_id.toString(),
-                        checked as boolean
-                      )
-                    }
-                    aria-label={`Select connection ${connection.connection_id}`}
-                  />
-                </TableCell>
+                {isConnectedTab && (
+                  <TableCell>
+                    <Checkbox
+                      checked={selectedConnections.includes(
+                        connection.connection_id.toString()
+                      )}
+                      onCheckedChange={(checked) =>
+                        onSelectConnection(
+                          connection.connection_id.toString(),
+                          checked as boolean
+                        )
+                      }
+                      aria-label={`Select connection ${connection.connection_id}`}
+                    />
+                  </TableCell>
+                )}
                 <TableCell>
                   <div className="flex items-center">
                     <span>{connection.member_address.slice(0, 6)}...{connection.member_address.slice(-4)}</span>

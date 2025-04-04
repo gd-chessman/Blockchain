@@ -26,10 +26,11 @@ import Link from "next/link";
 import { getOrders, getTokenAmount, createTrading } from "@/services/api/TradingService";
 import { getInforWallet, getMyTokens } from "@/services/api/TelegramWalletService";
 import { useWsGetOrders } from "@/hooks/useWsGetOrders";
-import { getMyConnects } from "@/services/api/MasterTradingService";
+import { getMyConnects, getMyGroups } from "@/services/api/MasterTradingService";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useDebounce } from "@/hooks/useDebounce";
 import { SolonaTokenService } from "@/services/api";
+import Select from 'react-select';
 
 interface Order {
   created_at: string;
@@ -90,6 +91,10 @@ export default function Trading() {
   const { data: connects = [] } = useQuery({
     queryKey: ["connects"],
     queryFn: getMyConnects,
+  });
+  const { data: groupsResponse } = useQuery({
+    queryKey: ["groups"],
+    queryFn: getMyGroups,
   });
   const { data: walletInfor, refetch: refetchWalletInfor } = useQuery({
     queryKey: ["wallet-infor"],
@@ -307,12 +312,13 @@ export default function Trading() {
       setCheckedConnections(resetCheckedState);
       setValue(0);
       setAmount("");
+      setSelectedGroups([]); // Reset selected groups
 
       // Add pending order to local state
       const newPendingOrder: Order = {
         created_at: new Date().toISOString(),
         trade_type: selectedAction,
-        price: 1.05,
+        price: 0.005,
         quantity: Number(amount),
         status: "pending"
       };
@@ -324,7 +330,7 @@ export default function Trading() {
         order_type: "market",
         order_token_name: tokenInfor?.name || "No name",
         order_token_address: address || "",
-        order_price: 1.05,
+        order_price: 0.005,
         order_qlty: Number(amount),
         member_list: selectedMembers
       });
@@ -414,6 +420,57 @@ export default function Trading() {
         currentPendingOrderRef.current = null;
       }
     }
+  };
+
+  // Add useEffect to refetch data when address changes
+  useEffect(() => {
+    if (address) {
+      refetch();
+      refetchOrders();
+      refetchTokenAmount();
+    }
+  }, [address, refetch, refetchOrders, refetchTokenAmount]);
+
+  const [selectedGroups, setSelectedGroups] = useState<{ value: number; label: string }[]>([]);
+
+  const groupOptions = ((groupsResponse as any)?.data || [])
+    .filter((group: any) => group.mg_status === "on")
+    .map((group: any) => ({
+      value: group.mg_id,
+      label: group.mg_name
+    }));
+
+  const handleGroupChange = (selectedOptions: any) => {
+    setSelectedGroups(selectedOptions);
+    
+    // Get all member IDs from selected groups
+    const newSelectedMembers: number[] = [];
+    const newCheckedConnections: Record<number, boolean> = { ...checkedConnections };
+    
+    // Reset all checkboxes to false
+    Object.keys(newCheckedConnections).forEach(key => {
+      newCheckedConnections[Number(key)] = false;
+    });
+    
+    // For each selected group, find and select its members
+    selectedOptions.forEach((option: any) => {
+      const group = ((groupsResponse as any)?.data || []).find((g: any) => g.mg_id === option.value);
+      if (group) {
+        // Find all connects that belong to this group
+        const groupConnects = connects.filter((connect: Connect) => 
+          connect.joined_groups.some(g => g.group_id === group.mg_id)
+        );
+        
+        // Add these members to selected members and check their checkboxes
+        groupConnects.forEach((connect: Connect) => {
+          newSelectedMembers.push(connect.member_id);
+          newCheckedConnections[connect.connection_id] = true;
+        });
+      }
+    });
+    
+    setSelectedMembers(newSelectedMembers);
+    setCheckedConnections(newCheckedConnections);
   };
 
   return (
@@ -728,17 +785,110 @@ export default function Trading() {
                     ))}
                   </div>
 
-                  <Button 
-                    className={`w-full ${
-                      selectedAction === "buy" 
-                        ? "bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 dark:hover:shadow-lg dark:hover:shadow-green-500/20 dark:hover:-translate-y-0.5 transition-all duration-200" 
-                        : "bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 dark:hover:shadow-lg dark:hover:shadow-red-500/20 dark:hover:-translate-y-0.5 transition-all duration-200"
-                    }`}
-                    onClick={handleTrading}
-                    disabled={!amount || Number(amount) <= 0}
-                  >
-                    {selectedAction === "buy" ? t("trading.buyNow") : t("trading.sellNow")}
-                  </Button>
+                  <div className="space-y-2">
+                    <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50">
+                      <h3 className="text-sm font-medium mb-2">{t("trading.selectGroups")}</h3>
+                      <Select
+                        isMulti
+                        options={groupOptions}
+                        value={selectedGroups}
+                        onChange={handleGroupChange}
+                        className="react-select-container"
+                        classNamePrefix="react-select"
+                        placeholder={t("trading.selectGroupsPlaceholder")}
+                        noOptionsMessage={() => t("trading.noGroupsAvailable")}
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            backgroundColor: 'hsl(var(--background))',
+                            borderColor: 'hsl(var(--input))',
+                            color: 'hsl(var(--foreground))',
+                            '&:hover': {
+                              borderColor: 'hsl(var(--input))',
+                            },
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            backgroundColor: 'hsl(var(--background))',
+                            color: 'hsl(var(--foreground))',
+                          }),
+                          option: (base, state) => ({
+                            ...base,
+                            backgroundColor: state.isSelected 
+                              ? 'hsl(var(--primary))' 
+                              : state.isFocused 
+                                ? 'hsl(var(--accent))' 
+                                : 'transparent',
+                            color: state.isSelected 
+                              ? document.documentElement.classList.contains('dark') ? '#fff' : '#000'
+                              : 'hsl(var(--foreground))',
+                            '&:hover': {
+                              backgroundColor: 'hsl(var(--accent))',
+                              color: 'hsl(var(--foreground))',
+                            },
+                          }),
+                          multiValue: (base) => ({
+                            ...base,
+                            backgroundColor: 'hsl(var(--primary))',
+                            color: document.documentElement.classList.contains('dark') ? '#fff' : '#000',
+                            borderRadius: '0.375rem',
+                            padding: '0.125rem 0.25rem',
+                          }),
+                          multiValueLabel: (base) => ({
+                            ...base,
+                            color: document.documentElement.classList.contains('dark') ? '#fff' : '#000',
+                            fontWeight: '500',
+                            fontSize: '0.875rem',
+                            padding: '0.125rem 0.25rem',
+                          }),
+                          multiValueRemove: (base) => ({
+                            ...base,
+                            color: document.documentElement.classList.contains('dark') ? '#fff' : '#000',
+                            padding: '0.125rem 0.25rem',
+                            ':hover': {
+                              backgroundColor: 'hsl(var(--destructive))',
+                              color: 'white',
+                            },
+                          }),
+                          singleValue: (base) => ({
+                            ...base,
+                            color: 'hsl(var(--foreground))',
+                            fontSize: '0.875rem',
+                          }),
+                          input: (base) => ({
+                            ...base,
+                            color: 'hsl(var(--foreground))',
+                            fontSize: '0.875rem',
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: 'hsl(var(--muted-foreground))',
+                            fontSize: '0.875rem',
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            color: 'hsl(var(--foreground))',
+                          }),
+                          noOptionsMessage: (base) => ({
+                            ...base,
+                            color: 'hsl(var(--muted-foreground))',
+                          }),
+                        }}
+                      />
+                    </div>
+
+                    <Button 
+                      className={`w-full ${
+                        selectedAction === "buy" 
+                          ? "bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 dark:hover:shadow-lg dark:hover:shadow-green-500/20 dark:hover:-translate-y-0.5 transition-all duration-200" 
+                          : "bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 dark:hover:shadow-lg dark:hover:shadow-red-500/20 dark:hover:-translate-y-0.5 transition-all duration-200"
+                      }`}
+                      onClick={handleTrading}
+                      disabled={!amount || Number(amount) <= 0}
+                    >
+                      {selectedAction === "buy" ? t("trading.buyNow") : t("trading.sellNow")}
+                    </Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -762,6 +912,17 @@ export default function Trading() {
                                     {connect.member_address.slice(0, 4)}...{connect.member_address.slice(-4)}
                                   </p>
                                 </div>
+                                <button
+                                  onClick={() => {
+                                    navigator.clipboard.writeText(connect.member_address).then(() => {
+                                      toast.success("Address copied to clipboard!");
+                                    });
+                                  }}
+                                  className="ml-2 p-1 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900"
+                                  title="Copy address"
+                                >
+                                  <Copy className="h-4 w-4 text-blue-500 hover:text-blue-700" />
+                                </button>
                               </div>
                               <Checkbox 
                                 checked={checkedConnections[connect.connection_id]}

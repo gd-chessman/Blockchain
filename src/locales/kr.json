@@ -153,7 +153,7 @@
         "detail": "상세 정보",
         "addWallet": "지갑 추가",
         "addFormTitle": "추적 생성",
-        "walletAddress": "지갑 주소",
+        "walletAddress": "지갑 멤버",
         "save": "저장",
         "cancel": "취소",
         "edit": "카피 트레이딩 수정",
@@ -409,7 +409,7 @@
         "errorUpdatingStatus": "상태 업데이트 중 오류 발생",
         "solAddress": "SOL 주소",
         "priceRatio": "가격/비율",
-        "walletAddress": "지갑 주소",
+        "walletAddress": "지갑 멤버",
         "inactive": "비활성",
         "running": "실행 중",
         "pause": "일시 중지",
@@ -465,7 +465,7 @@
             "pending": "대기 중"
         },
         "table": {
-            "walletAddress": "지갑 주소",
+            "walletAddress": "지갑 멤버",
             "type": "유형",
             "status": "상태",
             "actions": "작업"
@@ -542,7 +542,7 @@
                 "previous": "이전",
                 "next": "다음",
                 "columns": {
-                    "walletAddress": "지갑 주소",
+                    "walletAddress": "지갑 멤버",
                     "joinedGroups": "참여 그룹",
                     "status": "상태",
                     "actions": "작업"

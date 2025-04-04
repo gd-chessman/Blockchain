@@ -38,8 +38,8 @@ export default function CreateCoin() {
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [fileImage, setFileImage] = useState<File | null>(null);
-  const [isAmountEnabled, setIsAmountEnabled] = useState(true);
-  const [amountValue, setAmountValue] = useState("");
+  const [isAmountEnabled, setIsAmountEnabled] = useState(false);
+  const [amountValue, setAmountValue] = useState("0");
   const [isLoading, setIsLoading] = useState(false);
   const { data: memeCoins = [] , refetch} = useQuery({
     queryKey: ['my-tokens'],

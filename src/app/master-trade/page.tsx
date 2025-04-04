@@ -36,6 +36,7 @@ export default function MasterTrade() {
   const [maxCopyAmount, setMaxCopyAmount] = useState("0.01");
   const [isAddWalletOpen, setIsAddWalletOpen] = useState(false);
   const [newWalletName, setNewWalletName] = useState("");
+  const [pausedTraders, setPausedTraders] = useState<Set<string>>(new Set());
 
   // Count traders by connection status for tab indicators
   const notConnectedCount = masterTraders.filter((trader: any) => trader.connection_status === null || trader.connection_status === "block").length;
@@ -53,7 +54,7 @@ export default function MasterTrade() {
       case "not-connected":
         return matchesSearch && (trader.connection_status === null || trader.connection_status === "block");
       case "connect":
-        return matchesSearch && trader.connection_status === "connect";
+        return matchesSearch && (trader.connection_status === "connect" || trader.connection_status === "pause");
       case "disconnect":
         return matchesSearch && trader.connection_status === "disconnect";
       case "pending":
@@ -98,11 +99,39 @@ export default function MasterTrade() {
 
   const handleDisconnect = async (disconnect: any)=>{
     const data = {
-      master_wallet_id: disconnect.id,
-      status: "disconnect"
+      master_id: disconnect.id,
+      status: "disconnect",
+      master_address: disconnect.solana_address
     };
-    await MasterTradingService.masterSetConnectGroup(data)
+    await MasterTradingService.memberSetConnect(data);
+    refetchMasterTraders();
   }
+
+  const handlePause = async (trader: any) => {
+    const data = {
+      master_id: trader.id,
+      status: "pause",
+      master_address: trader.solana_address
+    };
+    await MasterTradingService.memberSetConnect(data);
+    setPausedTraders(prev => new Set(prev).add(trader.id));
+    refetchMasterTraders();
+  };
+
+  const handleResume = async (trader: any) => {
+    const data = {
+      master_id: trader.id,
+      status: "connect",
+      master_address: trader.solana_address
+    };
+    await MasterTradingService.memberSetConnect(data);
+    setPausedTraders(prev => {
+      const newSet = new Set(prev);
+      newSet.delete(trader.id);
+      return newSet;
+    });
+    refetchMasterTraders();
+  };
 
   return (
     <div className="container mx-auto p-6">
@@ -177,7 +206,7 @@ export default function MasterTrade() {
                         <TableRow key={trader.id} className="hover:bg-muted/30">
                           <TableCell className="font-medium">
                             <div className="w-64 truncate">
-                              {trader.solana_address}
+                              {trader.solana_address.slice(0, 6)}...{trader.solana_address.slice(-4)}
                               <Button
                                 variant="ghost"
                                 size="icon"
@@ -206,8 +235,16 @@ export default function MasterTrade() {
                             </Badge>
                           </TableCell>
                           <TableCell>
-                            <span className="text-muted-foreground">
-                              {t(`masterTrade.status.${trader.connection_status || "notConnected"}`)}
+                            <span className={
+                              trader.connection_status === "connect" 
+                                ? "text-green-500" 
+                                : trader.connection_status === "pause" 
+                                  ? "text-amber-500" 
+                                  : trader.connection_status === "disconnect" 
+                                    ? "text-red-500" 
+                                    : "text-muted-foreground"
+                            }>
+                              {t(`masterTrade.status.${trader.connection_status}`)}
                             </span>
                           </TableCell>
                           <TableCell className="text-right">
@@ -256,7 +293,7 @@ export default function MasterTrade() {
                         <TableRow key={trader.id} className="hover:bg-muted/30">
                           <TableCell className="font-medium">
                             <div className="w-64 truncate">
-                              {trader.solana_address}
+                              {trader.solana_address.slice(0, 6)}...{trader.solana_address.slice(-4)}
                               <Button
                                 variant="ghost"
                                 size="icon"
@@ -285,18 +322,59 @@ export default function MasterTrade() {
                             </Badge>
                           </TableCell>
                           <TableCell>
-                            <span className="text-muted-foreground">
+                            <span className={
+                              trader.connection_status === "connect" 
+                                ? "text-green-500" 
+                                : trader.connection_status === "pause" 
+                                  ? "text-amber-500" 
+                                  : trader.connection_status === "disconnect" 
+                                    ? "text-red-500" 
+                                    : "text-muted-foreground"
+                            }>
                               {t(`masterTrade.status.${trader.connection_status}`)}
                             </span>
                           </TableCell>
                           <TableCell className="text-right">
-                            <Button
-                              size="sm"
-                              variant="destructive"
-                              onClick={() => handleDisconnect(trader)}
-                            >
-                              {t("masterTrade.actions.disconnect")}
-                            </Button>
+                            <div className="flex justify-end gap-2">
+                              {trader.connection_status === "pause" ? (
+                                <>
+                                  <Button
+                                    size="sm"
+                                    className="bg-white hover:bg-green-50 text-green-500 border border-solid border-green-500"
+                                    onClick={() => handleResume(trader)}
+                                  >
+                                    {t("masterTrade.actions.reconnect")}
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="bg-white hover:bg-red-50 text-red-500 border-red-500"
+                                    onClick={() => handleDisconnect(trader)}
+                                  >
+                                    {t("masterTrade.actions.disconnect")}
+                                  </Button>
+                                </>
+                              ) : (
+                                <>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="bg-white hover:bg-amber-50 text-amber-500 border-amber-500"
+                                    onClick={() => handlePause(trader)}
+                                  >
+                                    {t("masterTrade.actions.pause")}
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="bg-white hover:bg-red-50 text-red-500 border-red-500"
+                                    onClick={() => handleDisconnect(trader)}
+                                  >
+                                    {t("masterTrade.actions.disconnect")}
+                                  </Button>
+                                </>
+                              )}
+                            </div>
                           </TableCell>
                         </TableRow>
                       ))
@@ -335,7 +413,7 @@ export default function MasterTrade() {
                         <TableRow key={trader.id} className="hover:bg-muted/30">
                           <TableCell className="font-medium">
                             <div className="w-64 truncate">
-                              {trader.solana_address}
+                              {trader.solana_address.slice(0, 6)}...{trader.solana_address.slice(-4)}
                               <Button
                                 variant="ghost"
                                 size="icon"
@@ -364,15 +442,23 @@ export default function MasterTrade() {
                             </Badge>
                           </TableCell>
                           <TableCell>
-                            <span className="text-muted-foreground">
+                            <span className={
+                              trader.connection_status === "connect" 
+                                ? "text-green-500" 
+                                : trader.connection_status === "pause" 
+                                  ? "text-amber-500" 
+                                  : trader.connection_status === "disconnect" 
+                                    ? "text-red-500" 
+                                    : "text-muted-foreground"
+                            }>
                               {t(`masterTrade.status.${trader.connection_status}`)}
                             </span>
                           </TableCell>
                           <TableCell className="text-right">
                             <Button
                               size="sm"
-                              className="border-primary border-solid border-2 text-white"
-                              onClick={() => handleConnect(trader)}
+                              className="bg-white hover:bg-green-50 text-green-500 border border-solid border-green-500"
+                              onClick={() => handleResume(trader)}
                             >
                               {t("masterTrade.actions.reconnect")}
                             </Button>
@@ -414,7 +500,7 @@ export default function MasterTrade() {
                         <TableRow key={trader.id} className="hover:bg-muted/30">
                           <TableCell className="font-medium">
                             <div className="w-64 truncate">
-                              {trader.solana_address}
+                              {trader.solana_address.slice(0, 6)}...{trader.solana_address.slice(-4)}
                               <Button
                                 variant="ghost"
                                 size="icon"
@@ -443,18 +529,22 @@ export default function MasterTrade() {
                             </Badge>
                           </TableCell>
                           <TableCell>
-                            <span className="text-muted-foreground">
+                            <span className={
+                              trader.connection_status === "connect" 
+                                ? "text-green-500" 
+                                : trader.connection_status === "pause" 
+                                  ? "text-amber-500" 
+                                  : trader.connection_status === "disconnect" 
+                                    ? "text-red-500" 
+                                    : "text-muted-foreground"
+                            }>
                               {t(`masterTrade.status.${trader.connection_status}`)}
                             </span>
                           </TableCell>
                           <TableCell className="text-right">
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => handleConnect(trader)}
-                            >
-                              {t("masterTrade.actions.cancel")}
-                            </Button>
+                            <span className="text-amber-500">
+                              Đang chờ master duyệt
+                            </span>
                           </TableCell>
                         </TableRow>
                       ))
