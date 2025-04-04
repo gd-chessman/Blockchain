@@ -344,7 +344,7 @@ export default function Trading() {
                           className="rounded-r-none"
                         />
                         <div className="bg-muted px-3 py-2 text-sm rounded-r-md border border-l-0 border-input">
-                          BTC
+                          {value}%
                         </div>
                       </div>
                     </div>
@@ -414,13 +414,13 @@ export default function Trading() {
                               variant="outline"
                               size="sm"
                               className="w-24"
+                              onClick={() => setValue(Number(percent))}
                             >
                               {percent}%
                             </Button>
                           )}
                           <Button
                             variant="ghost"
-                            // size="xs"
                             className="p-1"
                             onClick={() => handleEditClick(index)}
                           >
