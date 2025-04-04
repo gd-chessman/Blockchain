@@ -311,7 +311,7 @@ export default function Wallet() {
 
             <div className="relative mb-4">
               <Input
-                value={(mounted && (payloadToken as any)?.sol_public_key) || ""}
+                value={(mounted && (payloadToken as any)?.sol_public_key) ? `${(payloadToken as any)?.sol_public_key.slice(0, 6)}...${(payloadToken as any)?.sol_public_key.slice(-4)}` : ""}
                 readOnly
                 className="pr-10 bg-gray-50 dark:bg-gray-900/50"
               />
@@ -357,7 +357,7 @@ export default function Wallet() {
 
             <div className="relative mb-4">
               <Input
-                value={(mounted && (payloadToken as any)?.eth_public_key) || ""}
+                value={(mounted && (payloadToken as any)?.eth_public_key) ? `${(payloadToken as any)?.eth_public_key.slice(0, 6)}...${(payloadToken as any)?.eth_public_key.slice(-4)}` : ""}
                 readOnly
                 className="pr-10 bg-gray-50 dark:bg-gray-900/50"
               />
@@ -399,7 +399,7 @@ export default function Wallet() {
 
             <div className="relative mb-4">
               <Input
-                value={(mounted && (payloadToken as any)?.eth_public_key) || ""}
+                value={(mounted && (payloadToken as any)?.eth_public_key) ? `${(payloadToken as any)?.eth_public_key.slice(0, 6)}...${(payloadToken as any)?.eth_public_key.slice(-4)}` : ""}
                 readOnly
                 className="pr-10 bg-gray-50 dark:bg-gray-900/50"
               />
@@ -542,7 +542,7 @@ export default function Wallet() {
                       <TableCell>
                         <div className="flex items-center">
                           <span className="truncate w-64">
-                            {wallet.solana_address}
+                            {wallet.solana_address.slice(0, 6)}...{wallet.solana_address.slice(-4)}
                           </span>
                           <Button
                             variant="ghost"
@@ -556,7 +556,7 @@ export default function Wallet() {
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center">
-                          <span>{wallet.eth_address || "N/A"}</span>
+                          <span>{wallet.eth_address ? `${wallet.eth_address.slice(0, 6)}...${wallet.eth_address.slice(-4)}` : "N/A"}</span>
                           <Button
                             variant="ghost"
                             size="icon"
