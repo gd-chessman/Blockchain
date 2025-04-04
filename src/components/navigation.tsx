@@ -38,16 +38,25 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import dynamic from 'next/dynamic';
 
+const BalanceDisplay = dynamic(() => Promise.resolve(({ balance }: { balance: string }) => (
+  <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold text-white dark:bg-[#1d8e50] dark:text-white border-blue-200">
+    {balance} SOL
+  </div>
+)), { ssr: false });
 
 export default function Navigation() {
   const { data: walletInfor, refetch } = useQuery({
     queryKey: ["wallet-infor"],
     queryFn: getInforWallet,
+    refetchInterval: 30000,
+    staleTime: 30000,
   });
   const { data: myWallets } = useQuery({
     queryKey: ["my-wallets"],
     queryFn: getMyWallets,
+    staleTime: 30000,
   });
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -57,14 +66,20 @@ export default function Navigation() {
   const [isWalletDialogOpen, setIsWalletDialogOpen] = useState(false);
 
   const handleChangeWallet = async (walletId: string) => {
-    const res = await useWallet({ wallet_id: walletId });
-    updateToken(res.token);
-    refetch();
-    window.location.reload();
+    try {
+      const res = await useWallet({ wallet_id: walletId });
+      updateToken(res.token);
+      await refetch();
+    } catch (error) {
+      console.error('Error changing wallet:', error);
+    }
   };
 
   useEffect(() => {
     setMounted(true);
+    return () => {
+      setMounted(false);
+    };
   }, []);
 
   const navItems = [
@@ -130,14 +145,11 @@ export default function Navigation() {
         </div>
 
         {/* Các nút chức năng bên phải */}
-        <div className="flex items-center gap-2">
-          {isAuthenticated && (
-            <Badge
-              variant="outline"
-              className=" text-white dark:bg-[#1d8e50] dark:text-white border-blue-200 "
-            >
-              {walletInfor?.solana_balance?.toFixed(5) || '0.00000'} SOL
-            </Badge>
+        <div className="flex items-center gap-2 md:gap-3">
+          {isAuthenticated && mounted && walletInfor && (
+            <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold text-white dark:bg-[#1d8e50] dark:text-white border-blue-200">
+              {walletInfor.solana_balance?.toFixed(5) || '0.00000'} SOL
+            </div>
           )}
           <ThemeToggle />
           <LangToggle />
@@ -156,11 +168,11 @@ export default function Navigation() {
                   Connect Telegram
                 </Button>
               )}
-              {isAuthenticated && (
+              {isAuthenticated && walletInfor && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button className="bg-green-500 hover:bg-green-600 text-white font-medium w-36 block">
-                      {truncateString(walletInfor?.solana_address, 14)}
+                      {truncateString(walletInfor.solana_address, 14)}
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-56">
