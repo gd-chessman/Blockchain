@@ -120,3 +120,13 @@ export const changeStatusGroup = async (id: any, status: any)=>{
         throw error;
     }
 }
+
+export const masterJoinGroup = async (item: { mg_id: number })=>{
+    try {
+        const temp = await axiosClient.post("/master-trading/master-join-group", item)
+        return temp.data;
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}

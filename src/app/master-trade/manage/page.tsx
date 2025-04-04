@@ -23,6 +23,13 @@ import { getMyConnects, getMyGroups } from "@/services/api/MasterTradingService"
 import { getInforWallet } from "@/services/api/TelegramWalletService";
 import { useRouter } from "next/navigation";
 import { ToastNotification } from "@/components/ui/toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 type Group = {
   mg_id: number;
@@ -85,6 +92,8 @@ export default function ManageMasterTrade() {
   const [activeGroupTab, setActiveGroupTab] = useState<"on" | "off" | "delete">("on");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [selectedGroup, setSelectedGroup] = useState<number | null>(null);
+  const [isJoinDialogOpen, setIsJoinDialogOpen] = useState(false);
 
   useEffect(() => {
     if (walletInfor?.role !== "master") {
@@ -159,11 +168,11 @@ export default function ManageMasterTrade() {
   };
 
   // Xử lý chọn/bỏ chọn một nhóm
-  const handleSelectGroup = (id: number, checked: boolean) => {
+  const handleSelectGroup = (groupId: number, checked: boolean) => {
     if (checked) {
-      setSelectedGroups((prev) => [...prev, id]);
+      setSelectedGroup(groupId);
     } else {
-      setSelectedGroups((prev) => prev.filter((groupId) => groupId !== id));
+      setSelectedGroup(null);
     }
   };
 
@@ -235,6 +244,28 @@ export default function ManageMasterTrade() {
     setToastMessage(t("notifications.addressCopied"));
     setShowToast(true);
     setTimeout(() => setShowToast(false), 3000);
+  };
+
+  const handleOpenJoinDialog = () => {
+    if (selectedGroup) {
+      setIsJoinDialogOpen(true);
+    }
+  };
+
+  const handleJoin = async () => {
+    if (selectedGroup) {
+      try {
+        await MasterTradingService.masterJoinGroup({ mg_id: selectedGroup });
+        setToastMessage(t("masterTrade.manage.connectionManagement.joinSuccess"));
+        setShowToast(true);
+        refetchMyGroups();
+        setIsJoinDialogOpen(false);
+        setSelectedGroup(null);
+      } catch (error) {
+        setToastMessage(t("masterTrade.manage.connectionManagement.joinError"));
+        setShowToast(true);
+      }
+    }
   };
 
   return (
@@ -360,8 +391,18 @@ export default function ManageMasterTrade() {
                     {filteredGroups.map((group) => (
                       <TableRow key={group.mg_id} className="hover:bg-muted/30">
                         <TableCell className="font-medium !py-2">
-                          <div className="flex items-center">
-                            {group.mg_name}
+                          <div className="flex items-center space-x-2">
+                            <Checkbox
+                              id={`group-${group.mg_id}`}
+                              checked={selectedGroup === group.mg_id}
+                              onCheckedChange={(checked) => handleSelectGroup(group.mg_id, checked as boolean)}
+                            />
+                            <label
+                              htmlFor={`group-${group.mg_id}`}
+                              className="cursor-pointer"
+                            >
+                              {group.mg_name}
+                            </label>
                           </div>
                         </TableCell>
                         <TableCell className="!py-2">
@@ -464,7 +505,10 @@ export default function ManageMasterTrade() {
                     </Badge>
                   </TabsTrigger>
                 </TabsList>
-                <Button className="bg-green-500 hover:bg-green-600">
+                <Button 
+                  className="bg-green-500 hover:bg-green-600"
+                  onClick={handleOpenJoinDialog}
+                >
                   {t("masterTrade.manage.connectionManagement.join")}
                 </Button>
               </div>
@@ -520,6 +564,43 @@ export default function ManageMasterTrade() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Join Group Dialog */}
+      <Dialog open={isJoinDialogOpen} onOpenChange={setIsJoinDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>{t("masterTrade.manage.connectionManagement.selectGroup")}</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="flex items-center justify-between">
+              {myGroups
+                .filter(group => group.mg_id === selectedGroup)
+                .map(group => (
+                  <div key={group.mg_id} className="flex-1">
+                    <p className="font-medium">{group.mg_name}</p>
+                  </div>
+                ))}
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setIsJoinDialogOpen(false);
+                    setSelectedGroup(null);
+                  }}
+                >
+                  {t("masterTrade.manage.connectionManagement.cancel")}
+                </Button>
+                <Button
+                  className="bg-green-500 hover:bg-green-600"
+                  onClick={handleJoin}
+                >
+                  {t("masterTrade.manage.connectionManagement.join")}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
