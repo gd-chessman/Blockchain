@@ -215,8 +215,6 @@ export default function Trading() {
         })
         .filter(Boolean);
 
-      console.log("Selected members:", selectedMembers);
-
       const response = await createTrading({
         order_trade_type: selectedAction,
         order_type: "market",
@@ -233,9 +231,11 @@ export default function Trading() {
         setAmount("");
         setCheckedConnections({});
         
-        // Fetch dữ liệu mới
+        // Fetch lại tất cả dữ liệu
         refetchOrders(); // Cập nhật lịch sử giao dịch
         refetchTokenAmount(); // Cập nhật số dư
+        refetch(); // Cập nhật thông tin token
+        getOrdersWs({ token_address: address }); // Cập nhật orders qua websocket
       } else {
         toast.error("Failed to create trading order");
       }
