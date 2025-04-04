@@ -497,7 +497,7 @@ export default function Trading() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 gap-4">
-                <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50 max-h-[26rem] overflow-auto">
+                <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50 max-h-[26rem] overflow-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent">
                   <div className="space-y-4">
                     {memeCoins.map((token: any, index: any) => (
                       <Link
@@ -539,13 +539,13 @@ export default function Trading() {
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <Button 
-                      className={`${selectedAction === "buy" ? "bg-green-100 text-green-600 hover:bg-green-200 border border-green-500" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}
+                      className={`${selectedAction === "buy" ? "bg-green-100 text-green-600 hover:bg-green-200 border border-green-500 dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50 dark:border-green-500 dark:hover:shadow-lg dark:hover:shadow-green-500/20 dark:hover:-translate-y-0.5 transition-all duration-200" : "bg-gray-100 text-gray-500 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"}`}
                       onClick={() => handleActionClick("buy")}
                     >
                       {t("trading.buy")}
                     </Button>
                     <Button
-                      className={`${selectedAction === "sell" ? "bg-red-100 text-red-600 hover:bg-red-200 border border-red-500" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}
+                      className={`${selectedAction === "sell" ? "bg-red-100 text-red-600 hover:bg-red-200 border border-red-500 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50 dark:border-red-500 dark:hover:shadow-lg dark:hover:shadow-red-500/20 dark:hover:-translate-y-0.5 transition-all duration-200" : "bg-gray-100 text-gray-500 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"}`}
                       onClick={() => handleActionClick("sell")}
                     >
                       {t("trading.sell")}
@@ -662,8 +662,8 @@ export default function Trading() {
                   <Button 
                     className={`w-full ${
                       selectedAction === "buy" 
-                        ? "bg-green-500 hover:bg-green-600" 
-                        : "bg-red-500 hover:bg-red-600"
+                        ? "bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 dark:hover:shadow-lg dark:hover:shadow-green-500/20 dark:hover:-translate-y-0.5 transition-all duration-200" 
+                        : "bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 dark:hover:shadow-lg dark:hover:shadow-red-500/20 dark:hover:-translate-y-0.5 transition-all duration-200"
                     }`}
                     onClick={handleTrading}
                     disabled={!amount || Number(amount) <= 0}
