@@ -9,8 +9,8 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Pencil, TrendingUp, Check, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Pencil, TrendingUp, Check, X, Loader2, Search } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
 import { useLang } from "@/lang";
 import { Copy } from "lucide-react";
 import { toast } from "react-toastify";
@@ -207,8 +207,12 @@ export default function Trading() {
   }, [activeTab, selectedAction, refetchTokenAmount]);
 
   const handleActionClick = (action: "buy" | "sell") => {
-    setSelectedAction(action);
-    setValue(0); // Reset percentage when switching actions
+    if (selectedAction !== action) {
+      setSelectedAction(action);
+      setValue(0); // Reset percentage when switching actions
+      setAmount(""); // Reset amount when switching actions
+      setCheckedConnections({}); // Reset checked connections when switching actions
+    }
   };
 
   useEffect(() => {
@@ -235,9 +239,9 @@ export default function Trading() {
     if (tokenAmount?.data?.token_balance) {
       let percentage = (Number(newValue) / tokenAmount.data.token_balance) * 100;
       // Nếu là bán và đang ở 100%, giữ lại 0.1% làm phí
-      if (selectedAction === "sell" && percentage >= 99.9) {
-        percentage = 99.9;
-        setAmount((tokenAmount.data.token_balance * 0.999).toFixed(5));
+      if (selectedAction === "sell" && percentage >= 99.99) {
+        percentage = 99.99;
+        setAmount((tokenAmount.data.token_balance * 0.9999).toFixed(5));
       }
       setValue(Math.min(100, Math.max(0, percentage)));
     }
@@ -249,13 +253,16 @@ export default function Trading() {
     if (tokenAmount?.data?.token_balance) {
       let calculatedAmount = tokenAmount.data.token_balance * (newValue / 100);
       // Nếu là bán và đang ở 100%, giữ lại 0.1% làm phí
-      if (selectedAction === "sell" && newValue >= 99.9) {
-        calculatedAmount = tokenAmount.data.token_balance * 0.999;
-        setValue(99.9);
+      if (selectedAction === "sell" && newValue >= 99.99) {
+        calculatedAmount = tokenAmount.data.token_balance * 0.9999;
+        setValue(99.99);
       }
       setAmount(calculatedAmount.toFixed(5));
     }
   };
+
+  const [pendingOrders, setPendingOrders] = useState<Order[]>([]);
+  const currentPendingOrderRef = useRef<Order | null>(null);
 
   const handleTrading = async () => {
     try {
@@ -266,6 +273,17 @@ export default function Trading() {
           return connect?.member_id;
         })
         .filter(Boolean);
+
+      // Add pending order to local state
+      const newPendingOrder: Order = {
+        created_at: new Date().toISOString(),
+        trade_type: selectedAction,
+        price: 1.05,
+        quantity: Number(amount),
+        status: "pending"
+      };
+      currentPendingOrderRef.current = newPendingOrder;
+      setPendingOrders(prev => [...prev, newPendingOrder]);
 
       const response = await createTrading({
         order_trade_type: selectedAction,
@@ -284,15 +302,45 @@ export default function Trading() {
         setCheckedConnections({});
         
         // Fetch lại tất cả dữ liệu
-        refetchOrders(); // Cập nhật lịch sử giao dịch
-        refetchTokenAmount(); // Cập nhật số dư
-        refetch(); // Cập nhật thông tin token
+        await Promise.all([
+          refetchOrders(), // Cập nhật lịch sử giao dịch
+          refetchTokenAmount(), // Cập nhật số dư
+          refetch(), // Cập nhật thông tin token
+        ]);
+
+        // Remove pending order after successful API call
+        if (currentPendingOrderRef.current) {
+          setPendingOrders(prev => prev.filter(order => order.created_at !== currentPendingOrderRef.current?.created_at));
+          currentPendingOrderRef.current = null;
+        }
       } else {
         toast.error("Failed to create trading order");
+        // Remove pending order on error
+        if (currentPendingOrderRef.current) {
+          setPendingOrders(prev => prev.filter(order => order.created_at !== currentPendingOrderRef.current?.created_at));
+          currentPendingOrderRef.current = null;
+        }
+        // Fetch lại dữ liệu khi thất bại
+        await Promise.all([
+          refetchOrders(),
+          refetchTokenAmount(),
+          refetch(),
+        ]);
       }
     } catch (error) {
       console.error("Trading error:", error);
       toast.error("An error occurred while creating the trading order");
+      // Remove pending order on error
+      if (currentPendingOrderRef.current) {
+        setPendingOrders(prev => prev.filter(order => order.created_at !== currentPendingOrderRef.current?.created_at));
+        currentPendingOrderRef.current = null;
+      }
+      // Fetch lại dữ liệu khi có lỗi
+      await Promise.all([
+        refetchOrders(),
+        refetchTokenAmount(),
+        refetch(),
+      ]);
     }
   };
 
@@ -368,16 +416,25 @@ export default function Trading() {
             <CardHeader>
               <CardTitle>{t("trading.otherCoins")}</CardTitle>
             </CardHeader>
+            <CardHeader className="pt-0">
+              <div className="relative w-full">
+                {isSearching ? (
+                  <Loader2 className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground animate-spin" />
+                ) : (
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground cursor-pointer" />
+                )}
+                <Input
+                  type="text"
+                  placeholder="Search coins..."
+                  className="pl-10 w-full"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+            </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 gap-4">
                 <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50">
-                  <Input
-                    type="text"
-                    placeholder="Search coins..."
-                    className="mb-4"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
                   <div className="max-h-[64vh] overflow-auto">
                     <div className="space-y-4">
                       {displayTokens.map((token, index) => (
@@ -502,7 +559,7 @@ export default function Trading() {
                       </label>
                       <span className="text-sm text-muted-foreground">
                         Balance: {tokenAmount?.data?.token_balance?.toFixed(5) || 0} {selectedAction === "buy" ? "SOL" : tokenInfor?.symbol}
-                        {selectedAction === "sell" && value >= 99.9 && (
+                        {selectedAction === "sell" && value >= 99.99 && (
                           <span className="text-yellow-500 ml-2">(0.1% reserved for network fee)</span>
                         )}
                       </span>
@@ -518,7 +575,7 @@ export default function Trading() {
                         max={tokenAmount?.data?.token_balance}
                       />
                       <div className="bg-muted px-3 py-2 text-sm rounded-r-md border border-l-0 border-input">
-                        {value}%
+                        {value.toFixed(2)}%
                       </div>
                     </div>
                   </div>
@@ -557,7 +614,7 @@ export default function Trading() {
                     </div>
 
                     <div className="text-center text-sm mt-2 font-semibold text-blue-600">
-                      {value}%
+                      {value.toFixed(2)}%
                     </div>
                   </div>
 
@@ -603,8 +660,13 @@ export default function Trading() {
                   </div>
 
                   <Button 
-                    className="w-full bg-green-500 hover:bg-green-600"
+                    className={`w-full ${
+                      selectedAction === "buy" 
+                        ? "bg-green-500 hover:bg-green-600" 
+                        : "bg-red-500 hover:bg-red-600"
+                    }`}
                     onClick={handleTrading}
+                    disabled={!amount || Number(amount) <= 0}
                   >
                     {selectedAction === "buy" ? t("trading.buyNow") : t("trading.sellNow")}
                   </Button>
@@ -669,7 +731,7 @@ export default function Trading() {
                     </tr>
                   </thead>
                   <tbody>
-                    {orders?.map((order: Order, index: number) => (
+                    {[...pendingOrders, ...(orders || [])].map((order: Order, index: number) => (
                       <tr key={index} className="text-sm border-b">
                         <td className="py-3">
                           {new Date(order.created_at).toLocaleString()}
@@ -690,8 +752,10 @@ export default function Trading() {
                         <td className="py-3">
                           ${(order.price * order.quantity).toFixed(8) || ""}
                         </td>
-                        <td className="py-3 uppercase text-blue-600">
-                          {t(`trading.${order.status}`)}
+                        <td className="py-3 uppercase">
+                          <span className={order.status === "pending" ? "text-yellow-500" : "text-blue-600"}>
+                            {t(`trading.${order.status}`)}
+                          </span>
                         </td>
                       </tr>
                     ))}
