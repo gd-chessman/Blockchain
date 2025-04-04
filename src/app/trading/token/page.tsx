@@ -28,6 +28,8 @@ import { getInforWallet, getMyTokens } from "@/services/api/TelegramWalletServic
 import { useWsGetOrders } from "@/hooks/useWsGetOrders";
 import { getMyConnects } from "@/services/api/MasterTradingService";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useDebounce } from "@/hooks/useDebounce";
+import { SolonaTokenService } from "@/services/api";
 
 interface Order {
   created_at: string;
@@ -100,7 +102,59 @@ export default function Trading() {
   const marks = [0, 25, 50, 75, 100];
   const [copySuccess, setCopySuccess] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredTokens, setFilteredTokens] = useState(tokens);
+  const debouncedSearchQuery = useDebounce(searchQuery, 100); // 2 seconds delay
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchResults, setSearchResults] = useState<
+    {
+      id: number;
+      name: string;
+      symbol: string;
+      address: string;
+      decimals: number;
+      logoUrl: string;
+      coingeckoId: string | null;
+      tradingviewSymbol: string | null;
+      isVerified: boolean;
+      marketCap: number;
+    }[]
+  >([]);
+
+  // Effect to handle search when debounced value changes
+  useEffect(() => {
+    const searchData = async () => {
+      if (!debouncedSearchQuery.trim()) {
+        setSearchResults([]);
+        setIsSearching(false);
+        return;
+      }
+      setIsSearching(true);
+      try {
+        const res = await SolonaTokenService.getSearchTokenInfor(debouncedSearchQuery);
+        setSearchResults(res.tokens || []);
+      } catch (error) {
+        console.error("Error searching tokens:", error);
+        setSearchResults([]);
+      } finally {
+        setIsSearching(false);
+      }
+    };
+
+    searchData();
+  }, [debouncedSearchQuery]);
+
+  // Use search results if available, otherwise use WebSocket data
+  const displayTokens = debouncedSearchQuery.trim() ? searchResults : tokens.map(token => ({
+    id: 0,
+    name: token.slt_name,
+    symbol: token.slt_symbol,
+    address: token.slt_address,
+    decimals: token.slt_decimals,
+    logoUrl: token.slt_logo_url,
+    coingeckoId: null,
+    tradingviewSymbol: null,
+    isVerified: token.slt_is_verified,
+    marketCap: 0
+  }));
 
   useEffect(() => {
     if (Array.isArray(tokenMessages)) {
@@ -116,19 +170,6 @@ export default function Trading() {
       console.error("messages is not an array:", tokenMessages);
     }
   }, [tokenMessages]);
-
-  useEffect(() => {
-    if (searchQuery) {
-      const filtered = tokens.filter(
-        (token) =>
-          token.slt_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          token.slt_symbol.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setFilteredTokens(filtered);
-    } else {
-      setFilteredTokens(tokens);
-    }
-  }, [searchQuery, tokens]);
 
   const handleTimeframeChange = (timeframe: string) => {
     console.log(`Timeframe changed to: ${timeframe}`);
@@ -339,27 +380,27 @@ export default function Trading() {
                   />
                   <div className="max-h-[64vh] overflow-auto">
                     <div className="space-y-4">
-                      {filteredTokens.map((token, index) => (
+                      {displayTokens.map((token, index) => (
                         <Link
                           key={index}
                           className={`flex text-sm gap-6 cursor-pointer ${
-                            index < filteredTokens.length - 1 ? "border-b-2 pb-2" : ""
+                            index < displayTokens.length - 1 ? "border-b-2 pb-2" : ""
                           }`}
-                          href={`/trading/token?address=${token.slt_address}`}
+                          href={`/trading/token?address=${token.address}`}
                         >
                           <img
-                            src={token.slt_logo_url}
+                            src={token.logoUrl}
                             alt=""
                             className="size-10 rounded-full"
                           />
                           <div>
-                            <p>{token.slt_name}</p>{" "}
+                            <p>{token.name}</p>{" "}
                             <p className="text-muted-foreground text-xs">
-                              {token.slt_symbol}
+                              {token.symbol}
                             </p>{" "}
                           </div>
                           <small className="text-green-600 text-xl ml-auto block">
-                            {token.slt_is_verified ? " ✓" : "x"}
+                            {token.isVerified ? " ✓" : "x"}
                           </small>
                         </Link>
                       ))}
