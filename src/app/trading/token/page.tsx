@@ -20,7 +20,7 @@ import TradingChart, {
 import usePercent from "@/hooks/usePercent";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getTokenInforByAddress } from "@/services/api/SolonaTokenService";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useWsSubscribeTokens } from "@/hooks/useWsSubscribeTokens";
 import Link from "next/link";
 import { getOrders, getTokenAmount, createTrading } from "@/services/api/TradingService";
@@ -90,6 +90,12 @@ export default function Trading() {
     queryKey: ["connects"],
     queryFn: getMyConnects,
   });
+  const { data: walletInfor, refetch: refetchWalletInfor } = useQuery({
+    queryKey: ["wallet-infor"],
+    queryFn: getInforWallet,
+    refetchInterval: 30000,
+    refetchIntervalInBackground: true,
+  });
   const [activeTab, setActiveTab] = useState("buy");
   const [selectedAction, setSelectedAction] = useState<"buy" | "sell">("buy");
   const { data: tokenAmount, refetch: refetchTokenAmount } = useQuery({
@@ -97,6 +103,7 @@ export default function Trading() {
     queryFn: () => getTokenAmount(selectedAction === "buy" ? "So11111111111111111111111111111111111111112" : address),
   });
   const [checkedConnections, setCheckedConnections] = useState<Record<number, boolean>>({});
+  const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
 
   // console.log("orderMessages", orderMessages);
   const marks = [0, 25, 50, 75, 100];
@@ -224,11 +231,19 @@ export default function Trading() {
     setCheckedConnections(initialCheckedState);
   }, [connects]);
 
-  const handleCheckboxChange = (connectionId: number) => {
+  const handleCheckboxChange = (connectionId: number, memberId: number) => {
     setCheckedConnections(prev => ({
       ...prev,
       [connectionId]: !prev[connectionId]
     }));
+
+    setSelectedMembers(prev => {
+      if (prev.includes(memberId)) {
+        return prev.filter(id => id !== memberId);
+      } else {
+        return [...prev, memberId];
+      }
+    });
   };
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -239,9 +254,9 @@ export default function Trading() {
     if (tokenAmount?.data?.token_balance) {
       let percentage = (Number(newValue) / tokenAmount.data.token_balance) * 100;
       // Nếu là bán và đang ở 100%, giữ lại 0.1% làm phí
-      if (selectedAction === "sell" && percentage >= 99.99) {
-        percentage = 99.99;
-        setAmount((tokenAmount.data.token_balance * 0.9999).toFixed(5));
+      if (selectedAction === "sell" && percentage >= 99.999) {
+        percentage = 99.999;
+        setAmount((tokenAmount.data.token_balance * 0.99999).toFixed(5));
       }
       setValue(Math.min(100, Math.max(0, percentage)));
     }
@@ -253,9 +268,9 @@ export default function Trading() {
     if (tokenAmount?.data?.token_balance) {
       let calculatedAmount = tokenAmount.data.token_balance * (newValue / 100);
       // Nếu là bán và đang ở 100%, giữ lại 0.1% làm phí
-      if (selectedAction === "sell" && newValue >= 99.99) {
-        calculatedAmount = tokenAmount.data.token_balance * 0.9999;
-        setValue(99.99);
+      if (selectedAction === "sell" && newValue >= 99.999) {
+        calculatedAmount = tokenAmount.data.token_balance * 0.99999;
+        setValue(99.999);
       }
       setAmount(calculatedAmount.toFixed(5));
     }
@@ -264,15 +279,21 @@ export default function Trading() {
   const [pendingOrders, setPendingOrders] = useState<Order[]>([]);
   const currentPendingOrderRef = useRef<Order | null>(null);
 
+  const [balance, setBalance] = useState<number>(0);
+
+  useEffect(() => {
+    if (tokenAmount?.data?.token_balance) {
+      setBalance(tokenAmount.data.token_balance);
+    }
+  }, [tokenAmount]);
+
   const handleTrading = async () => {
     try {
-      const selectedMembers = Object.entries(checkedConnections)
-        .filter(([_, isChecked]) => isChecked)
-        .map(([connectionId]) => {
-          const connect = connects.find((c: Connect) => c.connection_id === Number(connectionId));
-          return connect?.member_id;
-        })
-        .filter(Boolean);
+      // Reset form and member list immediately when button is clicked
+      setSelectedMembers([]);
+      setCheckedConnections({});
+      setValue(0);
+      setAmount("");
 
       // Add pending order to local state
       const newPendingOrder: Order = {
@@ -296,17 +317,30 @@ export default function Trading() {
       });
 
       if (response.status === 201) {
-        // Reset form
-        setValue(0);
-        setAmount("");
-        setCheckedConnections({});
-        
         // Fetch lại tất cả dữ liệu
-        await Promise.all([
+        const [ordersResult, tokenAmountResult, tokenInforResult, walletResult] = await Promise.all([
           refetchOrders(), // Cập nhật lịch sử giao dịch
           refetchTokenAmount(), // Cập nhật số dư
           refetch(), // Cập nhật thông tin token
+          refetchWalletInfor(), // Cập nhật số dư SOL ở header
         ]);
+
+        // Force update UI with new data
+        if (tokenAmountResult.data) {
+          const queryClient = useQueryClient();
+          queryClient.setQueryData(
+            ["tokenAmount", address, activeTab, selectedAction],
+            tokenAmountResult.data
+          );
+        }
+
+        if (walletResult.data) {
+          const queryClient = useQueryClient();
+          queryClient.setQueryData(
+            ["wallet-infor"],
+            walletResult.data
+          );
+        }
 
         // Remove pending order after successful API call
         if (currentPendingOrderRef.current) {
@@ -321,11 +355,29 @@ export default function Trading() {
           currentPendingOrderRef.current = null;
         }
         // Fetch lại dữ liệu khi thất bại
-        await Promise.all([
+        const [ordersResult, tokenAmountResult, tokenInforResult, walletResult] = await Promise.all([
           refetchOrders(),
           refetchTokenAmount(),
           refetch(),
+          refetchWalletInfor(),
         ]);
+
+        // Force update UI with new data
+        if (tokenAmountResult.data) {
+          const queryClient = useQueryClient();
+          queryClient.setQueryData(
+            ["tokenAmount", address, activeTab, selectedAction],
+            tokenAmountResult.data
+          );
+        }
+
+        if (walletResult.data) {
+          const queryClient = useQueryClient();
+          queryClient.setQueryData(
+            ["wallet-infor"],
+            walletResult.data
+          );
+        }
       }
     } catch (error) {
       console.error("Trading error:", error);
@@ -336,11 +388,29 @@ export default function Trading() {
         currentPendingOrderRef.current = null;
       }
       // Fetch lại dữ liệu khi có lỗi
-      await Promise.all([
+      const [ordersResult, tokenAmountResult, tokenInforResult, walletResult] = await Promise.all([
         refetchOrders(),
         refetchTokenAmount(),
         refetch(),
+        refetchWalletInfor(),
       ]);
+
+      // Force update UI with new data
+      if (tokenAmountResult.data) {
+        const queryClient = useQueryClient();
+        queryClient.setQueryData(
+          ["tokenAmount", address, activeTab, selectedAction],
+          tokenAmountResult.data
+        );
+      }
+
+      if (walletResult.data) {
+        const queryClient = useQueryClient();
+        queryClient.setQueryData(
+          ["wallet-infor"],
+          walletResult.data
+        );
+      }
     }
   };
 
@@ -474,8 +544,8 @@ export default function Trading() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle>BTC/USDT</CardTitle>
-                    <CardDescription>Bitcoin to Tether</CardDescription>
+                    <CardTitle>{tokenInfor?.symbol}/SOL</CardTitle>
+                    <CardDescription>{tokenInfor?.name}</CardDescription>
                   </div>
                   <div className="text-right">
                     <div className="text-2xl font-bold">$43,256.78</div>
@@ -558,10 +628,7 @@ export default function Trading() {
                         {t("trading.amount")}
                       </label>
                       <span className="text-sm text-muted-foreground">
-                        Balance: {tokenAmount?.data?.token_balance?.toFixed(5) || 0} {selectedAction === "buy" ? "SOL" : tokenInfor?.symbol}
-                        {selectedAction === "sell" && value >= 99.99 && (
-                          <span className="text-yellow-500 ml-2">(0.1% reserved for network fee)</span>
-                        )}
+                        Balance: {balance.toFixed(5)} {selectedAction === "buy" ? "SOL" : tokenInfor?.symbol}
                       </span>
                     </div>
                     <div className="flex mt-1">
@@ -696,7 +763,7 @@ export default function Trading() {
                               </div>
                               <Checkbox 
                                 checked={checkedConnections[connect.connection_id]}
-                                onCheckedChange={() => handleCheckboxChange(connect.connection_id)}
+                                onCheckedChange={() => handleCheckboxChange(connect.connection_id, connect.member_id)}
                                 className="data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500"
                               />
                             </div>

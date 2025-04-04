@@ -135,7 +135,7 @@ export default function Navigation() {
               variant="outline"
               className=" text-white dark:bg-[#1d8e50] dark:text-white border-blue-200 "
             >
-              {walletInfor?.solana_balance?.toFixed(4) || '0.0000'} SOL
+              {walletInfor?.solana_balance?.toFixed(5) || '0.00000'} SOL
             </Badge>
           )}
           <ThemeToggle />
