@@ -541,7 +541,12 @@
                   "connect": "Kết Nối",
                   "unblock": "Bỏ Chặn",
                   "block": "Chặn"
-              }
+              },
+              "joinGroup": "Tham Gia Nhóm",
+              "join": "Tham gia",
+              "cancel": "Hủy",
+              "joinSuccess": "Tham gia nhóm thành công",
+              "joinError": "Không thể tham gia nhóm"
           }
       }
   },

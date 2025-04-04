@@ -161,9 +161,9 @@ export default function ManageMasterTrade() {
   // Xử lý chọn/bỏ chọn một kết nối
   const handleSelectConnection = (id: string, checked: boolean) => {
     if (checked) {
-      setSelectedConnections((prev) => [...prev, id]);
+      setSelectedConnections([id]);
     } else {
-      setSelectedConnections((prev) => prev.filter((connId) => connId !== id));
+      setSelectedConnections([]);
     }
   };
 
@@ -247,20 +247,36 @@ export default function ManageMasterTrade() {
   };
 
   const handleOpenJoinDialog = () => {
-    if (selectedGroup) {
+    if (selectedConnections.length > 0) {
       setIsJoinDialogOpen(true);
+    } else {
+      setToastMessage(t("masterTrade.manage.connectionManagement.selectConnection"));
+      setShowToast(true);
     }
   };
 
   const handleJoin = async () => {
-    if (selectedGroup) {
+    if (selectedGroup && selectedConnections.length > 0) {
       try {
-        await MasterTradingService.masterJoinGroup({ mg_id: selectedGroup });
-        setToastMessage(t("masterTrade.manage.connectionManagement.joinSuccess"));
-        setShowToast(true);
-        refetchMyGroups();
-        setIsJoinDialogOpen(false);
-        setSelectedGroup(null);
+        // Find the selected connection to get member_id
+        const selectedConnection = myConnects.find(
+          conn => conn.connection_id.toString() === selectedConnections[0]
+        );
+
+        if (selectedConnection) {
+          await MasterTradingService.masterSetGroup({
+            mg_id: selectedGroup,
+            member_ids: [selectedConnection.member_id]
+          });
+          setToastMessage(t("masterTrade.manage.connectionManagement.joinSuccess"));
+          setShowToast(true);
+          // Fetch lại dữ liệu sau khi join thành công
+          refetchMyGroups();
+          refetchMyConnects();
+          setIsJoinDialogOpen(false);
+          setSelectedGroup(null);
+          setSelectedConnections([]);
+        }
       } catch (error) {
         setToastMessage(t("masterTrade.manage.connectionManagement.joinError"));
         setShowToast(true);
@@ -505,12 +521,14 @@ export default function ManageMasterTrade() {
                     </Badge>
                   </TabsTrigger>
                 </TabsList>
-                <Button 
-                  className="bg-green-500 hover:bg-green-600"
-                  onClick={handleOpenJoinDialog}
-                >
-                  {t("masterTrade.manage.connectionManagement.join")}
-                </Button>
+                {selectedGroup && (
+                  <Button 
+                    className="bg-green-500 hover:bg-green-600"
+                    onClick={handleOpenJoinDialog}
+                  >
+                    {t("masterTrade.manage.connectionManagement.join")}
+                  </Button>
+                )}
               </div>
 
               <TabsContent value="pending" className="mt-0">
@@ -569,7 +587,7 @@ export default function ManageMasterTrade() {
       <Dialog open={isJoinDialogOpen} onOpenChange={setIsJoinDialogOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>{t("masterTrade.manage.connectionManagement.selectGroup")}</DialogTitle>
+            <DialogTitle>{t("masterTrade.manage.connectionManagement.joinGroup")}</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="flex items-center justify-between">

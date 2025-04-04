@@ -552,7 +552,12 @@
                     "connect": "接続",
                     "unblock": "ブロック解除",
                     "block": "ブロック"
-                }
+                },
+                "joinGroup": "グループに参加",
+                "join": "参加",
+                "cancel": "キャンセル",
+                "joinSuccess": "グループに参加しました",
+                "joinError": "グループへの参加に失敗しました"
             }
         }
     },

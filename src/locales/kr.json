@@ -538,7 +538,7 @@
                     "blocked": "차단됨"
                 },
                 "join": "참여",
-                "noConnections": "이 카테고리에 연결이 없습니다.",
+                "noConnections": "이 카테고리에서 연결을 찾을 수 없습니다.",
                 "previous": "이전",
                 "next": "다음",
                 "columns": {
@@ -552,7 +552,12 @@
                     "connect": "연결",
                     "unblock": "차단 해제",
                     "block": "차단"
-                }
+                },
+                "joinGroup": "그룹 참여",
+                "join": "참여",
+                "cancel": "취소",
+                "joinSuccess": "그룹 참여 성공",
+                "joinError": "그룹 참여 실패"
             }
         }
     },

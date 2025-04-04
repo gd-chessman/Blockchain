@@ -578,7 +578,12 @@
                   "connect": "Connect",
                   "unblock": "Unblock",
                   "block": "Block"
-              }
+              },
+              "joinGroup": "Join Group",
+              "join": "Join",
+              "cancel": "Cancel",
+              "joinSuccess": "Successfully joined group",
+              "joinError": "Failed to join group"
           }
       }
   },
