@@ -50,7 +50,7 @@ type Connection = {
 
 
 export default function ManageMasterTrade() {
-  const { data: myGroups = [] } = useQuery<Group[]>({
+  const { data: myGroups = [] , refetch: refetchMyGroups} = useQuery<Group[]>({
     queryKey: ["my-groups-manage"],
     queryFn: async () => {
       const response = await getMyGroups();
@@ -113,6 +113,7 @@ export default function ManageMasterTrade() {
         setGroupName("");
         setToastMessage(t("masterTrade.manage.createNewGroup.success"));
         setShowToast(true);
+        refetchMyGroups();
         setTimeout(() => setShowToast(false), 3000);
       } catch (error) {
         setToastMessage(t("masterTrade.manage.createNewGroup.error"));
