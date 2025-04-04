@@ -176,7 +176,9 @@ export default function ManageMasterTrade() {
   // Xử lý sao chép địa chỉ
   const handleCopyAddress = (address: string) => {
     navigator.clipboard.writeText(address);
-    // Có thể thêm thông báo toast ở đây
+    setToastMessage(t("notifications.addressCopied"));
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 3000);
   };
 
   return (
