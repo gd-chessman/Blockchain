@@ -64,8 +64,12 @@ export default function MasterTrade() {
   });
 
   const handleConnect = (trader: any) => {
-    setSelectedTrader(trader);
-    setIsConnectModalOpen(true);
+    if (walletInfor?.role === "master") {
+      handleConnectMaster(trader);
+    } else {
+      setSelectedTrader(trader);
+      setIsConnectModalOpen(true);
+    }
   };
 
   const handleCopyAddress = (address: any) => {

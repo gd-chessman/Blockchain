@@ -40,6 +40,7 @@ export default function CreateCoin() {
   const [fileImage, setFileImage] = useState<File | null>(null);
   const [isAmountEnabled, setIsAmountEnabled] = useState(true);
   const [amountValue, setAmountValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { data: memeCoins = [] , refetch} = useQuery({
     queryKey: ['my-tokens'],
     queryFn: getMyTokens,
@@ -69,6 +70,7 @@ export default function CreateCoin() {
 
   const onSubmit = async (data: FormData) => {
     try {
+      setIsLoading(true);
       const res = await TelegramWalletService.createToken(data);
       setToastMessage(t('createCoin.success'));
       setShowToast(true);
@@ -77,6 +79,8 @@ export default function CreateCoin() {
       console.error("Error creating meme coin:", error);
       setToastMessage(t('createCoin.error'));
       setShowToast(true);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -331,8 +335,19 @@ export default function CreateCoin() {
                     </div>
                   )}
 
-                  <Button type="submit" className="w-full bg-green-500 hover:bg-green-600 mt-6">
-                    {t('createCoin.form.createButton')}
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-green-500 hover:bg-green-600 mt-6"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <div className="flex items-center gap-2">
+                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                        {t('createCoin.form.creating')}
+                      </div>
+                    ) : (
+                      t('createCoin.form.createButton')
+                    )}
                   </Button>
                 </form>
               </CardContent>
