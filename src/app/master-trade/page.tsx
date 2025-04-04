@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -19,6 +20,7 @@ import { getInforWallet } from "@/services/api/TelegramWalletService";
 
 export default function MasterTrade() {
   const { t } = useLang();
+  const router = useRouter();
   const { data: masterTraders = [] } = useQuery({
     queryKey: ["master-trading/masters"],
     queryFn: getMasters,
@@ -99,9 +101,19 @@ export default function MasterTrade() {
   return (
     <div className="container mx-auto p-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-        <h1 className="text-3xl font-bold">
-          {t("masterTrade.availableMasters")}
-        </h1>
+        <div className="flex items-center gap-4">
+          <h1 className="text-3xl font-bold">
+            {t("masterTrade.availableMasters")}
+          </h1>
+          {walletInfor?.role === "master" && (
+            <Button
+              variant="outline"
+              onClick={() => router.push("/master-trade/manage")}
+            >
+              {t("masterTrade.actions.manage")}
+            </Button>
+          )}
+        </div>
         <div className="relative w-full md:w-auto mt-4 md:mt-0">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
