@@ -187,7 +187,7 @@ export default function Navigation() {
             </DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            {inforWallets?.map((wallet: { wallet_id: string; wallet_name: string; solana_address: string; wallet_type: string }) => (
+            {inforWallets?.map((wallet: { wallet_id: string; wallet_name: string; solana_address: string; wallet_type: string; wallet_auth: string }) => (
               <div
                 key={wallet.wallet_id}
                 className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 cursor-pointer"
@@ -202,6 +202,9 @@ export default function Navigation() {
                     <span className="font-medium">{wallet.wallet_name}</span>
                     <Badge variant="outline" className="ml-2">
                       {wallet.wallet_type || "Primary"}
+                    </Badge>
+                    <Badge variant="outline" className="bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 border-blue-200 dark:border-blue-800">
+                      {wallet.wallet_auth}
                     </Badge>
                   </div>
                   <div className="text-sm text-muted-foreground">
