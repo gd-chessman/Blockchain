@@ -37,6 +37,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
 
 
 export default function Navigation() {
@@ -186,7 +187,7 @@ export default function Navigation() {
             </DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            {inforWallets?.map((wallet: { wallet_id: string; wallet_name: string; solana_address: string }) => (
+            {inforWallets?.map((wallet: { wallet_id: string; wallet_name: string; solana_address: string; wallet_type: string }) => (
               <div
                 key={wallet.wallet_id}
                 className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 cursor-pointer"
@@ -195,9 +196,17 @@ export default function Navigation() {
                   setIsWalletDialogOpen(false);
                 }}
               >
-                <div className="flex items-center gap-2">
-                  <Wallet2 className="h-4 w-4" />
-                  <span>{wallet.wallet_name}</span>
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
+                    <Wallet2 className="h-4 w-4" />
+                    <span className="font-medium">{wallet.wallet_name}</span>
+                    <Badge variant="outline" className="ml-2">
+                      {wallet.wallet_type || "Primary"}
+                    </Badge>
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    {truncateString(wallet.solana_address, 20)}
+                  </div>
                 </div>
                 {walletInfor?.solana_address === wallet.solana_address && (
                   <CheckCircle className="h-4 w-4 text-green-500" />
