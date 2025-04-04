@@ -13,6 +13,7 @@ import {
   Coins,
   LogOut,
   Wallet2,
+  CheckCircle,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -22,7 +23,7 @@ import { LangToggle } from "./lang-toggle";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
-import { getInforWallets } from "@/services/api/TelegramWalletService";
+import { getInforWallets, getMyWallets, useWallet } from "@/services/api/TelegramWalletService";
 import { truncateString } from "@/utils/format";
 import {
   DropdownMenu,
@@ -30,17 +31,35 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
 
 export default function Navigation() {
   const { data: walletInfor, refetch } = useQuery({
     queryKey: ["wallet-infor"],
     queryFn: getInforWallets,
   });
+  const { data: inforWallets } = useQuery({
+    queryKey: ["infor-wallets"],
+    queryFn: getMyWallets,
+  });
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout, updateToken } = useAuth();
   const [mounted, setMounted] = useState(false);
   const { t } = useLang();
+  const [isWalletDialogOpen, setIsWalletDialogOpen] = useState(false);
+
+  const handleChangeWallet = async (walletId: string) => {
+    const res = await useWallet({ wallet_id: walletId });
+    updateToken(res.token);
+    refetch();
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -135,7 +154,7 @@ export default function Navigation() {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-56">
-                    <DropdownMenuItem className="cursor-pointer">
+                    <DropdownMenuItem className="cursor-pointer" onClick={() => setIsWalletDialogOpen(true)}>
                       <Wallet2 className="mr-2 h-4 w-4" />
                       <span>Select Wallet</span>
                     </DropdownMenuItem>
@@ -157,6 +176,37 @@ export default function Navigation() {
           </button>
         </div>
       </div>
+
+      {/* Wallet Selection Dialog */}
+      <Dialog open={isWalletDialogOpen} onOpenChange={setIsWalletDialogOpen}>
+        <DialogContent className="sm:max-w-[425px] bg-card">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold">
+              Select Wallet
+            </DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            {inforWallets?.map((wallet: { wallet_id: string; wallet_name: string; solana_address: string }) => (
+              <div
+                key={wallet.wallet_id}
+                className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 cursor-pointer"
+                onClick={() => {
+                  handleChangeWallet(wallet.wallet_id);
+                  setIsWalletDialogOpen(false);
+                }}
+              >
+                <div className="flex items-center gap-2">
+                  <Wallet2 className="h-4 w-4" />
+                  <span>{wallet.wallet_name}</span>
+                </div>
+                {walletInfor?.solana_address === wallet.solana_address && (
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                )}
+              </div>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Lớp phủ */}
       {isMenuOpen && (
