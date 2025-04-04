@@ -99,6 +99,8 @@ export default function Trading() {
   // console.log("orderMessages", orderMessages);
   const marks = [0, 25, 50, 75, 100];
   const [copySuccess, setCopySuccess] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredTokens, setFilteredTokens] = useState(tokens);
 
   useEffect(() => {
     if (Array.isArray(tokenMessages)) {
@@ -114,6 +116,19 @@ export default function Trading() {
       console.error("messages is not an array:", tokenMessages);
     }
   }, [tokenMessages]);
+
+  useEffect(() => {
+    if (searchQuery) {
+      const filtered = tokens.filter(
+        (token) =>
+          token.slt_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          token.slt_symbol.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredTokens(filtered);
+    } else {
+      setFilteredTokens(tokens);
+    }
+  }, [searchQuery, tokens]);
 
   const handleTimeframeChange = (timeframe: string) => {
     console.log(`Timeframe changed to: ${timeframe}`);
@@ -314,32 +329,41 @@ export default function Trading() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 gap-4">
-                <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50 max-h-[64vh] overflow-auto">
-                  <div className="space-y-4">
-                    {tokens.map((token, index) => (
-                      <Link
-                        key={index} // Assuming token has an 'id' field
-                        className={`flex text-sm gap-6 cursor-pointer ${
-                          index < tokens.length - 1 ? "border-b-2 pb-2" : ""
-                        }`}
-                        href={`/trading/token?address=${token.slt_address}`}
-                      >
-                        <img
-                          src={token.slt_logo_url}
-                          alt=""
-                          className="size-10 rounded-full"
-                        />
-                        <div>
-                          <p>{token.slt_name}</p>{" "}
-                          <p className="text-muted-foreground text-xs">
-                            {token.slt_symbol}
-                          </p>{" "}
-                        </div>
-                        <small className="text-green-600 text-xl ml-auto block">
-                          {token.slt_is_verified ? " ✓" : "x"}
-                        </small>
-                      </Link>
-                    ))}
+                <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50">
+                  <Input
+                    type="text"
+                    placeholder="Search coins..."
+                    className="mb-4"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  <div className="max-h-[64vh] overflow-auto">
+                    <div className="space-y-4">
+                      {filteredTokens.map((token, index) => (
+                        <Link
+                          key={index}
+                          className={`flex text-sm gap-6 cursor-pointer ${
+                            index < filteredTokens.length - 1 ? "border-b-2 pb-2" : ""
+                          }`}
+                          href={`/trading/token?address=${token.slt_address}`}
+                        >
+                          <img
+                            src={token.slt_logo_url}
+                            alt=""
+                            className="size-10 rounded-full"
+                          />
+                          <div>
+                            <p>{token.slt_name}</p>{" "}
+                            <p className="text-muted-foreground text-xs">
+                              {token.slt_symbol}
+                            </p>{" "}
+                          </div>
+                          <small className="text-green-600 text-xl ml-auto block">
+                            {token.slt_is_verified ? " ✓" : "x"}
+                          </small>
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -417,14 +441,13 @@ export default function Trading() {
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <Button 
-                      className={`${selectedAction === "buy" ? "bg-green-500 hover:bg-green-600" : "bg-gray-500 hover:bg-gray-600"}`}
+                      className={`${selectedAction === "buy" ? "bg-green-100 text-green-600 hover:bg-green-200 border border-green-500" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}
                       onClick={() => handleActionClick("buy")}
                     >
                       {t("trading.buy")}
                     </Button>
                     <Button
-                      variant="outline"
-                      className={`${selectedAction === "sell" ? "text-red-500 border-red-500 hover:bg-red-50 dark:hover:bg-red-950/30" : "text-gray-500 border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-950/30"}`}
+                      className={`${selectedAction === "sell" ? "bg-red-100 text-red-600 hover:bg-red-200 border border-red-500" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}
                       onClick={() => handleActionClick("sell")}
                     >
                       {t("trading.sell")}
@@ -536,23 +559,6 @@ export default function Trading() {
                         </Button>
                       </div>
                     ))}
-                  </div>
-
-                  <div>
-                    <label className="text-sm font-medium">
-                      {t("trading.total")}
-                    </label>
-                    <div className="flex mt-1">
-                      <Input
-                        type="number"
-                        placeholder="0.00"
-                        disabled
-                        className="rounded-r-none"
-                      />
-                      <div className="bg-muted px-3 py-2 text-sm rounded-r-md border border-l-0 border-input">
-                        USDT
-                      </div>
-                    </div>
                   </div>
 
                   <Button 

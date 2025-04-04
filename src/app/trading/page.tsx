@@ -23,27 +23,35 @@ export default function Trading() {
   const router = useRouter();
   const { t } = useLang();
   const [searchQuery, setSearchQuery] = useState("");
-  const debouncedSearchQuery = useDebounce(searchQuery, 2000); // 2 seconds delay
+  const debouncedSearchQuery = useDebounce(searchQuery, 100); // 2 seconds delay
   const [isSearching, setIsSearching] = useState(false);
   const { tokenMessages } = useWsSubscribeTokens();
   const [tokens, setTokens] = useState<
     {
-      slt_name: string;
-      slt_address: string;
-      slt_symbol: string;
-      slt_decimals: number;
-      slt_is_verified: boolean;
-      slt_logo_url: string;
+      id: number;
+      name: string;
+      symbol: string;
+      address: string;
+      decimals: number;
+      logoUrl: string;
+      coingeckoId: string | null;
+      tradingviewSymbol: string | null;
+      isVerified: boolean;
+      marketCap: number;
     }[]
   >([]);
   const [searchResults, setSearchResults] = useState<
     {
-      slt_name: string;
-      slt_address: string;
-      slt_symbol: string;
-      slt_decimals: number;
-      slt_is_verified: boolean;
-      slt_logo_url: string;
+      id: number;
+      name: string;
+      symbol: string;
+      address: string;
+      decimals: number;
+      logoUrl: string;
+      coingeckoId: string | null;
+      tradingviewSymbol: string | null;
+      isVerified: boolean;
+      marketCap: number;
     }[]
   >([]);
 
@@ -53,7 +61,20 @@ export default function Trading() {
       tokenMessages.forEach((message) => {
         try {
           const parsedMessage = JSON.parse(message);
-          setTokens(parsedMessage.data.tokens);
+          // Convert WebSocket data format to match API format
+          const convertedTokens = parsedMessage.data.tokens.map((token: any) => ({
+            id: 0, // WebSocket data doesn't have ID
+            name: token.slt_name,
+            symbol: token.slt_symbol,
+            address: token.slt_address,
+            decimals: token.slt_decimals,
+            logoUrl: token.slt_logo_url,
+            coingeckoId: null,
+            tradingviewSymbol: null,
+            isVerified: token.slt_is_verified,
+            marketCap: 0 // WebSocket data doesn't have marketCap
+          }));
+          setTokens(convertedTokens);
         } catch (error) {
           console.error("Error parsing JSON:", error);
         }
@@ -138,23 +159,23 @@ export default function Trading() {
                       key={index}
                       className="hover:bg-muted/30 cursor-pointer"
                       onClick={() =>
-                        router.push(`trading/token?address=${token.slt_address}`)
+                        router.push(`trading/token?address=${token.address}`)
                       }
                     >
                       <TableCell>
                         <div className="flex items-center gap-2">
                           <img
-                            src={token.slt_logo_url}
+                            src={token.logoUrl}
                             alt="token logo"
                             className="size-10 rounded-full"
                           />
-                          <p>{token.slt_name}</p>
+                          <p>{token.name}</p>
                         </div>
                       </TableCell>
-                      <TableCell>{token.slt_symbol}</TableCell>
-                      <TableCell>{truncateString(token.slt_address, 36)}</TableCell>
-                      <TableCell>{token.slt_decimals}</TableCell>
-                      <TableCell>{token.slt_is_verified ? "Yes" : "No"}</TableCell>
+                      <TableCell>{token.symbol}</TableCell>
+                      <TableCell>{truncateString(token.address, 36)}</TableCell>
+                      <TableCell>{token.decimals}</TableCell>
+                      <TableCell>{token.isVerified ? "Yes" : "No"}</TableCell>
                       <TableCell>
                         <div className="flex space-x-2">
                           <Button
