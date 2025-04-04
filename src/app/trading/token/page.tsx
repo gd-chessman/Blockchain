@@ -56,7 +56,6 @@ const chartData = generateChartData();
 export default function Trading() {
   const { t } = useLang();
   const { tokenMessages } = useWsSubscribeTokens();
-  const { getOrdersWs, orderMessages } = useWsGetOrders()
   const [tokens, setTokens] = useState<
     {
       slt_name: string;
@@ -82,7 +81,7 @@ export default function Trading() {
   });
   const { data: orders, refetch: refetchOrders } = useQuery({
     queryKey: ["orders"],
-    queryFn: getOrders,
+    queryFn: ()=> getOrders(address),
     refetchInterval: 5000,
   });
   const { data: connects = [] } = useQuery({
@@ -97,9 +96,6 @@ export default function Trading() {
   });
   const [checkedConnections, setCheckedConnections] = useState<Record<number, boolean>>({});
 
-  useEffect(() => {
-    getOrdersWs({ token_address: address });
-  }, []);
   // console.log("orderMessages", orderMessages);
   const marks = [0, 25, 50, 75, 100];
   const [copySuccess, setCopySuccess] = useState(false);
@@ -235,7 +231,6 @@ export default function Trading() {
         refetchOrders(); // Cập nhật lịch sử giao dịch
         refetchTokenAmount(); // Cập nhật số dư
         refetch(); // Cập nhật thông tin token
-        getOrdersWs({ token_address: address }); // Cập nhật orders qua websocket
       } else {
         toast.error("Failed to create trading order");
       }

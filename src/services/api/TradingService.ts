@@ -10,9 +10,9 @@ export const getMasters = async (code: any)=>{
     }
 }
 
-export const getOrders = async ()=>{
+export const getOrders = async (address: any)=>{
     try {
-        const temp = await axiosClient.get("/trade/orders")
+        const temp = await axiosClient.get(`/trade/orders?token=${address}`,)
         return temp.data.data.orders;
     } catch (error) {
         console.log(error)
