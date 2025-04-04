@@ -101,3 +101,12 @@ export const masterSetConnect = async (item: any)=>{
     }
 }
 
+export const changeStatusGroup = async (id: any, status: any)=>{
+    try {
+        const temp = await axiosClient.post(`/master-trading/group/${id}/status`, {status})
+        return temp.data;
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}

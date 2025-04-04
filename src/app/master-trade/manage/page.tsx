@@ -151,14 +151,17 @@ export default function ManageMasterTrade() {
   };
 
   // Xử lý bật/tắt nhóm
-  const handleToggleGroup = (id: number, newStatus: string) => {
+  const handleToggleGroup = async (id: number, newStatus: string) => {
     console.log(`Changing group ${id} status to ${newStatus}`);
+    await MasterTradingService.changeStatusGroup(id, newStatus);
+    refetchMyGroups();
     // Xử lý thay đổi trạng thái nhóm ở đây
   };
 
   // Xử lý xóa nhóm
-  const handleDeleteGroup = (id: number) => {
+  const handleDeleteGroup = async (id: number) => {
     console.log(`Deleting group ${id}`);
+
     // Xử lý xóa nhóm ở đây
   };
 
@@ -344,7 +347,7 @@ export default function ManageMasterTrade() {
                               onClick={() =>
                                 handleToggleGroup(
                                   group.mg_id,
-                                  group.mg_status === "on" ? "delete" : "on"
+                                  group.mg_status === "on" ? "off" : "on"
                                 )
                               }
                             >
