@@ -496,13 +496,15 @@
           }
       },
       "manage": {
-          "title": "Quản Lý Master Trade",
-          "connectWithOtherMaster": "Kết Nối Với Master Khác",
+          "title": "Quản lý Master Trade",
+          "connectWithOtherMaster": "Kết nối với Master khác",
           "createNewGroup": {
-              "title": "Tạo Nhóm Mới",
-              "groupName": "Tên Nhóm",
+              "title": "Tạo nhóm mới",
+              "groupName": "Tên nhóm",
               "groupNamePlaceholder": "Nhập tên nhóm",
-              "createButton": "Tạo Nhóm"
+              "createButton": "Tạo nhóm",
+              "success": "Tạo nhóm thành công!",
+              "error": "Có lỗi xảy ra khi tạo nhóm. Vui lòng thử lại."
           },
           "groupManagement": {
               "on": "Bật",

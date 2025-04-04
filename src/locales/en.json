@@ -382,7 +382,14 @@
       "on": "ON",
       "off": "OFF",
       "delete": "DELETE",
-      "createNewGroup": "Create New Group",
+      "createNewGroup": {
+          "title": "Create New Group",
+          "groupName": "Group Name",
+          "groupNamePlaceholder": "Enter group name",
+          "createButton": "Create Group",
+          "success": "Group created successfully!",
+          "error": "An error occurred while creating the group. Please try again."
+      },
       "editGroup": "Edit Group",
       "groupName": "Group Name",
       "optionType": "Option Type",
@@ -532,7 +539,9 @@
               "title": "Create New Group",
               "groupName": "Group Name",
               "groupNamePlaceholder": "Enter group name",
-              "createButton": "Create Group"
+              "createButton": "Create Group",
+              "success": "Group created successfully!",
+              "error": "An error occurred while creating the group. Please try again."
           },
           "groupManagement": {
               "on": "ON",

@@ -362,7 +362,14 @@
         "on": "켜기",
         "off": "끄기",
         "delete": "삭제",
-        "createNewGroup": "새 그룹 생성",
+        "createNewGroup": {
+            "title": "새 그룹 만들기",
+            "groupName": "그룹 이름",
+            "groupNamePlaceholder": "그룹 이름을 입력하세요",
+            "createButton": "그룹 만들기",
+            "success": "그룹이 성공적으로 생성되었습니다!",
+            "error": "그룹 생성 중 오류가 발생했습니다. 다시 시도해주세요."
+        },
         "editGroup": "그룹 편집",
         "groupName": "그룹 이름",
         "optionType": "옵션 유형",
@@ -503,10 +510,12 @@
             "title": "마스터 트레이딩 관리",
             "connectWithOtherMaster": "다른 마스터와 연결",
             "createNewGroup": {
-                "title": "새 그룹 생성",
+                "title": "새 그룹 만들기",
                 "groupName": "그룹 이름",
                 "groupNamePlaceholder": "그룹 이름을 입력하세요",
-                "createButton": "그룹 생성"
+                "createButton": "그룹 만들기",
+                "success": "그룹이 성공적으로 생성되었습니다!",
+                "error": "그룹 생성 중 오류가 발생했습니다. 다시 시도해주세요."
             },
             "groupManagement": {
                 "on": "켜기",

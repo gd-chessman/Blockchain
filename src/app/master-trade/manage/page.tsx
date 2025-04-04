@@ -21,6 +21,7 @@ import { MasterTradingService } from "@/services/api";
 import { useQuery } from "@tanstack/react-query";
 import { getMyConnects, getMyGroups } from "@/services/api/MasterTradingService";
 import { useRouter } from "next/navigation";
+import { ToastNotification } from "@/components/ui/toast";
 
 type Group = {
   mg_id: number;
@@ -71,6 +72,8 @@ export default function ManageMasterTrade() {
   const [selectedConnections, setSelectedConnections] = useState<string[]>([]);
   const [selectedGroups, setSelectedGroups] = useState<number[]>([]);
   const [activeGroupTab, setActiveGroupTab] = useState<"on" | "off" | "delete">("on");
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   // Lọc kết nối dựa trên tab đang active
   const filteredConnections = myConnects.filter((connection) => {
@@ -105,10 +108,17 @@ export default function ManageMasterTrade() {
   // Xử lý tạo nhóm mới
   const handleCreateGroup = async () => {
     if (groupName.trim()) {
-      console.log("Creating new group:", groupName);
-      // Xử lý tạo nhóm ở đây
-      await MasterTradingService.masterCreateGroup({ mg_name: groupName });
-      setGroupName("");
+      try {
+        await MasterTradingService.masterCreateGroup({ mg_name: groupName });
+        setGroupName("");
+        setToastMessage(t("masterTrade.manage.createNewGroup.success"));
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 3000);
+      } catch (error) {
+        setToastMessage(t("masterTrade.manage.createNewGroup.error"));
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 3000);
+      }
     }
   };
 
@@ -171,6 +181,7 @@ export default function ManageMasterTrade() {
 
   return (
     <div className="container mx-auto p-6">
+      {showToast && <ToastNotification message={toastMessage} />}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <h1 className="text-3xl font-bold">{t("masterTrade.manage.title")}</h1>
         <Button className="mt-4 md:mt-0 bg-green-500 hover:bg-green-600" onClick={() => router.push("/master-trade")}>
