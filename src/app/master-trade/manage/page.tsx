@@ -167,9 +167,25 @@ export default function ManageMasterTrade() {
   };
 
   // Xử lý kết nối/ngắt kết nối
-  const handleToggleConnection = (id: number, action: string) => {
-    console.log(`${action} connection ${id}`);
-    // Xử lý thay đổi trạng thái kết nối ở đây
+  const handleToggleConnection = async (id: number, action: string) => {
+    try {
+      if (action === "connect") {
+        await MasterTradingService.masterSetConnect({ mc_id: id, status: "connect" });
+      } else if (action === "disconnect") {
+        await MasterTradingService.masterSetConnect({ mc_id: id, status: "block" });
+      }
+      // Refresh connections data
+      const { refetch } = useQuery<Connection[]>({
+        queryKey: ["my-connects-manage"],
+        queryFn: getMyConnects,
+      });
+      refetch();
+    } catch (error) {
+      console.error("Error toggling connection:", error);
+      setToastMessage(t("masterTrade.manage.connectionManagement.error"));
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 3000);
+    }
   };
 
   // Xử lý chặn/bỏ chặn kết nối
@@ -601,10 +617,29 @@ function ConnectionsTable({
                         onToggleConnection(connection.connection_id, "disconnect")
                       }
                     >
-                      {t(
-                        "masterTrade.manage.connectionManagement.actions.connect"
-                      )}
+                      {t("masterTrade.manage.connectionManagement.actions.disconnect")}
                     </Button>
+                  ) : connection.status === "pending" ? (
+                    <div className="flex justify-end gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="text-green-600 border-green-200 hover:bg-green-50 dark:hover:bg-green-950/30"
+                        onClick={() =>
+                          onToggleConnection(connection.connection_id, "connect")
+                        }
+                      >
+                        {t("masterTrade.manage.connectionManagement.actions.connect")}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="text-red-600 border-red-200 hover:bg-red-50 dark:hover:bg-red-950/30"
+                        onClick={() => onBlockConnection(connection.connection_id, true)}
+                      >
+                        {t("masterTrade.manage.connectionManagement.actions.block")}
+                      </Button>
+                    </div>
                   ) : connection.status === "blocked" ? (
                     <Button
                       variant="outline"
@@ -612,9 +647,7 @@ function ConnectionsTable({
                       className="text-red-600 border-red-200 hover:bg-red-50 dark:hover:bg-red-950/30"
                       onClick={() => onBlockConnection(connection.connection_id, false)}
                     >
-                      {t(
-                        "masterTrade.manage.connectionManagement.actions.unblock"
-                      )}
+                      {t("masterTrade.manage.connectionManagement.actions.unblock")}
                     </Button>
                   ) : (
                     <Button
@@ -623,9 +656,7 @@ function ConnectionsTable({
                       className="text-red-600 border-red-200 hover:bg-red-50 dark:hover:bg-red-950/30"
                       onClick={() => onBlockConnection(connection.connection_id, true)}
                     >
-                      {t(
-                        "masterTrade.manage.connectionManagement.actions.block"
-                      )}
+                      {t("masterTrade.manage.connectionManagement.actions.block")}
                     </Button>
                   )}
                 </TableCell>
