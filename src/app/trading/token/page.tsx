@@ -24,7 +24,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useWsSubscribeTokens } from "@/hooks/useWsSubscribeTokens";
 import Link from "next/link";
 import { getOrders } from "@/services/api/TradingService";
-import { getMyTokens } from "@/services/api/TelegramWalletService";
+import { getInforWallet, getMyTokens } from "@/services/api/TelegramWalletService";
 import { useWsGetOrders } from "@/hooks/useWsGetOrders";
 
 interface Order {
@@ -67,6 +67,10 @@ export default function Trading() {
     queryKey: ["orders"],
     queryFn: getOrders,
     refetchInterval: 5000,
+  });
+  const { data: walletInfor, refetch: refecthWalletInfor } = useQuery({
+    queryKey: ["wallet-infor"],
+    queryFn: getInforWallet,
   });
 
   useEffect(() => {
@@ -334,9 +338,14 @@ export default function Trading() {
                     </div> */}
 
                     <div>
-                      <label className="text-sm font-medium">
-                        {t("trading.amount")}
-                      </label>
+                      <div className="flex justify-between items-center">
+                        <label className="text-sm font-medium">
+                          {t("trading.amount")}
+                        </label>
+                        <span className="text-sm text-muted-foreground">
+                          Balance: {walletInfor?.solana_balance.toFixed(5) || 0} SOL
+                        </span>
+                      </div>
                       <div className="flex mt-1">
                         <Input
                           type="number"
