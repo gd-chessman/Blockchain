@@ -133,7 +133,7 @@ export default function Navigation() {
           {isAuthenticated && (
             <Badge
               variant="outline"
-              className="bg-blue-50 text-blue-700  dark:text-blue-600 border-blue-200 dark:border-blue-800"
+              className=" text-white dark:bg-[#1d8e50] dark:text-white border-blue-200 "
             >
               {walletInfor?.solana_balance?.toFixed(4) || '0.0000'} SOL
             </Badge>
