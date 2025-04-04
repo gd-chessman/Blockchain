@@ -18,7 +18,7 @@ interface LangProviderProps {
 
 export const LangProvider: React.FC<LangProviderProps> = ({ 
   children, 
-  initialLang = 'en', 
+  initialLang = 'kr', 
   langConfig 
 }) => {
   const isClient = typeof window !== 'undefined';

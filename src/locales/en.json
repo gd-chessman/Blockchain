@@ -491,30 +491,32 @@
           "pending": "Pending"
       },
       "table": {
-          "walletAddress": "Wallet Member",
+          "walletAddress": "Wallet Address",
           "type": "Type",
           "status": "Status",
           "actions": "Actions"
       },
       "status": {
-          "notConnected": "Not Connected",
-          "connected": "Connected",
-          "disconnected": "Disconnected",
-          "pending": "Pending"
+          "connect": "Connected",
+          "disconnect": "Disconnected",
+          "pause": "Paused",
+          "pending": "Pending",
+          "block": "Blocked",
+          "null": "Not Connected"
       },
       "actions": {
           "connect": "Connect",
           "disconnect": "Disconnect",
+          "pause": "Pause",
           "reconnect": "Reconnect",
-          "cancel": "Cancel",
           "copyAddress": "Copy address",
-          "manage": "Master Manage"
+          "manage": "Manage"
       },
       "noData": {
-          "notConnected": "No traders found",
+          "notConnected": "No not connected masters found",
           "connected": "No connected masters found",
           "disconnected": "No disconnected masters found",
-          "pending": "No pending connections found"
+          "pending": "No pending masters found"
       },
       "dialog": {
           "addWallet": {
@@ -522,14 +524,14 @@
               "walletName": "Wallet Name",
               "walletNamePlaceholder": "Enter wallet name",
               "cancel": "Cancel",
-              "add": "Add Wallet"
+              "add": "Add"
           },
           "connect": {
-              "title": "Connect to",
+              "title": "Connect to Master",
               "maxCopyAmount": "Maximum Copy Amount (SOL)",
               "amountPlaceholder": "Enter amount",
               "cancel": "Cancel",
-              "connect": "Connect Now"
+              "connect": "Connect"
           }
       },
       "manage": {

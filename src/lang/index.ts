@@ -15,9 +15,9 @@ export const langConfig: {
   langsApp: Partial<Record<LangCodes, Translations>>;
 } = {
   listLangs: [
-    { id: 1, name: "English", code: "en" },
-    { id: 2, name: "Vietnamese", code: "vi" },
-    { id: 3, name: "Korea", code: "kr" },
+    { id: 1, name: "Korea", code: "kr" },
+    { id: 2, name: "English", code: "en" },
+    { id: 3, name: "Vietnamese", code: "vi" },
     { id: 4, name: "Japan", code: "jp" },
   ],
   langsApp: {

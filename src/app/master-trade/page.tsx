@@ -244,7 +244,7 @@ export default function MasterTrade() {
                                     ? "text-red-500" 
                                     : "text-muted-foreground"
                             }>
-                              {t(`masterTrade.status.${trader.connection_status}`)}
+                              {t(`masterTrade.status.${trader.connection_status || "null"}`)}
                             </span>
                           </TableCell>
                           <TableCell className="text-right">
@@ -331,7 +331,7 @@ export default function MasterTrade() {
                                     ? "text-red-500" 
                                     : "text-muted-foreground"
                             }>
-                              {t(`masterTrade.status.${trader.connection_status}`)}
+                              {t(`masterTrade.status.${trader.connection_status || "null"}`)}
                             </span>
                           </TableCell>
                           <TableCell className="text-right">
@@ -451,7 +451,7 @@ export default function MasterTrade() {
                                     ? "text-red-500" 
                                     : "text-muted-foreground"
                             }>
-                              {t(`masterTrade.status.${trader.connection_status}`)}
+                              {t(`masterTrade.status.${trader.connection_status || "null"}`)}
                             </span>
                           </TableCell>
                           <TableCell className="text-right">
@@ -538,12 +538,12 @@ export default function MasterTrade() {
                                     ? "text-red-500" 
                                     : "text-muted-foreground"
                             }>
-                              {t(`masterTrade.status.${trader.connection_status}`)}
+                              {t(`masterTrade.status.${trader.connection_status || "null"}`)}
                             </span>
                           </TableCell>
                           <TableCell className="text-right">
                             <span className="text-amber-500">
-                              Đang chờ master duyệt
+                              {t("masterTrade.status.pending")}
                             </span>
                           </TableCell>
                         </TableRow>

@@ -8,9 +8,9 @@ export function LangToggle() {
   const { lang, setLang } = useLang();
   
   const langList = [
+    { id: 3, name: "KR", code: "kr", flag: "https://flagcdn.com/w40/kr.png" },
     { id: 1, name: "EN", code: "en", flag: "https://flagcdn.com/w40/gb.png" },
     { id: 2, name: "VI", code: "vi", flag: "https://flagcdn.com/w40/vn.png" },
-    { id: 3, name: "KR", code: "kr", flag: "https://flagcdn.com/w40/kr.png" },
     { id: 4, name: "JP", code: "jp", flag: "https://flagcdn.com/w40/jp.png" },
   ];
 
