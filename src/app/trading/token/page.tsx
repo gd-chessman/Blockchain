@@ -58,6 +58,7 @@ const chartData = generateChartData();
 export default function Trading() {
   const { t } = useLang();
   const { tokenMessages } = useWsSubscribeTokens();
+  const queryClient = useQueryClient();
   const [tokens, setTokens] = useState<
     {
       slt_name: string;
@@ -84,7 +85,7 @@ export default function Trading() {
   const { data: orders, refetch: refetchOrders } = useQuery({
     queryKey: ["orders"],
     queryFn: ()=> getOrders(address),
-    refetchInterval: 5000,
+    // refetchInterval: 5000,
   });
   const { data: connects = [] } = useQuery({
     queryKey: ["connects"],
@@ -100,7 +101,7 @@ export default function Trading() {
   const [selectedAction, setSelectedAction] = useState<"buy" | "sell">("buy");
   const { data: tokenAmount, refetch: refetchTokenAmount } = useQuery({
     queryKey: ["tokenAmount", address, activeTab, selectedAction],
-    queryFn: () => getTokenAmount(selectedAction === "buy" ? "So11111111111111111111111111111111111111112" : address),
+    queryFn: () => getTokenAmount(address),
   });
   const [checkedConnections, setCheckedConnections] = useState<Record<number, boolean>>({});
   const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
@@ -218,7 +219,13 @@ export default function Trading() {
       setSelectedAction(action);
       setValue(0); // Reset percentage when switching actions
       setAmount(""); // Reset amount when switching actions
-      setCheckedConnections({}); // Reset checked connections when switching actions
+      // Reset all checkboxes to false using the same pattern as initialization
+      const resetCheckedState = connects.reduce((acc: Record<number, boolean>, connect: Connect) => {
+        acc[connect.connection_id] = false;
+        return acc;
+      }, {});
+      setCheckedConnections(resetCheckedState);
+      setSelectedMembers([]); // Reset selected members list
     }
   };
 
@@ -280,18 +287,24 @@ export default function Trading() {
   const currentPendingOrderRef = useRef<Order | null>(null);
 
   const [balance, setBalance] = useState<number>(0);
+  console.log("balance", balance);
 
   useEffect(() => {
-    if (tokenAmount?.data?.token_balance) {
-      setBalance(tokenAmount.data.token_balance);
+    if (tokenAmount?.data) {
+      setBalance(selectedAction === "buy" ? tokenAmount.data.sol_balance : tokenAmount.data.token_balance);
     }
-  }, [tokenAmount]);
+  }, [tokenAmount, selectedAction]);
 
   const handleTrading = async () => {
     try {
       // Reset form and member list immediately when button is clicked
       setSelectedMembers([]);
-      setCheckedConnections({});
+      // Reset all checkboxes to false using the same pattern as initialization
+      const resetCheckedState = connects.reduce((acc: Record<number, boolean>, connect: Connect) => {
+        acc[connect.connection_id] = false;
+        return acc;
+      }, {});
+      setCheckedConnections(resetCheckedState);
       setValue(0);
       setAmount("");
 
@@ -326,16 +339,53 @@ export default function Trading() {
         ]);
 
         // Force update UI with new data
-        if (tokenAmountResult.data) {
-          const queryClient = useQueryClient();
+        if (tokenAmountResult.data?.data) {
           queryClient.setQueryData(
             ["tokenAmount", address, activeTab, selectedAction],
             tokenAmountResult.data
           );
+          
+          // Lưu balance hiện tại để so sánh
+          const currentBalance = selectedAction === "buy" ? tokenAmountResult.data.data.sol_balance : tokenAmountResult.data.data.token_balance;
+          
+          // Delay 3s trước khi bắt đầu polling
+          setTimeout(() => {
+            let pollingInterval: NodeJS.Timeout;
+            
+            const pollBalance = async () => {
+              try {
+                const newTokenAmountResult = await refetchTokenAmount();
+                
+                if (newTokenAmountResult.data) {
+                  const newBalance = selectedAction === "buy" ? newTokenAmountResult.data.data.sol_balance : newTokenAmountResult.data.data.token_balance;
+                  
+                  // Nếu balance thay đổi, cập nhật và dừng polling
+                  if (newBalance !== currentBalance) {
+                    setBalance(newBalance);
+                    clearInterval(pollingInterval);
+                  }
+                }
+              } catch (error) {
+                console.error("Error during polling:", error);
+              }
+            };
+            
+            // Thực hiện polling ngay lập tức
+            pollBalance();
+            
+            // Sau đó set interval để polling mỗi 2 giây
+            pollingInterval = setInterval(pollBalance, 2000);
+            
+            // Cleanup interval on component unmount
+            return () => {
+              if (pollingInterval) {
+                clearInterval(pollingInterval);
+              }
+            };
+          }, 3000);
         }
 
-        if (walletResult.data) {
-          const queryClient = useQueryClient();
+        if (walletResult.data?.data) {
           queryClient.setQueryData(
             ["wallet-infor"],
             walletResult.data
@@ -354,30 +404,6 @@ export default function Trading() {
           setPendingOrders(prev => prev.filter(order => order.created_at !== currentPendingOrderRef.current?.created_at));
           currentPendingOrderRef.current = null;
         }
-        // Fetch lại dữ liệu khi thất bại
-        const [ordersResult, tokenAmountResult, tokenInforResult, walletResult] = await Promise.all([
-          refetchOrders(),
-          refetchTokenAmount(),
-          refetch(),
-          refetchWalletInfor(),
-        ]);
-
-        // Force update UI with new data
-        if (tokenAmountResult.data) {
-          const queryClient = useQueryClient();
-          queryClient.setQueryData(
-            ["tokenAmount", address, activeTab, selectedAction],
-            tokenAmountResult.data
-          );
-        }
-
-        if (walletResult.data) {
-          const queryClient = useQueryClient();
-          queryClient.setQueryData(
-            ["wallet-infor"],
-            walletResult.data
-          );
-        }
       }
     } catch (error) {
       console.error("Trading error:", error);
@@ -386,30 +412,6 @@ export default function Trading() {
       if (currentPendingOrderRef.current) {
         setPendingOrders(prev => prev.filter(order => order.created_at !== currentPendingOrderRef.current?.created_at));
         currentPendingOrderRef.current = null;
-      }
-      // Fetch lại dữ liệu khi có lỗi
-      const [ordersResult, tokenAmountResult, tokenInforResult, walletResult] = await Promise.all([
-        refetchOrders(),
-        refetchTokenAmount(),
-        refetch(),
-        refetchWalletInfor(),
-      ]);
-
-      // Force update UI with new data
-      if (tokenAmountResult.data) {
-        const queryClient = useQueryClient();
-        queryClient.setQueryData(
-          ["tokenAmount", address, activeTab, selectedAction],
-          tokenAmountResult.data
-        );
-      }
-
-      if (walletResult.data) {
-        const queryClient = useQueryClient();
-        queryClient.setQueryData(
-          ["wallet-infor"],
-          walletResult.data
-        );
       }
     }
   };
