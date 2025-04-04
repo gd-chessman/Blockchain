@@ -671,6 +671,10 @@
       },
       "tradeButton": "Trade"
     },
-    "copySuccess": "Address copied to clipboard"
+    "copySuccess": "Address copied to clipboard",
+    "latestTokens": {
+      "title": "Latest Tokens",
+      "noTokens": "No tokens available"
+    }
   }
 }

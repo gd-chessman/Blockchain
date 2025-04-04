@@ -647,6 +647,10 @@
             },
             "tradeButton": "取引"
         },
-        "copySuccess": "アドレスをクリップボードにコピーしました"
+        "copySuccess": "アドレスをクリップボードにコピーしました",
+        "latestTokens": {
+            "title": "最新のトークン",
+            "noTokens": "利用可能なトークンはありません"
+        }
     }
 }

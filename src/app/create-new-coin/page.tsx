@@ -338,26 +338,70 @@ export default function CreateCoin() {
               </CardContent>
             </Card>
 
-            <div className="hidden md:block">
-              <Card className="border-none shadow-md dark:shadow-blue-900/5 h-full">
-                <CardHeader>
-                  <CardTitle>{t('createCoin.preview.title')}</CardTitle>
+            <div className="hidden md:block space-y-4">
+              <Card className="border-none shadow-md dark:shadow-blue-900/5">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-lg">{t('createCoin.latestTokens.title')}</CardTitle>
                 </CardHeader>
-                <CardContent className="flex flex-col items-center justify-center h-full">
+                <CardContent className="pt-2 h-[calc(100%-3rem)] overflow-y-auto">
+                  <div className="flex gap-2">
+                    {memeCoins?.slice(0, 3).map((coin: any) => (
+                      <div key={coin.token_id} className="flex-1 flex flex-col items-center gap-1 p-2 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors">
+                        <Avatar className="h-10 w-10" src={coin.logo_url} alt={coin.name} />
+                        <div className="text-center">
+                          <h4 className="font-medium text-sm truncate w-full">{coin.name}</h4>
+                          <span className="text-xs text-muted-foreground">{coin.symbol}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <span className="text-xs text-muted-foreground truncate max-w-[80px]">
+                            {truncateString(coin.address, 10)}
+                          </span>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-3 w-6"
+                            onClick={() => handleCopyAddress(coin.address)}
+                          >
+                            <Copy className="h-2 w-2" />
+                          </Button>
+                        </div>
+                        <Button 
+                          size="sm" 
+                          className="bg-green-500 hover:bg-green-600 text-white h-7 text-xs w-full"
+                          onClick={() => router.push(`/trading/token?address=${coin.address}`)}
+                        >
+                          {t('createCoin.myCoins.tradeButton')}
+                        </Button>
+                      </div>
+                    ))}
+                    {(!memeCoins || memeCoins.length === 0) && (
+                      <div className="text-center text-muted-foreground py-2 text-sm w-full">
+                        {t('createCoin.latestTokens.noTokens')}
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="border-none shadow-md dark:shadow-blue-900/5">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-lg">{t('createCoin.preview.title')}</CardTitle>
+                </CardHeader>
+                <CardContent className="pt-2">
                   <div className="text-center text-muted-foreground">
                     {logoPreview ? (
-                      <div className="mb-4">
+                      <div className="mb-2">
                         <img
                           src={logoPreview || "/placeholder.svg"}
                           alt="Logo preview"
-                          className="size-64 object-contain mx-auto"
+                          className="size-48 object-contain mx-auto"
                         />
                       </div>
                     ) : (
-                      <div className="size-64 rounded-full bg-muted flex items-center justify-center mb-4 mx-auto">
+                      <div className="size-48 rounded-full bg-muted flex items-center justify-center mb-2 mx-auto">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="h-16 w-16 text-muted-foreground"
+                          className="h-12 w-12 text-muted-foreground"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
@@ -371,9 +415,9 @@ export default function CreateCoin() {
                         </svg>
                       </div>
                     )}
-                    <h3 className="text-xl font-bold">{watchedValues.name || t('createCoin.preview.defaultName')}</h3>
-                    <p className="text-sm mt-1">{watchedValues.symbol ? watchedValues.symbol.toUpperCase() : t('createCoin.preview.defaultSymbol')}</p>
-                    <p className="mt-4 text-sm">{watchedValues.description || t('createCoin.preview.defaultDescription')}</p>
+                    <h3 className="text-lg font-bold">{watchedValues.name || t('createCoin.preview.defaultName')}</h3>
+                    <p className="text-xs mt-0.5">{watchedValues.symbol ? watchedValues.symbol.toUpperCase() : t('createCoin.preview.defaultSymbol')}</p>
+                    <p className="mt-2 text-xs">{watchedValues.description || t('createCoin.preview.defaultDescription')}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -419,9 +463,10 @@ export default function CreateCoin() {
                             <Button
                               variant="ghost"
                               size="icon"
+                              className="h-2 w-2"
                               onClick={() => handleCopyAddress(coin.address)}
                             >
-                              <Copy className="h-4 w-4" />
+                              <Copy className="h-1.5 w-1.5" />
                             </Button>
                           </div>
                         </TableCell>

@@ -633,6 +633,10 @@
     },
     "success": "Tạo coin thành công!",
     "error": "Lỗi khi tạo coin",
-    "copySuccess": "Đã sao chép địa chỉ vào clipboard"
+    "copySuccess": "Đã sao chép địa chỉ vào clipboard",
+    "latestTokens": {
+      "title": "Token mới nhất",
+      "noTokens": "Không có token nào"
+    }
   }
 }

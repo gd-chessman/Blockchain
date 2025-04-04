@@ -647,6 +647,10 @@
             },
             "tradeButton": "거래"
         },
-        "copySuccess": "주소가 클립보드에 복사되었습니다"
+        "copySuccess": "주소가 클립보드에 복사되었습니다",
+        "latestTokens": {
+            "title": "최신 토큰",
+            "noTokens": "사용 가능한 토큰이 없습니다"
+        }
     }
 }
