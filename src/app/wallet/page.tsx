@@ -41,7 +41,6 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { toast } from "react-toastify";
 import bs58 from "bs58";
 import { Keypair } from "@solana/web3.js";
 import { TelegramWalletService } from "@/services/api";
@@ -191,11 +190,12 @@ export default function Wallet() {
     try {
       const res = await TelegramWalletService.changeName({
         wallet_id: editingWalletId,
-        name: editingWalletName
+        name: editingWalletName || "-"
       })
       setIsEditingWalletName(false);
       setEditingWalletId(null);
       refecthWalletInfor();
+      refetchInforWallets();
     } catch (error) {
       
     }
@@ -509,10 +509,10 @@ export default function Wallet() {
                               onClick={() => {
                                 setIsEditingWalletName(true);
                                 setEditingWalletId(wallet.wallet_id);
-                                setEditingWalletName(wallet.wallet_name);
+                                setEditingWalletName(wallet.wallet_name || "-");
                               }}
                             >
-                              {wallet.wallet_name}
+                              {wallet.wallet_name || "-"}
                             </span>
                           )}
                         </div>
