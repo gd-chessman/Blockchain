@@ -23,7 +23,7 @@ import { getTokenInforByAddress } from "@/services/api/SolonaTokenService";
 import { useQuery } from "@tanstack/react-query";
 import { useWsSubscribeTokens } from "@/hooks/useWsSubscribeTokens";
 import Link from "next/link";
-import { getOrders } from "@/services/api/TradingService";
+import { getOrders, getTokenAmount } from "@/services/api/TradingService";
 import { getInforWallet, getMyTokens } from "@/services/api/TelegramWalletService";
 import { useWsGetOrders } from "@/hooks/useWsGetOrders";
 
@@ -68,9 +68,10 @@ export default function Trading() {
     queryFn: getOrders,
     refetchInterval: 5000,
   });
-  const { data: walletInfor, refetch: refecthWalletInfor } = useQuery({
-    queryKey: ["wallet-infor"],
-    queryFn: getInforWallet,
+  const [activeTab, setActiveTab] = useState("buy");
+  const { data: tokenAmount, refetch: refetchTokenAmount } = useQuery({
+    queryKey: ["tokenAmount", address, activeTab],
+    queryFn: () => getTokenAmount(activeTab === "buy" ? "So11111111111111111111111111111111111111112" : address),
   });
 
   useEffect(() => {
@@ -125,6 +126,11 @@ export default function Trading() {
       toast.error("Address is not available to copy!");
     }
   };
+
+  useEffect(() => {
+    refetchTokenAmount();
+  }, [activeTab, refetchTokenAmount]);
+
   return (
     <div className="container mx-auto p-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
@@ -299,18 +305,21 @@ export default function Trading() {
                 <CardTitle>{t("trading.placeOrder")}</CardTitle>
               </CardHeader>
               <CardContent>
-                <Tabs defaultValue="limit">
+                <Tabs defaultValue="buy" onValueChange={(value) => {
+                  setActiveTab(value);
+                  setValue(0); // Reset percentage when switching tabs
+                }}>
                   <TabsList className="grid grid-cols-3 mb-4">
-                    <TabsTrigger value="limit">
-                      {t("trading.limit")}
+                    <TabsTrigger value="buy">
+                      {t("trading.buy")}
                     </TabsTrigger>
-                    <TabsTrigger value="market">
-                      {t("trading.market")}
+                    <TabsTrigger value="sell">
+                      {t("trading.sell")}
                     </TabsTrigger>
                     <TabsTrigger value="stop">{t("trading.stop")}</TabsTrigger>
                   </TabsList>
 
-                  <TabsContent value="limit" className="space-y-4">
+                  <TabsContent value="buy" className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                       <Button className="bg-green-500 hover:bg-green-600">
                         {t("trading.buy")}
@@ -323,27 +332,13 @@ export default function Trading() {
                       </Button>
                     </div>
 
-                    {/* <div>
-                      <label className="text-sm font-medium">Price</label>
-                      <div className="flex mt-1">
-                        <Input
-                          type="number"
-                          placeholder="0.00"
-                          className="rounded-r-none"
-                        />
-                        <div className="bg-muted px-3 py-2 text-sm rounded-r-md border border-l-0 border-input">
-                          USDT
-                        </div>
-                      </div>
-                    </div> */}
-
                     <div>
                       <div className="flex justify-between items-center">
                         <label className="text-sm font-medium">
                           {t("trading.amount")}
                         </label>
                         <span className="text-sm text-muted-foreground">
-                          Balance: {walletInfor?.solana_balance.toFixed(5) || 0} SOL
+                          Balance: {tokenAmount?.data?.token_balance?.toFixed(5) || 0} {activeTab === "buy" ? "SOL" : tokenInfor?.symbol}
                         </span>
                       </div>
                       <div className="flex mt-1">
@@ -351,6 +346,8 @@ export default function Trading() {
                           type="number"
                           placeholder="0.00"
                           className="rounded-r-none"
+                          value={(tokenAmount?.data?.token_balance * (value / 100)).toFixed(5)}
+                          readOnly
                         />
                         <div className="bg-muted px-3 py-2 text-sm rounded-r-md border border-l-0 border-input">
                           {value}%
@@ -461,15 +458,15 @@ export default function Trading() {
                     </Button>
                   </TabsContent>
 
-                  <TabsContent value="market" className="space-y-4">
-                    {/* Similar structure to limit tab */}
+                  <TabsContent value="sell" className="space-y-4">
+                    {/* Similar structure to buy tab */}
                     <div className="flex items-center justify-center h-40 text-muted-foreground">
-                      Market order form would appear here
+                      Sell order form would appear here
                     </div>
                   </TabsContent>
 
                   <TabsContent value="stop" className="space-y-4">
-                    {/* Similar structure to limit tab */}
+                    {/* Similar structure to buy tab */}
                     <div className="flex items-center justify-center h-40 text-muted-foreground">
                       Stop order form would appear here
                     </div>

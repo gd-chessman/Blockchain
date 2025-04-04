@@ -30,6 +30,16 @@ export const getOrderBook = async ()=>{
     }
 }
 
+export const getTokenAmount = async (item: any)=>{
+    try {
+        const temp = await axiosClient.get(`/trade/amount/${item}`)
+        return temp.data;
+    } catch (error) {
+        console.log(error)
+        return {};
+    }
+}
+
 export const createTrading = async (item: any)=>{
     try {
         const temp = await axiosClient.post("/trade/orders", item)
