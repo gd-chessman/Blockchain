@@ -33,7 +33,7 @@ export default function MasterTrade() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
   const [selectedTrader, setSelectedTrader] = useState<any>(null);
-  const [maxCopyAmount, setMaxCopyAmount] = useState("0.1");
+  const [maxCopyAmount, setMaxCopyAmount] = useState("0.01");
   const [isAddWalletOpen, setIsAddWalletOpen] = useState(false);
   const [newWalletName, setNewWalletName] = useState("");
 
@@ -64,11 +64,11 @@ export default function MasterTrade() {
   });
 
   const handleConnect = (trader: any) => {
-    if (walletInfor?.role === "master") {
-      handleConnectMaster(trader);
-    } else {
+    if (trader.type === "normal") {
       setSelectedTrader(trader);
       setIsConnectModalOpen(true);
+    } else {
+      handleConnectMaster(trader);
     }
   };
 
@@ -86,10 +86,12 @@ export default function MasterTrade() {
   const handleConnectMaster = async (selectedTrader: any) => {
     const data = {
       master_wallet_address: selectedTrader.solana_address,
+      option_limit: "price",
+      price_limit: maxCopyAmount
     };
     await MasterTradingService.connectMaster(data);
     setIsConnectModalOpen(false);
-    setMaxCopyAmount("");
+    setMaxCopyAmount("0.1");
     refetchMasterTraders();
   };
 
@@ -530,6 +532,8 @@ export default function MasterTrade() {
                 placeholder={t("masterTrade.dialog.connect.amountPlaceholder")}
                 value={maxCopyAmount}
                 type="number"
+                min="0.01"
+                step="0.01"
                 onChange={(e) => setMaxCopyAmount(e.target.value)}
                 className="bg-gray-50 dark:bg-gray-900/50"
               />
@@ -541,7 +545,7 @@ export default function MasterTrade() {
               variant="outline"
               onClick={() => {
                 setIsConnectModalOpen(false);
-                setMaxCopyAmount("");
+                setMaxCopyAmount("0.1");
               }}
             >
               {t("masterTrade.dialog.connect.cancel")}
@@ -549,7 +553,7 @@ export default function MasterTrade() {
             <Button
               className="bg-green-500 hover:bg-green-600 text-white"
               onClick={() => handleConnectMaster(selectedTrader)}
-              disabled={!maxCopyAmount.trim()}
+              disabled={!maxCopyAmount.trim() || parseFloat(maxCopyAmount) < 0.01}
             >
               {t("masterTrade.dialog.connect.connect")}
             </Button>

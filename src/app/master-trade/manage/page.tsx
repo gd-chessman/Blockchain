@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +20,7 @@ import { useLang } from "@/lang/useLang";
 import { MasterTradingService } from "@/services/api";
 import { useQuery } from "@tanstack/react-query";
 import { getMyConnects, getMyGroups } from "@/services/api/MasterTradingService";
+import { getInforWallet } from "@/services/api/TelegramWalletService";
 import { useRouter } from "next/navigation";
 import { ToastNotification } from "@/components/ui/toast";
 
@@ -38,7 +39,7 @@ type Connection = {
   connection_id: number;
   member_id: number;
   member_address: string;
-  status: "connect" | "pending" | "paused" | "blocked";
+  status: "connect" | "pending" | "pause" | "block";
   option_limit: string;
   price_limit: string;
   ratio_limit: number;
@@ -48,6 +49,10 @@ type Connection = {
   }[];
 };
 
+type WalletInfo = {
+  role: string;
+  // Add other wallet info properties if needed
+};
 
 export default function ManageMasterTrade() {
   const { data: myGroups = [] , refetch: refetchMyGroups} = useQuery<Group[]>({
@@ -65,6 +70,12 @@ export default function ManageMasterTrade() {
     queryKey: ["my-connects-manage"],
     queryFn: getMyConnects,
   });
+
+  const { data: walletInfor } = useQuery<WalletInfo>({
+    queryKey: ["wallet-infor"],
+    queryFn: getInforWallet,
+  });
+
   const router = useRouter();
   const { t } = useLang();
   const [activeTab, setActiveTab] = useState("connected");
@@ -75,6 +86,12 @@ export default function ManageMasterTrade() {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
+  useEffect(() => {
+    if (walletInfor?.role !== "master") {
+      router.push("/master-trade");
+    }
+  }, [walletInfor, router]);
+
   // Lọc kết nối dựa trên tab đang active
   const filteredConnections = myConnects.filter((connection) => {
     switch (activeTab) {
@@ -83,9 +100,9 @@ export default function ManageMasterTrade() {
       case "connected":
         return connection.status === "connect";
       case "paused":
-        return connection.status === "paused";
+        return connection.status === "pause";
       case "blocked":
-        return connection.status === "blocked";
+        return connection.status === "block";
       default:
         return true;
     }
@@ -194,7 +211,7 @@ export default function ManageMasterTrade() {
     try {
       await MasterTradingService.masterSetConnect({ 
         mc_id: id, 
-        status: block ? "block" : "connect" 
+        status: block ? "block" : "pause" 
       });
       
       // Refresh connections data
@@ -437,13 +454,13 @@ export default function ManageMasterTrade() {
                   <TabsTrigger value="paused">
                     {t("masterTrade.manage.connectionManagement.tabs.paused")}{" "}
                     <Badge variant="outline" className="ml-1">
-                      {myConnects.filter((c) => c.status === "paused").length}
+                      {myConnects.filter((c) => c.status === "pause").length}
                     </Badge>
                   </TabsTrigger>
                   <TabsTrigger value="blocked">
                     {t("masterTrade.manage.connectionManagement.tabs.blocked")}{" "}
                     <Badge variant="outline" className="ml-1">
-                      {myConnects.filter((c) => c.status === "blocked").length}
+                      {myConnects.filter((c) => c.status === "block").length}
                     </Badge>
                   </TabsTrigger>
                 </TabsList>
@@ -617,12 +634,16 @@ function ConnectionsTable({
                         ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800"
                         : connection.status === "pending"
                         ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800"
-                        : connection.status === "paused"
+                        : connection.status === "pause"
                         ? "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 border-orange-200 dark:border-orange-800"
                         : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800"
                     }
                   >
-                    {connection.status}
+                    {connection.status === "block" 
+                      ? "Blocked" 
+                      : connection.status === "pause"
+                      ? "Paused"
+                      : connection.status}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
@@ -656,7 +677,7 @@ function ConnectionsTable({
                         {t("masterTrade.manage.connectionManagement.actions.block")}
                       </Button>
                     </div>
-                  ) : connection.status === "blocked" ? (
+                  ) : connection.status === "block" ? (
                     <Button
                       variant="outline"
                       size="sm"
