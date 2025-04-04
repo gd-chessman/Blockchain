@@ -129,7 +129,15 @@ export default function Navigation() {
         </div>
 
         {/* Các nút chức năng bên phải */}
-        <div className="flex items-center gap-2 md:gap-3">
+        <div className="flex items-center gap-2">
+          {isAuthenticated && (
+            <Badge
+              variant="outline"
+              className="bg-blue-50 text-blue-700  dark:text-blue-600 border-blue-200 dark:border-blue-800"
+            >
+              {walletInfor?.solana_balance?.toFixed(4) || '0.0000'} SOL
+            </Badge>
+          )}
           <ThemeToggle />
           <LangToggle />
           {mounted && (
