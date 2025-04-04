@@ -31,6 +31,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useDebounce } from "@/hooks/useDebounce";
 import { SolonaTokenService } from "@/services/api";
 import Select from 'react-select';
+import LogWarring from "@/components/ui/log-warring";
+import { useAuth } from "@/hooks/useAuth";
 
 interface Order {
   created_at: string;
@@ -58,6 +60,7 @@ const chartData = generateChartData();
 
 function TradingContent() {
   const { t } = useLang();
+  const { isAuthenticated } = useAuth();
   const { tokenMessages } = useWsSubscribeTokens();
   const queryClient = useQueryClient();
   const [tokens, setTokens] = useState<
@@ -471,6 +474,8 @@ function TradingContent() {
     setSelectedMembers(newSelectedMembers);
     setCheckedConnections(newCheckedConnections);
   };
+
+    if(!isAuthenticated) return <LogWarring />;
 
   return (
     <div className="container mx-auto p-6">

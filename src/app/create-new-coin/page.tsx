@@ -18,6 +18,8 @@ import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
 import { truncateString } from "@/utils/format"
 import { ToastNotification } from "@/components/ui/toast"
+import { useAuth } from "@/hooks/useAuth"
+import LogWarring from "@/components/ui/log-warring"
 
 // Dữ liệu mẫu cho danh sách coin
 
@@ -35,6 +37,7 @@ type FormData = {
 }
 
 export default function CreateCoin() {
+  const { isAuthenticated } = useAuth();
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [fileImage, setFileImage] = useState<File | null>(null);
@@ -105,6 +108,8 @@ export default function CreateCoin() {
       reader.readAsDataURL(file);
     }
   };
+
+  if(!isAuthenticated) return <LogWarring />;
 
   return (
     <div className="container mx-auto p-6">

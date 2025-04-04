@@ -319,7 +319,8 @@
         "serverError": "서버 오류",
         "unauthorized": "접근 권한이 없습니다",
         "sessionExpired": "세션이 만료되었습니다",
-        "pleaseLogin": "다시 로그인하세요"
+        "pleaseLogin": "다시 로그인하세요",
+        "PLTVI": "정보를 보려면 로그인하세요."
     },
     "actions": {
         "confirm": "확인",

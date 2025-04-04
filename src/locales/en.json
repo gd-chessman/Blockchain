@@ -336,7 +336,8 @@
       "serverError": "Server error",
       "unauthorized": "Unauthorized",
       "sessionExpired": "Session expired",
-      "pleaseLogin": "Please log in again"
+      "pleaseLogin": "Please log in again",
+      "PLTVI": "Please login to view info"
   },
   "actions": {
       "confirm": "Confirm",

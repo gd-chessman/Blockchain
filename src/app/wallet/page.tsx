@@ -46,8 +46,10 @@ import { Keypair } from "@solana/web3.js";
 import { TelegramWalletService } from "@/services/api";
 import { useAuth } from "@/hooks/useAuth";
 import { ToastNotification } from "@/components/ui/toast";
+import LogWarring from "@/components/ui/log-warring";
 
 export default function Wallet() {
+  const { isAuthenticated } = useAuth();
   const { t } = useLang();
   const { payloadToken, updateToken } = useAuth();
   const [isDerivingAddress, setIsDerivingAddress] = useState(false);
@@ -201,6 +203,8 @@ export default function Wallet() {
     }
   };
 
+  if(!isAuthenticated) return <LogWarring />;
+
   return (
     <div className="container mx-auto p-6">
       {showToast && (
@@ -284,7 +288,7 @@ export default function Wallet() {
               variant="outline"
               className="ml-2 bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400 border-green-200 dark:border-green-800"
             >
-              {walletInfor?.solana_balance.toFixed(4)} SOL
+              {walletInfor?.solana_balance?.toFixed(4)} SOL
             </Badge>
           </div>
         </div>

@@ -6,29 +6,32 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
 import { Copy, Search } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useLang } from "@/lang";
 import { useQuery } from "@tanstack/react-query";
 import { getMasters } from "@/services/api/MasterTradingService";
-import { Dialog, DialogContent, DialogTitle, DialogFooter, DialogHeader,} from "@/components/ui/dialog";
-import { AlertDialogFooter, AlertDialogHeader,} from "@/components/ui/alert-dialog";
+import { Dialog, DialogContent, DialogTitle, DialogFooter, DialogHeader, } from "@/components/ui/dialog";
+import { AlertDialogFooter, AlertDialogHeader, } from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { MasterTradingService } from "@/services/api";
 import { getInforWallet } from "@/services/api/TelegramWalletService";
+import { useAuth } from "@/hooks/useAuth";
+import LogWarring from "@/components/ui/log-warring";
 
 export default function MasterTrade() {
   const { t } = useLang();
+  const { isAuthenticated } = useAuth();
   const router = useRouter();
-  const { data: masterTraders = [] , refetch: refetchMasterTraders } = useQuery({
+  const { data: masterTraders = [], refetch: refetchMasterTraders } = useQuery({
     queryKey: ["master-trading/masters"],
     queryFn: getMasters,
   });
-    const { data: walletInfor, refetch: refecthWalletInfor } = useQuery({
-      queryKey: ["wallet-infor"],
-      queryFn: getInforWallet,
-    });
+  const { data: walletInfor, refetch: refecthWalletInfor } = useQuery({
+    queryKey: ["wallet-infor"],
+    queryFn: getInforWallet,
+  });
   const [activeTab, setActiveTab] = useState("not-connected");
   const [searchQuery, setSearchQuery] = useState("");
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
@@ -97,7 +100,7 @@ export default function MasterTrade() {
   };
 
 
-  const handleDisconnect = async (disconnect: any)=>{
+  const handleDisconnect = async (disconnect: any) => {
     const data = {
       master_id: disconnect.id,
       status: "disconnect",
@@ -132,6 +135,8 @@ export default function MasterTrade() {
     });
     refetchMasterTraders();
   };
+  if (!isAuthenticated) return <LogWarring />;
+
 
   return (
     <div className="container mx-auto p-6">
@@ -236,12 +241,12 @@ export default function MasterTrade() {
                           </TableCell>
                           <TableCell>
                             <span className={
-                              trader.connection_status === "connect" 
-                                ? "text-green-500" 
-                                : trader.connection_status === "pause" 
-                                  ? "text-amber-500" 
-                                  : trader.connection_status === "disconnect" 
-                                    ? "text-red-500" 
+                              trader.connection_status === "connect"
+                                ? "text-green-500"
+                                : trader.connection_status === "pause"
+                                  ? "text-amber-500"
+                                  : trader.connection_status === "disconnect"
+                                    ? "text-red-500"
                                     : "text-muted-foreground"
                             }>
                               {t(`masterTrade.status.${trader.connection_status || "null"}`)}
@@ -323,12 +328,12 @@ export default function MasterTrade() {
                           </TableCell>
                           <TableCell>
                             <span className={
-                              trader.connection_status === "connect" 
-                                ? "text-green-500" 
-                                : trader.connection_status === "pause" 
-                                  ? "text-amber-500" 
-                                  : trader.connection_status === "disconnect" 
-                                    ? "text-red-500" 
+                              trader.connection_status === "connect"
+                                ? "text-green-500"
+                                : trader.connection_status === "pause"
+                                  ? "text-amber-500"
+                                  : trader.connection_status === "disconnect"
+                                    ? "text-red-500"
                                     : "text-muted-foreground"
                             }>
                               {t(`masterTrade.status.${trader.connection_status || "null"}`)}
@@ -443,12 +448,12 @@ export default function MasterTrade() {
                           </TableCell>
                           <TableCell>
                             <span className={
-                              trader.connection_status === "connect" 
-                                ? "text-green-500" 
-                                : trader.connection_status === "pause" 
-                                  ? "text-amber-500" 
-                                  : trader.connection_status === "disconnect" 
-                                    ? "text-red-500" 
+                              trader.connection_status === "connect"
+                                ? "text-green-500"
+                                : trader.connection_status === "pause"
+                                  ? "text-amber-500"
+                                  : trader.connection_status === "disconnect"
+                                    ? "text-red-500"
                                     : "text-muted-foreground"
                             }>
                               {t(`masterTrade.status.${trader.connection_status || "null"}`)}
@@ -530,12 +535,12 @@ export default function MasterTrade() {
                           </TableCell>
                           <TableCell>
                             <span className={
-                              trader.connection_status === "connect" 
-                                ? "text-green-500" 
-                                : trader.connection_status === "pause" 
-                                  ? "text-amber-500" 
-                                  : trader.connection_status === "disconnect" 
-                                    ? "text-red-500" 
+                              trader.connection_status === "connect"
+                                ? "text-green-500"
+                                : trader.connection_status === "pause"
+                                  ? "text-amber-500"
+                                  : trader.connection_status === "disconnect"
+                                    ? "text-red-500"
                                     : "text-muted-foreground"
                             }>
                               {t(`masterTrade.status.${trader.connection_status || "null"}`)}

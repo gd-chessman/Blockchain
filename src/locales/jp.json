@@ -320,7 +320,8 @@
         "serverError": "サーバーエラー",
         "unauthorized": "権限がありません",
         "sessionExpired": "セッションが期限切れになりました",
-        "pleaseLogin": "再度ログインしてください"
+        "pleaseLogin": "再度ログインしてください",
+        "PLTVI": "情報を見るにはログインしてください。"
     },
     "actions": {
         "confirm": "確認",

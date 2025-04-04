@@ -321,7 +321,8 @@
       "serverError": "Lỗi máy chủ",
       "unauthorized": "Không có quyền truy cập",
       "sessionExpired": "Phiên đăng nhập đã hết hạn",
-      "pleaseLogin": "Vui lòng đăng nhập lại"
+      "pleaseLogin": "Vui lòng đăng nhập lại",
+      "PLTVI": "Vui lòng đăng nhập để xem thông tin"
   },
   "actions": {
       "confirm": "Xác nhận",
