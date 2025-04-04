@@ -69,9 +69,10 @@ export default function Trading() {
     refetchInterval: 5000,
   });
   const [activeTab, setActiveTab] = useState("buy");
+  const [selectedAction, setSelectedAction] = useState<"buy" | "sell">("buy");
   const { data: tokenAmount, refetch: refetchTokenAmount } = useQuery({
-    queryKey: ["tokenAmount", address, activeTab],
-    queryFn: () => getTokenAmount(activeTab === "buy" ? "So11111111111111111111111111111111111111112" : address),
+    queryKey: ["tokenAmount", address, activeTab, selectedAction],
+    queryFn: () => getTokenAmount(selectedAction === "buy" ? "So11111111111111111111111111111111111111112" : address),
   });
 
   useEffect(() => {
@@ -129,7 +130,12 @@ export default function Trading() {
 
   useEffect(() => {
     refetchTokenAmount();
-  }, [activeTab, refetchTokenAmount]);
+  }, [activeTab, selectedAction, refetchTokenAmount]);
+
+  const handleActionClick = (action: "buy" | "sell") => {
+    setSelectedAction(action);
+    setValue(0); // Reset percentage when switching actions
+  };
 
   return (
     <div className="container mx-auto p-6">
@@ -305,173 +311,146 @@ export default function Trading() {
                 <CardTitle>{t("trading.placeOrder")}</CardTitle>
               </CardHeader>
               <CardContent>
-                <Tabs defaultValue="buy" onValueChange={(value) => {
-                  setActiveTab(value);
-                  setValue(0); // Reset percentage when switching tabs
-                }}>
-                  <TabsList className="grid grid-cols-3 mb-4">
-                    <TabsTrigger value="buy">
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <Button 
+                      className={`${selectedAction === "buy" ? "bg-green-500 hover:bg-green-600" : "bg-gray-500 hover:bg-gray-600"}`}
+                      onClick={() => handleActionClick("buy")}
+                    >
                       {t("trading.buy")}
-                    </TabsTrigger>
-                    <TabsTrigger value="sell">
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className={`${selectedAction === "sell" ? "text-red-500 border-red-500 hover:bg-red-50 dark:hover:bg-red-950/30" : "text-gray-500 border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-950/30"}`}
+                      onClick={() => handleActionClick("sell")}
+                    >
                       {t("trading.sell")}
-                    </TabsTrigger>
-                    <TabsTrigger value="stop">{t("trading.stop")}</TabsTrigger>
-                  </TabsList>
+                    </Button>
+                  </div>
 
-                  <TabsContent value="buy" className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <Button className="bg-green-500 hover:bg-green-600">
-                        {t("trading.buy")}
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="text-red-500 border-red-500 hover:bg-red-50 dark:hover:bg-red-950/30"
-                      >
-                        {t("trading.sell")}
-                      </Button>
-                    </div>
-
-                    <div>
-                      <div className="flex justify-between items-center">
-                        <label className="text-sm font-medium">
-                          {t("trading.amount")}
-                        </label>
-                        <span className="text-sm text-muted-foreground">
-                          Balance: {tokenAmount?.data?.token_balance?.toFixed(5) || 0} {activeTab === "buy" ? "SOL" : tokenInfor?.symbol}
-                        </span>
-                      </div>
-                      <div className="flex mt-1">
-                        <Input
-                          type="number"
-                          placeholder="0.00"
-                          className="rounded-r-none"
-                          value={(tokenAmount?.data?.token_balance * (value / 100)).toFixed(5)}
-                          readOnly
-                        />
-                        <div className="bg-muted px-3 py-2 text-sm rounded-r-md border border-l-0 border-input">
-                          {value}%
-                        </div>
-                      </div>
-                    </div>
-
-                    <div>
+                  <div>
+                    <div className="flex justify-between items-center">
                       <label className="text-sm font-medium">
-                        {t("trading.percentage")}
+                        {t("trading.amount")}
                       </label>
-                      <div className="relative mt-2">
-                        {/* Thanh trượt */}
-                        <input
-                          type="range"
-                          min="0"
-                          max="100"
-                          step="1"
-                          value={value}
-                          onChange={(e) => setValue(Number(e.target.value))}
-                          className="w-full h-2 cursor-pointer accent-blue-500 bg-transparent appearance-none"
-                          style={{
-                            WebkitAppearance: "none",
-                            borderRadius: "8px" /* Làm tròn thanh */,
-                            background: `linear-gradient(to right, #3b82f6 ${value}%, #e5e7eb ${value}%)` /* Màu sắc thanh trượt */,
-                          }}
-                        />
-
-                        {/* Dấu mốc */}
-                        <div className="relative flex justify-between text-xs text-muted-foreground mt-2 px-1">
-                          {marks.map((mark) => (
-                            <div
-                              key={mark}
-                              className="relative flex flex-col items-center w-0"
-                            >
-                              <span>{mark}</span>
-                              <span className="absolute top-[-6px] w-2 h-2 bg-blue-500 rounded-full border-2 border-white dark:border-gray-900" />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Hiển thị giá trị */}
-                      <div className="text-center text-sm mt-2 font-semibold text-blue-600">
+                      <span className="text-sm text-muted-foreground">
+                        Balance: {tokenAmount?.data?.token_balance?.toFixed(5) || 0} {selectedAction === "buy" ? "SOL" : tokenInfor?.symbol}
+                      </span>
+                    </div>
+                    <div className="flex mt-1">
+                      <Input
+                        type="number"
+                        placeholder="0.00"
+                        className="rounded-r-none"
+                        value={(tokenAmount?.data?.token_balance * (value / 100)).toFixed(5)}
+                        readOnly
+                      />
+                      <div className="bg-muted px-3 py-2 text-sm rounded-r-md border border-l-0 border-input">
                         {value}%
                       </div>
                     </div>
-                    <div className="grid grid-cols-4 gap-2">
-                      {percentages.map((percent, index) => (
-                        <div
-                          key={index}
-                          className="relative flex items-center gap-1"
-                        >
-                          {editingIndex === index ? (
-                            <Input
-                              value={tempValue}
-                              onChange={(e) => setTempValue(e.target.value)}
-                              onBlur={() => handleSave(index)}
-                              onKeyDown={(e) =>
-                                e.key === "Enter" && handleSave(index)
-                              }
-                              autoFocus
-                              type="number"
-                              min={0}
-                              max={100}
-                              className="w-24"
-                            />
-                          ) : (
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="w-24"
-                              onClick={() => setValue(Number(percent))}
-                            >
-                              {percent}%
-                            </Button>
-                          )}
-                          <Button
-                            variant="ghost"
-                            className="p-1"
-                            onClick={() => handleEditClick(index)}
-                          >
-                            <Pencil size={12} />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
+                  </div>
 
-                    <div>
-                      <label className="text-sm font-medium">
-                        {t("trading.total")}
-                      </label>
-                      <div className="flex mt-1">
-                        <Input
-                          type="number"
-                          placeholder="0.00"
-                          disabled
-                          className="rounded-r-none"
-                        />
-                        <div className="bg-muted px-3 py-2 text-sm rounded-r-md border border-l-0 border-input">
-                          USDT
-                        </div>
+                  <div>
+                    <label className="text-sm font-medium">
+                      {t("trading.percentage")}
+                    </label>
+                    <div className="relative mt-2">
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        step="1"
+                        value={value}
+                        onChange={(e) => setValue(Number(e.target.value))}
+                        className="w-full h-2 cursor-pointer accent-blue-500 bg-transparent appearance-none"
+                        style={{
+                          WebkitAppearance: "none",
+                          borderRadius: "8px",
+                          background: `linear-gradient(to right, #3b82f6 ${value}%, #e5e7eb ${value}%)`,
+                        }}
+                      />
+
+                      <div className="relative flex justify-between text-xs text-muted-foreground mt-2 px-1">
+                        {marks.map((mark) => (
+                          <div
+                            key={mark}
+                            className="relative flex flex-col items-center w-0"
+                          >
+                            <span>{mark}</span>
+                            <span className="absolute top-[-6px] w-2 h-2 bg-blue-500 rounded-full border-2 border-white dark:border-gray-900" />
+                          </div>
+                        ))}
                       </div>
                     </div>
 
-                    <Button className="w-full bg-green-500 hover:bg-green-600">
-                      {t("trading.buyNow")}
-                    </Button>
-                  </TabsContent>
-
-                  <TabsContent value="sell" className="space-y-4">
-                    {/* Similar structure to buy tab */}
-                    <div className="flex items-center justify-center h-40 text-muted-foreground">
-                      Sell order form would appear here
+                    <div className="text-center text-sm mt-2 font-semibold text-blue-600">
+                      {value}%
                     </div>
-                  </TabsContent>
+                  </div>
 
-                  <TabsContent value="stop" className="space-y-4">
-                    {/* Similar structure to buy tab */}
-                    <div className="flex items-center justify-center h-40 text-muted-foreground">
-                      Stop order form would appear here
+                  <div className="grid grid-cols-4 gap-2">
+                    {percentages.map((percent, index) => (
+                      <div
+                        key={index}
+                        className="relative flex items-center gap-1"
+                      >
+                        {editingIndex === index ? (
+                          <Input
+                            value={tempValue}
+                            onChange={(e) => setTempValue(e.target.value)}
+                            onBlur={() => handleSave(index)}
+                            onKeyDown={(e) =>
+                              e.key === "Enter" && handleSave(index)
+                            }
+                            autoFocus
+                            type="number"
+                            min={0}
+                            max={100}
+                            className="w-24"
+                          />
+                        ) : (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="w-24"
+                            onClick={() => setValue(Number(percent))}
+                          >
+                            {percent}%
+                          </Button>
+                        )}
+                        <Button
+                          variant="ghost"
+                          className="p-1"
+                          onClick={() => handleEditClick(index)}
+                        >
+                          <Pencil size={12} />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium">
+                      {t("trading.total")}
+                    </label>
+                    <div className="flex mt-1">
+                      <Input
+                        type="number"
+                        placeholder="0.00"
+                        disabled
+                        className="rounded-r-none"
+                      />
+                      <div className="bg-muted px-3 py-2 text-sm rounded-r-md border border-l-0 border-input">
+                        USDT
+                      </div>
                     </div>
-                  </TabsContent>
-                </Tabs>
+                  </div>
+
+                  <Button className="w-full bg-green-500 hover:bg-green-600">
+                    {t("trading.buyNow")}
+                  </Button>
+                </div>
               </CardContent>
             </Card>
 
