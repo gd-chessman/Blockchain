@@ -9,7 +9,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Pencil, TrendingUp } from "lucide-react";
+import { Pencil, TrendingUp, Check, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLang } from "@/lang";
 import { Copy } from "lucide-react";
@@ -26,6 +26,8 @@ import Link from "next/link";
 import { getOrders, getTokenAmount } from "@/services/api/TradingService";
 import { getInforWallet, getMyTokens } from "@/services/api/TelegramWalletService";
 import { useWsGetOrders } from "@/hooks/useWsGetOrders";
+import { getMyConnects } from "@/services/api/MasterTradingService";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface Order {
   created_at: string;
@@ -33,6 +35,20 @@ interface Order {
   price: number;
   quantity: number;
   status: "pending" | "completed" | "cancelled";
+}
+
+interface Connect {
+  connection_id: number;
+  member_id: number;
+  member_address: string;
+  status: string;
+  option_limit: string;
+  price_limit: string;
+  ratio_limit: number;
+  joined_groups: Array<{
+    group_id: number;
+    group_name: string;
+  }>;
 }
 
 const chartData = generateChartData();
@@ -68,12 +84,17 @@ export default function Trading() {
     queryFn: getOrders,
     refetchInterval: 5000,
   });
+  const { data: connects = [] } = useQuery({
+    queryKey: ["connects"],
+    queryFn: getMyConnects,
+  });
   const [activeTab, setActiveTab] = useState("buy");
   const [selectedAction, setSelectedAction] = useState<"buy" | "sell">("buy");
   const { data: tokenAmount, refetch: refetchTokenAmount } = useQuery({
     queryKey: ["tokenAmount", address, activeTab, selectedAction],
     queryFn: () => getTokenAmount(selectedAction === "buy" ? "So11111111111111111111111111111111111111112" : address),
   });
+  const [checkedConnections, setCheckedConnections] = useState<Record<number, boolean>>({});
 
   useEffect(() => {
     getOrdersWs({ token_address: address });
@@ -135,6 +156,22 @@ export default function Trading() {
   const handleActionClick = (action: "buy" | "sell") => {
     setSelectedAction(action);
     setValue(0); // Reset percentage when switching actions
+  };
+
+  useEffect(() => {
+    // Initialize checked state to false for all connections
+    const initialCheckedState = connects.reduce((acc: Record<number, boolean>, connect: Connect) => {
+      acc[connect.connection_id] = false;
+      return acc;
+    }, {});
+    setCheckedConnections(initialCheckedState);
+  }, [connects]);
+
+  const handleCheckboxChange = (connectionId: number) => {
+    setCheckedConnections(prev => ({
+      ...prev,
+      [connectionId]: !prev[connectionId]
+    }));
   };
 
   return (
@@ -462,7 +499,30 @@ export default function Trading() {
                 <div className="grid grid-cols-1 gap-4">
                   <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50 max-h-svh overflow-auto">
                     <div className="space-y-4">
-                      {t("trading.noConnections")}
+                      {connects.filter((connect: Connect) => connect.status === "connect").length > 0 ? (
+                        connects
+                          .filter((connect: Connect) => connect.status === "connect")
+                          .map((connect: Connect, index: number) => (
+                            <div key={index} className="flex items-center justify-between p-2 border-b">
+                              <div className="flex items-center gap-2">
+                                <div>
+                                  <p className="text-sm font-medium">
+                                    {connect.member_address.slice(0, 4)}...{connect.member_address.slice(-4)}
+                                  </p>
+                                </div>
+                              </div>
+                              <Checkbox 
+                                checked={checkedConnections[connect.connection_id]}
+                                onCheckedChange={() => handleCheckboxChange(connect.connection_id)}
+                                className="data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500"
+                              />
+                            </div>
+                          ))
+                      ) : (
+                        <div className="text-center text-muted-foreground">
+                          {t("trading.noConnections")}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
