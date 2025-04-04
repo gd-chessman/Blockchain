@@ -71,6 +71,16 @@ export const memberSetConnect = async (item: any)=>{
     }
 }
 
+export const masterSetConnect = async (item: any)=>{
+    try {
+        const temp = await axiosClient.post("/master-trading/master-set-connect", item)
+        return temp.data;
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
 export const masterCreateGroup = async (item: any)=>{
     try {
         const temp = await axiosClient.post("/master-trading/master-create-group", item)
@@ -91,7 +101,7 @@ export const masterSetGroup = async (item: any)=>{
     }
 }
 
-export const masterSetConnect = async (item: any)=>{
+export const masterSetConnectGroup = async (item: any)=>{
     try {
         const temp = await axiosClient.post("/master-trading/master-set-group", item)
         return temp.data;

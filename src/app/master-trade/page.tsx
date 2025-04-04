@@ -95,7 +95,7 @@ export default function MasterTrade() {
       master_wallet_id: disconnect.id,
       status: "disconnect"
     };
-    await MasterTradingService.masterSetConnect(data)
+    await MasterTradingService.masterSetConnectGroup(data)
   }
 
   return (
