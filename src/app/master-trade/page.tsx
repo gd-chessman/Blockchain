@@ -21,7 +21,7 @@ import { getInforWallet } from "@/services/api/TelegramWalletService";
 export default function MasterTrade() {
   const { t } = useLang();
   const router = useRouter();
-  const { data: masterTraders = [] } = useQuery({
+  const { data: masterTraders = [] , refetch: refetchMasterTraders } = useQuery({
     queryKey: ["master-trading/masters"],
     queryFn: getMasters,
   });
@@ -84,9 +84,9 @@ export default function MasterTrade() {
       master_wallet_address: selectedTrader.solana_address,
     };
     await MasterTradingService.connectMaster(data);
-    console.log(data)
     setIsConnectModalOpen(false);
     setMaxCopyAmount("");
+    refetchMasterTraders();
   };
 
 
