@@ -292,7 +292,6 @@ function TradingContent() {
   const currentPendingOrderRef = useRef<Order | null>(null);
 
   const [balance, setBalance] = useState<number>(0);
-  console.log("balance", balance);
 
   useEffect(() => {
     if (tokenAmount?.data) {

@@ -71,6 +71,7 @@ export default function CreateCoin() {
   const onSubmit = async (data: FormData) => {
     try {
       setIsLoading(true);
+      data.image = fileImage;
       const res = await TelegramWalletService.createToken(data);
       setToastMessage(t('createCoin.success'));
       setShowToast(true);
