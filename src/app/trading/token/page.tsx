@@ -23,7 +23,7 @@ import { getTokenInforByAddress } from "@/services/api/SolonaTokenService";
 import { useQuery } from "@tanstack/react-query";
 import { useWsSubscribeTokens } from "@/hooks/useWsSubscribeTokens";
 import Link from "next/link";
-import { getOrders, getTokenAmount } from "@/services/api/TradingService";
+import { getOrders, getTokenAmount, createTrading } from "@/services/api/TradingService";
 import { getInforWallet, getMyTokens } from "@/services/api/TelegramWalletService";
 import { useWsGetOrders } from "@/hooks/useWsGetOrders";
 import { getMyConnects } from "@/services/api/MasterTradingService";
@@ -68,6 +68,7 @@ export default function Trading() {
     }[]
   >([]);
   const [value, setValue] = useState(0);
+  const [amount, setAmount] = useState<string>("");
 
   const searchParams = useSearchParams();
   const address = searchParams?.get("address");
@@ -99,7 +100,7 @@ export default function Trading() {
   useEffect(() => {
     getOrdersWs({ token_address: address });
   }, []);
-  console.log("orderMessages", orderMessages);
+  // console.log("orderMessages", orderMessages);
   const marks = [0, 25, 50, 75, 100];
   const [copySuccess, setCopySuccess] = useState(false);
 
@@ -172,6 +173,76 @@ export default function Trading() {
       ...prev,
       [connectionId]: !prev[connectionId]
     }));
+  };
+
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setAmount(newValue);
+    
+    // Tính toán phần trăm dựa trên số lượng nhập vào
+    if (tokenAmount?.data?.token_balance) {
+      let percentage = (Number(newValue) / tokenAmount.data.token_balance) * 100;
+      // Nếu là bán và đang ở 100%, giữ lại 0.1% làm phí
+      if (selectedAction === "sell" && percentage >= 99.9) {
+        percentage = 99.9;
+        setAmount((tokenAmount.data.token_balance * 0.999).toFixed(5));
+      }
+      setValue(Math.min(100, Math.max(0, percentage)));
+    }
+  };
+
+  const handleValueChange = (newValue: number) => {
+    setValue(newValue);
+    // Tính toán số lượng dựa trên phần trăm
+    if (tokenAmount?.data?.token_balance) {
+      let calculatedAmount = tokenAmount.data.token_balance * (newValue / 100);
+      // Nếu là bán và đang ở 100%, giữ lại 0.1% làm phí
+      if (selectedAction === "sell" && newValue >= 99.9) {
+        calculatedAmount = tokenAmount.data.token_balance * 0.999;
+        setValue(99.9);
+      }
+      setAmount(calculatedAmount.toFixed(5));
+    }
+  };
+
+  const handleTrading = async () => {
+    try {
+      const selectedMembers = Object.entries(checkedConnections)
+        .filter(([_, isChecked]) => isChecked)
+        .map(([connectionId]) => {
+          const connect = connects.find((c: Connect) => c.connection_id === Number(connectionId));
+          return connect?.member_id;
+        })
+        .filter(Boolean);
+
+      console.log("Selected members:", selectedMembers);
+
+      const response = await createTrading({
+        order_trade_type: selectedAction,
+        order_type: "market",
+        order_token_name: tokenInfor?.name || "No name",
+        order_token_address: address || "",
+        order_price: 1.05,
+        order_qlty: Number(amount),
+        member_list: selectedMembers
+      });
+
+      if (response.status === 201) {
+        // Reset form
+        setValue(0);
+        setAmount("");
+        setCheckedConnections({});
+        
+        // Fetch dữ liệu mới
+        refetchOrders(); // Cập nhật lịch sử giao dịch
+        refetchTokenAmount(); // Cập nhật số dư
+      } else {
+        toast.error("Failed to create trading order");
+      }
+    } catch (error) {
+      console.error("Trading error:", error);
+      toast.error("An error occurred while creating the trading order");
+    }
   };
 
   return (
@@ -372,6 +443,9 @@ export default function Trading() {
                       </label>
                       <span className="text-sm text-muted-foreground">
                         Balance: {tokenAmount?.data?.token_balance?.toFixed(5) || 0} {selectedAction === "buy" ? "SOL" : tokenInfor?.symbol}
+                        {selectedAction === "sell" && value >= 99.9 && (
+                          <span className="text-yellow-500 ml-2">(0.1% reserved for network fee)</span>
+                        )}
                       </span>
                     </div>
                     <div className="flex mt-1">
@@ -379,8 +453,10 @@ export default function Trading() {
                         type="number"
                         placeholder="0.00"
                         className="rounded-r-none"
-                        value={(tokenAmount?.data?.token_balance * (value / 100)).toFixed(5)}
-                        readOnly
+                        value={amount}
+                        onChange={handleAmountChange}
+                        min={0}
+                        max={tokenAmount?.data?.token_balance}
                       />
                       <div className="bg-muted px-3 py-2 text-sm rounded-r-md border border-l-0 border-input">
                         {value}%
@@ -399,7 +475,7 @@ export default function Trading() {
                         max="100"
                         step="1"
                         value={value}
-                        onChange={(e) => setValue(Number(e.target.value))}
+                        onChange={(e) => handleValueChange(Number(e.target.value))}
                         className="w-full h-2 cursor-pointer accent-blue-500 bg-transparent appearance-none"
                         style={{
                           WebkitAppearance: "none",
@@ -451,7 +527,7 @@ export default function Trading() {
                             variant="outline"
                             size="sm"
                             className="w-24"
-                            onClick={() => setValue(Number(percent))}
+                            onClick={() => handleValueChange(Number(percent))}
                           >
                             {percent}%
                           </Button>
@@ -484,8 +560,11 @@ export default function Trading() {
                     </div>
                   </div>
 
-                  <Button className="w-full bg-green-500 hover:bg-green-600">
-                    {t("trading.buyNow")}
+                  <Button 
+                    className="w-full bg-green-500 hover:bg-green-600"
+                    onClick={handleTrading}
+                  >
+                    {selectedAction === "buy" ? t("trading.buyNow") : t("trading.sellNow")}
                   </Button>
                 </div>
               </CardContent>
