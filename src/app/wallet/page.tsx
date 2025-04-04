@@ -28,7 +28,7 @@ import { Input } from "@/components/ui/input";
 import { useLang } from "@/lang";
 import { useQuery } from "@tanstack/react-query";
 import {
-  getInforWallets,
+  getInforWallet,
   getMyWallets,
   getPrivate,
   changeName,
@@ -64,10 +64,10 @@ export default function Wallet() {
   >(null);
   const { data: walletInfor, refetch: refecthWalletInfor } = useQuery({
     queryKey: ["wallet-infor"],
-    queryFn: getInforWallets,
+    queryFn: getInforWallet,
   });
-  const { data: inforWallets, refetch: refetchInforWallets } = useQuery({
-    queryKey: ["infor-wallets"],
+  const { data: myWallets, refetch: refetchInforWallets } = useQuery({
+    queryKey: ["my-wallets"],
     queryFn: getMyWallets,
   });
   const { data: privateKeys } = useQuery({
@@ -471,7 +471,7 @@ export default function Wallet() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {Array.isArray(inforWallets) && inforWallets?.map((wallet: any, index: number) => (
+                  {Array.isArray(myWallets) && myWallets?.map((wallet: any, index: number) => (
                     <TableRow key={index} className="hover:bg-muted/30">
                       <TableCell>
                         <div className="flex items-center">

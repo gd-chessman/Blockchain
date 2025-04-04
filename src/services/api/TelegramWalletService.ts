@@ -10,7 +10,7 @@ export const login = async (item: any) => {
     }
 }
 
-export const getInforWallets = async ()=>{
+export const getInforWallet = async ()=>{
     try {
         const temp = await axiosClient.get("/telegram-wallets/info")
         return temp.data.data;

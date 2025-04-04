@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogTitle, DialogFooter, DialogHeader,} from "
 import { AlertDialogFooter, AlertDialogHeader,} from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { MasterTradingService } from "@/services/api";
+import { getInforWallet } from "@/services/api/TelegramWalletService";
 
 export default function MasterTrade() {
   const { t } = useLang();
@@ -22,6 +23,10 @@ export default function MasterTrade() {
     queryKey: ["master-trading/masters"],
     queryFn: getMasters,
   });
+    const { data: walletInfor, refetch: refecthWalletInfor } = useQuery({
+      queryKey: ["wallet-infor"],
+      queryFn: getInforWallet,
+    });
   const [activeTab, setActiveTab] = useState("not-connected");
   const [searchQuery, setSearchQuery] = useState("");
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);

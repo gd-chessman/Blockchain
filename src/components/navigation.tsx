@@ -23,7 +23,7 @@ import { LangToggle } from "./lang-toggle";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
-import { getInforWallets, getMyWallets, useWallet } from "@/services/api/TelegramWalletService";
+import { getInforWallet, getMyWallets, useWallet } from "@/services/api/TelegramWalletService";
 import { truncateString } from "@/utils/format";
 import {
   DropdownMenu,
@@ -43,10 +43,10 @@ import { Badge } from "@/components/ui/badge";
 export default function Navigation() {
   const { data: walletInfor, refetch } = useQuery({
     queryKey: ["wallet-infor"],
-    queryFn: getInforWallets,
+    queryFn: getInforWallet,
   });
-  const { data: inforWallets } = useQuery({
-    queryKey: ["infor-wallets"],
+  const { data: myWallets } = useQuery({
+    queryKey: ["my-wallets"],
     queryFn: getMyWallets,
   });
   const pathname = usePathname();
@@ -187,7 +187,7 @@ export default function Navigation() {
             </DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            {inforWallets?.map((wallet: { wallet_id: string; wallet_name: string; solana_address: string; wallet_type: string; wallet_auth: string }) => (
+            {myWallets?.map((wallet: { wallet_id: string; wallet_name: string; solana_address: string; wallet_type: string; wallet_auth: string }) => (
               <div
                 key={wallet.wallet_id}
                 className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 cursor-pointer"
