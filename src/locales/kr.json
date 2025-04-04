@@ -131,12 +131,27 @@
     "navigation": {
         "dashboard": "대시보드",
         "trading": "거래",
-        "copytrade": "카피 트레이딩",
-        "mastertrade": "마스터 트레이딩",
+        "copytrade": "복사 거래",
+        "mastertrade": "마스터 거래",
         "wallet": "지갑",
         "settings": "설정",
         "logout": "로그아웃",
-        "newcoin": "새 코인 생성"
+        "newcoin": "새 코인 만들기",
+        "selectWallet": {
+            "title": "지갑 선택",
+            "walletType": {
+                "primary": "기본",
+                "secondary": "보조",
+                "main": "메인",
+                "import": "가져오기",
+                "other": "기타"
+            },
+            "walletAuth": {
+                "owner": "소유자",
+                "member": "멤버",
+                "master": "마스터"
+            }
+        }
     },
     "copyTrade": {
         "title": "카피 트레이딩",
@@ -459,55 +474,56 @@
         "groupDeactivated": "그룹이 비활성화되었습니다",
         "processedMembersResult": "{{success}}명의 멤버 처리 성공, {{failed}}명 실패",
         "tabs": {
-            "notConnected": "미연결",
+            "notConnected": "연결되지 않음",
             "connected": "연결됨",
             "disconnected": "연결 해제됨",
             "pending": "대기 중"
         },
         "table": {
-            "walletAddress": "지갑 멤버",
+            "walletAddress": "지갑 주소",
             "type": "유형",
             "status": "상태",
             "actions": "작업"
         },
         "status": {
-            "notConnected": "미연결",
-            "connected": "연결됨",
-            "disconnected": "연결 해제됨",
-            "pending": "대기 중"
+            "connect": "연결됨",
+            "pause": "일시 중지됨",
+            "disconnect": "연결 해제됨",
+            "pending": "대기 중",
+            "null": "연결되지 않음"
         },
         "actions": {
-            "connect": "연결",
-            "disconnect": "연결 해제",
-            "reconnect": "재연결",
-            "cancel": "취소",
+            "manage": "마스터 관리",
             "copyAddress": "주소 복사",
-            "manage": "마스터 관리"
+            "connect": "연결",
+            "reconnect": "재연결",
+            "disconnect": "연결 해제",
+            "pause": "일시 중지"
         },
         "noData": {
-            "notConnected": "거래자를 찾을 수 없습니다",
-            "connected": "연결된 마스터를 찾을 수 없습니다",
-            "disconnected": "연결 해제된 마스터를 찾을 수 없습니다",
-            "pending": "대기 중인 연결을 찾을 수 없습니다"
+            "notConnected": "사용 가능한 마스터가 없습니다",
+            "connected": "연결된 마스터가 없습니다",
+            "disconnected": "연결 해제된 마스터가 없습니다",
+            "pending": "대기 중인 마스터가 없습니다"
         },
         "dialog": {
             "addWallet": {
                 "title": "새 지갑 추가",
                 "walletName": "지갑 이름",
-                "walletNamePlaceholder": "지갑 이름 입력",
+                "walletNamePlaceholder": "지갑 이름을 입력하세요",
                 "cancel": "취소",
                 "add": "지갑 추가"
             },
             "connect": {
-                "title": "연결 대상",
+                "title": "마스터에 연결",
                 "maxCopyAmount": "최대 복사 금액 (SOL)",
-                "amountPlaceholder": "금액 입력",
+                "amountPlaceholder": "금액을 입력하세요",
                 "cancel": "취소",
-                "connect": "지금 연결"
+                "connect": "연결"
             }
         },
         "manage": {
-            "title": "마스터 트레이딩 관리",
+            "title": "마스터 거래 관리",
             "connectWithOtherMaster": "다른 마스터와 연결",
             "createNewGroup": {
                 "title": "새 그룹 만들기",
@@ -518,10 +534,10 @@
                 "error": "그룹 생성 중 오류가 발생했습니다. 다시 시도해주세요."
             },
             "groupManagement": {
-                "on": "켜기",
-                "off": "끄기",
+                "on": "켜짐",
+                "off": "꺼짐",
                 "delete": "삭제",
-                "noGroups": "그룹이 없습니다. 새 그룹을 생성하여 시작하세요.",
+                "noGroups": "그룹이 없습니다. 새 그룹을 만들어 시작하세요.",
                 "previous": "이전",
                 "next": "다음",
                 "columns": {
@@ -534,16 +550,16 @@
                 "tabs": {
                     "pending": "대기 중",
                     "connected": "연결됨",
-                    "paused": "일시 중지",
+                    "paused": "일시 중지됨",
                     "blocked": "차단됨"
                 },
                 "join": "참여",
-                "noConnections": "이 카테고리에서 연결을 찾을 수 없습니다.",
+                "noConnections": "이 카테고리에 연결이 없습니다.",
                 "previous": "이전",
                 "next": "다음",
                 "columns": {
                     "walletAddress": "지갑 멤버",
-                    "joinedGroups": "참여 그룹",
+                    "joinedGroups": "참여한 그룹",
                     "status": "상태",
                     "actions": "작업"
                 },
@@ -556,8 +572,8 @@
                 "joinGroup": "그룹 참여",
                 "join": "참여",
                 "cancel": "취소",
-                "joinSuccess": "그룹 참여 성공",
-                "joinError": "그룹 참여 실패"
+                "joinSuccess": "그룹에 성공적으로 참여했습니다",
+                "joinError": "그룹 참여에 실패했습니다"
             }
         }
     },

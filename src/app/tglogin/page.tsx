@@ -2,10 +2,10 @@
 import { useAuth } from '@/hooks/useAuth';
 import { TelegramWalletService } from '@/services/api';
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useEffect } from 'react'
+import React, { useEffect, Suspense } from 'react'
 import { toast } from 'react-toastify';
 
-export default function TelegramLogin() {
+function TelegramLoginContent() {
     const {isAuthenticated, login } = useAuth();
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -43,5 +43,13 @@ export default function TelegramLogin() {
         <div>
 
         </div>
+    )
+}
+
+export default function TelegramLogin() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <TelegramLoginContent />
+        </Suspense>
     )
 }

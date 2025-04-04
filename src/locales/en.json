@@ -153,7 +153,22 @@
       "mastertrade": "Master Trade",
       "wallet": "Wallet",
       "settings": "Settings",
-      "logout": "Logout"
+      "logout": "Logout",
+      "selectWallet": {
+          "title": "Select Wallet",
+          "walletType": {
+              "primary": "Primary",
+              "secondary": "Secondary",
+              "main": "Main",
+              "import": "Import",
+              "other": "Other"
+          },
+          "walletAuth": {
+              "owner": "Owner",
+              "member": "Member",
+              "master": "Master"
+          }
+      }
   },
   "copyTrade": {
       "title": "Copy Trade",
@@ -524,7 +539,7 @@
               "walletName": "Wallet Name",
               "walletNamePlaceholder": "Enter wallet name",
               "cancel": "Cancel",
-              "add": "Add"
+              "add": "Add Wallet"
           },
           "connect": {
               "title": "Connect to Master",

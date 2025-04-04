@@ -57,5 +57,12 @@ export function useWsGetOrders() {
     });
   };
 
-  return { socket, orderMessages, sendMessage, getOrdersWs };
+  // Hàm hủy đăng ký nhận cập nhật orders
+  const unGetOrders = () => {
+    sendMessage({
+      method: "unGetOrders"
+    });
+  };
+
+  return { socket, orderMessages, sendMessage, getOrdersWs, unGetOrders };
 }

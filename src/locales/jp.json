@@ -136,7 +136,22 @@
         "wallet": "ウォレット",
         "settings": "設定",
         "logout": "ログアウト",
-        "newcoin": "新規コイン作成"
+        "newcoin": "新規コイン作成",
+        "selectWallet": {
+            "title": "ウォレットを選択",
+            "walletType": {
+                "primary": "プライマリ",
+                "secondary": "セカンダリ",
+                "main": "メイン",
+                "import": "インポート",
+                "other": "その他"
+            },
+            "walletAuth": {
+                "owner": "オーナー",
+                "member": "メンバー",
+                "master": "マスター"
+            }
+        }
     },
     "copyTrade": {
         "title": "コピートレード",
@@ -465,55 +480,56 @@
             "pending": "保留中"
         },
         "table": {
-            "walletAddress": "ウォレットメンバー",
+            "walletAddress": "ウォレットアドレス",
             "type": "タイプ",
             "status": "ステータス",
-            "actions": "アクション"
+            "actions": "操作"
         },
         "status": {
-            "notConnected": "未接続",
-            "connected": "接続済み",
-            "disconnected": "切断済み",
-            "pending": "保留中"
+            "connect": "接続済み",
+            "pause": "一時停止中",
+            "disconnect": "切断済み",
+            "pending": "保留中",
+            "null": "未接続"
         },
         "actions": {
-            "connect": "接続",
-            "disconnect": "切断",
-            "reconnect": "再接続",
-            "cancel": "キャンセル",
+            "manage": "マスター管理",
             "copyAddress": "アドレスをコピー",
-            "manage": "マスター管理"
+            "connect": "接続",
+            "reconnect": "再接続",
+            "disconnect": "切断",
+            "pause": "一時停止"
         },
         "noData": {
-            "notConnected": "トレーダーが見つかりません",
-            "connected": "接続済みのマスターが見つかりません",
-            "disconnected": "切断済みのマスターが見つかりません",
-            "pending": "保留中の接続が見つかりません"
+            "notConnected": "利用可能なマスターがありません",
+            "connected": "接続済みのマスターがありません",
+            "disconnected": "切断済みのマスターがありません",
+            "pending": "保留中のマスターがありません"
         },
         "dialog": {
             "addWallet": {
                 "title": "新しいウォレットを追加",
                 "walletName": "ウォレット名",
-                "walletNamePlaceholder": "ウォレット名を入力",
+                "walletNamePlaceholder": "ウォレット名を入力してください",
                 "cancel": "キャンセル",
                 "add": "ウォレットを追加"
             },
             "connect": {
-                "title": "接続先",
+                "title": "マスターに接続",
                 "maxCopyAmount": "最大コピー金額 (SOL)",
-                "amountPlaceholder": "金額を入力",
+                "amountPlaceholder": "金額を入力してください",
                 "cancel": "キャンセル",
-                "connect": "今すぐ接続"
+                "connect": "接続"
             }
         },
         "manage": {
             "title": "マスタートレード管理",
             "connectWithOtherMaster": "他のマスターと接続",
             "createNewGroup": {
-                "title": "新規グループ作成",
+                "title": "新しいグループを作成",
                 "groupName": "グループ名",
                 "groupNamePlaceholder": "グループ名を入力してください",
-                "createButton": "グループ作成",
+                "createButton": "グループを作成",
                 "success": "グループが正常に作成されました！",
                 "error": "グループの作成中にエラーが発生しました。もう一度お試しください。"
             },
@@ -521,7 +537,7 @@
                 "on": "オン",
                 "off": "オフ",
                 "delete": "削除",
-                "noGroups": "グループが見つかりません。新しいグループを作成して開始してください。",
+                "noGroups": "グループがありません。新しいグループを作成して開始してください。",
                 "previous": "前へ",
                 "next": "次へ",
                 "columns": {
@@ -534,7 +550,7 @@
                 "tabs": {
                     "pending": "保留中",
                     "connected": "接続済み",
-                    "paused": "一時停止",
+                    "paused": "一時停止中",
                     "blocked": "ブロック済み"
                 },
                 "join": "参加",
@@ -556,7 +572,7 @@
                 "joinGroup": "グループに参加",
                 "join": "参加",
                 "cancel": "キャンセル",
-                "joinSuccess": "グループに参加しました",
+                "joinSuccess": "グループに正常に参加しました",
                 "joinError": "グループへの参加に失敗しました"
             }
         }

@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Pencil, TrendingUp, Check, X, Loader2, Search } from "lucide-react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
 import { useLang } from "@/lang";
 import { Copy } from "lucide-react";
 import { toast } from "react-toastify";
@@ -56,7 +56,7 @@ interface Connect {
 
 const chartData = generateChartData();
 
-export default function Trading() {
+function TradingContent() {
   const { t } = useLang();
   const { tokenMessages } = useWsSubscribeTokens();
   const queryClient = useQueryClient();
@@ -997,5 +997,13 @@ export default function Trading() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Trading() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TradingContent />
+    </Suspense>
   );
 }

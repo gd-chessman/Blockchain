@@ -204,7 +204,7 @@ export default function Navigation() {
         <DialogContent className="sm:max-w-[425px] bg-card">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">
-              Select Wallet
+              {t('navigation.selectWallet.title')}
             </DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
@@ -222,10 +222,10 @@ export default function Navigation() {
                     <Wallet2 className="h-4 w-4" />
                     <span className="font-medium">{wallet.wallet_name}</span>
                     <Badge variant="outline" className="ml-2">
-                      {wallet.wallet_type || "Primary"}
+                      {t(`navigation.selectWallet.walletType.${wallet.wallet_type?.toLowerCase() || 'primary'}`)}
                     </Badge>
                     <Badge variant="outline" className="bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 border-blue-200 dark:border-blue-800">
-                      {wallet.wallet_auth}
+                      {t(`navigation.selectWallet.walletAuth.${wallet.wallet_auth?.toLowerCase() || 'owner'}`)}
                     </Badge>
                   </div>
                   <div className="text-sm text-muted-foreground">

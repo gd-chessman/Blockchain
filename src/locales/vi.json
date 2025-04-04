@@ -130,6 +130,7 @@
       "value": "Giá Trị"
   },
   "navigation": {
+      "newcoin": "Tạo Coin Mới",
       "dashboard": "Bảng Điều Khiển",
       "trading": "Giao Dịch",
       "copytrade": "Sao Chép Giao Dịch",
@@ -137,7 +138,21 @@
       "wallet": "Ví",
       "settings": "Cài Đặt",
       "logout": "Đăng Xuất",
-      "newcoin": "Tạo Coin"
+      "selectWallet": {
+          "title": "Chọn Ví",
+          "walletType": {
+              "primary": "Chính",
+              "secondary": "Phụ",
+              "main": "Chính",
+              "import": "Nhập",
+              "other": "Khác"
+          },
+          "walletAuth": {
+              "owner": "Chủ Sở Hữu",
+              "member": "Thành Viên",
+              "master": "Master"
+          }
+      }
   },
   "copyTrade": {
       "title": "Sao Chép Giao Dịch",
@@ -393,7 +408,7 @@
       "noPermissionToUpdateGroups": "Bạn không có quyền cập nhật nhóm.",
       "groupNotFound": "Không tìm thấy nhóm.",
       "joinedGroups": "Nhóm đã tham gia",
-      "availableMasters": "Chuyên Gia Có Sẵn",
+      "availableMasters": "Master có sẵn",
       "searchPlaceholder": "Tìm kiếm theo địa chỉ ví...",
       "loadingJoinedGroups": "Đang tải nhóm đã tham gia...",
       "loadingMasters": "Đang tải dữ liệu...",
@@ -454,30 +469,31 @@
           "pending": "Đang Chờ"
       },
       "table": {
-          "walletAddress": "Thành Viên Ví",
+          "walletAddress": "Địa chỉ ví",
           "type": "Loại",
-          "status": "Trạng Thái",
-          "actions": "Thao Tác"
+          "status": "Trạng thái",
+          "actions": "Thao tác"
       },
       "status": {
-          "notConnected": "Chưa Kết Nối",
-          "connected": "Đã Kết Nối",
-          "disconnected": "Đã Ngắt Kết Nối",
-          "pending": "Đang Chờ"
+          "connect": "Đã kết nối",
+          "pause": "Đã tạm dừng",
+          "disconnect": "Đã ngắt kết nối",
+          "pending": "Đang chờ",
+          "null": "Chưa kết nối"
       },
       "actions": {
-          "connect": "Kết Nối",
-          "disconnect": "Ngắt Kết Nối",
-          "reconnect": "Kết Nối Lại",
-          "cancel": "Hủy",
+          "manage": "Quản lý Master",
           "copyAddress": "Sao chép địa chỉ",
-          "manage": "Quản Lý Chuyên Gia"
+          "connect": "Kết nối",
+          "reconnect": "Kết nối lại",
+          "disconnect": "Ngắt kết nối",
+          "pause": "Tạm dừng"
       },
       "noData": {
-          "notConnected": "Không tìm thấy trader nào",
-          "connected": "Không tìm thấy master đã kết nối",
-          "disconnected": "Không tìm thấy master đã ngắt kết nối",
-          "pending": "Không tìm thấy kết nối đang chờ"
+          "notConnected": "Không có master nào",
+          "connected": "Không có master đã kết nối",
+          "disconnected": "Không có master đã ngắt kết nối",
+          "pending": "Không có master đang chờ"
       },
       "dialog": {
           "addWallet": {
@@ -488,31 +504,31 @@
               "add": "Thêm Ví"
           },
           "connect": {
-              "title": "Kết Nối Với",
+              "title": "Kết Nối Với Master",
               "maxCopyAmount": "Số Tiền Copy Tối Đa (SOL)",
               "amountPlaceholder": "Nhập số tiền",
               "cancel": "Hủy",
-              "connect": "Kết Nối Ngay"
+              "connect": "Kết Nối"
           }
       },
       "manage": {
-          "title": "Quản lý Master Trade",
-          "connectWithOtherMaster": "Kết nối với Master khác",
+          "title": "Quản Lý Master Trade",
+          "connectWithOtherMaster": "Kết Nối Với Master Khác",
           "createNewGroup": {
-              "title": "Tạo nhóm mới",
-              "groupName": "Tên nhóm",
+              "title": "Tạo Nhóm Mới",
+              "groupName": "Tên Nhóm",
               "groupNamePlaceholder": "Nhập tên nhóm",
-              "createButton": "Tạo nhóm",
+              "createButton": "Tạo Nhóm",
               "success": "Tạo nhóm thành công!",
               "error": "Có lỗi xảy ra khi tạo nhóm. Vui lòng thử lại."
           },
           "groupManagement": {
-              "on": "Bật",
-              "off": "Tắt",
+              "on": "BẬT",
+              "off": "TẮT",
               "delete": "Xóa",
-              "noGroups": "Không tìm thấy nhóm nào. Tạo nhóm mới để bắt đầu.",
+              "noGroups": "Không tìm thấy nhóm nào. Hãy tạo nhóm mới để bắt đầu.",
               "previous": "Trước",
-              "next": "Tiếp",
+              "next": "Sau",
               "columns": {
                   "groupName": "Tên Nhóm",
                   "status": "Trạng Thái",
@@ -529,7 +545,7 @@
               "join": "Tham Gia",
               "noConnections": "Không tìm thấy kết nối nào trong danh mục này.",
               "previous": "Trước",
-              "next": "Tiếp",
+              "next": "Sau",
               "columns": {
                   "walletAddress": "Thành Viên Ví",
                   "joinedGroups": "Nhóm Đã Tham Gia",
@@ -543,10 +559,10 @@
                   "block": "Chặn"
               },
               "joinGroup": "Tham Gia Nhóm",
-              "join": "Tham gia",
+              "join": "Tham Gia",
               "cancel": "Hủy",
               "joinSuccess": "Tham gia nhóm thành công",
-              "joinError": "Không thể tham gia nhóm"
+              "joinError": "Tham gia nhóm thất bại"
           }
       }
   },
