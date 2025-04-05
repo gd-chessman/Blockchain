@@ -22,16 +22,13 @@ export const LangProvider: React.FC<LangProviderProps> = ({
   langConfig 
 }) => {
   const isClient = typeof window !== 'undefined';
-  const [lang, setLang] = useState<string>(initialLang);
-
-  useEffect(() => {
+  const [lang, setLang] = useState<string>(() => {
     if (isClient) {
       const storedLang = localStorage.getItem('appLang');
-      if (storedLang) {
-        setLang(storedLang);
-      }
+      return storedLang || initialLang;
     }
-  }, [isClient]);
+    return initialLang;
+  });
 
   useEffect(() => {
     if (isClient) {
