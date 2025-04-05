@@ -15,7 +15,7 @@ function TelegramLoginContent() {
 
     useEffect(() => {
         if (isAuthenticated) {
-            router.push('/dashboard');
+            window.location.href = '/dashboard';
         }else if (telegramId && code){
             handleLogin();
         }
@@ -27,11 +27,11 @@ function TelegramLoginContent() {
             const res = await TelegramWalletService.login(data);
             console.log(res)
             if(res.status == 401){
-                toast.warn("Xác thực không hợp lệ!")
+                toast.warn("Invalid authentication !")
             }
             if(res.status == 200){
                 login(res.token);
-                router.push('/dashboard')
+                window.location.href = '/dashboard';
             }
 
         } catch (error: any) {
