@@ -238,8 +238,8 @@ export default function CreateCoin() {
                     </div>
 
                     <div>
-                      <label htmlFor="image" className="block text-sm font-medium mb-1">
-                        {t('createCoin.form.logo')} <span className="text-muted-foreground">*</span>
+                      <label htmlFor="image" className="block text-sm font-medium mb-1 whitespace-nowrap">
+                        {t('createCoin.form.logo')} <span className="text-muted-foreground whitespace-nowrap">* ({t('createCoin.form.logoDes')})</span>
                       </label>
                       <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-md p-4 h-[200px]">
                         {logoPreview ? (

@@ -718,7 +718,8 @@
       "websitePlaceholder": "Enter website URL",
       "twitter": "Twitter",
       "twitterPlaceholder": "Enter Twitter username",
-      "createButton": "Create Coin"
+      "createButton": "Create Coin",
+      "logoDes": "Token avatar"
     },
     "preview": {
       "title": "Preview",

@@ -693,7 +693,8 @@
             "websitePlaceholder": "ウェブサイトリンクを入力",
             "twitter": "ツイッター",
             "twitterPlaceholder": "ツイッターリンクを入力",
-            "createButton": "コイン作成"
+            "createButton": "コイン作成",
+            "logoDes": "トークンのアバター"
         },
         "preview": {
             "title": "プレビュー",

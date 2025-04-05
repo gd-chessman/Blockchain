@@ -676,7 +676,8 @@
       "twitterPlaceholder": "Nhập link Twitter",
       "showOptions": "Hiện thêm tùy chọn",
       "hideOptions": "Ẩn tùy chọn",
-      "createButton": "Tạo Coin"
+      "createButton": "Tạo Coin",
+      "logoDes": "Ảnh đại diện Token"
     },
     "preview": {
       "title": "Xem Trước",

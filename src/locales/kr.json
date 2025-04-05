@@ -692,7 +692,8 @@
             "websitePlaceholder": "웹사이트 링크 입력",
             "twitter": "트위터",
             "twitterPlaceholder": "트위터 링크 입력",
-            "createButton": "코인 만들기"
+            "createButton": "코인 만들기",
+            "logoDes": "토큰 아바타"
         },
         "preview": {
             "title": "미리보기",
