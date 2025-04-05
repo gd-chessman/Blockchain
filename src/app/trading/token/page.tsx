@@ -821,47 +821,60 @@ function TradingContent() {
                     {solAmounts.map((solAmount, index) => (
                       <div
                         key={index}
-                        className="relative flex items-center gap-1"
+                        className="relative flex items-center gap-1 border rounded-md hover:bg-muted/50 transition-colors p-0.5"
                       >
                         {editingSolIndex === index ? (
-                          <Input
-                            value={tempSolValue}
-                            onChange={(e) => setTempSolValue(e.target.value)}
-                            onBlur={() => handleSolSave(index)}
-                            onKeyDown={(e) =>
-                              e.key === "Enter" && handleSolSave(index)
-                            }
-                            autoFocus
-                            type="number"
-                            min={0}
-                            step="0.1"
-                            className="w-24"
-                          />
-                        ) : (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="w-24"
-                            onClick={() => {
-                              if (selectedAction === "buy") {
-                                setAmount(solAmount);
-                                if (tokenAmount?.data?.sol_balance) {
-                                  const percentage = (Number(solAmount) / tokenAmount.data.sol_balance) * 100;
-                                  setValue(Math.min(100, Math.max(0, percentage)));
-                                }
+                          <div className="flex items-center gap-1.5 w-full">
+                            <Input
+                              value={tempSolValue}
+                              onChange={(e) => setTempSolValue(e.target.value)}
+                              onBlur={() => handleSolSave(index)}
+                              onKeyDown={(e) =>
+                                e.key === "Enter" && handleSolSave(index)
                               }
-                            }}
-                          >
-                            {solAmount} SOL
-                          </Button>
+                              autoFocus
+                              type="number"
+                              min={0}
+                              step="0.1"
+                              className="flex-1 h-7 text-sm"
+                            />
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-6 w-6 p-0"
+                              onClick={() => handleSolSave(index)}
+                            >
+                              <Check className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-between w-full">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-8 flex-1 justify-start text-sm"
+                              onClick={() => {
+                                if (selectedAction === "buy") {
+                                  setAmount(solAmount);
+                                  if (tokenAmount?.data?.sol_balance) {
+                                    const percentage = (Number(solAmount) / tokenAmount.data.sol_balance) * 100;
+                                    setValue(Math.min(100, Math.max(0, percentage)));
+                                  }
+                                }
+                              }}
+                            >
+                              <span className="text-sm">{solAmount} SOL</span>
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-6 w-6 p-0 hover:bg-muted bg-muted/50"
+                              onClick={() => handleSolEditClick(index)}
+                            >
+                              <Pencil className="h-3 w-3" />
+                            </Button>
+                          </div>
                         )}
-                        <Button
-                          variant="ghost"
-                          className="p-1"
-                          onClick={() => handleSolEditClick(index)}
-                        >
-                          <Pencil size={12} />
-                        </Button>
                       </div>
                     ))}
                   </div>
