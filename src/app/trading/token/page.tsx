@@ -195,6 +195,15 @@ function TradingContent() {
   const { percentages, setPercentage } = usePercent();
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [tempValue, setTempValue] = useState<string>("");
+  const [solAmounts, setSolAmounts] = useState<string[]>(() => {
+    if (typeof window !== 'undefined') {
+      const savedAmounts = localStorage.getItem('solAmounts');
+      return savedAmounts ? JSON.parse(savedAmounts) : ["0.1", "0.5", "1", "2"];
+    }
+    return ["0.1", "0.5", "1", "2"];
+  });
+  const [editingSolIndex, setEditingSolIndex] = useState<number | null>(null);
+  const [tempSolValue, setTempSolValue] = useState<string>("");
 
   const handleEditClick = (index: number) => {
     setEditingIndex(index);
@@ -206,6 +215,21 @@ function TradingContent() {
       setPercentage(index, tempValue);
     }
     setEditingIndex(null);
+  };
+
+  const handleSolEditClick = (index: number) => {
+    setEditingSolIndex(index);
+    setTempSolValue(solAmounts[index]);
+  };
+
+  const handleSolSave = (index: number) => {
+    if (tempSolValue.trim()) {
+      const newSolAmounts = [...solAmounts];
+      newSolAmounts[index] = tempSolValue;
+      setSolAmounts(newSolAmounts);
+      localStorage.setItem('solAmounts', JSON.stringify(newSolAmounts));
+    }
+    setEditingSolIndex(null);
   };
 
   const [showToast, setShowToast] = useState(false);
@@ -786,6 +810,55 @@ function TradingContent() {
                           variant="ghost"
                           className="p-1"
                           onClick={() => handleEditClick(index)}
+                        >
+                          <Pencil size={12} />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="grid grid-cols-4 gap-2">
+                    {solAmounts.map((solAmount, index) => (
+                      <div
+                        key={index}
+                        className="relative flex items-center gap-1"
+                      >
+                        {editingSolIndex === index ? (
+                          <Input
+                            value={tempSolValue}
+                            onChange={(e) => setTempSolValue(e.target.value)}
+                            onBlur={() => handleSolSave(index)}
+                            onKeyDown={(e) =>
+                              e.key === "Enter" && handleSolSave(index)
+                            }
+                            autoFocus
+                            type="number"
+                            min={0}
+                            step="0.1"
+                            className="w-24"
+                          />
+                        ) : (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="w-24"
+                            onClick={() => {
+                              if (selectedAction === "buy") {
+                                setAmount(solAmount);
+                                if (tokenAmount?.data?.sol_balance) {
+                                  const percentage = (Number(solAmount) / tokenAmount.data.sol_balance) * 100;
+                                  setValue(Math.min(100, Math.max(0, percentage)));
+                                }
+                              }
+                            }}
+                          >
+                            {solAmount} SOL
+                          </Button>
+                        )}
+                        <Button
+                          variant="ghost"
+                          className="p-1"
+                          onClick={() => handleSolEditClick(index)}
                         >
                           <Pencil size={12} />
                         </Button>
