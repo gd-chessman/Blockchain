@@ -183,7 +183,7 @@ export default function Trading() {
                             size="sm"
                             className="bg-blue-50 dark:bg-blue-900/20 text-green-600 dark:text-green-300 border-green-200 dark:border-green-800 hover:bg-green-100 dark:hover:bg-green-900/30"
                           >
-                            {t("trading.buy")}
+                            {t("createCoin.myCoins.tradeButton")}
                           </Button>
                         </div>
                       </TableCell>
