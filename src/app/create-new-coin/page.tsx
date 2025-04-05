@@ -50,7 +50,7 @@ type FormData = {
   website?: string;
   twitter?: string;
   showName: boolean;
-  categories: { value: string; label: string }[];
+  category_list: string[];
 }
 
 export default function CreateCoin() {
@@ -96,6 +96,7 @@ export default function CreateCoin() {
     try {
       setIsLoading(true);
       data.image = fileImage;
+      console.log(data)
       const res = await TelegramWalletService.createToken(data);
       setToastMessage(t('createCoin.success'));
       setShowToast(true);
@@ -246,11 +247,11 @@ export default function CreateCoin() {
                   </div>
 
                   <div>
-                    <label htmlFor="categories" className="block text-sm font-medium mb-1">
+                    <label htmlFor="category_list" className="block text-sm font-medium mb-1">
                       {t('createCoin.form.categories')}
                     </label>
                     <Select
-                      id="categories"
+                      id="category_list"
                       isMulti
                       options={categories.map((category) => ({
                         value: category.id,
@@ -259,15 +260,21 @@ export default function CreateCoin() {
                       className="react-select-container"
                       classNamePrefix="react-select"
                       onChange={(newValue) => {
+                        const selectedIds = newValue.map(item => item.value);
                         const event = {
                           target: {
-                            value: newValue,
-                            name: 'categories'
+                            value: selectedIds,
+                            name: 'category_list'
                           }
                         };
-                        register('categories').onChange(event);
+                        register('category_list').onChange(event);
                       }}
-                      value={watch('categories')}
+                      value={categories.filter(category => 
+                        watch('category_list')?.includes(category.id)
+                      ).map(category => ({
+                        value: category.id,
+                        label: category.name
+                      }))}
                       styles={{
                         control: (base) => ({
                           ...base,
