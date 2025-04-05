@@ -76,6 +76,7 @@ function TradingContent() {
   >([]);
   const [value, setValue] = useState(0);
   const [amount, setAmount] = useState<string>("");
+  const [isMounted, setIsMounted] = useState(false);
 
   const searchParams = useSearchParams();
   const address = searchParams?.get("address");
@@ -90,7 +91,7 @@ function TradingContent() {
   const { data: orders, refetch: refetchOrders } = useQuery({
     queryKey: ["orders"],
     queryFn: ()=> getOrders(address),
-    refetchInterval: 5000,
+    // refetchInterval: 5000,
   });
   const { data: connects = [] } = useQuery({
     queryKey: ["connects"],
@@ -160,7 +161,7 @@ function TradingContent() {
   }, [debouncedSearchQuery]);
 
   // Use search results if available, otherwise use WebSocket data
-  const displayTokens = debouncedSearchQuery.trim() ? searchResults : tokens.map(token => ({
+  const displayTokens = debouncedSearchQuery.trim() ? searchResults : tokens?.map(token => ({
     id: 0,
     name: token.slt_name,
     symbol: token.slt_symbol,
@@ -195,13 +196,15 @@ function TradingContent() {
   const { percentages, setPercentage } = usePercent();
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [tempValue, setTempValue] = useState<string>("");
-  const [solAmounts, setSolAmounts] = useState<string[]>(() => {
-    if (typeof window !== 'undefined') {
-      const savedAmounts = localStorage.getItem('solAmounts');
-      return savedAmounts ? JSON.parse(savedAmounts) : ["0.1", "0.5", "1", "2"];
+  const [solAmounts, setSolAmounts] = useState<string[]>(["0.1", "0.5", "1", "2"]);
+
+  useEffect(() => {
+    const savedAmounts = localStorage.getItem('solAmounts');
+    if (savedAmounts) {
+      setSolAmounts(JSON.parse(savedAmounts));
     }
-    return ["0.1", "0.5", "1", "2"];
-  });
+  }, []);
+
   const [editingSolIndex, setEditingSolIndex] = useState<number | null>(null);
   const [tempSolValue, setTempSolValue] = useState<string>("");
 
@@ -503,7 +506,19 @@ function TradingContent() {
     setCheckedConnections(newCheckedConnections);
   };
 
-    if(!isAuthenticated) return <LogWarring />;
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return (
+      <div className="flex flex-col items-center justify-center h-[80vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-500"></div>
+      </div>
+    );
+  }
+
+  if(!isAuthenticated) return <LogWarring />;
 
   return (
     <div className="container mx-auto p-6">
@@ -598,7 +613,7 @@ function TradingContent() {
                 <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50">
                   <div className="max-h-[64vh] overflow-auto">
                     <div className="space-y-4">
-                      {displayTokens.map((token, index) => (
+                      {displayTokens?.map((token, index) => (
                         <Link
                           key={index}
                           className={`flex text-sm gap-6 cursor-pointer ${
@@ -664,7 +679,7 @@ function TradingContent() {
                       <Link
                         key={index} // Assuming token has an 'id' field
                         className={`flex text-sm gap-6 cursor-pointer ${
-                          index < tokens.length - 1 ? "border-b-2 pb-2" : ""
+                          index < tokens?.length - 1 ? "border-b-2 pb-2" : ""
                         }`}
                         href={`/trading/token?address=${token.address}`}
                       >
@@ -1118,7 +1133,11 @@ function TradingContent() {
 
 export default function Trading() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={
+      <div className="flex flex-col items-center justify-center h-[80vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-500"></div>
+      </div>
+    }>
       <TradingContent />
     </Suspense>
   );
