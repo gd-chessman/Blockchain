@@ -162,7 +162,8 @@
       "percentage": "Phần Trăm",
       "marketIsOpen": "Thị Trường Đang Mở",
       "attributes": "Thuộc Tính",
-      "value": "Giá Trị"
+      "value": "Giá Trị",
+      "searchPlaceholder": "Tìm kiếm theo tên token hoặc địa chỉ"
   },
   "navigation": {
       "newcoin": "Tạo Coin Mới",

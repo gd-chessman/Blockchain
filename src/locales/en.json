@@ -155,7 +155,7 @@
       "noConnections": "No connected members",
       "selectAllMembers": "Select All Members",
       "unselectAllMembers": "Unselect All Members",
-      "search_placeholder": "Search by token name or address...",
+      "search_placeholder": "Search by token name or address",
       "time": "Time",
       "attributes": "Attributes",
       "value": "Value",
@@ -179,7 +179,8 @@
       "limit": "Limit",
       "market": "Market",
       "stop": "Stop",
-      "executed": "Executed"
+      "executed": "Executed",
+      "searchPlaceholder": "Search by token name or address"
   },
   "navigation": {
       "newcoin": "Create New Coin",

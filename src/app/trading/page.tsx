@@ -122,7 +122,7 @@ export default function Trading() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground cursor-pointer" />
             )}
             <Input
-              placeholder={"Search by token name or address"}
+              placeholder={t("trading.search_placeholder")}
               className="pl-10 w-full md:w-[300px]"
               value={searchQuery}
               onChange={(e) => {

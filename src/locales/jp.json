@@ -162,7 +162,8 @@
         "percentage": "割合",
         "marketIsOpen": "市場が開いています",
         "attributes": "属性",
-        "value": "値"
+        "value": "値",
+        "searchPlaceholder": "トークン名またはアドレスで検索"
     },
     "navigation": {
         "dashboard": "ダッシュボード",
