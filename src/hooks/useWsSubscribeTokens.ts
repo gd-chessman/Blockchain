@@ -1,7 +1,14 @@
 import { useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
 
-export function useWsSubscribeTokens() {
+interface SubscribeParams {
+  page?: number;
+  limit?: number;
+  verified?: boolean;
+  random?: boolean;
+}
+
+export function useWsSubscribeTokens(params?: SubscribeParams) {
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const [tokenMessages, setTokenMessages] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -17,7 +24,10 @@ export function useWsSubscribeTokens() {
 
       ws.onopen = () => {
         console.log("✅ Connected to WebSocket server - useWsSubscribeTokens");
-        ws.send(JSON.stringify({ method: "subscribeTokens" }));
+        ws.send(JSON.stringify({ 
+          method: "subscribeTokens",
+          params: params || {}
+        }));
         setError(null);
       };
 
