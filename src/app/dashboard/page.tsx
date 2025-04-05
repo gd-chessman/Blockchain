@@ -1,17 +1,22 @@
 "use client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { LineChart, BarChart, PieChart, ArrowUp, Loader2 } from "lucide-react"
+import { LineChart, BarChart, PieChart, ArrowUp, Loader2, Search } from "lucide-react"
 import { useWsSubscribeTokens } from "@/hooks/useWsSubscribeTokens";
 import { useState, useEffect } from "react";
 import { SolonaTokenService } from "@/services/api";
 import { truncateString } from "@/utils/format";
 import { useLang } from "@/lang/useLang";
 import { useRouter } from "next/navigation";
+import { useDebounce } from "@/hooks/useDebounce";
+import { Input } from "@/components/ui/input";
 
 export default function Dashboard() {
   const { t } = useLang();
   const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
+  const debouncedSearchQuery = useDebounce(searchQuery, 100);
+  const [isSearching, setIsSearching] = useState(false);
   const { tokenMessages } = useWsSubscribeTokens({limit: 12});
   
   const [tokens, setTokens] = useState<{
@@ -27,6 +32,18 @@ export default function Dashboard() {
     marketCap: number;
   }[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchResults, setSearchResults] = useState<{
+    id: number;
+    name: string;
+    symbol: string;
+    address: string;
+    decimals: number;
+    logoUrl: string;
+    coingeckoId: string | null;
+    tradingviewSymbol: string | null;
+    isVerified: boolean;
+    marketCap: number;
+  }[]>([]);
 
   // Parse messages and extract tokens
   useEffect(() => {
@@ -86,6 +103,32 @@ export default function Dashboard() {
     }
   }, [tokens.length]);
 
+  // Effect to handle search when debounced value changes
+  useEffect(() => {
+    const searchData = async () => {
+      if (!debouncedSearchQuery.trim()) {
+        setSearchResults([]);
+        setIsSearching(false);
+        return;
+      }
+      setIsSearching(true);
+      try {
+        const res = await SolonaTokenService.getSearchTokenInfor(debouncedSearchQuery);
+        setSearchResults(res.tokens || []);
+      } catch (error) {
+        console.error("Error searching tokens:", error);
+        setSearchResults([]);
+      } finally {
+        setIsSearching(false);
+      }
+    };
+
+    searchData();
+  }, [debouncedSearchQuery]);
+
+  // Use search results if available, otherwise use WebSocket data
+  const displayTokens = debouncedSearchQuery.trim() ? searchResults : tokens;
+
   return (
     <div className="container mx-auto p-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
@@ -134,14 +177,39 @@ export default function Dashboard() {
       </div>
 
       <div className="mt-8 mb-12">
-        <h2 className="text-2xl font-bold mb-6">{t('dashboard.cryptocurrencies.title')}</h2>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+          <h2 className="text-2xl font-bold">{t('dashboard.cryptocurrencies.title')}</h2>
+          <div className="relative w-full md:w-[300px] mt-4 md:mt-0">
+            {isSearching ? (
+              <Loader2 className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground animate-spin" />
+            ) : (
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground cursor-pointer" />
+            )}
+            <Input
+              placeholder={t("trading.search_placeholder")}
+              className="pl-10 w-full"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                if (!e.target.value.trim()) {
+                  setSearchResults([]);
+                }
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && searchQuery.trim()) {
+                  setSearchQuery(searchQuery.trim());
+                }
+              }}
+            />
+          </div>
+        </div>
         {isLoading ? (
           <div className="flex justify-center items-center h-40">
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           </div>
-        ) : tokens.length > 0 ? (
+        ) : displayTokens.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
-            {tokens.map((token, index) => (
+            {displayTokens.map((token, index) => (
               <Card key={index} className="group relative shadow-md dark:shadow-blue-900/5 hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1 border-2 hover:border-primary border-solid hover:border-2 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
                 <div className="relative w-full cursor-pointer" onClick={() => router.push(`/trading/token?address=${token.address}`)}>
                   <div className="relative w-full aspect-[4/3]">
