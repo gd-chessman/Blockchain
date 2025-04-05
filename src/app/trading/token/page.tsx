@@ -777,7 +777,7 @@ function TradingContent() {
                         {t("trading.amount")}
                       </label>
                       <span className="text-sm text-muted-foreground">
-                        Balance: {balance.toFixed(5)} {selectedAction === "buy" ? "SOL" : tokenInfor?.symbol}
+                        Balance: {balance.toFixed(5)} {selectedAction === "buy" ? "SOL" : tokenInfor?.symbol} {selectedAction === "buy" && `$${walletInfor?.solana_balance_usd?.toFixed(5)}`}
                       </span>
                     </div>
                     <div className="flex mt-1">
