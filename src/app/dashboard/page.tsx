@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 export default function Dashboard() {
   const { t } = useLang();
   const router = useRouter();
-  const { tokenMessages } = useWsSubscribeTokens({limit: 20});
+  const { tokenMessages } = useWsSubscribeTokens({limit: 10});
   console.log("Raw tokenMessages:", tokenMessages);
   
   const [tokens, setTokens] = useState<{
