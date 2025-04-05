@@ -123,7 +123,7 @@ export default function Trading() {
             )}
             <Input
               placeholder={t("trading.search_placeholder")}
-              className="pl-10 w-full md:w-[300px]"
+              className="pl-10 w-full md:w-[400px]"
               value={searchQuery}
               onChange={(e) => {
                 setSearchQuery(e.target.value);
