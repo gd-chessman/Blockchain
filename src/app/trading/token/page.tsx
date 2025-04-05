@@ -35,6 +35,7 @@ import LogWarring from "@/components/ui/log-warring";
 import { useAuth } from "@/hooks/useAuth";
 import { ToastNotification } from "@/components/ui/toast";
 import { getPriceSolona } from "@/services/api/SolonaTokenService";
+import { getWalletBalanceByAddress } from "@/services/api/TelegramWalletService";
 
 interface Order {
   created_at: string;
@@ -93,7 +94,6 @@ function TradingContent() {
     queryKey: ["sol-price"],
     queryFn: () => getPriceSolona(),
   });
-  console.log("tokenPrice", tokenPrice);
   const { data: memeCoins = [] , } = useQuery({
     queryKey: ['my-tokens'],
     queryFn: getMyTokens,
@@ -523,6 +523,35 @@ function TradingContent() {
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  const [memberBalances, setMemberBalances] = useState<Record<string, { sol_balance: number; solana_balance_usd: number }>>({});
+
+  // Add this useEffect to fetch balances for connected members
+  useEffect(() => {
+    const fetchBalances = async () => {
+      const newBalances: Record<string, { sol_balance: number; solana_balance_usd: number }> = {};
+      
+      for (const connect of connects) {
+        if (connect.status === "connect") {
+          try {
+            const balance = await getWalletBalanceByAddress(connect.member_address);
+            if (balance) {
+              newBalances[connect.member_address] = {
+                sol_balance: balance.sol_balance,
+                solana_balance_usd: balance.solana_balance_usd
+              };
+            }
+          } catch (error) {
+            console.error(`Error fetching balance for ${connect.member_address}:`, error);
+          }
+        }
+      }
+      
+      setMemberBalances(newBalances);
+    };
+
+    fetchBalances();
+  }, [connects]);
 
   if (!isMounted) {
     return (
@@ -1047,6 +1076,11 @@ function TradingContent() {
                                   <p className="text-sm font-medium">
                                     {connect.member_address.slice(0, 4)}...{connect.member_address.slice(-4)}
                                   </p>
+                                  {memberBalances[connect.member_address] && (
+                                    <p className="text-xs text-muted-foreground">
+                                      {memberBalances[connect.member_address].sol_balance.toFixed(4)} SOL (${memberBalances[connect.member_address].solana_balance_usd.toFixed(2)})
+                                    </p>
+                                  )}
                                 </div>
                                 <button
                                   onClick={() => {
