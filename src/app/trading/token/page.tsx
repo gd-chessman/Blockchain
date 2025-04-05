@@ -923,7 +923,8 @@ function TradingContent() {
                                 <button
                                   onClick={() => {
                                     navigator.clipboard.writeText(connect.member_address).then(() => {
-                                      toast.success("Address copied to clipboard!");
+                                      setShowToast(true);
+                                      setTimeout(() => setShowToast(false), 3000);
                                     });
                                   }}
                                   className="ml-2 p-1 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900"
