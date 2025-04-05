@@ -413,11 +413,13 @@ export default function ManageMasterTrade() {
                       <TableRow key={group.mg_id} className="hover:bg-muted/30">
                         <TableCell className="font-medium !py-2">
                           <div className="flex items-center space-x-2">
-                            <Checkbox
-                              id={`group-${group.mg_id}`}
-                              checked={selectedGroup === group.mg_id}
-                              onCheckedChange={(checked) => handleSelectGroup(group.mg_id, checked as boolean)}
-                            />
+                            {activeGroupTab === "on" && (
+                              <Checkbox
+                                id={`group-${group.mg_id}`}
+                                checked={selectedGroup === group.mg_id}
+                                onCheckedChange={(checked) => handleSelectGroup(group.mg_id, checked as boolean)}
+                              />
+                            )}
                             <label
                               htmlFor={`group-${group.mg_id}`}
                               className="cursor-pointer"
