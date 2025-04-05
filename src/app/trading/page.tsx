@@ -11,13 +11,14 @@ import {
 } from "@/components/ui/table";
 import { useLang } from "@/lang";
 import { useRouter } from "next/navigation";
-import { Search, Loader2 } from "lucide-react";
+import { Search, Loader2, Copy } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
 import { useWsSubscribeTokens } from "@/hooks/useWsSubscribeTokens";
 import { SolonaTokenService } from "@/services/api";
 import { useDebounce } from "@/hooks/useDebounce";
 import { truncateString } from "@/utils/format";
+import { ToastNotification } from "@/components/ui/toast";
 
 export default function Trading() {
   const router = useRouter();
@@ -25,6 +26,8 @@ export default function Trading() {
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery, 100); // 2 seconds delay
   const [isSearching, setIsSearching] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
   const { tokenMessages } = useWsSubscribeTokens({limit: 18});
   const [tokens, setTokens] = useState<
     {
@@ -110,8 +113,25 @@ export default function Trading() {
   // Use search results if available, otherwise use WebSocket data
   const displayTokens = debouncedSearchQuery.trim() ? searchResults : tokens;
 
+  const handleCopyAddress = (address: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(address);
+    setToastMessage(t('createCoin.copySuccess'));
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 3000);
+  };
+
   return (
     <div className="container mx-auto p-6">
+      {showToast && (
+        <ToastNotification 
+          message={toastMessage}
+          onClose={() => setShowToast(false)} 
+        />
+      )}
       <Card className="mb-6 border-none shadow-md dark:shadow-blue-900/5">
         <CardHeader className="flex justify-between flex-row items-center">
           <CardTitle>{t("trading.list_token_title")}</CardTitle>
@@ -173,7 +193,19 @@ export default function Trading() {
                         </div>
                       </TableCell>
                       <TableCell>{token.symbol}</TableCell>
-                      <TableCell>{truncateString(token.address, 36)}</TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <span className="truncate max-w-[200px]">{truncateString(token.address, 14)}</span>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-6 w-6 p-0"
+                            onClick={(e) => handleCopyAddress(token.address, e)}
+                          >
+                            <Copy className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
                       <TableCell>{token.decimals}</TableCell>
                       <TableCell>{token.isVerified ? "Yes" : "No"}</TableCell>
                       <TableCell>
