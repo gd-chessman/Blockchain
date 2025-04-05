@@ -776,9 +776,11 @@ function TradingContent() {
                       <label className="text-sm font-medium">
                         {t("trading.amount")}
                       </label>
-                      <span className="text-sm text-muted-foreground">
-                        Balance: {balance.toFixed(5)} {selectedAction === "buy" ? "SOL" : tokenInfor?.symbol} {selectedAction === "buy" && `$${walletInfor?.solana_balance_usd?.toFixed(5)}`}
-                      </span>
+                      <div className="flex flex-col items-end">
+                        <span className="text-sm text-muted-foreground">
+                          Balance: {balance.toFixed(5)} {selectedAction === "buy" ? "SOL" : tokenInfor?.symbol}
+                        </span>
+                      </div>
                     </div>
                     <div className="flex mt-1">
                       <Input
@@ -790,11 +792,19 @@ function TradingContent() {
                         min={0}
                         max={tokenAmount?.data?.token_balance}
                       />
-                      <div className="bg-muted px-3 py-2 text-sm rounded-r-md border border-l-0 border-input min-w-20">
-                        {value.toFixed(2)}%
+                      <div className="bg-muted px-3 py-2 text-sm rounded-r-md border border-l-0 border-input min-w-28 flex items-center gap-2">
+                        {selectedAction === "buy" && (
+                          <span className="text-xs text-muted-foreground">
+                            ${(Number(amount) * (tokenPrice?.priceUSD || 0)).toFixed(2)}
+                          </span>
+                          
+                        )}
+                        <span>{value.toFixed(2)}%</span>
+                        
                       </div>
                     </div>
                   </div>
+                
 
                   <div>
                     <label className="text-sm font-medium">
