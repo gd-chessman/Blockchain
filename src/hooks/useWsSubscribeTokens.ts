@@ -36,7 +36,6 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
         if (mountedRef.current) {
           try {
             const data = JSON.parse(event.data);
-            console.log("Received WebSocket message:", data);
             setTokenMessages((prev) => [...prev, event.data]);
           } catch (error) {
             console.error("Error parsing WebSocket message:", error);

@@ -13,7 +13,6 @@ export default function Dashboard() {
   const { t } = useLang();
   const router = useRouter();
   const { tokenMessages } = useWsSubscribeTokens({limit: 12});
-  console.log("Raw tokenMessages:", tokenMessages);
   
   const [tokens, setTokens] = useState<{
     id: number;
@@ -31,19 +30,15 @@ export default function Dashboard() {
 
   // Parse messages and extract tokens
   useEffect(() => {
-    console.log("Token messages received:", tokenMessages);
     if (Array.isArray(tokenMessages) && tokenMessages.length > 0) {
       const lastMessage = tokenMessages[tokenMessages.length - 1];
-      console.log("Processing last message:", lastMessage);
       
       try {
         const parsedMessage = JSON.parse(lastMessage);
-        console.log("Parsed message structure:", parsedMessage);
+
         
         if (parsedMessage.data && parsedMessage.data.tokens) {
-          console.log("Found tokens in message:", parsedMessage.data.tokens);
           const convertedTokens = parsedMessage.data.tokens.map((token: any) => {
-            console.log("Processing token:", token);
             return {
               id: 0,
               name: token.slt_name || token.name,
@@ -57,7 +52,6 @@ export default function Dashboard() {
               marketCap: 0
             };
           });
-          console.log("Converted tokens:", convertedTokens);
           setTokens(convertedTokens);
           setIsLoading(false);
         } else {
@@ -67,22 +61,18 @@ export default function Dashboard() {
         console.error("Error parsing JSON:", error);
       }
     } else {
-      console.log("No messages received or messages is not an array");
     }
+
   }, [tokenMessages]);
 
   // Fetch initial tokens if WebSocket is not providing data
   useEffect(() => {
     const fetchTokens = async () => {
       try {
-        console.log("Fetching tokens from API...");
         const response = await SolonaTokenService.getSearchTokenInfor("");
-        console.log("API response:", response);
         if (response && response.tokens) {
-          console.log("Setting tokens from API:", response.tokens);
           setTokens(response.tokens);
         } else {
-          console.log("No tokens in API response");
         }
       } catch (error) {
         console.error("Error fetching tokens:", error);
@@ -92,7 +82,6 @@ export default function Dashboard() {
     };
 
     if (tokens.length === 0) {
-      console.log("No tokens in state, fetching from API");
       fetchTokens();
     }
   }, [tokens.length]);
