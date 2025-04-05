@@ -30,6 +30,8 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { useAuth } from "@/hooks/useAuth";
+import LogWarring from "@/components/ui/log-warring";
 
 type Group = {
   mg_id: number;
@@ -62,6 +64,7 @@ type WalletInfo = {
 };
 
 export default function ManageMasterTrade() {
+  const { isAuthenticated } = useAuth();
   const { data: myGroups = [] , refetch: refetchMyGroups} = useQuery<Group[]>({
     queryKey: ["my-groups-manage"],
     queryFn: async () => {
@@ -283,6 +286,8 @@ export default function ManageMasterTrade() {
       }
     }
   };
+
+  if (!isAuthenticated) return <LogWarring />;
 
   return (
     <div className="container mx-auto p-6">
