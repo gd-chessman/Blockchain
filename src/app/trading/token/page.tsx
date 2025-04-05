@@ -33,6 +33,7 @@ import { SolonaTokenService } from "@/services/api";
 import Select from 'react-select';
 import LogWarring from "@/components/ui/log-warring";
 import { useAuth } from "@/hooks/useAuth";
+import { ToastNotification } from "@/components/ui/toast";
 
 interface Order {
   created_at: string;
@@ -207,14 +208,14 @@ function TradingContent() {
     setEditingIndex(null);
   };
 
+  const [showToast, setShowToast] = useState(false);
+
   const handleCopy = () => {
     if (address) {
       navigator.clipboard.writeText(address).then(() => {
-        setCopySuccess(true);
-        toast.success("Address copied to clipboard!"); // Hiển thị thông báo thành công
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 3000);
       });
-    } else {
-      toast.error("Address is not available to copy!");
     }
   };
 
@@ -1000,6 +1001,14 @@ function TradingContent() {
           </Card>
         </div>
       </div>
+
+      {showToast && (
+        <ToastNotification 
+          message={t("notifications.addressCopied")}
+          duration={3000}
+          onClose={() => setShowToast(false)}
+        />
+      )}
     </div>
   );
 }

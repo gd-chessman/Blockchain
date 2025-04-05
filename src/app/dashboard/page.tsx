@@ -7,9 +7,11 @@ import { useState, useEffect } from "react";
 import { SolonaTokenService } from "@/services/api";
 import { truncateString } from "@/utils/format";
 import { useLang } from "@/lang/useLang";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
   const { t } = useLang();
+  const router = useRouter();
   const { tokenMessages } = useWsSubscribeTokens({limit: 20});
   console.log("Raw tokenMessages:", tokenMessages);
   
@@ -152,8 +154,7 @@ export default function Dashboard() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
             {tokens.map((token, index) => (
               <Card key={index} className="group relative border-none shadow-md dark:shadow-blue-900/5 hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
-                <div className="relative w-full">
-                  {/* Image container with 4:3 aspect ratio */}
+                <div className="relative w-full cursor-pointer" onClick={() => router.push(`/trading/token?address=${token.address}`)}>
                   <div className="relative w-full aspect-[4/3]">
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-blue-100/50 dark:from-blue-900/10 dark:to-blue-950/10 group-hover:from-blue-100/50 group-hover:to-blue-200/50 dark:group-hover:from-blue-800/20 dark:group-hover:to-blue-900/20 transition-colors duration-300">
                       <img 
@@ -168,7 +169,6 @@ export default function Dashboard() {
                     </div>
                   </div>
                   
-                  {/* Content below image */}
                   <div className="p-3 space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="space-y-1.5 max-w-[70%]">
