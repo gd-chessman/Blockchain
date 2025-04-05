@@ -236,50 +236,6 @@ export default function Wallet() {
         </div>
 
         <div className="mt-4 md:mt-0 flex items-center bg-white dark:bg-gray-800 rounded-lg p-3 shadow-sm">
-          <div className="mr-6">
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-              Wallet Name:
-            </span>
-            {isEditingWalletName ? (
-              <div className="inline-flex items-center ml-2">
-                <Input
-                  value={editingWalletName}
-                  onChange={(e) => setEditingWalletName(e.target.value)}
-                  className="h-7 w-40 mr-2"
-                  autoFocus
-                />
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-7 px-2"
-                  onClick={handleUpdateWalletName}
-                >
-                  <CheckCircle className="h-4 w-4 text-green-500" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-7 px-2"
-                  onClick={() => {
-                    setIsEditingWalletName(false);
-                    setEditingWalletId(null);
-                  }}
-                >
-                  <X className="h-4 w-4 text-red-500" />
-                </Button>
-              </div>
-            ) : (
-              <span 
-                className="ml-2 font-medium cursor-pointer hover:text-blue-500"
-                onClick={() => {
-                  setIsEditingWalletName(true);
-                  setEditingWalletId(null);
-                }}
-              >
-                {walletName}
-              </span>
-            )}
-          </div>
           <div>
             <span className="text-sm text-gray-500 dark:text-gray-400">
               SOL Balance:
