@@ -19,7 +19,7 @@ import TradingChart, {
 } from "@/components/chart/trading-chart";
 import usePercent from "@/hooks/usePercent";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getTokenInforByAddress } from "@/services/api/SolonaTokenService";
+import { getTokenInforByAddress, getTokenPrice } from "@/services/api/SolonaTokenService";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useWsSubscribeTokens } from "@/hooks/useWsSubscribeTokens";
 import Link from "next/link";
@@ -34,6 +34,7 @@ import Select from 'react-select';
 import LogWarring from "@/components/ui/log-warring";
 import { useAuth } from "@/hooks/useAuth";
 import { ToastNotification } from "@/components/ui/toast";
+import { getPriceSolona } from "@/services/api/SolonaTokenService";
 
 interface Order {
   created_at: string;
@@ -84,6 +85,15 @@ function TradingContent() {
     queryKey: ["token-infor", address],
     queryFn: () => getTokenInforByAddress(address),
   });
+  const { data: tokenPrice } = useQuery({
+    queryKey: ["token-price", address],
+    queryFn: () => getTokenPrice(address),
+  });
+  const { data: solPrice } = useQuery({
+    queryKey: ["sol-price"],
+    queryFn: () => getPriceSolona(),
+  });
+  console.log("tokenPrice", tokenPrice);
   const { data: memeCoins = [] , } = useQuery({
     queryKey: ['my-tokens'],
     queryFn: getMyTokens,
@@ -351,7 +361,9 @@ function TradingContent() {
       const newPendingOrder: Order = {
         created_at: new Date().toISOString(),
         trade_type: selectedAction,
-        price: 0.005,
+        price: selectedAction === "sell" 
+          ? Number(amount) * (tokenPrice?.priceUSD || 0) 
+          : Number(amount) * (solPrice?.priceUSD || 0),
         quantity: Number(amount),
         status: "pending"
       };
@@ -363,7 +375,9 @@ function TradingContent() {
         order_type: "market",
         order_token_name: tokenInfor?.name || "No name",
         order_token_address: address || "",
-        order_price: 0.005,
+        order_price: selectedAction === "sell" 
+          ? Number(amount) * (tokenPrice?.priceUSD || 0) 
+          : Number(amount) * (solPrice?.priceUSD || 0),
         order_qlty: Number(amount),
         member_list: selectedMembers
       });
