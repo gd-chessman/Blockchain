@@ -28,7 +28,7 @@ axiosClient.interceptors.response.use(
       // localStorage.removeItem("auth_token");
       // window.location.href = "/login";
     } else if (error.code === "ERR_NETWORK") {
-      toast.error("Máy chủ đang gặp sự cố !");
+      toast.error("Server is not responding. Please try again later.");
     }
     return Promise.reject(error);
   }
