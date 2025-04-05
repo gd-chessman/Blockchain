@@ -40,9 +40,9 @@ import {
 import { Badge } from "@/components/ui/badge";
 import dynamic from 'next/dynamic';
 
-const BalanceDisplay = dynamic(() => Promise.resolve(({ balance }: { balance: string }) => (
+const BalanceDisplay = dynamic(() => Promise.resolve(({ balance, usdBalance }: { balance: string, usdBalance: string }) => (
   <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold text-white dark:bg-[#1d8e50] dark:text-white border-blue-200">
-    {balance} SOL
+    {balance} SOL (${usdBalance})
   </div>
 )), { ssr: false });
 
@@ -149,7 +149,7 @@ export default function Navigation() {
         <div className="flex items-center gap-2 md:gap-3">
           {isAuthenticated && mounted && walletInfor && (
             <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold text-white dark:bg-[#1d8e50] dark:text-white border-blue-200">
-              {walletInfor.solana_balance?.toFixed(5) || '0.00000'} SOL
+              {walletInfor.solana_balance?.toFixed(5) || '0.00000'} SOL (${walletInfor.solana_balance_usd?.toFixed(2) || '0.00'})
             </div>
           )}
           <ThemeToggle />
