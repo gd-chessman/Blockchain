@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 export default function Dashboard() {
   const { t } = useLang();
   const router = useRouter();
-  const { tokenMessages } = useWsSubscribeTokens({limit: 10});
+  const { tokenMessages } = useWsSubscribeTokens({limit: 12});
   console.log("Raw tokenMessages:", tokenMessages);
   
   const [tokens, setTokens] = useState<{
@@ -151,9 +151,9 @@ export default function Dashboard() {
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           </div>
         ) : tokens.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
             {tokens.map((token, index) => (
-              <Card key={index} className="group relative border-none shadow-md dark:shadow-blue-900/5 hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+              <Card key={index} className="group relative shadow-md dark:shadow-blue-900/5 hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1 border-2 hover:border-primary border-solid hover:border-2 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
                 <div className="relative w-full cursor-pointer" onClick={() => router.push(`/trading/token?address=${token.address}`)}>
                   <div className="relative w-full aspect-[4/3]">
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-blue-100/50 dark:from-blue-900/10 dark:to-blue-950/10 group-hover:from-blue-100/50 group-hover:to-blue-200/50 dark:group-hover:from-blue-800/20 dark:group-hover:to-blue-900/20 transition-colors duration-300">
@@ -169,17 +169,17 @@ export default function Dashboard() {
                     </div>
                   </div>
                   
-                  <div className="p-3 space-y-3">
+                  <div className="p-2 space-y-2">
                     <div className="flex items-center justify-between">
-                      <div className="space-y-1.5 max-w-[70%]">
-                        <CardTitle className="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 truncate">
+                      <div className="space-y-1 max-w-[70%]">
+                        <CardTitle className="text-sm font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 truncate">
                           {token.name}
                         </CardTitle>
-                        <CardDescription className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+                        <CardDescription className="text-xs font-medium text-gray-500 dark:text-gray-400 truncate">
                           {token.symbol}
                         </CardDescription>
                       </div>
-                      <div className={`px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
+                      <div className={`px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap ${
                         token.isVerified 
                           ? 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400' 
                           : 'bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400'
@@ -187,16 +187,16 @@ export default function Dashboard() {
                         {token.isVerified ? t('dashboard.cryptocurrencies.token.verified') : t('dashboard.cryptocurrencies.token.unverified')}
                       </div>
                     </div>
-                    <div className="pt-3 border-t border-gray-100 dark:border-gray-800">
-                      <div className="grid grid-cols-2 gap-2 text-sm">
-                        <div className="space-y-1">
-                          <div className="text-gray-500 dark:text-gray-400 text-xs">{t('dashboard.cryptocurrencies.token.address')}</div>
+                    <div className="pt-2 border-t border-gray-100 dark:border-gray-800">
+                      <div className="grid grid-cols-2 gap-1 text-xs">
+                        <div className="space-y-0.5">
+                          <div className="text-gray-500 dark:text-gray-400 text-[10px]">{t('dashboard.cryptocurrencies.token.address')}</div>
                           <div className="font-medium text-gray-700 dark:text-gray-300 truncate">
                             {truncateString(token.address, 12)}
                           </div>
                         </div>
-                        <div className="space-y-1">
-                          <div className="text-gray-500 dark:text-gray-400 text-xs">{t('dashboard.cryptocurrencies.token.decimals')}</div>
+                        <div className="space-y-0.5">
+                          <div className="text-gray-500 dark:text-gray-400 text-[10px]">{t('dashboard.cryptocurrencies.token.decimals')}</div>
                           <div className="font-medium text-gray-700 dark:text-gray-300">
                             {token.decimals}
                           </div>
