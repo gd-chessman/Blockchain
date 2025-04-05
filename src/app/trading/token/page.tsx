@@ -280,11 +280,14 @@ function TradingContent() {
 
   const handleValueChange = (newValue: number) => {
     setValue(newValue);
-    // Tính toán số lượng dựa trên phần trăm
-    if (tokenAmount?.data?.token_balance) {
-      let calculatedAmount = tokenAmount.data.token_balance * (newValue / 100);
+    // Tính toán số lượng dựa trên phần trăm và action hiện tại
+    if (selectedAction === "buy" && tokenAmount?.data?.sol_balance) {
+      const calculatedAmount = (tokenAmount.data.sol_balance * newValue) / 100;
+      setAmount(calculatedAmount.toFixed(5));
+    } else if (selectedAction === "sell" && tokenAmount?.data?.token_balance) {
+      let calculatedAmount = (tokenAmount.data.token_balance * newValue) / 100;
       // Nếu là bán và đang ở 100%, giữ lại 0.1% làm phí
-      if (selectedAction === "sell" && newValue >= 99.999) {
+      if (newValue >= 99.999) {
         calculatedAmount = tokenAmount.data.token_balance * 0.99999;
         setValue(99.999);
       }
