@@ -16,7 +16,7 @@ export const getOrders = async (address: any)=>{
         return temp.data.data.orders;
     } catch (error) {
         console.log(error)
-        return {};
+        return [];
     }
 }
 
