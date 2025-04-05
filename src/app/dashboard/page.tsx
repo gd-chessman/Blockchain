@@ -219,7 +219,7 @@ export default function Dashboard() {
           </div>
         ) : displayTokens.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-6">
               {displayTokens.map((token, index) => (
                 <Card key={index} className="group relative shadow-md dark:shadow-blue-900/5 hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1 border-2 hover:border-primary border-solid hover:border-2 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
                   <div className="relative w-full cursor-pointer" onClick={() => router.push(`/trading/token?address=${token.address}`)}>

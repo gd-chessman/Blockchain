@@ -9,7 +9,20 @@ export function Logo() {
 
         {/* Logo text with 3D effect */}
         <div className="relative z-10 ml-3 mr-1">
-          <Image src="/logo.png" alt="Logo App" width={78} height={78} />
+          <Image 
+            src="/logo.png" 
+            alt="Logo App" 
+            width={48} 
+            height={48}
+            className="md:hidden"
+          />
+          <Image 
+            src="/logo.png" 
+            alt="Logo App" 
+            width={78} 
+            height={78}
+            className="hidden md:block"
+          />
         </div>
 
  
