@@ -11,8 +11,8 @@ import { Copy } from 'lucide-react'
 import { Avatar } from "@/components/ui/avatar"
 import { useForm } from "react-hook-form"
 import { TelegramWalletService } from "@/services/api"
+import { getMyTokens, getTokenCategorys } from "@/services/api/TelegramWalletService"
 import { useQuery } from "@tanstack/react-query"
-import { getMyTokens } from "@/services/api/TelegramWalletService"
 import { useLang } from "@/lang"
 import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
@@ -21,6 +21,21 @@ import { ToastNotification } from "@/components/ui/toast"
 import { useAuth } from "@/hooks/useAuth"
 import LogWarring from "@/components/ui/log-warring"
 import Select from 'react-select'
+
+// Define types
+type Category = {
+  id: string;
+  name: string;
+}
+
+type Token = {
+  token_id: string;
+  name: string;
+  symbol: string;
+  address: string;
+  decimals: number;
+  logo_url: string;
+}
 
 // Dữ liệu mẫu cho danh sách coin
 
@@ -46,9 +61,13 @@ export default function CreateCoin() {
   const [isAmountEnabled, setIsAmountEnabled] = useState(false);
   const [amountValue, setAmountValue] = useState("0");
   const [isLoading, setIsLoading] = useState(false);
-  const { data: memeCoins = [] , refetch} = useQuery({
+  const { data: memeCoins = [] , refetch} = useQuery<Token[]>({
     queryKey: ['my-tokens'],
     queryFn: getMyTokens,
+  });
+  const { data: categories = [] } = useQuery<Category[]>({
+    queryKey: ['token-categories'],
+    queryFn: getTokenCategorys,
   });
   const { t } = useLang();
   const { 
@@ -233,13 +252,10 @@ export default function CreateCoin() {
                     <Select
                       id="categories"
                       isMulti
-                      options={[
-                        { value: 'defi', label: 'DeFi' },
-                        { value: 'gaming', label: 'Gaming' },
-                        { value: 'nft', label: 'NFT' },
-                        { value: 'meme', label: 'Meme' },
-                        { value: 'utility', label: 'Utility' }
-                      ]}
+                      options={categories.map((category) => ({
+                        value: category.id,
+                        label: category.name
+                      }))}
                       className="react-select-container"
                       classNamePrefix="react-select"
                       onChange={(newValue) => {

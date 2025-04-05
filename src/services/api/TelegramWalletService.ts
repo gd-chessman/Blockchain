@@ -110,3 +110,13 @@ export const getMyTokens = async ()=>{
         return [];
     }
 }
+
+export const getTokenCategorys = async ()=>{
+    try {   
+        const temp = await axiosClient.get(`/telegram-wallets/token-categories`) 
+        return temp.data.data;
+    } catch (error) {
+        console.log(error)
+        return [];
+    }
+}
