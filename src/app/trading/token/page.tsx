@@ -705,7 +705,7 @@ function TradingContent() {
                         min={0}
                         max={tokenAmount?.data?.token_balance}
                       />
-                      <div className="bg-muted px-3 py-2 text-sm rounded-r-md border border-l-0 border-input">
+                      <div className="bg-muted px-3 py-2 text-sm rounded-r-md border border-l-0 border-input min-w-20">
                         {value.toFixed(2)}%
                       </div>
                     </div>
