@@ -203,7 +203,9 @@
               "owner": "Owner",
               "member": "Member",
               "master": "Master"
-          }
+          },
+          "selectWalletButton": "Select Wallet",
+          "disconnectButton": "Disconnect"
       }
   },
   "copyTrade": {

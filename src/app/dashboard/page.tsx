@@ -10,7 +10,7 @@ import { useLang } from "@/lang/useLang";
 
 export default function Dashboard() {
   const { t } = useLang();
-  const { tokenMessages } = useWsSubscribeTokens();
+  const { tokenMessages } = useWsSubscribeTokens({limit: 20});
   console.log("Raw tokenMessages:", tokenMessages);
   
   const [tokens, setTokens] = useState<{

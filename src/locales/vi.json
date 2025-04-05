@@ -186,7 +186,9 @@
               "owner": "Chủ Sở Hữu",
               "member": "Thành Viên",
               "master": "Master"
-          }
+          },
+          "selectWalletButton": "Chọn Ví",
+          "disconnectButton": "Ngắt kết nối"
       }
   },
   "copyTrade": {

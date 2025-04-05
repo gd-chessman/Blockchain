@@ -186,7 +186,9 @@
                 "owner": "オーナー",
                 "member": "メンバー",
                 "master": "マスター"
-            }
+            },
+            "selectWalletButton": "ウォレットを選択",
+            "disconnectButton": "切断"
         }
     },
     "copyTrade": {

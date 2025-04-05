@@ -186,7 +186,9 @@
                 "owner": "소유자",
                 "member": "멤버",
                 "master": "마스터"
-            }
+            },
+            "selectWalletButton": "지갑 선택",
+            "disconnectButton": "연결 해제"
         }
     },
     "copyTrade": {

@@ -178,11 +178,11 @@ export default function Navigation() {
                   <DropdownMenuContent align="end" className="w-56">
                     <DropdownMenuItem className="cursor-pointer" onClick={() => setIsWalletDialogOpen(true)}>
                       <Wallet2 className="mr-2 h-4 w-4" />
-                      <span>Select Wallet</span>
+                      <span>{t('navigation.selectWallet.selectWalletButton')}</span>
                     </DropdownMenuItem>
                     <DropdownMenuItem className="cursor-pointer text-red-600" onClick={logout}>
                       <LogOut className="mr-2 h-4 w-4" />
-                      <span>Disconnect</span>
+                      <span>{t('navigation.selectWallet.disconnectButton')}</span>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
