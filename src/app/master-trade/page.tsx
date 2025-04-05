@@ -19,6 +19,7 @@ import { MasterTradingService } from "@/services/api";
 import { getInforWallet } from "@/services/api/TelegramWalletService";
 import { useAuth } from "@/hooks/useAuth";
 import LogWarring from "@/components/ui/log-warring";
+import { ToastNotification } from "@/components/ui/toast";
 
 export default function MasterTrade() {
   const { t } = useLang();
@@ -40,6 +41,8 @@ export default function MasterTrade() {
   const [isAddWalletOpen, setIsAddWalletOpen] = useState(false);
   const [newWalletName, setNewWalletName] = useState("");
   const [pausedTraders, setPausedTraders] = useState<Set<string>>(new Set());
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   // Count traders by connection status for tab indicators
   const notConnectedCount = masterTraders.filter((trader: any) => trader.connection_status === null || trader.connection_status === "block").length;
@@ -78,7 +81,11 @@ export default function MasterTrade() {
 
   const handleCopyAddress = (address: any) => {
     navigator.clipboard.writeText(address);
-    // Có thể thêm thông báo toast ở đây
+    setToastMessage(t("masterTrade.actions.copySuccess"));
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 3000);
   };
 
   const handleAddWallet = () => {
@@ -140,6 +147,13 @@ export default function MasterTrade() {
 
   return (
     <div className="container mx-auto p-6">
+      {showToast && (
+        <ToastNotification
+          message={toastMessage}
+          duration={3000}
+          onClose={() => setShowToast(false)}
+        />
+      )}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <h1 className="text-3xl font-bold">
           {t("masterTrade.availableMasters")}

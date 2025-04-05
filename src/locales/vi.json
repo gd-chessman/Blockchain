@@ -530,7 +530,8 @@
           "connect": "Kết nối",
           "reconnect": "Kết nối lại",
           "disconnect": "Ngắt kết nối",
-          "pause": "Tạm dừng"
+          "pause": "Tạm dừng",
+          "copySuccess": "Đã sao chép địa chỉ ví thành công"
       },
       "noData": {
           "notConnected": "Không có master nào",

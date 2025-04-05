@@ -478,7 +478,8 @@
             "reconnect": "再接続",
             "cancel": "キャンセル",
             "copyAddress": "アドレスをコピー",
-            "manage": "マスター管理"
+            "manage": "マスター管理",
+            "copySuccess": "ウォレットアドレスをコピーしました"
         },
         "walletAddress": "ウォレットメンバー",
         "inactive": "非アクティブ",

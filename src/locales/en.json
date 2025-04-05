@@ -645,7 +645,8 @@
               "cancel": "Cancel",
               "joinSuccess": "Successfully joined group",
               "joinError": "Failed to join group"
-          }
+          },
+          "copySuccess": "Wallet address copied successfully"
       }
   },
   "wallet": {
