@@ -25,7 +25,7 @@ export default function Trading() {
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery, 100); // 2 seconds delay
   const [isSearching, setIsSearching] = useState(false);
-  const { tokenMessages } = useWsSubscribeTokens();
+  const { tokenMessages } = useWsSubscribeTokens({limit: 18});
   const [tokens, setTokens] = useState<
     {
       id: number;

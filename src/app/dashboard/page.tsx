@@ -19,7 +19,7 @@ export default function Dashboard() {
   const [isSearching, setIsSearching] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const { tokenMessages } = useWsSubscribeTokens({limit: 12});
+  const { tokenMessages } = useWsSubscribeTokens({limit: 18});
   
   const [tokens, setTokens] = useState<{
     id: number;
@@ -117,7 +117,7 @@ export default function Dashboard() {
       }
       setIsSearching(true);
       try {
-        const res = await SolonaTokenService.getSearchTokenInfor(debouncedSearchQuery, currentPage, 12);
+        const res = await SolonaTokenService.getSearchTokenInfor(debouncedSearchQuery, currentPage, 18);
         setSearchResults(res.tokens || []);
         setTotalPages(Math.ceil(res.total / 12));
       } catch (error) {
@@ -148,43 +148,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <Card className="overflow-hidden border-none shadow-md dark:shadow-blue-900/5 bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-blue-950/30">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">{t('dashboard.summary.total_balance')}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">$12,345.67</div>
-            <div className="flex items-center text-xs text-green-500 mt-1">
-              <ArrowUp className="h-3 w-3 mr-1" />
-              <span>{t('dashboard.summary.from_yesterday')}</span>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="overflow-hidden border-none shadow-md dark:shadow-blue-900/5 bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-blue-950/30">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">{t('dashboard.summary.active_trades')}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">7</div>
-            <div className="flex items-center text-xs text-muted-foreground mt-1">
-              <span>{t('dashboard.summary.profitable')}</span>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="overflow-hidden border-none shadow-md dark:shadow-blue-900/5 bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-blue-950/30">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">{t('dashboard.summary.total_profit')}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">$1,234.56</div>
-            <div className="flex items-center text-xs text-green-500 mt-1">
-              <ArrowUp className="h-3 w-3 mr-1" />
-              <span>{t('dashboard.summary.this_week')}</span>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
 
       <div className="mt-8 mb-12">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
@@ -366,55 +329,6 @@ export default function Dashboard() {
         )}
       </div>
 
-      <Tabs defaultValue="market" className="mb-8">
-        <TabsList className="w-full md:w-auto grid grid-cols-3 md:inline-flex">
-          <TabsTrigger value="market">{t('dashboard.tabs.market.title')}</TabsTrigger>
-          <TabsTrigger value="portfolio">{t('dashboard.tabs.portfolio.title')}</TabsTrigger>
-          <TabsTrigger value="activity">{t('dashboard.tabs.activity.title')}</TabsTrigger>
-        </TabsList>
-        <TabsContent value="market" className="mt-4">
-          <Card className="border-none shadow-md dark:shadow-blue-900/5">
-            <CardHeader>
-              <CardTitle>{t('dashboard.tabs.market.title')}</CardTitle>
-              <CardDescription>{t('dashboard.tabs.market.description')}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[300px] flex items-center justify-center border rounded-md bg-white/50 dark:bg-gray-900/50">
-                <LineChart className="h-16 w-16 text-muted-foreground" />
-                <span className="ml-2 text-muted-foreground">{t('dashboard.tabs.market.placeholder')}</span>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="portfolio" className="mt-4">
-          <Card className="border-none shadow-md dark:shadow-blue-900/5">
-            <CardHeader>
-              <CardTitle>{t('dashboard.tabs.portfolio.title')}</CardTitle>
-              <CardDescription>{t('dashboard.tabs.portfolio.description')}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[300px] flex items-center justify-center border rounded-md bg-white/50 dark:bg-gray-900/50">
-                <PieChart className="h-16 w-16 text-muted-foreground" />
-                <span className="ml-2 text-muted-foreground">{t('dashboard.tabs.portfolio.placeholder')}</span>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="activity" className="mt-4">
-          <Card className="border-none shadow-md dark:shadow-blue-900/5">
-            <CardHeader>
-              <CardTitle>{t('dashboard.tabs.activity.title')}</CardTitle>
-              <CardDescription>{t('dashboard.tabs.activity.description')}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[300px] flex items-center justify-center border rounded-md bg-white/50 dark:bg-gray-900/50">
-                <BarChart className="h-16 w-16 text-muted-foreground" />
-                <span className="ml-2 text-muted-foreground">{t('dashboard.tabs.activity.placeholder')}</span>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
     </div>
   )
 }
