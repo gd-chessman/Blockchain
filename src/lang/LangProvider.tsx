@@ -21,21 +21,23 @@ export const LangProvider: React.FC<LangProviderProps> = ({
   initialLang = 'kr', 
   langConfig 
 }) => {
-  const isClient = typeof window !== 'undefined';
-  const [lang, setLang] = useState<string>(() => {
-    if (isClient) {
-      const storedLang = localStorage.getItem('appLang');
-      return storedLang || initialLang;
-    }
-    return initialLang;
-  });
+  const [mounted, setMounted] = useState(false);
+  const [lang, setLang] = useState<string>(initialLang);
 
   useEffect(() => {
-    if (isClient) {
+    setMounted(true);
+    const storedLang = localStorage.getItem('appLang');
+    if (storedLang) {
+      setLang(storedLang);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (mounted) {
       localStorage.setItem('appLang', lang);
       document.documentElement.lang = lang;
     }
-  }, [lang, isClient]);
+  }, [lang, mounted]);
 
   const config = langConfig || importedLangConfig;
 
