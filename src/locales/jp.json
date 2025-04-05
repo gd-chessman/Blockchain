@@ -163,7 +163,11 @@
         "marketIsOpen": "市場が開いています",
         "attributes": "属性",
         "value": "値",
-        "searchPlaceholder": "トークン名またはアドレスで検索"
+        "searchPlaceholder": "トークン名またはアドレスで検索",
+        "searchCoinsPlaceholder": "コインを検索...",
+        "selectGroupsPlaceholder": "グループを選択...",
+        "noGroupsAvailable": "利用可能なグループはありません",
+        "myCoins": "マイコイン"
     },
     "navigation": {
         "dashboard": "ダッシュボード",

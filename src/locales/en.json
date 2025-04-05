@@ -180,7 +180,11 @@
       "market": "Market",
       "stop": "Stop",
       "executed": "Executed",
-      "searchPlaceholder": "Search by token name or address"
+      "searchPlaceholder": "Search by token name or address",
+      "searchCoinsPlaceholder": "Search coins...",
+      "selectGroupsPlaceholder": "Select groups...",
+      "noGroupsAvailable": "No groups available",
+      "myCoins": "My Coins"
   },
   "navigation": {
       "newcoin": "Create New Coin",

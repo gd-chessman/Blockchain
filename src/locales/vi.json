@@ -163,7 +163,11 @@
       "marketIsOpen": "Thị Trường Đang Mở",
       "attributes": "Thuộc Tính",
       "value": "Giá Trị",
-      "searchPlaceholder": "Tìm kiếm theo tên token hoặc địa chỉ"
+      "searchPlaceholder": "Tìm kiếm theo tên token hoặc địa chỉ",
+      "searchCoinsPlaceholder": "Tìm kiếm coin...",
+      "selectGroupsPlaceholder": "Chọn nhóm...",
+      "noGroupsAvailable": "Không có nhóm nào khả dụng",
+      "myCoins": "Coin của tôi"
   },
   "navigation": {
       "newcoin": "Tạo Coin Mới",

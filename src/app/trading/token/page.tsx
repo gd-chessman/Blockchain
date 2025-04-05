@@ -558,7 +558,7 @@ function TradingContent() {
                 )}
                 <Input
                   type="text"
-                  placeholder="Search coins..."
+                  placeholder={t("trading.searchCoinsPlaceholder")}
                   className="pl-10 w-full"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -626,7 +626,7 @@ function TradingContent() {
             </Card>
             <Card className="border-none shadow-md dark:shadow-blue-900/5 mb-6">
             <CardHeader>
-              <CardTitle>My Coins</CardTitle>
+              <CardTitle>{t("trading.myCoins")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 gap-4">

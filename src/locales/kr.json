@@ -162,7 +162,11 @@
         "percentage": "비율",
         "marketIsOpen": "시장이 열려있습니다",
         "attributes": "속성",
-        "value": "값"
+        "value": "값",
+        "searchCoinsPlaceholder": "코인 검색...",
+        "selectGroupsPlaceholder": "그룹 선택...",
+        "noGroupsAvailable": "사용 가능한 그룹이 없습니다",
+        "myCoins": "내 코인"
     },
     "navigation": {
         "dashboard": "대시보드",
