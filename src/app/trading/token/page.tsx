@@ -846,7 +846,7 @@ function TradingContent() {
                   </div>
 
                   <div className="grid grid-cols-4 gap-2">
-                    {solAmounts.map((solAmount, index) => (
+                    {selectedAction === "buy" && solAmounts.map((solAmount, index) => (
                       <div
                         key={index}
                         className="relative flex items-center gap-1 border rounded-md hover:bg-muted/50 transition-colors p-0.5"
