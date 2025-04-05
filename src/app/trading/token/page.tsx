@@ -780,39 +780,52 @@ function TradingContent() {
                     {percentages.map((percent, index) => (
                       <div
                         key={index}
-                        className="relative flex items-center gap-1"
+                        className="relative flex items-center gap-1 border rounded-md hover:bg-muted/50 transition-colors p-0.5"
                       >
                         {editingIndex === index ? (
-                          <Input
-                            value={tempValue}
-                            onChange={(e) => setTempValue(e.target.value)}
-                            onBlur={() => handleSave(index)}
-                            onKeyDown={(e) =>
-                              e.key === "Enter" && handleSave(index)
-                            }
-                            autoFocus
-                            type="number"
-                            min={0}
-                            max={100}
-                            className="w-24"
-                          />
+                          <div className="flex items-center gap-1.5 w-full">
+                            <Input
+                              value={tempValue}
+                              onChange={(e) => setTempValue(e.target.value)}
+                              onBlur={() => handleSave(index)}
+                              onKeyDown={(e) =>
+                                e.key === "Enter" && handleSave(index)
+                              }
+                              autoFocus
+                              type="number"
+                              min={0}
+                              max={100}
+                              className="flex-1 h-7 text-sm"
+                            />
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-6 w-6 p-0"
+                              onClick={() => handleSave(index)}
+                            >
+                              <Check className="h-3 w-3" />
+                            </Button>
+                          </div>
                         ) : (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="w-24"
-                            onClick={() => handleValueChange(Number(percent))}
-                          >
-                            {percent}%
-                          </Button>
+                          <div className="flex items-center justify-between w-full">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-8 flex-1 justify-start text-sm"
+                              onClick={() => handleValueChange(Number(percent))}
+                            >
+                              <span className="text-sm">{percent}%</span>
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-6 w-6 p-0 hover:bg-muted bg-muted/50"
+                              onClick={() => handleEditClick(index)}
+                            >
+                              <Pencil className="h-3 w-3" />
+                            </Button>
+                          </div>
                         )}
-                        <Button
-                          variant="ghost"
-                          className="p-1"
-                          onClick={() => handleEditClick(index)}
-                        >
-                          <Pencil size={12} />
-                        </Button>
                       </div>
                     ))}
                   </div>
