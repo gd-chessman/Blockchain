@@ -795,7 +795,7 @@ function TradingContent() {
                       <div className="bg-muted px-3 py-2 text-sm rounded-r-md border border-l-0 border-input min-w-28 flex items-center gap-2">
                         {selectedAction === "buy" && (
                           <span className="text-xs text-muted-foreground">
-                            ${(Number(amount) * (tokenPrice?.priceUSD || 0)).toFixed(2)}
+                            ${(Number(amount) * (solPrice?.priceUSD || 0)).toFixed(2)}
                           </span>
                           
                         )}
