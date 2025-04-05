@@ -20,6 +20,7 @@ import { truncateString } from "@/utils/format"
 import { ToastNotification } from "@/components/ui/toast"
 import { useAuth } from "@/hooks/useAuth"
 import LogWarring from "@/components/ui/log-warring"
+import Select from 'react-select'
 
 // Dữ liệu mẫu cho danh sách coin
 
@@ -34,6 +35,7 @@ type FormData = {
   website?: string;
   twitter?: string;
   showName: boolean;
+  categories: { value: string; label: string }[];
 }
 
 export default function CreateCoin() {
@@ -222,6 +224,112 @@ export default function CreateCoin() {
                     {errors.amount && (
                       <p className="text-red-500 text-xs mt-1">{errors.amount.message}</p>
                     )}
+                  </div>
+
+                  <div>
+                    <label htmlFor="categories" className="block text-sm font-medium mb-1">
+                      {t('createCoin.form.categories')}
+                    </label>
+                    <Select
+                      id="categories"
+                      isMulti
+                      options={[
+                        { value: 'defi', label: 'DeFi' },
+                        { value: 'gaming', label: 'Gaming' },
+                        { value: 'nft', label: 'NFT' },
+                        { value: 'meme', label: 'Meme' },
+                        { value: 'utility', label: 'Utility' }
+                      ]}
+                      className="react-select-container"
+                      classNamePrefix="react-select"
+                      onChange={(newValue) => {
+                        const event = {
+                          target: {
+                            value: newValue,
+                            name: 'categories'
+                          }
+                        };
+                        register('categories').onChange(event);
+                      }}
+                      value={watch('categories')}
+                      styles={{
+                        control: (base) => ({
+                          ...base,
+                          backgroundColor: 'hsl(var(--background))',
+                          borderColor: 'hsl(var(--input))',
+                          color: 'hsl(var(--foreground))',
+                          '&:hover': {
+                            borderColor: 'hsl(var(--input))',
+                          },
+                        }),
+                        menu: (base) => ({
+                          ...base,
+                          backgroundColor: 'hsl(var(--background))',
+                          color: 'hsl(var(--foreground))',
+                        }),
+                        option: (base, state) => ({
+                          ...base,
+                          backgroundColor: state.isSelected 
+                            ? 'hsl(var(--primary))' 
+                            : state.isFocused 
+                              ? 'hsl(var(--accent))' 
+                              : 'transparent',
+                          color: state.isSelected 
+                            ? document.documentElement.classList.contains('dark') ? '#fff' : '#000'
+                            : 'hsl(var(--foreground))',
+                          '&:hover': {
+                            backgroundColor: 'hsl(var(--accent))',
+                            color: 'hsl(var(--foreground))',
+                          },
+                        }),
+                        multiValue: (base) => ({
+                          ...base,
+                          backgroundColor: 'hsl(var(--primary))',
+                          color: document.documentElement.classList.contains('dark') ? '#fff' : '#000',
+                          borderRadius: '0.375rem',
+                          padding: '0.125rem 0.25rem',
+                        }),
+                        multiValueLabel: (base) => ({
+                          ...base,
+                          color: document.documentElement.classList.contains('dark') ? '#fff' : '#000',
+                          fontWeight: '500',
+                          fontSize: '0.875rem',
+                          padding: '0.125rem 0.25rem',
+                        }),
+                        multiValueRemove: (base) => ({
+                          ...base,
+                          color: document.documentElement.classList.contains('dark') ? '#fff' : '#000',
+                          padding: '0.125rem 0.25rem',
+                          ':hover': {
+                            backgroundColor: 'hsl(var(--destructive))',
+                            color: 'white',
+                          },
+                        }),
+                        singleValue: (base) => ({
+                          ...base,
+                          color: 'hsl(var(--foreground))',
+                          fontSize: '0.875rem',
+                        }),
+                        input: (base) => ({
+                          ...base,
+                          color: 'hsl(var(--foreground))',
+                          fontSize: '0.875rem',
+                        }),
+                        placeholder: (base) => ({
+                          ...base,
+                          color: 'hsl(var(--muted-foreground))',
+                          fontSize: '0.875rem',
+                        }),
+                        menuList: (base) => ({
+                          ...base,
+                          color: 'hsl(var(--foreground))',
+                        }),
+                        noOptionsMessage: (base) => ({
+                          ...base,
+                          color: 'hsl(var(--muted-foreground))',
+                        }),
+                      }}
+                    />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
