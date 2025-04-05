@@ -15,6 +15,7 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
   const mountedRef = useRef(true);
   const pathname = usePathname();
   const isTradingPage = pathname?.startsWith('/trading');
+  const isDashboardPage = pathname?.startsWith('/dashboard');
 
   const connect = () => {
     if (!mountedRef.current) return;
@@ -77,12 +78,12 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
 
   // Effect to handle page navigation
   useEffect(() => {
-    if (isTradingPage) {
+    if (isTradingPage || isDashboardPage) {
       connect();
     } else {
       disconnect();
     }
-  }, [isTradingPage]);
+  }, [isTradingPage, isDashboardPage]);
 
   // Effect to handle component mount/unmount
   useEffect(() => {
