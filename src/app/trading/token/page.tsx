@@ -307,8 +307,8 @@ function TradingContent() {
     if (tokenAmount?.data?.token_balance) {
       let percentage = (Number(newValue) / tokenAmount.data.token_balance) * 100;
       // Nếu là bán và đang ở 100%, giữ lại 0.1% làm phí
-      if (selectedAction === "sell" && percentage >= 99.999) {
-        percentage = 99.999;
+      if (selectedAction === "sell" && percentage >= 100) {
+        percentage = 100;
         setAmount((tokenAmount.data.token_balance * 0.99999).toFixed(5));
       }
       setValue(Math.min(100, Math.max(0, percentage)));
@@ -324,9 +324,9 @@ function TradingContent() {
     } else if (selectedAction === "sell" && tokenAmount?.data?.token_balance) {
       let calculatedAmount = (tokenAmount.data.token_balance * newValue) / 100;
       // Nếu là bán và đang ở 100%, giữ lại 0.1% làm phí
-      if (newValue >= 99.999) {
+      if (newValue >= 100) {
         calculatedAmount = tokenAmount.data.token_balance * 0.99999;
-        setValue(99.999);
+        setValue(100);
       }
       setAmount(calculatedAmount.toFixed(5));
     }
