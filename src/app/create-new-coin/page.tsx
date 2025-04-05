@@ -365,7 +365,7 @@ export default function CreateCoin() {
                   <CardTitle className="text-lg">{t('createCoin.latestTokens.title')}</CardTitle>
                 </CardHeader>
                 <CardContent className="pt-2 h-[calc(100%-3rem)] overflow-y-auto">
-                  <div className="flex gap-2">
+                  <div className="grid grid-cols-3 gap-4">
                     {memeCoins?.slice(0, 3).map((coin: any) => (
                       <div key={coin.token_id} className="flex-1 flex flex-col items-center gap-1 p-2 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors">
                         <Avatar className="h-10 w-10" src={coin.logo_url} alt={coin.name} />
