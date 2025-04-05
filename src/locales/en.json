@@ -25,7 +25,43 @@
   },
   "dashboard": {
       "title": "Dashboard",
-      "welcome": "Welcome to your dashboard!"
+      "welcome": "Welcome to your dashboard!",
+      "last_updated": "Last updated: {date} • Auto-refresh in {seconds}s",
+      "summary": {
+          "total_balance": "Total Balance",
+          "active_trades": "Active Trades",
+          "total_profit": "Total Profit",
+          "from_yesterday": "from yesterday",
+          "this_week": "this week",
+          "profitable": "{count} profitable"
+      },
+      "cryptocurrencies": {
+          "title": "Cryptocurrencies",
+          "no_tokens": "No tokens available",
+          "token": {
+              "address": "Address",
+              "decimals": "Decimals",
+              "verified": "Verified",
+              "unverified": "Unverified"
+          }
+      },
+      "tabs": {
+          "market": {
+              "title": "Market Overview",
+              "description": "Top cryptocurrencies by market cap",
+              "placeholder": "Chart visualization would appear here"
+          },
+          "portfolio": {
+              "title": "Your Portfolio",
+              "description": "Asset distribution",
+              "placeholder": "Portfolio distribution would appear here"
+          },
+          "activity": {
+              "title": "Recent Activity",
+              "description": "Your latest transactions and trades",
+              "placeholder": "Activity data would appear here"
+          }
+      }
   },
   "trading": {
       "title": "Trading",

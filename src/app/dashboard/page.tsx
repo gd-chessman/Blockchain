@@ -6,8 +6,10 @@ import { useWsSubscribeTokens } from "@/hooks/useWsSubscribeTokens";
 import { useState, useEffect } from "react";
 import { SolonaTokenService } from "@/services/api";
 import { truncateString } from "@/utils/format";
+import { useLang } from "@/lang/useLang";
 
 export default function Dashboard() {
+  const { t } = useLang();
   const { tokenMessages } = useWsSubscribeTokens();
   console.log("Raw tokenMessages:", tokenMessages);
   
@@ -96,52 +98,52 @@ export default function Dashboard() {
   return (
     <div className="container mx-auto p-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <h1 className="text-3xl font-bold">{t('dashboard.title')}</h1>
         <div className="text-sm text-muted-foreground mt-2 md:mt-0">
-          Last updated: March 30, 2023 • Auto-refresh in 30s
+          {t('dashboard.last_updated')}
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <Card className="overflow-hidden border-none shadow-md dark:shadow-blue-900/5 bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-blue-950/30">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Balance</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">{t('dashboard.summary.total_balance')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">$12,345.67</div>
             <div className="flex items-center text-xs text-green-500 mt-1">
               <ArrowUp className="h-3 w-3 mr-1" />
-              <span>+2.5% from yesterday</span>
+              <span>{t('dashboard.summary.from_yesterday')}</span>
             </div>
           </CardContent>
         </Card>
         <Card className="overflow-hidden border-none shadow-md dark:shadow-blue-900/5 bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-blue-950/30">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Active Trades</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">{t('dashboard.summary.active_trades')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">7</div>
             <div className="flex items-center text-xs text-muted-foreground mt-1">
-              <span>3 profitable</span>
+              <span>{t('dashboard.summary.profitable')}</span>
             </div>
           </CardContent>
         </Card>
         <Card className="overflow-hidden border-none shadow-md dark:shadow-blue-900/5 bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-blue-950/30">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Profit</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">{t('dashboard.summary.total_profit')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">$1,234.56</div>
             <div className="flex items-center text-xs text-green-500 mt-1">
               <ArrowUp className="h-3 w-3 mr-1" />
-              <span>+5.2% this week</span>
+              <span>{t('dashboard.summary.this_week')}</span>
             </div>
           </CardContent>
         </Card>
       </div>
 
       <div className="mt-8 mb-12">
-        <h2 className="text-2xl font-bold mb-6">Cryptocurrencies</h2>
+        <h2 className="text-2xl font-bold mb-6">{t('dashboard.cryptocurrencies.title')}</h2>
         {isLoading ? (
           <div className="flex justify-center items-center h-40">
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
@@ -182,19 +184,19 @@ export default function Dashboard() {
                           ? 'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400' 
                           : 'bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400'
                       }`}>
-                        {token.isVerified ? 'Verified' : 'Unverified'}
+                        {token.isVerified ? t('dashboard.cryptocurrencies.token.verified') : t('dashboard.cryptocurrencies.token.unverified')}
                       </div>
                     </div>
                     <div className="pt-3 border-t border-gray-100 dark:border-gray-800">
                       <div className="grid grid-cols-2 gap-2 text-sm">
                         <div className="space-y-1">
-                          <div className="text-gray-500 dark:text-gray-400 text-xs">Address</div>
+                          <div className="text-gray-500 dark:text-gray-400 text-xs">{t('dashboard.cryptocurrencies.token.address')}</div>
                           <div className="font-medium text-gray-700 dark:text-gray-300 truncate">
                             {truncateString(token.address, 12)}
                           </div>
                         </div>
                         <div className="space-y-1">
-                          <div className="text-gray-500 dark:text-gray-400 text-xs">Decimals</div>
+                          <div className="text-gray-500 dark:text-gray-400 text-xs">{t('dashboard.cryptocurrencies.token.decimals')}</div>
                           <div className="font-medium text-gray-700 dark:text-gray-300">
                             {token.decimals}
                           </div>
@@ -207,28 +209,28 @@ export default function Dashboard() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-8 text-muted-foreground">
-            No tokens available
+          <div className="text-center text-muted-foreground py-8">
+            {t('dashboard.cryptocurrencies.no_tokens')}
           </div>
         )}
       </div>
 
       <Tabs defaultValue="market" className="mb-8">
         <TabsList className="w-full md:w-auto grid grid-cols-3 md:inline-flex">
-          <TabsTrigger value="market">Market Overview</TabsTrigger>
-          <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
-          <TabsTrigger value="activity">Recent Activity</TabsTrigger>
+          <TabsTrigger value="market">{t('dashboard.tabs.market.title')}</TabsTrigger>
+          <TabsTrigger value="portfolio">{t('dashboard.tabs.portfolio.title')}</TabsTrigger>
+          <TabsTrigger value="activity">{t('dashboard.tabs.activity.title')}</TabsTrigger>
         </TabsList>
         <TabsContent value="market" className="mt-4">
           <Card className="border-none shadow-md dark:shadow-blue-900/5">
             <CardHeader>
-              <CardTitle>Market Trends</CardTitle>
-              <CardDescription>Top cryptocurrencies by market cap</CardDescription>
+              <CardTitle>{t('dashboard.tabs.market.title')}</CardTitle>
+              <CardDescription>{t('dashboard.tabs.market.description')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="h-[300px] flex items-center justify-center border rounded-md bg-white/50 dark:bg-gray-900/50">
                 <LineChart className="h-16 w-16 text-muted-foreground" />
-                <span className="ml-2 text-muted-foreground">Chart visualization would appear here</span>
+                <span className="ml-2 text-muted-foreground">{t('dashboard.tabs.market.placeholder')}</span>
               </div>
             </CardContent>
           </Card>
@@ -236,13 +238,13 @@ export default function Dashboard() {
         <TabsContent value="portfolio" className="mt-4">
           <Card className="border-none shadow-md dark:shadow-blue-900/5">
             <CardHeader>
-              <CardTitle>Your Portfolio</CardTitle>
-              <CardDescription>Asset distribution</CardDescription>
+              <CardTitle>{t('dashboard.tabs.portfolio.title')}</CardTitle>
+              <CardDescription>{t('dashboard.tabs.portfolio.description')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="h-[300px] flex items-center justify-center border rounded-md bg-white/50 dark:bg-gray-900/50">
                 <PieChart className="h-16 w-16 text-muted-foreground" />
-                <span className="ml-2 text-muted-foreground">Portfolio distribution would appear here</span>
+                <span className="ml-2 text-muted-foreground">{t('dashboard.tabs.portfolio.placeholder')}</span>
               </div>
             </CardContent>
           </Card>
@@ -250,85 +252,18 @@ export default function Dashboard() {
         <TabsContent value="activity" className="mt-4">
           <Card className="border-none shadow-md dark:shadow-blue-900/5">
             <CardHeader>
-              <CardTitle>Recent Activity</CardTitle>
-              <CardDescription>Your latest transactions and trades</CardDescription>
+              <CardTitle>{t('dashboard.tabs.activity.title')}</CardTitle>
+              <CardDescription>{t('dashboard.tabs.activity.description')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="h-[300px] flex items-center justify-center border rounded-md bg-white/50 dark:bg-gray-900/50">
                 <BarChart className="h-16 w-16 text-muted-foreground" />
-                <span className="ml-2 text-muted-foreground">Activity data would appear here</span>
+                <span className="ml-2 text-muted-foreground">{t('dashboard.tabs.activity.placeholder')}</span>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="border-none shadow-md dark:shadow-blue-900/5">
-          <CardHeader>
-            <CardTitle>Top Performers</CardTitle>
-            <CardDescription>Best performing assets in your portfolio</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="flex items-center justify-between p-3 rounded-lg bg-white/50 dark:bg-gray-900/50 hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-colors"
-                >
-                  <div className="flex items-center">
-                    <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-3 text-blue-600 dark:text-blue-300 font-medium">
-                      BTC
-                    </div>
-                    <div>
-                      <div className="font-medium">Bitcoin</div>
-                      <div className="text-sm text-muted-foreground">BTC</div>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="font-medium">$43,256.78</div>
-                    <div className="text-sm text-green-500">+3.2%</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="border-none shadow-md dark:shadow-blue-900/5">
-          <CardHeader>
-            <CardTitle>Recent Transactions</CardTitle>
-            <CardDescription>Your latest wallet activities</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="flex items-center justify-between p-3 rounded-lg bg-white/50 dark:bg-gray-900/50 hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-colors"
-                >
-                  <div className="flex items-center">
-                    <div
-                      className={`w-8 h-8 rounded-full ${i % 2 === 0 ? "bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300" : "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300"} flex items-center justify-center mr-3`}
-                    >
-                      {i % 2 === 0 ? "+" : "-"}
-                    </div>
-                    <div>
-                      <div className="font-medium">{i % 2 === 0 ? "Received" : "Sent"} BTC</div>
-                      <div className="text-sm text-muted-foreground">Mar {10 + i}, 2023</div>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className={`font-medium ${i % 2 === 0 ? "text-green-500" : "text-red-500"}`}>
-                      {i % 2 === 0 ? "+" : "-"}0.{i}5 BTC
-                    </div>
-                    <div className="text-sm text-muted-foreground">$1,{i}56.78</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
     </div>
   )
 }

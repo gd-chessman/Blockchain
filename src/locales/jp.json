@@ -25,7 +25,43 @@
     },
     "dashboard": {
         "title": "ダッシュボード",
-        "welcome": "ダッシュボードへようこそ！"
+        "welcome": "ダッシュボードへようこそ！",
+        "last_updated": "最終更新: {date} • {seconds}秒後に自動更新",
+        "summary": {
+            "total_balance": "総残高",
+            "active_trades": "アクティブな取引",
+            "total_profit": "総利益",
+            "from_yesterday": "昨日から",
+            "this_week": "今週",
+            "profitable": "{count}件の利益"
+        },
+        "cryptocurrencies": {
+            "title": "暗号資産",
+            "no_tokens": "利用可能なトークンはありません",
+            "token": {
+                "address": "アドレス",
+                "decimals": "小数点",
+                "verified": "認証済み",
+                "unverified": "未認証"
+            }
+        },
+        "tabs": {
+            "market": {
+                "title": "市場概要",
+                "description": "時価総額による主要な暗号資産",
+                "placeholder": "チャートがここに表示されます"
+            },
+            "portfolio": {
+                "title": "ポートフォリオ",
+                "description": "資産配分",
+                "placeholder": "ポートフォリオの配分がここに表示されます"
+            },
+            "activity": {
+                "title": "最近の活動",
+                "description": "最新の取引と活動",
+                "placeholder": "活動データがここに表示されます"
+            }
+        }
     },
     "trading": {
         "title": "取引",

@@ -25,7 +25,43 @@
     },
     "dashboard": {
         "title": "대시보드",
-        "welcome": "대시보드에 오신 것을 환영합니다!"
+        "welcome": "대시보드에 오신 것을 환영합니다!",
+        "last_updated": "마지막 업데이트: {date} • {seconds}초 후 자동 업데이트",
+        "summary": {
+            "total_balance": "총 잔액",
+            "active_trades": "활성 거래",
+            "total_profit": "총 이익",
+            "from_yesterday": "어제 대비",
+            "this_week": "이번 주",
+            "profitable": "{count}건의 이익"
+        },
+        "cryptocurrencies": {
+            "title": "암호화폐",
+            "no_tokens": "사용 가능한 토큰이 없습니다",
+            "token": {
+                "address": "주소",
+                "decimals": "소수점",
+                "verified": "인증됨",
+                "unverified": "미인증"
+            }
+        },
+        "tabs": {
+            "market": {
+                "title": "시장 개요",
+                "description": "시가총액 기준 주요 암호화폐",
+                "placeholder": "차트가 여기에 표시됩니다"
+            },
+            "portfolio": {
+                "title": "포트폴리오",
+                "description": "자산 배분",
+                "placeholder": "포트폴리오 배분이 여기에 표시됩니다"
+            },
+            "activity": {
+                "title": "최근 활동",
+                "description": "최신 거래 및 활동",
+                "placeholder": "활동 데이터가 여기에 표시됩니다"
+            }
+        }
     },
     "trading": {
         "title": "거래",

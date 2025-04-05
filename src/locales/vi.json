@@ -24,8 +24,43 @@
       "loading": "Đang tải dữ liệu..."
   },
   "dashboard": {
-      "title": "Bảng Điều Khiển",
-      "welcome": "Chào mừng đến với bảng điều khiển!"
+      "title": "Bảng điều khiển",
+      "last_updated": "Cập nhật lần cuối: {date} • Tự động làm mới sau {seconds} giây",
+      "summary": {
+          "total_balance": "Tổng số dư",
+          "active_trades": "Giao dịch đang hoạt động",
+          "total_profit": "Tổng lợi nhuận",
+          "from_yesterday": "so với hôm qua",
+          "this_week": "tuần này",
+          "profitable": "{count} có lãi"
+      },
+      "cryptocurrencies": {
+          "title": "Tiền điện tử",
+          "no_tokens": "Không có token nào",
+          "token": {
+              "address": "Địa chỉ",
+              "decimals": "Số thập phân",
+              "verified": "Đã xác thực",
+              "unverified": "Chưa xác thực"
+          }
+      },
+      "tabs": {
+          "market": {
+              "title": "Tổng quan thị trường",
+              "description": "Các loại tiền điện tử hàng đầu theo vốn hóa thị trường",
+              "placeholder": "Biểu đồ sẽ hiển thị tại đây"
+          },
+          "portfolio": {
+              "title": "Danh mục đầu tư",
+              "description": "Phân bổ tài sản",
+              "placeholder": "Phân bổ danh mục sẽ hiển thị tại đây"
+          },
+          "activity": {
+              "title": "Hoạt động gần đây",
+              "description": "Giao dịch và hoạt động mới nhất của bạn",
+              "placeholder": "Dữ liệu hoạt động sẽ hiển thị tại đây"
+          }
+      }
   },
   "trading": {
       "title": "Giao Dịch",
