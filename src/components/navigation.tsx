@@ -70,6 +70,7 @@ export default function Navigation() {
       const res = await useWallet({ wallet_id: walletId });
       updateToken(res.token);
       await refetch();
+      window.location.reload();
     } catch (error) {
       console.error('Error changing wallet:', error);
     }
