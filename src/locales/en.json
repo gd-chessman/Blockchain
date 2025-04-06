@@ -569,7 +569,8 @@
           "pause": "Pause",
           "reconnect": "Reconnect",
           "copyAddress": "Copy address",
-          "manage": "Manage"
+          "manage": "Manage",
+          "copySuccess": "Address copied to clipboard!"
       },
       "noData": {
           "notConnected": "No not connected masters found",
