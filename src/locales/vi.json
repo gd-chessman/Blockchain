@@ -198,7 +198,9 @@
   },
   "copyTrade": {
       "title": "Sao Chép Giao Dịch",
-      "yourCopyTrades": "Danh Sách Sao Chép Giao Dịch Của Bạn",
+      "success": "Thành Công",
+      "failed": "Thất Bại",
+      "yourCopyTrades": "Giao Dịch Sao Chép Của Bạn",
       "refreshData": "Làm mới dữ liệu",
       "trackingWallet": "Ví Theo Dõi",
       "bought": "Đã Mua",

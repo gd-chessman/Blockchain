@@ -198,6 +198,8 @@
     },
     "copyTrade": {
         "title": "コピートレード",
+        "success": "成功",
+        "failed": "失敗",
         "yourCopyTrades": "あなたのコピートレード",
         "refreshData": "データを更新",
         "trackingWallet": "追跡ウォレット",

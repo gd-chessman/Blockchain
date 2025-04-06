@@ -147,8 +147,10 @@
         }
     },
     "copyTrade": {
-        "title": "카피 트레이딩",
-        "yourCopyTrades": "내 카피 트레이딩 목록",
+        "title": "복사 거래",
+        "success": "성공",
+        "failed": "실패",
+        "yourCopyTrades": "귀하의 복사 거래",
         "refreshData": "데이터 새로고침",
         "trackingWallet": "추적 지갑",
         "bought": "매수",

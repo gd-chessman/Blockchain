@@ -215,6 +215,8 @@
   },
   "copyTrade": {
       "title": "Copy Trade",
+      "success": "Success",
+      "failed": "Failed",
       "yourCopyTrades": "Your Copy Trades",
       "refreshData": "Refresh Data",
       "trackingWallet": "Tracking Wallet",
