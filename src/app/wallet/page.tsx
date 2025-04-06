@@ -280,7 +280,7 @@ export default function Wallet() {
                 size="icon"
                 className="absolute right-0 top-0 h-full"
                 onClick={() =>
-                  handleCopy("2Exba57zoxmHZQmkhVwkNw3chuNyNvX9viWR3LKTyP")
+                  handleCopy((payloadToken as any)?.sol_public_key || "")
                 }
               >
                 <Copy className="h-4 w-4" />
@@ -326,7 +326,7 @@ export default function Wallet() {
                 size="icon"
                 className="absolute right-0 top-0 h-full"
                 onClick={() =>
-                  handleCopy("0x8D5A62fbc40f262EEa07D2F6Fe8805F9c7C7E131")
+                  handleCopy((payloadToken as any)?.eth_public_key || "")
                 }
               >
                 <Copy className="h-4 w-4" />
@@ -368,7 +368,7 @@ export default function Wallet() {
                 size="icon"
                 className="absolute right-0 top-0 h-full"
                 onClick={() =>
-                  handleCopy("0x8D5A62fbc40f262EEa07D2F6Fe8805F9c7C7E131")
+                  handleCopy((payloadToken as any)?.eth_public_key || "")
                 }
               >
                 <Copy className="h-4 w-4" />
