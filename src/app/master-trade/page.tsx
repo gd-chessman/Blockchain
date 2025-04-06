@@ -142,6 +142,11 @@ export default function MasterTrade() {
     });
     refetchMasterTraders();
   };
+
+  const handleDetails = (trader: any) => {
+    // Implementation of handleDetails function
+  };
+
   if (!isAuthenticated) return <LogWarring />;
 
 
@@ -357,6 +362,14 @@ export default function MasterTrade() {
                             <div className="flex justify-end gap-2">
                               {trader.connection_status === "pause" ? (
                                 <>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="bg-white hover:bg-blue-50 text-blue-500 border-blue-500"
+                                    onClick={() => handleDetails(trader)}
+                                  >
+                                    Chi tiết
+                                  </Button>
                                   <Button
                                     size="sm"
                                     className="bg-white hover:bg-green-50 text-green-500 border border-solid border-green-500"
