@@ -1,107 +1,117 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import TradingViewChart from '@/components/chart/TradingViewChart';
+import { useState, ChangeEvent } from 'react';
 
-interface Order {
-  // Define your order interface based on the expected response
-  id: string;
-  // Add other order properties as needed
-}
 
-export default function TestPage() {
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [error, setError] = useState<string | null>(null);
+export default function Home() {
+  const [symbol, setSymbol] = useState<string>('BINANCE:BTCUSDT');
+  const [interval, setInterval] = useState<string>('D');
+  const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
 
-  useEffect(() => {
-    const connectWebSocket = () => {
-      const authToken = localStorage.getItem('auth_token');
-      if (!authToken) {
-        setError('Authentication token not found');
-        return;
-      }
+  const handleSymbolChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSymbol(e.target.value);
+  };
 
-      const ws = new WebSocket('ws://localhost:8000/ws');
+  const handleIntervalChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setInterval(e.target.value);
+  };
 
-      ws.onopen = () => {
-        console.log('WebSocket Connected');
-        const message = {
-          method: 'getAllOrders',
-          params: {
-            token_address: 'C8eKC6jjGou6Yn2aLnTC2fa4mfjmNmEUSoJgLXgYSHP8',
-            status: 'executed',
-            limit: 20,
-            offset: 0
-          }
-        };
-        console.log('Sending WebSocket message:', message);
-        ws.send(JSON.stringify(message));
-      };
-
-      ws.onmessage = (event) => {
-        try {
-          console.log('Received WebSocket message:', event.data);
-          const response = JSON.parse(event.data);
-          
-          if (response.event === 'error') {
-            console.error('WebSocket error response:', response);
-            setError(response.data.message || 'Authentication error');
-            return;
-          }
-
-          // Check if response has a data property that contains the orders
-          if (response && Array.isArray(response)) {
-            console.log('Received orders array:', response);
-            setOrders(response);
-          } else if (response && response.data && Array.isArray(response.data)) {
-            console.log('Received orders from data property:', response.data);
-            setOrders(response.data);
-          } else {
-            console.warn('Unexpected response format:', response);
-            setError('Unexpected response format');
-          }
-        } catch (err) {
-          console.error('Error parsing WebSocket message:', err);
-          console.error('Raw message that caused error:', event.data);
-          setError('Error parsing WebSocket message');
-        }
-      };
-
-      ws.onerror = (error) => {
-        console.error('WebSocket error details:', error);
-        setError('WebSocket error occurred');
-      };
-
-      ws.onclose = (event) => {
-        console.log('WebSocket Disconnected', {
-          code: event.code,
-          reason: event.reason,
-          wasClean: event.wasClean
-        });
-      };
-
-      return () => {
-        ws.close();
-      };
-    };
-
-    connectWebSocket();
-  }, []);
+  const toggleTheme = () => {
+    setIsDarkTheme((prev) => !prev);
+  };
 
   return (
-    <div>
-      <h1>Transaction Data</h1>
-      {error && <div style={{ color: 'red' }}>{error}</div>}
-      <div>
-        {orders.map((order) => (
-          <div key={order.id}>
-            {/* Render your order data here */}
-            <pre>{JSON.stringify(order, null, 2)}</pre>
-          </div>
-        ))}
+    <div className="container">
+      <div className="header">
+        <h1>Crypto Trading Charts</h1>
+        <div id="price-ticker"></div>
       </div>
+
+      <div className="controls">
+        <select
+          value={symbol}
+          onChange={handleSymbolChange}
+          className="symbol-select"
+        >
+          <option value="BINANCE:BTCUSDT">Bitcoin (BTC/USDT)</option>
+          <option value="BINANCE:ETHUSDT">Ethereum (ETH/USDT)</option>
+          <option value="BINANCE:BNBUSDT">Binance Coin (BNB/USDT)</option>
+          <option value="BINANCE:DOGEUSDT">Dogecoin (DOGE/USDT)</option>
+        </select>
+
+        <select
+          value={interval}
+          onChange={handleIntervalChange}
+          className="interval-select"
+        >
+          <option value="1">1 Minute</option>
+          <option value="5">5 Minutes</option>
+          <option value="15">15 Minutes</option>
+          <option value="30">30 Minutes</option>
+          <option value="60">1 Hour</option>
+          <option value="D">1 Day</option>
+          <option value="W">1 Week</option>
+        </select>
+
+        <button onClick={toggleTheme} className="theme-toggle">
+          Toggle Theme
+        </button>
+      </div>
+
+      <div className="chart-container">
+        <TradingViewChart
+          symbol={symbol}
+          interval={interval}
+          theme={isDarkTheme ? 'dark' : 'light'}
+        />
+      </div>
+
+      <style jsx>{`
+        .container {
+          display: flex;
+          flex-direction: column;
+          height: 100vh;
+          width: 100%;
+        }
+        .header {
+          background: ${isDarkTheme ? '#2a2e39' : '#2962ff'};
+          color: white;
+          padding: 1rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+        }
+        .chart-container {
+          flex: 1;
+          display: flex;
+          width: 100%;
+        }
+        .controls {
+          padding: 1rem;
+          background: ${isDarkTheme ? '#1e222d' : '#f5f5f5'};
+          display: flex;
+          gap: 1rem;
+          width: 100%;
+        }
+        select,
+        button {
+          padding: 0.5rem;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          font-size: 14px;
+        }
+        button {
+          background: #2962ff;
+          color: white;
+          border: none;
+          cursor: pointer;
+        }
+        button:hover {
+          background: #1e4bd8;
+        }
+      `}</style>
     </div>
   );
 }
-
-
-
