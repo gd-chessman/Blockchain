@@ -626,10 +626,18 @@
         "title": "ウォレット",
         "solanaWallet": "ソラナウォレット",
         "ethWallet": "イーサリアムウォレット",
-        "bnbWallet": "BNBウォレット",
+        "bnbWallet": "バイナンスウォレット",
         "getPrivateKey": "秘密鍵を取得",
         "addWallet": "ウォレットを追加",
         "importWallet": "ウォレットをインポート",
+        "asset": "資産",
+        "assets": {
+            "token": "トークン",
+            "balance": "残高",
+            "price": "価格",
+            "value": "価値",
+            "address": "アドレス"
+        },
         "table": {
             "walletName": "ウォレット名",
             "type": "タイプ",
@@ -656,15 +664,6 @@
             "ethereumPrivateKey": "イーサリアム秘密鍵",
             "bnbPrivateKey": "BNB秘密鍵",
             "close": "閉じる"
-        },
-        "assets": {
-            "token": "トークン",
-            "balance": "残高",
-            "price": "価格",
-            "value": "価値",
-            "address": "アドレス",
-            "send": "送信",
-            "receive": "受信"
         }
     },
     "common": {

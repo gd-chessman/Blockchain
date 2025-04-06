@@ -575,10 +575,20 @@
         "title": "지갑",
         "solanaWallet": "솔라나 지갑",
         "ethWallet": "이더리움 지갑",
-        "bnbWallet": "BNB 지갑",
+        "bnbWallet": "바이낸스 지갑",
         "getPrivateKey": "개인 키 가져오기",
         "addWallet": "지갑 추가",
         "importWallet": "지갑 가져오기",
+        "asset": "자산",
+        "assets": {
+            "token": "토큰",
+            "balance": "잔액",
+            "price": "가격",
+            "value": "가치",
+            "address": "주소",
+            "send": "보내기",
+            "receive": "받기"
+        },
         "table": {
             "walletName": "지갑 이름",
             "type": "유형",
@@ -605,15 +615,6 @@
             "ethereumPrivateKey": "이더리움 개인 키",
             "bnbPrivateKey": "BNB 개인 키",
             "close": "닫기"
-        },
-        "assets": {
-            "token": "토큰",
-            "balance": "잔액",
-            "price": "가격",
-            "value": "가치",
-            "address": "주소",
-            "send": "보내기",
-            "receive": "받기"
         }
     },
     "common": {

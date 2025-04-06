@@ -653,11 +653,19 @@
   "wallet": {
       "title": "Wallet",
       "solanaWallet": "Solana Wallet",
-      "ethWallet": "Ethereum Wallet",
+      "ethWallet": "ETH Wallet",
       "bnbWallet": "BNB Wallet",
       "getPrivateKey": "Get Private Key",
       "addWallet": "Add Wallet",
       "importWallet": "Import Wallet",
+      "asset": "Assets",
+      "assets": {
+          "token": "Token",
+          "balance": "Balance",
+          "price": "Price",
+          "value": "Value",
+          "address": "Address"
+      },
       "table": {
           "walletName": "Wallet Name",
           "type": "Type",
@@ -684,15 +692,6 @@
           "ethereumPrivateKey": "Ethereum Private Key",
           "bnbPrivateKey": "BNB Private Key",
           "close": "Close"
-      },
-      "assets": {
-          "token": "Token",
-          "balance": "Balance",
-          "price": "Price",
-          "value": "Value",
-          "address": "Address",
-          "send": "Send",
-          "receive": "Receive"
       }
   },
   "common": {

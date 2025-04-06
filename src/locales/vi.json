@@ -613,11 +613,19 @@
   "wallet": {
       "title": "Ví",
       "solanaWallet": "Ví Solana",
-      "ethWallet": "Ví Ethereum",
+      "ethWallet": "Ví ETH",
       "bnbWallet": "Ví BNB",
       "getPrivateKey": "Lấy Khóa Riêng Tư",
       "addWallet": "Thêm Ví",
       "importWallet": "Nhập Ví",
+      "asset": "Tài sản",
+      "assets": {
+          "token": "Token",
+          "balance": "Số dư",
+          "price": "Giá",
+          "value": "Giá trị",
+          "address": "Địa chỉ"
+      },
       "table": {
           "walletName": "Tên Ví",
           "type": "Loại",
@@ -644,15 +652,6 @@
           "ethereumPrivateKey": "Khóa Riêng Tư Ethereum",
           "bnbPrivateKey": "Khóa Riêng Tư BNB",
           "close": "Đóng"
-      },
-      "assets": {
-          "token": "Token",
-          "balance": "Số Dư",
-          "price": "Giá",
-          "value": "Giá Trị",
-          "address": "Địa Chỉ",
-          "send": "Gửi",
-          "receive": "Nhận"
       }
   },
   "createCoin": {
