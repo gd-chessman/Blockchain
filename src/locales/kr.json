@@ -69,6 +69,7 @@
         "marketOverview": "시장 개요",
         "yourPortfolio": "내 포트폴리오",
         "recentTrades": "최근 거래",
+        "search_placeholder": "토큰 이름, 주소 또는 심볼로 검색...",
         "buy": "매수",
         "sell": "매도",
         "amount": "수량",
