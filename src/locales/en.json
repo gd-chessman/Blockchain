@@ -499,7 +499,8 @@
           "reconnect": "Reconnect",
           "cancel": "Cancel",
           "copyAddress": "Copy Address",
-          "manage": "Master Manage"
+          "manage": "Master Manage",
+          "details": "Details"
       },
       "walletAddress": "Wallet Member",
       "inactive": "INACTIVE",
@@ -572,7 +573,8 @@
           "reconnect": "Reconnect",
           "copyAddress": "Copy address",
           "manage": "Manage",
-          "copySuccess": "Address copied to clipboard!"
+          "copySuccess": "Address copied to clipboard!",
+          "details": "Details"
       },
       "noData": {
           "notConnected": "No not connected masters found",

@@ -481,7 +481,8 @@
             "cancel": "キャンセル",
             "copyAddress": "アドレスをコピー",
             "manage": "マスター管理",
-            "copySuccess": "アドレスをクリップボードにコピーしました！"
+            "copySuccess": "アドレスをクリップボードにコピーしました！",
+            "details": "詳細"
         },
         "walletAddress": "ウォレットメンバー",
         "inactive": "非アクティブ",
@@ -545,7 +546,8 @@
             "connect": "接続",
             "reconnect": "再接続",
             "disconnect": "切断",
-            "pause": "一時停止"
+            "pause": "一時停止",
+            "details": "詳細"
         },
         "noData": {
             "notConnected": "利用可能なマスターがありません",

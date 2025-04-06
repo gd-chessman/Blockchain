@@ -495,7 +495,8 @@
             "reconnect": "재연결",
             "disconnect": "연결 해제",
             "pause": "일시 중지",
-            "copySuccess": "지갑 주소가 복사되었습니다"
+            "copySuccess": "지갑 주소가 복사되었습니다",
+            "details": "상세"
         },
         "noData": {
             "notConnected": "사용 가능한 마스터가 없습니다",

@@ -23,7 +23,6 @@ export default function CopyTrade() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <h1 className="text-3xl font-bold">{t('copyTrade.title')}</h1>
         <div className="text-sm text-muted-foreground mt-2 md:mt-0">
-          Copy successful traders and earn passive income
         </div>
       </div>
 
