@@ -753,6 +753,7 @@
     "latestTokens": {
       "title": "Latest Tokens",
       "noTokens": "No tokens available"
-    }
+    },
+    "pleaseConnectWallet": "Please connect your wallet to perform this action"
   }
 }

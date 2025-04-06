@@ -727,6 +727,7 @@
         "latestTokens": {
             "title": "最新のトークン",
             "noTokens": "利用可能なトークンはありません"
-        }
+        },
+        "pleaseConnectWallet": "この機能を実行するにはウォレットを接続してください"
     }
 }

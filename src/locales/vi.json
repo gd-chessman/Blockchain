@@ -712,6 +712,7 @@
     "latestTokens": {
       "title": "Token mới nhất",
       "noTokens": "Không có token nào"
-    }
+    },
+    "pleaseConnectWallet": "Vui lòng kết nối ví để thực hiện chức năng này"
   }
 }

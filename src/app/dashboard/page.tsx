@@ -156,7 +156,7 @@ export default function Dashboard() {
     <div className="container mx-auto p-6">
       {showNotification && (
         <ToastNotification 
-          message="Vui lòng kết nối ví để thực hiện chức năng này"
+          message={t('createCoin.pleaseConnectWallet')}
           duration={3000}
           onClose={() => setShowNotification(false)}
         />
