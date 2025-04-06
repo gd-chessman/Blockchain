@@ -164,9 +164,9 @@ export default function ManageMasterTrade() {
   // Xử lý chọn/bỏ chọn một kết nối
   const handleSelectConnection = (id: string, checked: boolean) => {
     if (checked) {
-      setSelectedConnections([id]);
+      setSelectedConnections(prev => [...prev, id]);
     } else {
-      setSelectedConnections([]);
+      setSelectedConnections(prev => prev.filter(item => item !== id));
     }
   };
 
@@ -261,15 +261,18 @@ export default function ManageMasterTrade() {
   const handleJoin = async () => {
     if (selectedGroup && selectedConnections.length > 0) {
       try {
-        // Find the selected connection to get member_id
-        const selectedConnection = myConnects.find(
-          conn => conn.connection_id.toString() === selectedConnections[0]
-        );
+        // Lấy tất cả member_ids từ các kết nối đã chọn
+        const memberIds = selectedConnections.map(connId => {
+          const selectedConnection = myConnects.find(
+            conn => conn.connection_id.toString() === connId
+          );
+          return selectedConnection?.member_id;
+        }).filter(Boolean);
 
-        if (selectedConnection) {
+        if (memberIds.length > 0) {
           await MasterTradingService.masterSetGroup({
             mg_id: selectedGroup,
-            member_ids: [selectedConnection.member_id]
+            member_ids: memberIds
           });
           setToastMessage(t("masterTrade.manage.connectionManagement.joinSuccess"));
           setShowToast(true);
