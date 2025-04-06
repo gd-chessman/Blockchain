@@ -879,7 +879,7 @@ export default function Wallet() {
       <Card className="border-none shadow-md dark:shadow-blue-900/5">
         <CardContent className="p-0">
           <div className="rounded-lg overflow-hidden">
-            <div className="max-h-[400px] overflow-y-auto">
+            <div className="max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent">
               <div className="sticky top-0 z-10 bg-background">
                 <Table>
                   <TableHeader>
@@ -893,7 +893,7 @@ export default function Wallet() {
                   </TableHeader>
                 </Table>
               </div>
-              <div className="overflow-y-auto">
+              <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent">
                 <Table>
                   <TableBody>
                     {/* List of tokens */}
