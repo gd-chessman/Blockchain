@@ -879,7 +879,6 @@ function TradingContent() {
                             <Input
                               value={tempValue}
                               onChange={(e) => setTempValue(e.target.value)}
-                              onBlur={() => handleSave(index)}
                               onKeyDown={(e) =>
                                 e.key === "Enter" && handleSave(index)
                               }
