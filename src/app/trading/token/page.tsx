@@ -933,7 +933,6 @@ function TradingContent() {
                             <Input
                               value={tempSolValue}
                               onChange={(e) => setTempSolValue(e.target.value)}
-                              onBlur={() => handleSolSave(index)}
                               onKeyDown={(e) =>
                                 e.key === "Enter" && handleSolSave(index)
                               }
