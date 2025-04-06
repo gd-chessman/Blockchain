@@ -10,16 +10,20 @@ import { useLang } from "@/lang/useLang";
 import { useRouter } from "next/navigation";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/hooks/useAuth";
+import { ToastNotification } from "@/components/ui/toast";
 
 export default function Dashboard() {
   const { t } = useLang();
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery, 100);
   const [isSearching, setIsSearching] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const { tokenMessages } = useWsSubscribeTokens({limit: 18});
+  const [showNotification, setShowNotification] = useState(false);
   
   const [tokens, setTokens] = useState<{
     id: number;
@@ -46,6 +50,15 @@ export default function Dashboard() {
     isVerified: boolean;
     marketCap: number;
   }[]>([]);
+
+  useEffect(() => {
+    if (showNotification) {
+      const timer = setTimeout(() => {
+        setShowNotification(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showNotification]);
 
   // Parse messages and extract tokens
   useEffect(() => {
@@ -130,7 +143,7 @@ export default function Dashboard() {
     };
 
     searchData();
-  }, [debouncedSearchQuery, currentPage]);
+  }, [debouncedSearchQuery, currentPage, isAuthenticated]);
 
   // Use search results if available, otherwise use WebSocket data
   const displayTokens = debouncedSearchQuery.trim() ? searchResults : tokens;
@@ -141,6 +154,13 @@ export default function Dashboard() {
 
   return (
     <div className="container mx-auto p-6">
+      {showNotification && (
+        <ToastNotification 
+          message="Vui lòng kết nối ví để thực hiện chức năng này"
+          duration={3000}
+          onClose={() => setShowNotification(false)}
+        />
+      )}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <h1 className="text-3xl font-bold">{t('dashboard.title')}</h1>
         <div className="text-sm text-muted-foreground mt-2 md:mt-0">
@@ -163,6 +183,11 @@ export default function Dashboard() {
               className="pl-10 w-full"
               value={searchQuery}
               onChange={(e) => {
+                if (!isAuthenticated) {
+                  setShowNotification(true);
+                  setSearchQuery("");
+                  return;
+                }
                 setSearchQuery(e.target.value);
                 if (!e.target.value.trim()) {
                   setSearchResults([]);
@@ -170,6 +195,11 @@ export default function Dashboard() {
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && searchQuery.trim()) {
+                  if (!isAuthenticated) {
+                    setShowNotification(true);
+                    setSearchQuery("");
+                    return;
+                  }
                   setSearchQuery(searchQuery.trim());
                 }
               }}
