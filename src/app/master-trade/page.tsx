@@ -46,7 +46,7 @@ export default function MasterTrade() {
 
   // Count traders by connection status for tab indicators
   const notConnectedCount = masterTraders.filter((trader: any) => trader.connection_status === null || trader.connection_status === "block").length;
-  const connectedCount = masterTraders.filter((trader: any) => trader.connection_status === "connect").length;
+  const connectedCount = masterTraders.filter((trader: any) => trader.connection_status === "connect" || trader.connection_status === "pause").length;
   const disconnectedCount = masterTraders.filter((trader: any) => trader.connection_status === "disconnect").length;
   const pendingCount = masterTraders.filter((trader: any) => trader.connection_status === "pending").length;
 
