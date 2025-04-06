@@ -304,10 +304,13 @@ function TradingContent() {
     setAmount(newValue);
     
     // Tính toán phần trăm dựa trên số lượng nhập vào
-    if (tokenAmount?.data?.token_balance) {
+    if (selectedAction === "buy" && tokenAmount?.data?.sol_balance) {
+      const percentage = (Number(newValue) / tokenAmount.data.sol_balance) * 100;
+      setValue(Math.min(100, Math.max(0, percentage)));
+    } else if (selectedAction === "sell" && tokenAmount?.data?.token_balance) {
       let percentage = (Number(newValue) / tokenAmount.data.token_balance) * 100;
       // Nếu là bán và đang ở 100%, giữ lại 0.1% làm phí
-      if (selectedAction === "sell" && percentage >= 100) {
+      if (percentage >= 100) {
         percentage = 100;
         setAmount((tokenAmount.data.token_balance * 0.99999).toFixed(5));
       }
