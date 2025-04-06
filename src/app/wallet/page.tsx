@@ -223,7 +223,9 @@ export default function Wallet() {
       
       if (firstNonZeroIndex >= str.length) return str;
       
-      return balance.toFixed(firstNonZeroIndex - decimalIndex + 1);
+      // Ensure minimum of 5 decimal places
+      const decimalPlaces = Math.max(firstNonZeroIndex - decimalIndex + 1, 5);
+      return balance.toFixed(decimalPlaces);
     }
   };
 
@@ -884,11 +886,11 @@ export default function Wallet() {
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/50">
-                      <TableHead>{t("wallet.assets.token")}</TableHead>
-                      <TableHead>{t("wallet.assets.balance")}</TableHead>
-                      <TableHead>{t("wallet.assets.price")}</TableHead>
-                      <TableHead>{t("wallet.assets.value")}</TableHead>
-                      <TableHead>{t("wallet.assets.address")}</TableHead>
+                      <TableHead className="w-[25%]">{t("wallet.assets.token")}</TableHead>
+                      <TableHead className="w-[20%]">{t("wallet.assets.balance")}</TableHead>
+                      <TableHead className="w-[20%]">{t("wallet.assets.price")}</TableHead>
+                      <TableHead className="w-[20%]">{t("wallet.assets.value")}</TableHead>
+                      <TableHead className="w-[15%]">{t("wallet.assets.address")}</TableHead>
                     </TableRow>
                   </TableHeader>
                 </Table>
@@ -899,7 +901,7 @@ export default function Wallet() {
                     {/* List of tokens */}
                     {tokenList?.tokens?.map((token: any) => (
                       <TableRow key={token.token_address} className="hover:bg-muted/30">
-                        <TableCell>
+                        <TableCell className="w-[25%]">
                           <div className="flex items-center">
                             {token.token_logo_url ? (
                               <img
@@ -925,12 +927,12 @@ export default function Wallet() {
                             )}
                           </div>
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="w-[20%]">
                           <div className="font-medium">
                             {formatBalance(token.token_balance)} {token.token_symbol}
                           </div>
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="w-[20%]">
                           <div className="font-medium">
                             ${formatBalance(token.token_price_usd)}
                           </div>
@@ -938,12 +940,12 @@ export default function Wallet() {
                             {formatBalance(token.token_price_sol)} SOL
                           </div>
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="w-[20%]">
                           <div className="font-medium">
                             ${formatBalance(token.token_balance_usd)}
                           </div>
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="w-[15%]">
                           <div className="flex items-center">
                             <span className="truncate w-32">
                               {token.token_address.slice(0, 6)}...{token.token_address.slice(-4)}
