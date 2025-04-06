@@ -391,25 +391,6 @@ function TradingContent() {
           refetchWalletInfor(), // Cập nhật số dư SOL ở header
         ]);
 
-        // Refetch balances for connected members
-        const newBalances: Record<string, { sol_balance: number; solana_balance_usd: number }> = {};
-        for (const connect of connects) {
-          if (connect.status === "connect") {
-            try {
-              const balance = await getWalletBalanceByAddress(connect.member_address);
-              if (balance) {
-                newBalances[connect.member_address] = {
-                  sol_balance: balance.sol_balance,
-                  solana_balance_usd: balance.solana_balance_usd
-                };
-              }
-            } catch (error) {
-              console.error(`Error fetching balance for ${connect.member_address}:`, error);
-            }
-          }
-        }
-        setMemberBalances(newBalances);
-
         // Force update UI with new data
         if (tokenAmountResult.data?.data) {
           queryClient.setQueryData(
@@ -469,6 +450,27 @@ function TradingContent() {
           setPendingOrders(prev => prev.filter(order => order.created_at !== currentPendingOrderRef.current?.created_at));
           currentPendingOrderRef.current = null;
         }
+
+        // Delay 10 seconds before refetching member balances
+        setTimeout(async () => {
+          const newBalances: Record<string, { sol_balance: number; solana_balance_usd: number }> = {};
+          for (const connect of connects) {
+            if (connect.status === "connect") {
+              try {
+                const balance = await getWalletBalanceByAddress(connect.member_address);
+                if (balance) {
+                  newBalances[connect.member_address] = {
+                    sol_balance: balance.sol_balance,
+                    solana_balance_usd: balance.solana_balance_usd
+                  };
+                }
+              } catch (error) {
+                console.error(`Error fetching balance for ${connect.member_address}:`, error);
+              }
+            }
+          }
+          setMemberBalances(newBalances);
+        }, 10000);
       } else {
         toast.error("Failed to create trading order");
         // Remove pending order on error
