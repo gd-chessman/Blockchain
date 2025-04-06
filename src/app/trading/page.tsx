@@ -19,10 +19,12 @@ import { SolonaTokenService } from "@/services/api";
 import { useDebounce } from "@/hooks/useDebounce";
 import { truncateString } from "@/utils/format";
 import { ToastNotification } from "@/components/ui/toast";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Trading() {
   const router = useRouter();
   const { t } = useLang();
+  const { isAuthenticated } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery, 100); // 2 seconds delay
   const [isSearching, setIsSearching] = useState(false);
@@ -146,6 +148,12 @@ export default function Trading() {
               className="pl-10 w-full md:w-[400px]"
               value={searchQuery}
               onChange={(e) => {
+                if (!isAuthenticated) {
+                  setShowToast(true);
+                  setToastMessage(t('createCoin.pleaseConnectWallet'));
+                  setSearchQuery("");
+                  return;
+                }
                 setSearchQuery(e.target.value);
                 if (!e.target.value.trim()) {
                   setSearchResults([]);
@@ -153,6 +161,12 @@ export default function Trading() {
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && searchQuery.trim()) {
+                  if (!isAuthenticated) {
+                    setShowToast(true);
+                    setToastMessage(t('createCoin.pleaseConnectWallet'));
+                    setSearchQuery("");
+                    return;
+                  }
                   setSearchQuery(searchQuery.trim());
                 }
               }}
