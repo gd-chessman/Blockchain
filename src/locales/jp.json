@@ -683,7 +683,7 @@
             "description": "説明",
             "descriptionPlaceholder": "コインの説明を入力",
             "logo": "ロゴ",
-            "logoUpload": "ロゴをアップロード",
+            "logoUpload": "ロゴをアップロード ( 900x900 )",
             "logoRequired": "ロゴは必須です",
             "hideOptions": "オプションを隠す",
             "showOptions": "オプションを表示",

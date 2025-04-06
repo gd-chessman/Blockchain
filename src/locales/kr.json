@@ -682,7 +682,7 @@
             "description": "설명",
             "descriptionPlaceholder": "코인 설명 입력",
             "logo": "로고",
-            "logoUpload": "로고 업로드",
+            "logoUpload": "로고 업로드 ( 900x900 )",
             "logoRequired": "로고는 필수입니다",
             "hideOptions": "옵션 숨기기",
             "showOptions": "옵션 보기",

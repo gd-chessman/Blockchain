@@ -709,7 +709,7 @@
       "descriptionPlaceholder": "Enter coin description",
       "logo": "Logo",
       "logoRequired": "Logo is required",
-      "logoUpload": "Click to upload",
+      "logoUpload": "Click to upload ( 900x900 )",
       "showOptions": "Show Options",
       "hideOptions": "Hide Options",
       "telegram": "Telegram",

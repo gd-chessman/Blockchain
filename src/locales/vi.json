@@ -667,7 +667,7 @@
       "descriptionPlaceholder": "Nhập mô tả",
       "logo": "Logo",
       "logoRequired": "Vui lòng tải lên logo",
-      "logoUpload": "Tải lên logo",
+      "logoUpload": "Tải lên logo ( 900x900 )",
       "telegram": "Telegram",
       "telegramPlaceholder": "Nhập link Telegram",
       "website": "Website",
