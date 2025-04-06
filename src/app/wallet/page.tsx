@@ -854,7 +854,7 @@ export default function Wallet() {
 
       {/* Assets Section */}
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">{t("wallet.assets")}</h2>
+        <h2 className="text-2xl font-bold">{t("wallet.asset")}</h2>
       </div>
 
       <Card className="border-none shadow-md dark:shadow-blue-900/5">
@@ -880,7 +880,7 @@ export default function Wallet() {
                           <img
                             src={token.token_logo_url}
                             alt={token.token_symbol}
-                            className="w-6 h-6 mr-2 rounded-full"
+                            className="size-8 mr-2 rounded-full"
                           />
                         ) : (
                           <div className="w-6 h-6 mr-2 bg-gray-200 rounded-full flex items-center justify-center">
