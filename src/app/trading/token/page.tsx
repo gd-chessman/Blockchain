@@ -718,8 +718,8 @@ function TradingContent() {
                     <CardDescription>{tokenInfor?.name}</CardDescription>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-bold">$43,256.78</div>
-                    <div className="text-sm text-green-500">+3.2% (24h)</div>
+                    <div className="text-2xl font-bold">${tokenPrice?.priceUSD?.toFixed(2) || '0.00'}</div>
+                    {/* <div className="text-sm text-green-500">+3.2% (24h)</div> */}
                   </div>
                 </div>
               </CardHeader>
