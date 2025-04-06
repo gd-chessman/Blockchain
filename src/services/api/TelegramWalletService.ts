@@ -52,6 +52,16 @@ export const getMyWallets = async ()=>{
     }
 }
 
+export const getListBuyToken = async ()=>{
+    try {
+        const temp = await axiosClient.get("/telegram-wallets/get-list-buy-tokens")
+        return temp.data.data;
+    } catch (error) {
+        console.log(error)
+        return [];
+    }
+}
+
 export const addWallet = async (item: any)=>{
     try {
         const temp = await axiosClient.post("/telegram-wallets/add-wallet", item)

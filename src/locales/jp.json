@@ -625,7 +625,7 @@
     "wallet": {
         "title": "ウォレット",
         "solanaWallet": "ソラナウォレット",
-        "ethWallet": "ETHウォレット",
+        "ethWallet": "イーサリアムウォレット",
         "bnbWallet": "BNBウォレット",
         "getPrivateKey": "秘密鍵を取得",
         "addWallet": "ウォレットを追加",
@@ -635,27 +635,36 @@
             "type": "タイプ",
             "solanaAddress": "ソラナアドレス",
             "ethBnbAddress": "ETH/BNBアドレス",
-            "keyWallet": "キー/ウォレット.a...",
-            "actions": "アクション"
+            "keyWallet": "ウォレットキー",
+            "actions": "操作"
         },
         "dialog": {
-            "addNewWallet": "新規ウォレットを追加",
+            "addNewWallet": "新しいウォレットを追加",
             "walletName": "ウォレット名",
             "enterWalletName": "ウォレット名を入力",
+            "solanaPrivateKey": "ソラナ秘密鍵",
+            "enterSolanaPrivateKey": "ソラナ秘密鍵を入力",
+            "privateKeySecurity": "秘密鍵は暗号化されて安全に保存されます",
+            "derivedSolanaAddress": "生成されたソラナアドレス",
+            "derivedAddressInfo": "秘密鍵から生成されたソラナアドレス",
             "cancel": "キャンセル",
             "addWallet": "ウォレットを追加",
             "importWallet": "ウォレットをインポート",
-            "solanaPrivateKey": "ソラナ秘密鍵",
-            "enterSolanaPrivateKey": "ソラナ秘密鍵を入力",
-            "privateKeySecurity": "秘密鍵は安全に保存され、共有されることはありません。",
-            "derivedSolanaAddress": "生成されたソラナアドレス",
-            "derivedAddressInfo": "これは秘密鍵から生成されたソラナアドレスです。",
             "privateKeys": "秘密鍵",
-            "hideKeys": "鍵を非表示",
+            "hideKeys": "鍵を隠す",
             "showKeys": "鍵を表示",
             "ethereumPrivateKey": "イーサリアム秘密鍵",
             "bnbPrivateKey": "BNB秘密鍵",
             "close": "閉じる"
+        },
+        "assets": {
+            "token": "トークン",
+            "balance": "残高",
+            "price": "価格",
+            "value": "価値",
+            "address": "アドレス",
+            "send": "送信",
+            "receive": "受信"
         }
     },
     "common": {

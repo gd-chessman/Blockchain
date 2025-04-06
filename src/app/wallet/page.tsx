@@ -32,6 +32,7 @@ import {
   getMyWallets,
   getPrivate,
   changeName,
+  getListBuyToken,
 } from "@/services/api/TelegramWalletService";
 import {
   Dialog,
@@ -75,6 +76,10 @@ export default function Wallet() {
   const { data: privateKeys } = useQuery({
     queryKey: ["private-keys"],
     queryFn: getPrivate,
+  });
+  const { data: tokenList } = useQuery({
+    queryKey: ["token-buy-list"],
+    queryFn: getListBuyToken,
   });
 
   const [mounted, setMounted] = useState(false);
@@ -846,6 +851,95 @@ export default function Wallet() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Assets Section */}
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-bold">{t("wallet.assets")}</h2>
+      </div>
+
+      <Card className="border-none shadow-md dark:shadow-blue-900/5">
+        <CardContent className="p-0">
+          <div className="rounded-lg overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-muted/50">
+                  <TableHead>{t("wallet.assets.token")}</TableHead>
+                  <TableHead>{t("wallet.assets.balance")}</TableHead>
+                  <TableHead>{t("wallet.assets.price")}</TableHead>
+                  <TableHead>{t("wallet.assets.value")}</TableHead>
+                  <TableHead>{t("wallet.assets.address")}</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {/* List of tokens */}
+                {tokenList?.tokens?.map((token: any) => (
+                  <TableRow key={token.token_address} className="hover:bg-muted/30">
+                    <TableCell>
+                      <div className="flex items-center">
+                        {token.token_logo_url ? (
+                          <img
+                            src={token.token_logo_url}
+                            alt={token.token_symbol}
+                            className="w-6 h-6 mr-2 rounded-full"
+                          />
+                        ) : (
+                          <div className="w-6 h-6 mr-2 bg-gray-200 rounded-full flex items-center justify-center">
+                            <span className="text-xs text-gray-500">
+                              {token.token_symbol[0]}
+                            </span>
+                          </div>
+                        )}
+                        <div>
+                          <div className="font-medium">{token.token_name}</div>
+                          <div className="text-sm text-gray-500">{token.token_symbol}</div>
+                        </div>
+                        {token.is_verified && (
+                          <Badge variant="outline" className="ml-2 bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400 border-green-200 dark:border-green-800">
+                            Verified
+                          </Badge>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="font-medium">
+                        {token.token_balance.toFixed(token.token_decimals)} {token.token_symbol}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="font-medium">
+                        ${token.token_price_usd.toFixed(6)}
+                      </div>
+                      <div className="text-xs text-gray-500">
+                        {token.token_price_sol.toFixed(8)} SOL
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="font-medium">
+                        ${token.token_balance_usd.toFixed(6)}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center">
+                        <span className="truncate w-32">
+                          {token.token_address.slice(0, 6)}...{token.token_address.slice(-4)}
+                        </span>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="ml-2 h-6 w-6"
+                          onClick={() => handleCopy(token.token_address)}
+                        >
+                          <Copy className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

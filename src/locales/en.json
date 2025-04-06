@@ -653,7 +653,7 @@
   "wallet": {
       "title": "Wallet",
       "solanaWallet": "Solana Wallet",
-      "ethWallet": "ETH Wallet",
+      "ethWallet": "Ethereum Wallet",
       "bnbWallet": "BNB Wallet",
       "getPrivateKey": "Get Private Key",
       "addWallet": "Add Wallet",
@@ -663,27 +663,36 @@
           "type": "Type",
           "solanaAddress": "Solana Address",
           "ethBnbAddress": "ETH/BNB Address",
-          "keyWallet": "key/wallet.a...",
+          "keyWallet": "Wallet Key",
           "actions": "Actions"
       },
       "dialog": {
           "addNewWallet": "Add New Wallet",
           "walletName": "Wallet Name",
           "enterWalletName": "Enter wallet name",
+          "solanaPrivateKey": "Solana Private Key",
+          "enterSolanaPrivateKey": "Enter Solana private key",
+          "privateKeySecurity": "Your private key will be encrypted and stored securely",
+          "derivedSolanaAddress": "Derived Solana Address",
+          "derivedAddressInfo": "Solana address derived from your private key",
           "cancel": "Cancel",
           "addWallet": "Add Wallet",
           "importWallet": "Import Wallet",
-          "solanaPrivateKey": "Solana Private Key",
-          "enterSolanaPrivateKey": "Enter your Solana private key",
-          "privateKeySecurity": "Your private key is stored securely and never shared.",
-          "derivedSolanaAddress": "Derived Solana Address",
-          "derivedAddressInfo": "This is the Solana address derived from your private key.",
           "privateKeys": "Private Keys",
           "hideKeys": "Hide Keys",
           "showKeys": "Show Keys",
           "ethereumPrivateKey": "Ethereum Private Key",
           "bnbPrivateKey": "BNB Private Key",
           "close": "Close"
+      },
+      "assets": {
+          "token": "Token",
+          "balance": "Balance",
+          "price": "Price",
+          "value": "Value",
+          "address": "Address",
+          "send": "Send",
+          "receive": "Receive"
       }
   },
   "common": {

@@ -613,7 +613,7 @@
   "wallet": {
       "title": "Ví",
       "solanaWallet": "Ví Solana",
-      "ethWallet": "Ví ETH",
+      "ethWallet": "Ví Ethereum",
       "bnbWallet": "Ví BNB",
       "getPrivateKey": "Lấy Khóa Riêng Tư",
       "addWallet": "Thêm Ví",
@@ -623,27 +623,36 @@
           "type": "Loại",
           "solanaAddress": "Địa Chỉ Solana",
           "ethBnbAddress": "Địa Chỉ ETH/BNB",
-          "keyWallet": "khóa/ví.a...",
+          "keyWallet": "Khóa Ví",
           "actions": "Thao Tác"
       },
       "dialog": {
           "addNewWallet": "Thêm Ví Mới",
           "walletName": "Tên Ví",
           "enterWalletName": "Nhập tên ví",
+          "solanaPrivateKey": "Khóa Riêng Tư Solana",
+          "enterSolanaPrivateKey": "Nhập khóa riêng tư Solana",
+          "privateKeySecurity": "Khóa riêng tư của bạn sẽ được mã hóa và lưu trữ an toàn",
+          "derivedSolanaAddress": "Địa Chỉ Solana Được Tạo",
+          "derivedAddressInfo": "Địa chỉ Solana được tạo từ khóa riêng tư của bạn",
           "cancel": "Hủy",
           "addWallet": "Thêm Ví",
           "importWallet": "Nhập Ví",
-          "solanaPrivateKey": "Khóa Riêng Tư Solana",
-          "enterSolanaPrivateKey": "Nhập khóa riêng tư Solana của bạn",
-          "privateKeySecurity": "Khóa riêng tư của bạn được lưu trữ an toàn và không bao giờ được chia sẻ.",
-          "derivedSolanaAddress": "Địa Chỉ Solana Được Tạo",
-          "derivedAddressInfo": "Đây là địa chỉ Solana được tạo từ khóa riêng tư của bạn.",
           "privateKeys": "Khóa Riêng Tư",
           "hideKeys": "Ẩn Khóa",
           "showKeys": "Hiện Khóa",
           "ethereumPrivateKey": "Khóa Riêng Tư Ethereum",
           "bnbPrivateKey": "Khóa Riêng Tư BNB",
           "close": "Đóng"
+      },
+      "assets": {
+          "token": "Token",
+          "balance": "Số Dư",
+          "price": "Giá",
+          "value": "Giá Trị",
+          "address": "Địa Chỉ",
+          "send": "Gửi",
+          "receive": "Nhận"
       }
   },
   "createCoin": {
