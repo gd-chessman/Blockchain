@@ -391,6 +391,25 @@ function TradingContent() {
           refetchWalletInfor(), // Cập nhật số dư SOL ở header
         ]);
 
+        // Refetch balances for connected members
+        const newBalances: Record<string, { sol_balance: number; solana_balance_usd: number }> = {};
+        for (const connect of connects) {
+          if (connect.status === "connect") {
+            try {
+              const balance = await getWalletBalanceByAddress(connect.member_address);
+              if (balance) {
+                newBalances[connect.member_address] = {
+                  sol_balance: balance.sol_balance,
+                  solana_balance_usd: balance.solana_balance_usd
+                };
+              }
+            } catch (error) {
+              console.error(`Error fetching balance for ${connect.member_address}:`, error);
+            }
+          }
+        }
+        setMemberBalances(newBalances);
+
         // Force update UI with new data
         if (tokenAmountResult.data?.data) {
           queryClient.setQueryData(
