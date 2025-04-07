@@ -41,6 +41,19 @@ const generateMockData = () => {
   return data;
 };
 
+// Function to get locale from HTML lang attribute
+const getLocaleFromHtmlLang = () => {
+  const htmlLang = document.documentElement.lang;
+  // Map common language codes to TradingView locales
+  const localeMap: Record<string, string> = {
+    'vi': 'vi_VN',
+    'en': 'en',
+    'kr': 'ko_KR',
+    'jp': 'ja_JP'
+  };
+  return localeMap[htmlLang] || 'en';
+};
+
 export default function TrandingViewChartPage() {
   const [symbol, setSymbol] = useState<string>('BINANCE:BTCUSDT');
   const [interval, setInterval] = useState<string>('D');
@@ -66,7 +79,7 @@ export default function TrandingViewChartPage() {
           timezone: 'Asia/Ho_Chi_Minh',
           theme: theme === 'dark' ? 'dark' : 'light',
           style: '1',
-          locale: 'vi_VN',
+          locale: getLocaleFromHtmlLang(),
           toolbar_bg: theme === 'dark' ? '#2a2e39' : '#f1f3f6',
           enable_publishing: false,
           hide_side_toolbar: false,
