@@ -93,6 +93,12 @@ export default function TrandingViewChartPage() {
           show_symbol_logo: false,
           show_interval_tabs: true,
           container_id: 'tradingview_chart',
+          disabled_features: [
+            'header_indicators',
+            'header_indicators_big_button',
+            'show_indicators_on_all_charts',
+            'header_indicators_as_list'
+          ],
           datafeed: {
             onReady: (callback: any) => {
               callback({
