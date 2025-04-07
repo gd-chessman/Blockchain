@@ -14,9 +14,6 @@ import { useEffect, useState, useRef, Suspense } from "react";
 import { useLang } from "@/lang";
 import { Copy } from "lucide-react";
 import { toast } from "react-toastify";
-import TradingChart, {
-  generateChartData,
-} from "@/components/chart/trading-chart";
 import usePercent from "@/hooks/usePercent";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getTokenInforByAddress, getTokenPrice } from "@/services/api/SolonaTokenService";
@@ -60,7 +57,6 @@ interface Connect {
   }>;
 }
 
-const chartData = generateChartData();
 
 function TradingContent() {
   const { t } = useLang();
