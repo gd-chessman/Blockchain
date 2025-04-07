@@ -48,8 +48,10 @@ import { TelegramWalletService } from "@/services/api";
 import { useAuth } from "@/hooks/useAuth";
 import { ToastNotification } from "@/components/ui/toast";
 import LogWarring from "@/components/ui/log-warring";
+import { useRouter } from "next/navigation";
 
 export default function Wallet() {
+  const router = useRouter();
   const { isAuthenticated } = useAuth();
   const { t } = useLang();
   const { payloadToken, updateToken } = useAuth();
@@ -535,7 +537,10 @@ export default function Wallet() {
                             variant="ghost"
                             size="icon"
                             className="ml-2 h-6 w-6"
-                            onClick={() => handleCopy(wallet.solana_address)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleCopy(wallet.solana_address);
+                            }}
                           >
                             <Copy className="h-3 w-3" />
                           </Button>
@@ -548,7 +553,10 @@ export default function Wallet() {
                             variant="ghost"
                             size="icon"
                             className="ml-2 h-6 w-6"
-                            onClick={() => handleCopy(wallet.eth_address)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleCopy(wallet.eth_address);
+                            }}
                           >
                             <Copy className="h-3 w-3" />
                           </Button>
@@ -693,7 +701,10 @@ export default function Wallet() {
                     variant="ghost"
                     size="icon"
                     className="h-full"
-                    onClick={() => handleCopy(importPrivateKey)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCopy(importPrivateKey);
+                    }}
                     disabled={!importPrivateKey}
                   >
                     <Copy className="h-4 w-4" />
@@ -731,7 +742,10 @@ export default function Wallet() {
                       variant="ghost"
                       size="icon"
                       className="absolute right-0 top-0 h-full"
-                      onClick={() => handleCopy(derivedSolanaAddress)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCopy(derivedSolanaAddress);
+                      }}
                     >
                       <Copy className="h-4 w-4" />
                     </Button>
@@ -804,7 +818,10 @@ export default function Wallet() {
                   variant="ghost"
                   size="icon"
                   className="absolute right-0 top-0 h-full"
-                  onClick={() => handleCopy(privateKeys?.sol_private_key)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCopy(privateKeys?.sol_private_key);
+                  }}
                 >
                   <Copy className="h-4 w-4" />
                 </Button>
@@ -828,7 +845,10 @@ export default function Wallet() {
                   variant="ghost"
                   size="icon"
                   className="absolute right-0 top-0 h-full"
-                  onClick={() => handleCopy(privateKeys?.eth_private_key)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCopy(privateKeys?.eth_private_key);
+                  }}
                 >
                   <Copy className="h-4 w-4" />
                 </Button>
@@ -852,7 +872,10 @@ export default function Wallet() {
                   variant="ghost"
                   size="icon"
                   className="absolute right-0 top-0 h-full"
-                  onClick={() => handleCopy(privateKeys?.bnb_private_key)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCopy(privateKeys?.bnb_private_key);
+                  }}
                 >
                   <Copy className="h-4 w-4" />
                 </Button>
@@ -901,7 +924,11 @@ export default function Wallet() {
                   <TableBody>
                     {/* List of tokens */}
                     {tokenList?.tokens?.map((token: any) => (
-                      <TableRow key={token.token_address} className="hover:bg-muted/30">
+                      <TableRow 
+                        key={token.token_address} 
+                        className="hover:bg-muted/30 cursor-pointer"
+                        onClick={() => router.push(`/trading/token?address=${token.token_address}`)}
+                      >
                         <TableCell className="w-[25%]">
                           <div className="flex items-center">
                             {token.token_logo_url ? (
@@ -955,7 +982,10 @@ export default function Wallet() {
                               variant="ghost"
                               size="icon"
                               className="ml-2 h-6 w-6"
-                              onClick={() => handleCopy(token.token_address)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleCopy(token.token_address);
+                              }}
                             >
                               <Copy className="h-3 w-3" />
                             </Button>
