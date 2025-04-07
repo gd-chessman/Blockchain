@@ -679,7 +679,7 @@ function TradingContent() {
             <CardContent>
               <div className="grid grid-cols-1 gap-4">
                 <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50">
-                  <div className="max-h-[64vh] overflow-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent">
+                  <div className="max-h-[calc(100vh-24rem)] overflow-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent">
                     <div className="space-y-4">
                       {displayTokens?.map((token, index) => (
                         <Link
