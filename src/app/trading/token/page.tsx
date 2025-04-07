@@ -61,7 +61,7 @@ interface Connect {
 function TradingContent() {
   const { t } = useLang();
   const { isAuthenticated } = useAuth();
-  const { tokenMessages } = useWsSubscribeTokens();
+  const { tokenMessages } = useWsSubscribeTokens({limit: 30});
   const queryClient = useQueryClient();
   const [tokens, setTokens] = useState<
     {
@@ -574,6 +574,17 @@ function TradingContent() {
     fetchBalances();
   }, [connects]);
 
+  const historyTransactionsRef = useRef<HTMLDivElement>(null);
+  const [historyTransactionsHeight, setHistoryTransactionsHeight] = useState<number>(0);
+
+  useEffect(() => {
+    if (historyTransactionsRef.current) {
+      const height = historyTransactionsRef.current.offsetHeight;
+      setHistoryTransactionsHeight(height);
+      console.log('History Transactions height:', height, 'px');
+    }
+  }, [orders, pendingOrders]);
+
   if (!isMounted) {
     return (
       <div className="flex flex-col items-center justify-center h-[80vh]">
@@ -675,7 +686,7 @@ function TradingContent() {
             <CardContent>
               <div className="grid grid-cols-1 gap-4">
                 <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50">
-                  <div className="max-h-[calc(100vh-24rem)] overflow-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent">
+                  <div className=" overflow-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent" style={{maxHeight: historyTransactionsHeight + 734}}>
                     <div className="space-y-4">
                       {displayTokens?.map((token, index) => (
                         <Link
@@ -1144,7 +1155,7 @@ function TradingContent() {
               <CardTitle>{t("trading.historyTransactions")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="overflow-x-auto">
+              <div ref={historyTransactionsRef} className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
                     <tr className="text-sm text-muted-foreground border-b">
