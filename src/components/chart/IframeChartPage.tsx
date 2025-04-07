@@ -5,19 +5,19 @@ interface IframeChartPageProps {
 }
 
 export default function IframeChartPage({ token }: IframeChartPageProps) {
-  const [isLightTheme, setIsLightTheme] = useState(() => {
-    // Check theme immediately on component mount
-    return document.documentElement.classList.contains('light')
-  })
+  const [theme, setTheme] = useState('dark')
 
   useEffect(() => {
     const htmlElement = document.documentElement
-    
+    const isLightTheme = htmlElement.classList.contains('light')
+    setTheme(isLightTheme ? 'light' : 'dark')
+
     // Create a MutationObserver to watch for theme changes
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-          setIsLightTheme(htmlElement.classList.contains('light'))
+          const isLightTheme = htmlElement.classList.contains('light')
+          setTheme(isLightTheme ? 'light' : 'dark')
         }
       })
     })
@@ -39,33 +39,17 @@ export default function IframeChartPage({ token }: IframeChartPageProps) {
       height: '480px',
       overflow: 'hidden'
     }}>
-      <div style={{ display: isLightTheme ? 'none' : 'block' }}>
-        <iframe
-          src={`https://www.gmgn.cc/kline/sol/${token}?theme=light&interval=5`}
-          style={{ 
-            width: '100%', 
-            height: '520px',
-            border: 'none',
-            position: 'absolute',
-            top: 0,
-            left: 0
-          }}
-        />
-      </div>
-
-      <div style={{ display: isLightTheme ? 'block' : 'none' }}>
-        <iframe
-          src={`https://www.gmgn.cc/kline/sol/${token}?interval=5`}
-          style={{ 
-            width: '100%', 
-            height: '520px',
-            border: 'none',
-            position: 'absolute',
-            top: 0,
-            left: 0
-          }}
-        />
-      </div>
+      <iframe
+        src={`https://www.gmgn.cc/kline/sol/${token}?theme=${theme}&interval=5`}
+        style={{ 
+          width: '100%', 
+          height: '520px', // Slightly larger to ensure no gap
+          border: 'none',
+          position: 'absolute',
+          top: 0,
+          left: 0
+        }}
+      />
     </div>
   )
 }
