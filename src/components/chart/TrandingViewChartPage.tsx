@@ -55,7 +55,7 @@ const getLocaleFromHtmlLang = () => {
 };
 
 export default function TrandingViewChartPage() {
-  const [symbol, setSymbol] = useState<string>('KCM');
+  const [symbol, setSymbol] = useState<string>('BINANCE:BTCUSDT');
   const [interval, setInterval] = useState<string>('D');
   const { theme, mounted } = useThemeToggle();
   const containerRef = useRef<HTMLDivElement | null>(null);
