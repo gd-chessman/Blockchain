@@ -365,7 +365,7 @@ export default function MasterTrade() {
                                   <Button
                                     size="sm"
                                     variant="outline"
-                                    className="bg-white hover:bg-blue-50 text-blue-500 border-blue-500"
+                                    className="bg-white text-blue-500 border-blue-500"
                                     onClick={() => handleDetails(trader)}
                                   >
                                     {t("masterTrade.actions.details")}
