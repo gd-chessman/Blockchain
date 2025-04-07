@@ -73,7 +73,12 @@ export default function TrandingViewChartPage() {
           hide_top_toolbar: false,
           hide_legend: true,
           hide_volume: true,
-          allow_symbol_change: true,
+          hide_symbol_logo: true,
+          allow_symbol_change: false,
+          show_search: false,
+          show_symbol_search: false,
+          show_symbol_logo: false,
+          show_interval_tabs: true,
           container_id: 'tradingview_chart',
           datafeed: {
             onReady: (callback: any) => {
@@ -199,6 +204,9 @@ export default function TrandingViewChartPage() {
           width: 100% !important;
         }
         .group-MBOVGQRI {
+          display: none !important;
+        }
+        .search-2 {
           display: none !important;
         }
 
