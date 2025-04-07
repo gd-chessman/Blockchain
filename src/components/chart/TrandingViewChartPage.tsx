@@ -69,7 +69,7 @@ export default function TrandingViewChartPage() {
           locale: 'vi_VN',
           toolbar_bg: theme === 'dark' ? '#2a2e39' : '#f1f3f6',
           enable_publishing: false,
-          hide_side_toolbar: true,
+          hide_side_toolbar: false,
           hide_top_toolbar: true,
           hide_legend: true,
           hide_volume: true,
