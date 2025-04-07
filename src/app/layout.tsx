@@ -1,6 +1,5 @@
 "use client";
 import type React from "react";
-import { Inter } from "next/font/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "@/styles/globals.scss";
 import Navigation from "@/components/navigation";
@@ -9,8 +8,6 @@ import { LangProvider } from "@/lang/LangProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
@@ -32,8 +29,13 @@ export default function RootLayout({
       <head>
         <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
         <link rel="icon" href="/logo.png" type="image/png" />
+        <style jsx global>{`
+          body {
+            font-family: Arial, sans-serif;
+          }
+        `}</style>
       </head>
-      <body className={`${inter.className} antialiased`}>
+      <body className="antialiased">
         <QueryClientProvider client={queryClient}>
           <LangProvider>
             <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
