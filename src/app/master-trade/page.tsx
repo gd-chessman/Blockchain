@@ -144,7 +144,7 @@ export default function MasterTrade() {
   };
 
   const handleDetails = (trader: any) => {
-    // Implementation of handleDetails function
+    router.push(`/master-trade/copy-trade?address=${trader.solana_address}`);
   };
 
   if (!isAuthenticated) return <LogWarring />;

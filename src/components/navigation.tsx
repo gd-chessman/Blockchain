@@ -117,11 +117,11 @@ export default function Navigation() {
       href: "/master-trade",
       icon: <Users className="mr-2 h-5 w-5" />,
     },
-    {
-      name: "copytrade",
-      href: "/copy-trade",
-      icon: <Copy className="mr-2 h-5 w-5" />,
-    },
+    // {
+    //   name: "copytrade",
+    //   href: "/copy-trade",
+    //   icon: <Copy className="mr-2 h-5 w-5" />,
+    // },
     {
       name: "wallet",
       href: "/wallet",
