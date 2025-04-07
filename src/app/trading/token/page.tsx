@@ -744,7 +744,7 @@ function TradingContent() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 gap-4">
-                <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50 max-h-[26rem] overflow-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent">
+                <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50 max-h-[28rem] overflow-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent">
                   <div className="space-y-4">
                     {memeCoins.map((token: any, index: any) => (
                       <Link

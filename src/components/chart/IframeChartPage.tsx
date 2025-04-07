@@ -36,14 +36,14 @@ export default function IframeChartPage({ token }: IframeChartPageProps) {
     <div style={{ 
       position: 'relative',
       width: '100%',
-      height: '480px',
+      height: '470px',
       overflow: 'hidden'
     }}>
       <iframe
         src={`https://www.gmgn.cc/kline/sol/${token}?theme=${theme}&interval=5`}
         style={{ 
           width: '100%', 
-          height: '520px', // Slightly larger to ensure no gap
+          height: '500px', // Slightly larger to ensure no gap
           border: 'none',
           position: 'absolute',
           top: 0,
