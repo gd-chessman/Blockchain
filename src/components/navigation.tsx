@@ -75,6 +75,7 @@ export default function Navigation() {
       console.error('Error changing wallet:', error);
     }
   };
+  console.log(walletInfor)
 
   useEffect(() => {
     setMounted(true);
@@ -82,6 +83,12 @@ export default function Navigation() {
       setMounted(false);
     };
   }, []);
+
+  useEffect(() => {
+    if(!walletInfor){
+      logout();
+    }
+  }, [walletInfor]);
 
   const navItems = [
     {
