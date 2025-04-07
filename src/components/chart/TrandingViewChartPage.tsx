@@ -4,7 +4,7 @@ import TradingViewChart from '@/components/chart/TradingViewChart';
 import { useState, ChangeEvent } from 'react';
 
 
-export default function Home() {
+export default function TrandingViewChartPage() {
   const [symbol, setSymbol] = useState<string>('BINANCE:BTCUSDT');
   const [interval, setInterval] = useState<string>('D');
   const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
@@ -27,9 +27,9 @@ export default function Home() {
 
       <div className="controls">
 
-        <button onClick={toggleTheme} className="theme-toggle">
+        {/* <button onClick={toggleTheme} className="theme-toggle">
           Toggle Theme
-        </button>
+        </button> */}
       </div>
 
       <div className="chart-container">
@@ -44,8 +44,9 @@ export default function Home() {
         .container {
           display: flex;
           flex-direction: column;
-          height: 100vh;
+          height: 26rem;
           width: 100%;
+          padding: 0;
         }
         .header {
           background: ${isDarkTheme ? '#2a2e39' : '#2962ff'};
@@ -61,13 +62,7 @@ export default function Home() {
           display: flex;
           width: 100%;
         }
-        .controls {
-          padding: 1rem;
-          background: ${isDarkTheme ? '#1e222d' : '#f5f5f5'};
-          display: flex;
-          gap: 1rem;
-          width: 100%;
-        }
+
         select,
         button {
           padding: 0.5rem;

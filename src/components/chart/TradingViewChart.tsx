@@ -158,7 +158,7 @@ export default function TradingViewChart({
     <>
       <style jsx>{`
         .tradingview-widget-container {
-          height: 70% !important;
+          height: 100% !important;
           width: 100% !important;
         }
         #tradingview_chart {

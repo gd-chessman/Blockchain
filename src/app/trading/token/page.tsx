@@ -36,6 +36,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { ToastNotification } from "@/components/ui/toast";
 import { getPriceSolona } from "@/services/api/SolonaTokenService";
 import { getWalletBalanceByAddress } from "@/services/api/TelegramWalletService";
+import TrandingViewChartPage from "@/components/chart/TrandingViewChartPage";
 
 interface Order {
   created_at: string;
@@ -727,11 +728,7 @@ function TradingContent() {
                 </div>
               </CardHeader>
               <CardContent>
-                <TradingChart
-                  data={chartData}
-                  symbol="BTC/USDT"
-                  onTimeframeChange={handleTimeframeChange}
-                />
+                <TrandingViewChartPage />
               </CardContent>
             </Card>
             <Card className="border-none shadow-md dark:shadow-blue-900/5 mb-6">
