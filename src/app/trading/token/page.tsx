@@ -656,7 +656,7 @@ function TradingContent() {
             </CardContent>
           </Card>
 
-          <Card className="border-none shadow-md dark:shadow-blue-900/5">
+          <Card className="border-none shadow-md dark:shadow-blue-900/5 lg:flex-1">
             <CardHeader>
               <CardTitle>{t("trading.otherCoins")}</CardTitle>
             </CardHeader>
