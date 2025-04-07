@@ -259,6 +259,7 @@ export default function CreateCoin() {
                       }))}
                       className="react-select-container"
                       classNamePrefix="react-select"
+                      placeholder={t('createCoin.form.categories')}
                       onChange={(newValue) => {
                         const selectedIds = newValue.map(item => item.value);
                         const event = {
