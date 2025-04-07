@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useThemeToggle } from '@/hooks/use-theme-toggle';
 
 interface TradingViewChartProps {
   symbol?: string;
@@ -43,16 +44,14 @@ const generateMockData = () => {
 export default function TrandingViewChartPage() {
   const [symbol, setSymbol] = useState<string>('BINANCE:BTCUSDT');
   const [interval, setInterval] = useState<string>('D');
-  const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
+  const { theme, mounted } = useThemeToggle();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [widget, setWidget] = useState<any>(null);
   const mockData = generateMockData();
 
-  const toggleTheme = () => {
-    setIsDarkTheme((prev) => !prev);
-  };
-
   useEffect(() => {
+    if (!mounted) return;
+
     const script = document.createElement('script');
     script.src = 'https://s3.tradingview.com/tv.js';
     script.async = true;
@@ -65,10 +64,10 @@ export default function TrandingViewChartPage() {
           symbol,
           interval,
           timezone: 'Asia/Ho_Chi_Minh',
-          theme: isDarkTheme ? 'dark' : 'light',
+          theme: theme === 'dark' ? 'dark' : 'light',
           style: '1',
           locale: 'vi_VN',
-          toolbar_bg: isDarkTheme ? '#2a2e39' : '#f1f3f6',
+          toolbar_bg: theme === 'dark' ? '#2a2e39' : '#f1f3f6',
           enable_publishing: false,
           hide_side_toolbar: true,
           hide_top_toolbar: true,
@@ -109,10 +108,9 @@ export default function TrandingViewChartPage() {
               onHistoryCallback(mockData, { noData: false });
             },
             subscribeBars: (symbolInfo: any, resolution: string, onRealtimeCallback: (bar: any) => void, subscriberUID: string, onResetCacheNeededCallback: () => void) => {
-              // Thêm dữ liệu realtime cố định mỗi giây
               const intervalId = window.setInterval(() => {
                 const lastData = mockData[mockData.length - 1];
-                const timeChange = Math.sin(mockData.length * 0.1) * 200; // Dao động theo sin
+                const timeChange = Math.sin(mockData.length * 0.1) * 200;
                 const newData = {
                   time: lastData.time + (24 * 60 * 60 * 1000),
                   open: lastData.close,
@@ -154,14 +152,14 @@ export default function TrandingViewChartPage() {
         document.head.removeChild(script);
       }
     };
-  }, [symbol, interval, isDarkTheme]);
+  }, [symbol, interval, theme, mounted]);
+
+  if (!mounted) return null;
 
   return (
     <div className="container">
       <div className="controls">
-        {/* <button onClick={toggleTheme} className="theme-toggle">
-          Toggle Theme
-        </button> */}
+        {/* Controls can be added here if needed */}
       </div>
 
       <div className="chart-container">
@@ -179,7 +177,7 @@ export default function TrandingViewChartPage() {
           padding: 0;
         }
         .header {
-          background: ${isDarkTheme ? '#2a2e39' : '#2962ff'};
+          background: ${theme === 'dark' ? '#2a2e39' : '#2962ff'};
           color: white;
           padding: 1rem;
           display: flex;
