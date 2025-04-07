@@ -33,7 +33,6 @@ export const getPrivate = async ()=>{
 export const getWalletBalanceByAddress = async (address: any)=>{
     try {   
         const temp = await axiosClient.get(`/telegram-wallets/get-wallet-balance?wallet_address=${address}`)
-        console.log(temp)
         return temp.data.data;
     } catch (error) {
         console.log(error)

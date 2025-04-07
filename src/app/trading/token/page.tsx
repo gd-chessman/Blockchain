@@ -581,7 +581,6 @@ function TradingContent() {
     if (historyTransactionsRef.current) {
       const height = historyTransactionsRef.current.offsetHeight;
       setHistoryTransactionsHeight(height);
-      console.log('History Transactions height:', height, 'px');
     }
   }, [orders, pendingOrders]);
 

@@ -75,7 +75,6 @@ export default function Navigation() {
       console.error('Error changing wallet:', error);
     }
   };
-  console.log(walletInfor)
 
   useEffect(() => {
     setMounted(true);
