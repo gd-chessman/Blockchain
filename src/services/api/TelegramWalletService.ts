@@ -16,7 +16,7 @@ export const getInforWallet = async ()=>{
         return temp.data.data;
     } catch (error) {
         console.log(error)
-        return {};
+        return {status: 401};
     }
 }
 

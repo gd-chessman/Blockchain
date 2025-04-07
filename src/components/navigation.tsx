@@ -85,10 +85,11 @@ export default function Navigation() {
   }, []);
 
   useEffect(() => {
-    if(!walletInfor){
+    if(walletInfor?.status === 401){
       logout();
     }
   }, [walletInfor]);
+
 
   const navItems = [
     {
