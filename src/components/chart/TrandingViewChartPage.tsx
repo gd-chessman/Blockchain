@@ -70,7 +70,7 @@ export default function TrandingViewChartPage() {
           toolbar_bg: theme === 'dark' ? '#2a2e39' : '#f1f3f6',
           enable_publishing: false,
           hide_side_toolbar: false,
-          hide_top_toolbar: true,
+          hide_top_toolbar: false,
           hide_legend: true,
           hide_volume: true,
           allow_symbol_change: true,
@@ -197,6 +197,9 @@ export default function TrandingViewChartPage() {
         #tradingview_chart {
           height: 100% !important;
           width: 100% !important;
+        }
+        .group-MBOVGQRI {
+          display: none !important;
         }
 
         select,
