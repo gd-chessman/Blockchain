@@ -169,6 +169,7 @@ export default function TrandingViewChartPage() {
 
       <div className="chart-container">
         <div className="tradingview-widget-container">
+          <div className="kcm-label">KCM</div>
           <div id="tradingview_chart" ref={containerRef} />
         </div>
       </div>
@@ -180,6 +181,7 @@ export default function TrandingViewChartPage() {
           height: 26rem;
           width: 100%;
           padding: 0;
+          position: relative;
         }
         .header {
           background: ${theme === 'dark' ? '#2a2e39' : '#2962ff'};
@@ -194,10 +196,24 @@ export default function TrandingViewChartPage() {
           flex: 1;
           display: flex;
           width: 100%;
+          position: relative;
         }
         .tradingview-widget-container {
           height: 100% !important;
           width: 100% !important;
+          position: relative;
+        }
+        .kcm-label {
+          position: absolute;
+          top: 44px;
+          left: 58px;
+          z-index: 1000;
+          font-size: 16px;
+          font-weight: bold;
+          color: ${theme === 'dark' ? '#ffffff' : '#000000'};
+          background: ${theme === 'dark' ? 'rgba(42, 46, 57, 0.8)' : 'rgba(255, 255, 255, 0.8)'};
+          padding: 4px 8px;
+          border-radius: 4px;
         }
         #tradingview_chart {
           height: 100% !important;
