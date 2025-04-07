@@ -14,7 +14,6 @@ import { TelegramWalletService } from "@/services/api"
 import { getMyTokens, getTokenCategorys } from "@/services/api/TelegramWalletService"
 import { useQuery } from "@tanstack/react-query"
 import { useLang } from "@/lang"
-import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
 import { truncateString } from "@/utils/format"
 import { ToastNotification } from "@/components/ui/toast"
@@ -98,6 +97,9 @@ export default function CreateCoin() {
       data.image = fileImage;
       console.log(data)
       const res = await TelegramWalletService.createToken(data);
+      reset();
+      setFileImage(null);
+      setLogoPreview(null);
       setToastMessage(t('createCoin.success'));
       setShowToast(true);
       refetch();

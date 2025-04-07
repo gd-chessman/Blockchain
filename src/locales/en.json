@@ -758,6 +758,8 @@
       "title": "Latest Tokens",
       "noTokens": "No tokens available"
     },
-    "pleaseConnectWallet": "Please connect your wallet to perform this action"
+    "pleaseConnectWallet": "Please connect your wallet to perform this action",
+    "success": "Coin created successfully",
+    "error": "Failed to create coin"
   }
 }
