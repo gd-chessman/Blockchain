@@ -182,13 +182,10 @@ export default function TrandingViewChartPage() {
 
   return (
     <div className="container">
-      <div className="controls">
-        {/* Controls can be added here if needed */}
-      </div>
 
       <div className="chart-container">
         <div className="tradingview-widget-container z-0">
-          <div className="kcm-label">KCM</div>
+          <div className="kcm-label !font-normal !text-sm">KCM</div>
           <div id="tradingview_chart" ref={containerRef} />
         </div>
       </div>
