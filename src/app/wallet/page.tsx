@@ -77,7 +77,7 @@ export default function Wallet() {
     queryKey: ["private-keys"],
     queryFn: getPrivate,
   });
-  const { data: tokenList } = useQuery({
+  const { data: tokenList, refetch: refetchTokenList } = useQuery({
     queryKey: ["token-buy-list"],
     queryFn: getListBuyToken,
   });
@@ -191,6 +191,7 @@ export default function Wallet() {
     const res = await TelegramWalletService.useWallet({ wallet_id: id });
     updateToken(res.token);
     refecthWalletInfor();
+    refetchTokenList();
   };
 
   const handleUpdateWalletName = async () => {
