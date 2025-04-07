@@ -9,13 +9,6 @@ export default function TrandingViewChartPage() {
   const [interval, setInterval] = useState<string>('D');
   const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
 
-  const handleSymbolChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSymbol(e.target.value);
-  };
-
-  const handleIntervalChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setInterval(e.target.value);
-  };
 
   const toggleTheme = () => {
     setIsDarkTheme((prev) => !prev);
