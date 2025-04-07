@@ -44,7 +44,7 @@ export default function IframeChartPage({ token }: IframeChartPageProps) {
       transition: 'opacity 0.3s ease-in-out'
     }}>
       <iframe
-        src={`https://www.gmgn.cc/kline/sol/${token}?theme=${theme}&interval=5`}
+        src={`https://www.gmgn.cc/kline/sol/${token}?theme=${theme}&interval=1D`}
         style={{ 
           width: '100%', 
           height: '500px',
