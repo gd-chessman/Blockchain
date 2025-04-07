@@ -733,7 +733,8 @@
       "twitterPlaceholder": "Enter Twitter username",
       "createButton": "Create Coin",
       "logoDes": "Token avatar",
-      "categories": "Categories"
+      "categories": "Categories",
+      "creating": "Creating coin..."
     },
     "preview": {
       "title": "Preview",

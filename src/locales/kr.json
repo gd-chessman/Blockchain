@@ -671,7 +671,8 @@
             "twitterPlaceholder": "트위터 링크 입력",
             "createButton": "코인 만들기",
             "logoDes": "토큰 아바타",
-            "categories": "카테고리"
+            "categories": "카테고리",
+            "creating": "코인 생성 중..."
         },
         "preview": {
             "title": "미리보기",

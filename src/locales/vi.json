@@ -689,7 +689,8 @@
       "hideOptions": "Ẩn tùy chọn",
       "createButton": "Tạo Coin",
       "logoDes": "Ảnh đại diện Token",
-      "categories": "Danh mục"
+      "categories": "Danh mục",
+      "creating": "Đang tạo coin..."
     },
     "preview": {
       "title": "Xem Trước",

@@ -707,7 +707,8 @@
             "twitterPlaceholder": "ツイッターリンクを入力",
             "createButton": "コイン作成",
             "logoDes": "トークンのアバター",
-            "categories": "カテゴリー"
+            "categories": "カテゴリー",
+            "creating": "コインを作成中..."
         },
         "preview": {
             "title": "プレビュー",
