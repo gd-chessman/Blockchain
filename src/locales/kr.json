@@ -117,7 +117,18 @@
         "tradeWithTheGroup": "그룹과 함께 거래하기",
         "selectGroups": "그룹 선택...",
         "noGroupsAvailable": "사용 가능한 그룹이 없습니다",
-        "myCoins": "내 코인"
+        "myCoins": "내 코인",
+        "attributes": "속성",
+        "value": "값",
+        "listConnect": "연결 목록",
+        "noConnections": "연결된 계정이 없습니다",
+        "historyTransactions": "거래 내역",
+        "time": "시간",
+        "status": "상태",
+        "searchCoinsPlaceholder": "코인 검색...",
+        "selectGroupsPlaceholder": "그룹을 선택하세요...",
+        "placeOrder": "주문하기",
+        "marketIsOpen": "시장이 열렸습니다"
     },
     "navigation": {
         "dashboard": "대시보드",
