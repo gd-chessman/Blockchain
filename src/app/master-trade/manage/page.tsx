@@ -846,7 +846,7 @@ function ConnectionsTable({
           </TableBody>
         </Table>
       </div>
-      {connections.length > 0 && (
+      {/* {connections.length > 0 && (
         <div className="flex items-center justify-end space-x-2 py-4">
           <Button variant="outline" size="sm" disabled={true}>
             {t("masterTrade.manage.connectionManagement.previous")}
@@ -855,7 +855,7 @@ function ConnectionsTable({
             {t("masterTrade.manage.connectionManagement.next")}
           </Button>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
