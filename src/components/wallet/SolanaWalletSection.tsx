@@ -155,7 +155,7 @@ export default function SolanaWalletSection({
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center">
-                        <span className="truncate w-64">
+                        <span>
                           {wallet.solana_address.slice(0, 6)}...
                           {wallet.solana_address.slice(-4)}
                         </span>
