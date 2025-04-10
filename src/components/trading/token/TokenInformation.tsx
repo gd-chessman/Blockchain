@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Button } from "@/ui/button";
 import { Copy } from "lucide-react";
 import { useLang } from "@/lang";
+import { truncateString } from "@/utils/format";
 
 interface TokenInformationProps {
   name: string;
@@ -54,8 +55,8 @@ export default function TokenInformation({
               <span className="text-muted-foreground">
                 {t("trading.address")}:
               </span>
-              <div className="flex items-center justify-between">
-                <span className="text-right truncate">{address}</span>
+              <div className="flex items-center justify-end">
+                <span className="text-right truncate">{truncateString(address, 10)}</span>
                 <button
                   onClick={onCopyAddress}
                   className="ml-2 p-1 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900"
