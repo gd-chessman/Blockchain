@@ -49,6 +49,7 @@ import { getWalletBalanceByAddress } from "@/services/api/TelegramWalletService"
 import TrandingViewChartPage from "@/components/chart/TrandingViewChartPage";
 import IframeChartPage from "@/components/chart/IframeChartPage";
 import TokenInformation from "@/components/trading/token/TokenInformation";
+import MyCoins from "@/components/trading/token/MyCoins";
 
 interface Order {
   created_at: string;
@@ -809,43 +810,7 @@ function TradingContent() {
                 <IframeChartPage token={address} />
               </CardContent>
             </Card>
-            <Card className="shadow-md dark:shadow-blue-900/5 border-2 border-primary mb-6">
-              <CardHeader>
-                <CardTitle>{t("trading.myCoins")}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 gap-4">
-                  <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50 max-h-[30rem] overflow-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent">
-                    <div className="space-y-4">
-                      {memeCoins.map((token: any, index: any) => (
-                        <Link
-                          key={index} // Assuming token has an 'id' field
-                          className={`flex text-sm gap-6 cursor-pointer ${
-                            index < tokens?.length - 1 ? "border-b-2 pb-2" : ""
-                          }`}
-                          href={`/trading/token?address=${token.address}`}
-                        >
-                          <img
-                            src={token.logo_url}
-                            alt=""
-                            className="size-10 rounded-full"
-                          />
-                          <div>
-                            <p>{token.name}</p>{" "}
-                            <p className="text-muted-foreground text-xs">
-                              {token.symbol}
-                            </p>{" "}
-                          </div>
-                          <small className="text-green-600 text-xl ml-auto block">
-                            {token.is_verified ? " ✓" : "x"}
-                          </small>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <MyCoins coins={memeCoins} className="mb-6" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card className="shadow-md dark:shadow-blue-900/5 border-2 border-primary lg:col-span-2">
