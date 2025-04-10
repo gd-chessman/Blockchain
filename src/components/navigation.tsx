@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/libs/utils";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/ui/button";
 import {
   LayoutDashboard,
   TrendingUp,
@@ -14,6 +14,7 @@ import {
   LogOut,
   Wallet2,
   CheckCircle,
+  ChevronDown,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -30,14 +31,14 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
+} from "@/ui/dialog";
+import { Badge } from "@/ui/badge";
 import dynamic from 'next/dynamic';
 
 const BalanceDisplay = dynamic(() => Promise.resolve(({ balance, usdBalance }: { balance: string, usdBalance: string }) => (
@@ -131,7 +132,7 @@ export default function Navigation() {
 
   return (
     <nav className="bg-gradient-to-r bg-primary text-white sticky top-0 z-50 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90 border-b">
-      <div className="container mx-auto flex items-center justify-between py-3 px-4">
+      <div className="container mx-auto flex items-center justify-between py-3 !px-0 md:!px-4">
         {/* Logo bên trái */}
         <div className="flex-shrink-0">
           <Logo />
@@ -139,13 +140,13 @@ export default function Navigation() {
 
         {/* Tabs ở giữa */}
         <div className="hidden md:flex items-center justify-center flex-1 px-4">
-          <div className="flex items-center justify-center gap-1">
+          <div className="flex items-center justify-center gap-1 xl:gap-4 2xl:gap-8">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center px-3 py-2 rounded-lg transition-all hover:bg-white/10 text-sm font-medium",
+                  "flex items-center px-3 py-2 rounded-lg transition-all hover:bg-white/10 text-sm font-semibold",
                   pathname?.startsWith(item.href)
                     ? "bg-white/20 shadow-sm"
                     : "bg-transparent"
@@ -159,9 +160,9 @@ export default function Navigation() {
         </div>
 
         {/* Các nút chức năng bên phải */}
-        <div className="flex items-center gap-2 md:gap-3">
+        <div className="flex items-center gap-1 md:gap-3">
           {isAuthenticated && mounted && walletInfor && (
-            <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold text-white dark:bg-[#1d8e50] dark:text-white border-blue-200">
+            <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-[0.6rem] md:text-xs font-bold text-white dark:text-white border-white">
               {walletInfor.solana_balance?.toFixed(5) || '0.00000'} SOL (${walletInfor.solana_balance_usd?.toFixed(2) || '0.00'})
             </div>
           )}
@@ -171,7 +172,7 @@ export default function Navigation() {
             <>
               {!isAuthenticated && (
                 <Button
-                  className="bg-green-500 hover:bg-green-600 text-white font-medium"
+                  className="bg-green-500 hover:bg-green-600 text-white font-semibold"
                   onClick={() =>
                     window.open(
                       "https://t.me/kcomeme_connect_wallet_bot?start",
@@ -185,8 +186,10 @@ export default function Navigation() {
               {isAuthenticated && walletInfor && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button className="bg-green-500 hover:bg-green-600 text-white font-medium w-36 block">
-                      {truncateString(walletInfor.solana_address, 14)}
+                    <Button className="p-2 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold">
+                      <Wallet2 className="sm:hidden h-4 w-4 mr-1" />
+                      <span className="hidden sm:inline">{truncateString(walletInfor.solana_address, 14)}</span>
+                      <ChevronDown size={16} className="ml-1" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-56">
@@ -234,7 +237,7 @@ export default function Navigation() {
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-2">
                     <Wallet2 className="h-4 w-4" />
-                    <span className="font-medium">{wallet.wallet_name}</span>
+                    <span className="font-semibold">{wallet.wallet_name}</span>
                     <Badge variant="outline" className="ml-2">
                       {t(`navigation.selectWallet.walletType.${wallet.wallet_type?.toLowerCase() || 'primary'}`)}
                     </Badge>
@@ -279,7 +282,7 @@ export default function Navigation() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center px-3 py-2 rounded-lg transition-all hover:bg-white/10 text-sm font-medium",
+                "flex items-center px-3 py-2 rounded-lg transition-all hover:bg-white/10 text-sm font-semibold",
                 pathname?.startsWith(item.href)
                   ? "bg-white/20 shadow-sm"
                   : "bg-transparent"

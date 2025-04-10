@@ -1,7 +1,7 @@
-import en from '../locales/en.json';
-import vi from '../locales/vi.json';
-import kr from '../locales/kr.json';
-import jp from '../locales/jp.json';
+import en from './locales/en.json';
+import vi from './locales/vi.json';
+import kr from './locales/kr.json';
+import jp from './locales/jp.json';
 import { useLang } from '@/lang/useLang';
 import { LangProvider } from '@/lang/LangProvider';
 

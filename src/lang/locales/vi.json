@@ -64,6 +64,7 @@
   },
   "trading": {
       "title": "Giao Dịch",
+      "trade": "Giao dịch",
       "list_token_title": "Danh Sách Token",
       "marketOverview": "Tổng Quan Thị Trường",
       "yourPortfolio": "Danh Mục Đầu Tư Của Bạn",
@@ -119,12 +120,13 @@
       "selectGroups": "Chọn nhóm...",
       "tokenInfo": {
           "name": "Tên",
-          "symbol": "Ký Hiệu",
-          "address": "Địa Chỉ",
+          "symbol": "Ký hiệu",
+          "address": "Địa chỉ",
           "price": "Giá",
-          "change24h": "Thay Đổi 24h",
-          "marketCap": "Vốn Hóa",
-          "volume24h": "Khối Lượng 24h"
+          "change24h": "Thay đổi 24h",
+          "marketCap": "Vốn hóa thị trường",
+          "volume24h": "Khối lượng 24h",
+          "decimals": "Số thập phân"
       },
       "percentButtons": {
           "percent25": "25%",

@@ -65,6 +65,7 @@
     },
     "trading": {
         "title": "取引",
+        "trade": "取引",
         "list_token_title": "トークン一覧",
         "marketOverview": "市場概要",
         "yourPortfolio": "ポートフォリオ",
@@ -122,7 +123,8 @@
             "price": "価格",
             "change24h": "24時間変動",
             "marketCap": "時価総額",
-            "volume24h": "24時間取引量"
+            "volume24h": "24時間取引量",
+            "decimals": "小数点"
         },
         "percentButtons": {
             "percent25": "25%",

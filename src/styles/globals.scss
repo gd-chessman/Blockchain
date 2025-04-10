@@ -10,7 +10,7 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: #17b75e;
+    --primary: #852fd5;
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -38,7 +38,7 @@
     --card-foreground: 210 40% 98%;
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: #03813c;
+    --primary: #852fd5;
     --primary-foreground: 222.2 47.4% 11.2%;
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
@@ -97,4 +97,78 @@
 /* Glass effect for cards */
 .glass-card {
   @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm;
+}
+
+@media (min-width: 1400px) {
+  .container {
+    /* max-width: 1400px; */
+    max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem;
+  }
+}
+
+
+
+/* Meme card styles */
+.meme-card {
+  @apply rounded-xl border-4 border-dashed overflow-hidden transition-all duration-300;
+}
+
+.meme-card-green {
+  @apply border-green-400 dark:border-green-600 bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/40 dark:to-green-800/40;
+}
+
+.meme-card-purple {
+  @apply border-purple-400 dark:border-purple-600 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/40 dark:to-purple-800/40;
+}
+
+.meme-card-yellow {
+  @apply border-yellow-400 dark:border-yellow-600 bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/40 dark:to-yellow-800/40;
+}
+
+.meme-card-pink {
+  @apply border-pink-400 dark:border-pink-600 bg-gradient-to-br from-pink-50 to-pink-100 dark:from-pink-900/40 dark:to-pink-800/40;
+}
+
+.meme-card-blue {
+  @apply border-blue-400 dark:border-blue-600 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/40 dark:to-blue-800/40;
+}
+
+.meme-button {
+  @apply font-bold rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 active:scale-95;
+}
+
+/* Meme animations */
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+.animate-wiggle {
+  animation: wiggle 1s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
 }

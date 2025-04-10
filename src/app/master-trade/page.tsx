@@ -2,24 +2,37 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
+import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
+import { Button } from "@/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
+import { Input } from "@/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/ui/table";
 import { Copy, Search } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@/ui/badge";
 import { useLang } from "@/lang";
 import { useQuery } from "@tanstack/react-query";
 import { getMasters } from "@/services/api/MasterTradingService";
-import { Dialog, DialogContent, DialogTitle, DialogFooter, DialogHeader, } from "@/components/ui/dialog";
-import { AlertDialogFooter, AlertDialogHeader, } from "@/components/ui/alert-dialog";
-import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogFooter,
+  DialogHeader,
+} from "@/ui/dialog";
+import { AlertDialogFooter, AlertDialogHeader } from "@/ui/alert-dialog";
+import { Label } from "@/ui/label";
 import { MasterTradingService } from "@/services/api";
 import { getInforWallet } from "@/services/api/TelegramWalletService";
 import { useAuth } from "@/hooks/useAuth";
-import LogWarring from "@/components/ui/log-warring";
-import { ToastNotification } from "@/components/ui/toast";
+import LogWarring from "@/ui/log-warring";
+import { ToastNotification } from "@/ui/toast";
 
 export default function MasterTrade() {
   const { t } = useLang();
@@ -45,10 +58,21 @@ export default function MasterTrade() {
   const [toastMessage, setToastMessage] = useState("");
 
   // Count traders by connection status for tab indicators
-  const notConnectedCount = masterTraders.filter((trader: any) => trader.connection_status === null || trader.connection_status === "block").length;
-  const connectedCount = masterTraders.filter((trader: any) => trader.connection_status === "connect" || trader.connection_status === "pause").length;
-  const disconnectedCount = masterTraders.filter((trader: any) => trader.connection_status === "disconnect").length;
-  const pendingCount = masterTraders.filter((trader: any) => trader.connection_status === "pending").length;
+  const notConnectedCount = masterTraders.filter(
+    (trader: any) =>
+      trader.connection_status === null || trader.connection_status === "block"
+  ).length;
+  const connectedCount = masterTraders.filter(
+    (trader: any) =>
+      trader.connection_status === "connect" ||
+      trader.connection_status === "pause"
+  ).length;
+  const disconnectedCount = masterTraders.filter(
+    (trader: any) => trader.connection_status === "disconnect"
+  ).length;
+  const pendingCount = masterTraders.filter(
+    (trader: any) => trader.connection_status === "pending"
+  ).length;
 
   // Fixed filter function to match the actual connection_status values
   const filteredTraders = masterTraders.filter((trader: any) => {
@@ -58,9 +82,17 @@ export default function MasterTrade() {
 
     switch (activeTab) {
       case "not-connected":
-        return matchesSearch && (trader.connection_status === null || trader.connection_status === "block");
+        return (
+          matchesSearch &&
+          (trader.connection_status === null ||
+            trader.connection_status === "block")
+        );
       case "connect":
-        return matchesSearch && (trader.connection_status === "connect" || trader.connection_status === "pause");
+        return (
+          matchesSearch &&
+          (trader.connection_status === "connect" ||
+            trader.connection_status === "pause")
+        );
       case "disconnect":
         return matchesSearch && trader.connection_status === "disconnect";
       case "pending":
@@ -98,7 +130,7 @@ export default function MasterTrade() {
     const data = {
       master_wallet_address: selectedTrader.solana_address,
       option_limit: "price",
-      price_limit: maxCopyAmount
+      price_limit: maxCopyAmount,
     };
     await MasterTradingService.connectMaster(data);
     setIsConnectModalOpen(false);
@@ -106,25 +138,24 @@ export default function MasterTrade() {
     refetchMasterTraders();
   };
 
-
   const handleDisconnect = async (disconnect: any) => {
     const data = {
       master_id: disconnect.id,
       status: "disconnect",
-      master_address: disconnect.solana_address
+      master_address: disconnect.solana_address,
     };
     await MasterTradingService.memberSetConnect(data);
     refetchMasterTraders();
-  }
+  };
 
   const handlePause = async (trader: any) => {
     const data = {
       master_id: trader.id,
       status: "pause",
-      master_address: trader.solana_address
+      master_address: trader.solana_address,
     };
     await MasterTradingService.memberSetConnect(data);
-    setPausedTraders(prev => new Set(prev).add(trader.id));
+    setPausedTraders((prev) => new Set(prev).add(trader.id));
     refetchMasterTraders();
   };
 
@@ -132,10 +163,10 @@ export default function MasterTrade() {
     const data = {
       master_id: trader.id,
       status: "connect",
-      master_address: trader.solana_address
+      master_address: trader.solana_address,
     };
     await MasterTradingService.memberSetConnect(data);
-    setPausedTraders(prev => {
+    setPausedTraders((prev) => {
       const newSet = new Set(prev);
       newSet.delete(trader.id);
       return newSet;
@@ -149,7 +180,6 @@ export default function MasterTrade() {
 
   if (!isAuthenticated) return <LogWarring />;
 
-
   return (
     <div className="container mx-auto p-6">
       {showToast && (
@@ -160,9 +190,28 @@ export default function MasterTrade() {
         />
       )}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-        <h1 className="text-3xl font-bold">
-          {t("masterTrade.availableMasters")}
-        </h1>
+        <div className="flex items-center">
+          <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 dark:from-yellow-500 dark:to-yellow-800 rounded-xl flex items-center justify-center mr-4 text-white shadow-lg shadow-yellow-500/20 dark:shadow-yellow-800/20 animate-float">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-crown h-7 w-7"
+            >
+              <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"></path>
+            </svg>
+          </div>
+          <h1 className="text-3xl font-bold font-comic bg-clip-text text-transparent bg-gradient-to-r from-yellow-500 to-orange-500 dark:from-yellow-300 dark:to-orange-300 uppercase">
+            {t("masterTrade.availableMasters")}
+          </h1>
+        </div>
+
         <div className="relative w-full md:w-auto mt-4 md:mt-0">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
@@ -179,7 +228,7 @@ export default function MasterTrade() {
           <Button
             variant="default"
             onClick={() => router.push("/master-trade/manage")}
-            className="w-full md:w-[300px] bg-primary hover:bg-primary/90 text-black font-medium shadow-md hover:shadow-lg transition-all duration-200"
+            className="w-full md:w-[300px] bg-green-500 hover:bg-green-600 text-white font-medium shadow-md hover:shadow-lg transition-all duration-200"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -202,17 +251,27 @@ export default function MasterTrade() {
       )}
 
       <Tabs defaultValue="not-connected" onValueChange={setActiveTab}>
-        <TabsList className="grid grid-cols-4 mb-6">
-          <TabsTrigger value="not-connected">{t("masterTrade.tabs.notConnected")} ({notConnectedCount})</TabsTrigger>
-          <TabsTrigger value="connect">{t("masterTrade.tabs.connected")} ({connectedCount})</TabsTrigger>
-          <TabsTrigger value="disconnect">{t("masterTrade.tabs.disconnected")} ({disconnectedCount})</TabsTrigger>
-          <TabsTrigger value="pending">{t("masterTrade.tabs.pending")} ({pendingCount})</TabsTrigger>
-        </TabsList>
+        <div className="md:overflow-visible overflow-x-auto">
+          <TabsList className="md:grid md:grid-cols-4 grid-cols-none flex md:flex-none flex-nowrap gap-2 mb-6 min-w-max">
+            <TabsTrigger value="not-connected" className="whitespace-nowrap">
+              {t("masterTrade.tabs.notConnected")} ({notConnectedCount})
+            </TabsTrigger>
+            <TabsTrigger value="connect" className="whitespace-nowrap">
+              {t("masterTrade.tabs.connected")} ({connectedCount})
+            </TabsTrigger>
+            <TabsTrigger value="disconnect" className="whitespace-nowrap">
+              {t("masterTrade.tabs.disconnected")} ({disconnectedCount})
+            </TabsTrigger>
+            <TabsTrigger value="pending" className="whitespace-nowrap">
+              {t("masterTrade.tabs.pending")} ({pendingCount})
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="not-connected">
           <Card className="border-none shadow-md dark:shadow-blue-900/5">
             <CardContent className="p-0">
-              <div className="rounded-lg overflow-hidden">
+              <div className="rounded-lg overflow-hidden border-2 border-primary">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/50">
@@ -221,7 +280,9 @@ export default function MasterTrade() {
                       </TableHead>
                       <TableHead>{t("masterTrade.table.type")}</TableHead>
                       <TableHead>{t("masterTrade.table.status")}</TableHead>
-                      <TableHead className="text-right">{t("masterTrade.table.actions")}</TableHead>
+                      <TableHead className="text-right">
+                        {t("masterTrade.table.actions")}
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -230,7 +291,8 @@ export default function MasterTrade() {
                         <TableRow key={trader.id} className="hover:bg-muted/30">
                           <TableCell className="font-medium">
                             <div className="w-64 truncate">
-                              {trader.solana_address.slice(0, 6)}...{trader.solana_address.slice(-4)}
+                              {trader.solana_address.slice(0, 6)}...
+                              {trader.solana_address.slice(-4)}
                               <Button
                                 variant="ghost"
                                 size="icon"
@@ -259,16 +321,22 @@ export default function MasterTrade() {
                             </Badge>
                           </TableCell>
                           <TableCell>
-                            <span className={
-                              trader.connection_status === "connect"
-                                ? "text-green-500"
-                                : trader.connection_status === "pause"
+                            <span
+                              className={
+                                trader.connection_status === "connect"
+                                  ? "text-green-500"
+                                  : trader.connection_status === "pause"
                                   ? "text-amber-500"
                                   : trader.connection_status === "disconnect"
-                                    ? "text-red-500"
-                                    : "text-muted-foreground"
-                            }>
-                              {t(`masterTrade.status.${trader.connection_status || "null"}`)}
+                                  ? "text-red-500"
+                                  : "text-muted-foreground"
+                              }
+                            >
+                              {t(
+                                `masterTrade.status.${
+                                  trader.connection_status || "null"
+                                }`
+                              )}
                             </span>
                           </TableCell>
                           <TableCell className="text-right">
@@ -284,7 +352,10 @@ export default function MasterTrade() {
                       ))
                     ) : (
                       <TableRow>
-                        <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
+                        <TableCell
+                          colSpan={4}
+                          className="text-center py-8 text-muted-foreground"
+                        >
                           {t("masterTrade.noData.notConnected")}
                         </TableCell>
                       </TableRow>
@@ -299,7 +370,7 @@ export default function MasterTrade() {
         <TabsContent value="connect">
           <Card className="border-none shadow-md dark:shadow-blue-900/5">
             <CardContent className="p-0">
-              <div className="rounded-lg overflow-hidden">
+              <div className="rounded-lg overflow-hidden border-2 border-primary">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/50">
@@ -308,7 +379,9 @@ export default function MasterTrade() {
                       </TableHead>
                       <TableHead>{t("masterTrade.table.type")}</TableHead>
                       <TableHead>{t("masterTrade.table.status")}</TableHead>
-                      <TableHead className="text-right">{t("masterTrade.table.actions")}</TableHead>
+                      <TableHead className="text-right">
+                        {t("masterTrade.table.actions")}
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -317,7 +390,8 @@ export default function MasterTrade() {
                         <TableRow key={trader.id} className="hover:bg-muted/30">
                           <TableCell className="font-medium">
                             <div className="w-64 truncate">
-                              {trader.solana_address.slice(0, 6)}...{trader.solana_address.slice(-4)}
+                              {trader.solana_address.slice(0, 6)}...
+                              {trader.solana_address.slice(-4)}
                               <Button
                                 variant="ghost"
                                 size="icon"
@@ -346,16 +420,22 @@ export default function MasterTrade() {
                             </Badge>
                           </TableCell>
                           <TableCell>
-                            <span className={
-                              trader.connection_status === "connect"
-                                ? "text-green-500"
-                                : trader.connection_status === "pause"
+                            <span
+                              className={
+                                trader.connection_status === "connect"
+                                  ? "text-green-500"
+                                  : trader.connection_status === "pause"
                                   ? "text-amber-500"
                                   : trader.connection_status === "disconnect"
-                                    ? "text-red-500"
-                                    : "text-muted-foreground"
-                            }>
-                              {t(`masterTrade.status.${trader.connection_status || "null"}`)}
+                                  ? "text-red-500"
+                                  : "text-muted-foreground"
+                              }
+                            >
+                              {t(
+                                `masterTrade.status.${
+                                  trader.connection_status || "null"
+                                }`
+                              )}
                             </span>
                           </TableCell>
                           <TableCell className="text-right">
@@ -412,7 +492,10 @@ export default function MasterTrade() {
                       ))
                     ) : (
                       <TableRow>
-                        <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
+                        <TableCell
+                          colSpan={4}
+                          className="text-center py-8 text-muted-foreground"
+                        >
                           {t("masterTrade.noData.connected")}
                         </TableCell>
                       </TableRow>
@@ -427,7 +510,7 @@ export default function MasterTrade() {
         <TabsContent value="disconnect">
           <Card className="border-none shadow-md dark:shadow-blue-900/5">
             <CardContent className="p-0">
-              <div className="rounded-lg overflow-hidden">
+              <div className="rounded-lg overflow-hidden border-2 border-primary">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/50">
@@ -436,7 +519,9 @@ export default function MasterTrade() {
                       </TableHead>
                       <TableHead>{t("masterTrade.table.type")}</TableHead>
                       <TableHead>{t("masterTrade.table.status")}</TableHead>
-                      <TableHead className="text-right">{t("masterTrade.table.actions")}</TableHead>
+                      <TableHead className="text-right">
+                        {t("masterTrade.table.actions")}
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -445,7 +530,8 @@ export default function MasterTrade() {
                         <TableRow key={trader.id} className="hover:bg-muted/30">
                           <TableCell className="font-medium">
                             <div className="w-64 truncate">
-                              {trader.solana_address.slice(0, 6)}...{trader.solana_address.slice(-4)}
+                              {trader.solana_address.slice(0, 6)}...
+                              {trader.solana_address.slice(-4)}
                               <Button
                                 variant="ghost"
                                 size="icon"
@@ -474,16 +560,22 @@ export default function MasterTrade() {
                             </Badge>
                           </TableCell>
                           <TableCell>
-                            <span className={
-                              trader.connection_status === "connect"
-                                ? "text-green-500"
-                                : trader.connection_status === "pause"
+                            <span
+                              className={
+                                trader.connection_status === "connect"
+                                  ? "text-green-500"
+                                  : trader.connection_status === "pause"
                                   ? "text-amber-500"
                                   : trader.connection_status === "disconnect"
-                                    ? "text-red-500"
-                                    : "text-muted-foreground"
-                            }>
-                              {t(`masterTrade.status.${trader.connection_status || "null"}`)}
+                                  ? "text-red-500"
+                                  : "text-muted-foreground"
+                              }
+                            >
+                              {t(
+                                `masterTrade.status.${
+                                  trader.connection_status || "null"
+                                }`
+                              )}
                             </span>
                           </TableCell>
                           <TableCell className="text-right">
@@ -499,7 +591,10 @@ export default function MasterTrade() {
                       ))
                     ) : (
                       <TableRow>
-                        <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
+                        <TableCell
+                          colSpan={4}
+                          className="text-center py-8 text-muted-foreground"
+                        >
                           {t("masterTrade.noData.disconnected")}
                         </TableCell>
                       </TableRow>
@@ -514,7 +609,7 @@ export default function MasterTrade() {
         <TabsContent value="pending">
           <Card className="border-none shadow-md dark:shadow-blue-900/5">
             <CardContent className="p-0">
-              <div className="rounded-lg overflow-hidden">
+              <div className="rounded-lg overflow-hidden border-2 border-primary">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/50">
@@ -523,7 +618,9 @@ export default function MasterTrade() {
                       </TableHead>
                       <TableHead>{t("masterTrade.table.type")}</TableHead>
                       <TableHead>{t("masterTrade.table.status")}</TableHead>
-                      <TableHead className="text-right">{t("masterTrade.table.actions")}</TableHead>
+                      <TableHead className="text-right">
+                        {t("masterTrade.table.actions")}
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -532,7 +629,8 @@ export default function MasterTrade() {
                         <TableRow key={trader.id} className="hover:bg-muted/30">
                           <TableCell className="font-medium">
                             <div className="w-64 truncate">
-                              {trader.solana_address.slice(0, 6)}...{trader.solana_address.slice(-4)}
+                              {trader.solana_address.slice(0, 6)}...
+                              {trader.solana_address.slice(-4)}
                               <Button
                                 variant="ghost"
                                 size="icon"
@@ -561,16 +659,22 @@ export default function MasterTrade() {
                             </Badge>
                           </TableCell>
                           <TableCell>
-                            <span className={
-                              trader.connection_status === "connect"
-                                ? "text-green-500"
-                                : trader.connection_status === "pause"
+                            <span
+                              className={
+                                trader.connection_status === "connect"
+                                  ? "text-green-500"
+                                  : trader.connection_status === "pause"
                                   ? "text-amber-500"
                                   : trader.connection_status === "disconnect"
-                                    ? "text-red-500"
-                                    : "text-muted-foreground"
-                            }>
-                              {t(`masterTrade.status.${trader.connection_status || "null"}`)}
+                                  ? "text-red-500"
+                                  : "text-muted-foreground"
+                              }
+                            >
+                              {t(
+                                `masterTrade.status.${
+                                  trader.connection_status || "null"
+                                }`
+                              )}
                             </span>
                           </TableCell>
                           <TableCell className="text-right">
@@ -582,7 +686,10 @@ export default function MasterTrade() {
                       ))
                     ) : (
                       <TableRow>
-                        <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
+                        <TableCell
+                          colSpan={4}
+                          className="text-center py-8 text-muted-foreground"
+                        >
                           {t("masterTrade.noData.pending")}
                         </TableCell>
                       </TableRow>
@@ -604,10 +711,14 @@ export default function MasterTrade() {
 
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="wallet-name">{t("masterTrade.dialog.addWallet.walletName")}</Label>
+              <Label htmlFor="wallet-name">
+                {t("masterTrade.dialog.addWallet.walletName")}
+              </Label>
               <Input
                 id="wallet-name"
-                placeholder={t("masterTrade.dialog.addWallet.walletNamePlaceholder")}
+                placeholder={t(
+                  "masterTrade.dialog.addWallet.walletNamePlaceholder"
+                )}
                 value={newWalletName}
                 onChange={(e) => setNewWalletName(e.target.value)}
                 className="bg-gray-50 dark:bg-gray-900/50"
@@ -648,7 +759,9 @@ export default function MasterTrade() {
 
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="max-copy-amount">{t("masterTrade.dialog.connect.maxCopyAmount")}</Label>
+              <Label htmlFor="max-copy-amount">
+                {t("masterTrade.dialog.connect.maxCopyAmount")}
+              </Label>
               <Input
                 id="max-copy-amount"
                 placeholder={t("masterTrade.dialog.connect.amountPlaceholder")}
@@ -675,7 +788,9 @@ export default function MasterTrade() {
             <Button
               className="bg-green-500 hover:bg-green-600 text-white"
               onClick={() => handleConnectMaster(selectedTrader)}
-              disabled={!maxCopyAmount.trim() || parseFloat(maxCopyAmount) < 0.01}
+              disabled={
+                !maxCopyAmount.trim() || parseFloat(maxCopyAmount) < 0.01
+              }
             >
               {t("masterTrade.dialog.connect.connect")}
             </Button>

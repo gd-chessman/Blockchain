@@ -7,11 +7,11 @@ import {
   CardHeader,
   CardTitle,
   CardFooter,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Avatar } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+} from "@/ui/card";
+import { Button } from "@/ui/button";
+import { Avatar } from "@/ui/avatar";
+import { Badge } from "@/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
 import { TrendingUp, Users, Star, CheckCircle2, XCircle } from "lucide-react";
 import { useLang } from "@/lang";
 

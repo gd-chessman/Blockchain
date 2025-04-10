@@ -65,6 +65,7 @@
   },
   "trading": {
       "title": "Trading",
+      "trade": "Trade",
       "list_token_title": "Token List",
       "marketOverview": "Market Overview",
       "yourPortfolio": "Your Portfolio",
@@ -122,7 +123,8 @@
           "price": "Price",
           "change24h": "24h Change",
           "marketCap": "Market Cap",
-          "volume24h": "24h Volume"
+          "volume24h": "24h Volume",
+          "decimals": "Decimals"
       },
       "percentButtons": {
           "percent25": "25%",

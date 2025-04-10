@@ -1,5 +1,4 @@
 import axios from "axios";
-import { toast } from "react-toastify";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 const axiosClient = axios.create({
@@ -28,7 +27,7 @@ axiosClient.interceptors.response.use(
       // localStorage.removeItem("auth_token");
       // window.location.href = "/login";
     } else if (error.code === "ERR_NETWORK") {
-      toast.error("Server is not responding. Please try again later.");
+      console.error("Server is not responding. Please try again later.");
     }
     return Promise.reject(error);
   }

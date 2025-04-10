@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/ui/card";
+import { Button } from "@/ui/button";
 import {
   Table,
   TableBody,
@@ -10,7 +10,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/ui/table";
 import {
   Copy,
   ExternalLink,
@@ -23,8 +23,8 @@ import {
   Trash,
   X,
 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
+import { Badge } from "@/ui/badge";
+import { Input } from "@/ui/input";
 import { useLang } from "@/lang";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -40,15 +40,18 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
+} from "@/ui/dialog";
+import { Label } from "@/ui/label";
 import bs58 from "bs58";
 import { Keypair } from "@solana/web3.js";
 import { TelegramWalletService } from "@/services/api";
 import { useAuth } from "@/hooks/useAuth";
-import { ToastNotification } from "@/components/ui/toast";
-import LogWarring from "@/components/ui/log-warring";
+import { ToastNotification } from "@/ui/toast";
+import LogWarring from "@/ui/log-warring";
 import { useRouter } from "next/navigation";
+import WalletCards from "@/components/wallet/WalletCards";
+import SolanaWalletSection from "@/components/wallet/SolanaWalletSection";
+import AssetsSection from "@/components/wallet/AssetsSection";
 
 export default function Wallet() {
   const router = useRouter();
@@ -101,7 +104,7 @@ export default function Wallet() {
   // Hàm xử lý sao chép địa chỉ
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
-    setToastMessage(t('notifications.addressCopied'));
+    setToastMessage(t("notifications.addressCopied"));
     setShowToast(true);
   };
 
@@ -134,7 +137,9 @@ export default function Wallet() {
       setToastMessage("Wallet imported successfully!");
       setShowToast(true);
     } catch (error) {
-      setToastMessage("Failed to import wallet. Please check your private key.");
+      setToastMessage(
+        "Failed to import wallet. Please check your private key."
+      );
       setShowToast(true);
     }
   };
@@ -200,15 +205,13 @@ export default function Wallet() {
     try {
       const res = await TelegramWalletService.changeName({
         wallet_id: editingWalletId,
-        name: editingWalletName || "-"
-      })
+        name: editingWalletName || "-",
+      });
       setIsEditingWalletName(false);
       setEditingWalletId(null);
       refecthWalletInfor();
       refetchInforWallets();
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
   const formatBalance = (balance: number) => {
@@ -216,16 +219,16 @@ export default function Wallet() {
       return balance.toFixed(5);
     } else {
       const str = balance.toString();
-      const decimalIndex = str.indexOf('.');
+      const decimalIndex = str.indexOf(".");
       if (decimalIndex === -1) return str;
-      
+
       let firstNonZeroIndex = decimalIndex + 1;
-      while (firstNonZeroIndex < str.length && str[firstNonZeroIndex] === '0') {
+      while (firstNonZeroIndex < str.length && str[firstNonZeroIndex] === "0") {
         firstNonZeroIndex++;
       }
-      
+
       if (firstNonZeroIndex >= str.length) return str;
-      
+
       // Ensure minimum of 5 decimal places
       const decimalPlaces = Math.max(firstNonZeroIndex - decimalIndex + 1, 5);
       return balance.toFixed(decimalPlaces);
@@ -237,34 +240,38 @@ export default function Wallet() {
   return (
     <div className="container mx-auto p-6">
       {showToast && (
-        <ToastNotification 
+        <ToastNotification
           message={toastMessage}
-          onClose={() => setShowToast(false)} 
+          onClose={() => setShowToast(false)}
         />
       )}
       {/* Wallet Info Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <div className="flex items-center">
-          <div className="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center mr-3">
+          <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 dark:from-orange-500 dark:to-orange-800 rounded-xl flex items-center justify-center mr-4 text-white shadow-lg shadow-orange-500/20 dark:shadow-orange-800/20 animate-float">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
+              width="24"
+              height="24"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="white"
+              stroke="currentColor"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
+              className="lucide lucide-wallet h-7 w-7"
             >
-              <rect x="2" y="5" width="20" height="14" rx="2" />
-              <path d="M22 10h-4a2 2 0 0 0-2 2v0a2 2 0 0 0 2 2h4" />
+              <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path>
+              <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path>
+              <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path>
             </svg>
           </div>
-          <h1 className="text-3xl font-bold">{t("wallet.title")}</h1>
+          <h1 className="text-3xl font-bold font-comic bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-red-500 dark:from-orange-300 dark:to-red-300 uppercase">
+            {t("wallet.title")}
+          </h1>
         </div>
 
-        <div className="mt-4 md:mt-0 flex items-center bg-white dark:bg-gray-800 rounded-lg p-3 shadow-sm">
+        <div className="mt-4 md:mt-0 flex items-center bg-white dark:bg-[#081e1b] px-3 py-1 shadow-sm border-2 border-dashed border-green-600 rounded-full">
           <div>
             <span className="text-sm text-gray-500 dark:text-gray-400">
               SOL Balance:
@@ -280,136 +287,7 @@ export default function Wallet() {
       </div>
 
       {/* Wallet Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        {/* Solana Wallet */}
-        <Card className="border-none shadow-md dark:shadow-blue-900/5">
-          <CardContent className="p-6">
-            <div className="flex items-center mb-4">
-              <div className="w-6 h-6 mr-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 397.7 311.7"
-                  fill="currentColor"
-                  className="text-purple-500"
-                >
-                  <path d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1l62.7-62.7zM64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1L64.6 3.8zM333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h317.4c5.8 0 8.7-7 4.6-11.1l-62.7-62.7z" />
-                </svg>
-              </div>
-              <h2 className="text-xl font-bold">{t("wallet.solanaWallet")}</h2>
-            </div>
-
-            <div className="relative mb-4">
-              <Input
-                value={(mounted && (payloadToken as any)?.sol_public_key) ? `${(payloadToken as any)?.sol_public_key.slice(0, 6)}...${(payloadToken as any)?.sol_public_key.slice(-4)}` : ""}
-                readOnly
-                className="pr-10 bg-gray-50 dark:bg-gray-900/50"
-              />
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute right-0 top-0 h-full"
-                onClick={() =>
-                  handleCopy((payloadToken as any)?.sol_public_key || "")
-                }
-              >
-                <Copy className="h-4 w-4" />
-              </Button>
-            </div>
-
-            <div className="text-xs text-gray-500 dark:text-gray-400 break-all">
-              {(mounted && (payloadToken as any)?.sol_public_key) || ""}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* ETH Wallet */}
-        <Card className="border-none shadow-md dark:shadow-blue-900/5">
-          <CardContent className="p-6">
-            <div className="flex items-center mb-4">
-              <div className="w-6 h-6 mr-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 784.37 1277.39"
-                  fill="currentColor"
-                  className="text-blue-500"
-                >
-                  <path d="M392.07 0l-8.57 29.11v844.63l8.57 8.55 392.06-231.75Z" />
-                  <path d="M392.07 0L0 650.54l392.07 231.75V472.33Z" />
-                  <path d="M392.07 956.52l-4.83 5.89v300.87l4.83 14.1 392.3-552.49Z" />
-                  <path d="M392.07 1277.38V956.52L0 724.89Z" />
-                  <path d="M392.07 882.29l392.06-231.75-392.06-178.21Z" />
-                  <path d="M0 650.54l392.07 231.75V472.33Z" />
-                </svg>
-              </div>
-              <h2 className="text-xl font-bold">{t("wallet.ethWallet")}</h2>
-            </div>
-
-            <div className="relative mb-4">
-              <Input
-                value={(mounted && (payloadToken as any)?.eth_public_key) ? `${(payloadToken as any)?.eth_public_key.slice(0, 6)}...${(payloadToken as any)?.eth_public_key.slice(-4)}` : ""}
-                readOnly
-                className="pr-10 bg-gray-50 dark:bg-gray-900/50"
-              />
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute right-0 top-0 h-full"
-                onClick={() =>
-                  handleCopy((payloadToken as any)?.eth_public_key || "")
-                }
-              >
-                <Copy className="h-4 w-4" />
-              </Button>
-            </div>
-
-            <div className="text-xs text-gray-500 dark:text-gray-400 break-all">
-              {(mounted && (payloadToken as any)?.eth_public_key) || ""}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* BNB Wallet */}
-        <Card className="border-none shadow-md dark:shadow-blue-900/5">
-          <CardContent className="p-6">
-            <div className="flex items-center mb-4">
-              <div className="w-6 h-6 mr-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 2500 2500"
-                  fill="currentColor"
-                  className="text-yellow-500"
-                >
-                  <path d="M764.48,1050.52,1250,565l485.75,485.73,282.5-282.5L1250,0,482,768l282.49,282.5M0,1250,282.51,967.45,565,1249.94,282.49,1532.45Zm764.48,199.51L1250,1935l485.74-485.72,282.65,282.35-.14.15L1250,2500,482,1732l-.4-.4,282.91-282.12M1935,1250.12l282.51-282.51L2500,1250.1l-282.5,282.51Z" />
-                  <path d="M1536.52,1249.85h.12L1250,963.19,1038.13,1175h0l-24.34,24.35-50.2,50.21-.4.39.4.41L1250,1536.81l286.66-286.66.14-.16-.26-.14" />
-                </svg>
-              </div>
-              <h2 className="text-xl font-bold">{t("wallet.bnbWallet")}</h2>
-            </div>
-
-            <div className="relative mb-4">
-              <Input
-                value={(mounted && (payloadToken as any)?.eth_public_key) ? `${(payloadToken as any)?.eth_public_key.slice(0, 6)}...${(payloadToken as any)?.eth_public_key.slice(-4)}` : ""}
-                readOnly
-                className="pr-10 bg-gray-50 dark:bg-gray-900/50"
-              />
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute right-0 top-0 h-full"
-                onClick={() =>
-                  handleCopy((payloadToken as any)?.eth_public_key || "")
-                }
-              >
-                <Copy className="h-4 w-4" />
-              </Button>
-            </div>
-
-            <div className="text-xs text-gray-500 dark:text-gray-400 break-all">
-              {(mounted && (payloadToken as any)?.eth_public_key) || ""}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <WalletCards payloadToken={payloadToken} />
 
       {/* Get Private Key Button */}
       <div className="flex justify-center mb-8">
@@ -424,7 +302,7 @@ export default function Wallet() {
 
       {/* My Wallets Section */}
       <div className="mb-6">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
           <h2 className="text-2xl font-bold">{t("wallet.solanaWallet")}</h2>
           <div className="flex gap-2">
             <Button
@@ -445,171 +323,20 @@ export default function Wallet() {
           </div>
         </div>
 
-        <Card className="border-none shadow-md dark:shadow-blue-900/5">
-          <CardContent className="p-0">
-            <div className="rounded-lg overflow-hidden">
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-muted/50">
-                    <TableHead>{t("wallet.table.walletName")}</TableHead>
-                    <TableHead>{t("wallet.table.type")}</TableHead>
-                    <TableHead>{t("wallet.table.solanaAddress")}</TableHead>
-                    <TableHead>{t("wallet.table.ethBnbAddress")}</TableHead>
-                    <TableHead>{t("wallet.table.keyWallet")}</TableHead>
-                    <TableHead>{t("wallet.table.actions")}</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {Array.isArray(myWallets) && myWallets?.map((wallet: any, index: number) => (
-                    <TableRow key={index} className="hover:bg-muted/30">
-                      <TableCell>
-                        <div className="flex items-center">
-                          {isEditingWalletName && editingWalletId === wallet.wallet_id ? (
-                            <div className="flex items-center gap-2">
-                              <Input
-                                value={editingWalletName}
-                                onChange={(e) => setEditingWalletName(e.target.value)}
-                                className="h-7 w-40"
-                                autoFocus
-                              />
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="h-7 px-2"
-                                onClick={handleUpdateWalletName}
-                              >
-                                <CheckCircle className="h-4 w-4 text-green-500" />
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="h-7 px-2"
-                                onClick={() => {
-                                  setIsEditingWalletName(false);
-                                  setEditingWalletId(null);
-                                }}
-                              >
-                                <X className="h-4 w-4 text-red-500" />
-                              </Button>
-                            </div>
-                          ) : (
-                            <span 
-                              className="cursor-pointer hover:text-blue-500"
-                              onClick={() => {
-                                setIsEditingWalletName(true);
-                                setEditingWalletId(wallet.wallet_id);
-                                setEditingWalletName(wallet.wallet_name || "-");
-                              }}
-                            >
-                              {wallet.wallet_name || "-"}
-                            </span>
-                          )}
-                          {!isEditingWalletName && (
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-4 w-4 ml-1 hover:text-blue-500"
-                              onClick={() => {
-                                setIsEditingWalletName(true);
-                                setEditingWalletId(wallet.wallet_id);
-                                setEditingWalletName(wallet.wallet_name || "-");
-                              }}
-                            >
-                              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-edit">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                              </svg>
-                            </Button>
-                          )}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800">
-                          {wallet.wallet_type || "Primary"}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center">
-                          <span className="truncate w-64">
-                            {wallet.solana_address.slice(0, 6)}...{wallet.solana_address.slice(-4)}
-                          </span>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="ml-2 h-6 w-6"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleCopy(wallet.solana_address);
-                            }}
-                          >
-                            <Copy className="h-3 w-3" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center">
-                          <span>{wallet.eth_address ? `${wallet.eth_address.slice(0, 6)}...${wallet.eth_address.slice(-4)}` : "N/A"}</span>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="ml-2 h-6 w-6"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleCopy(wallet.eth_address);
-                            }}
-                          >
-                            <Copy className="h-3 w-3" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge
-                          variant="outline"
-                          className="bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 border-blue-200 dark:border-blue-800"
-                        >
-                          {wallet.wallet_auth}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center space-x-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-8 px-2 text-blue-600"
-                            onClick={() => handleChangeWallet(wallet.wallet_id)}
-                          >
-                            {walletInfor?.solana_address ===
-                            wallet.solana_address ? (
-                              <CheckCircle className="h-4 w-4" color="green" />
-                            ) : (
-                              <Circle className="h-4 w-4" />
-                            )}
-                          </Button>
-
-                          {walletInfor?.solana_address !==
-                          wallet.solana_address && wallet.wallet_type !== "main" ? (
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-8 px-2 text-blue-600"
-                              onClick={() =>
-                                handleDeleteWallet(wallet.wallet_id)
-                              }
-                            >
-                              <Trash size={24} color="red" />
-                            </Button>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </CardContent>
-        </Card>
+        <SolanaWalletSection
+          myWallets={myWallets}
+          walletInfor={walletInfor}
+          isEditingWalletName={isEditingWalletName}
+          editingWalletId={editingWalletId}
+          editingWalletName={editingWalletName}
+          setIsEditingWalletName={setIsEditingWalletName}
+          setEditingWalletId={setEditingWalletId}
+          setEditingWalletName={setEditingWalletName}
+          handleUpdateWalletName={handleUpdateWalletName}
+          handleCopy={handleCopy}
+          handleChangeWallet={handleChangeWallet}
+          handleDeleteWallet={handleDeleteWallet}
+        />
       </div>
 
       {/* Dialog for adding new wallet */}
@@ -623,7 +350,9 @@ export default function Wallet() {
 
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="wallet-name">{t("wallet.dialog.walletName")}</Label>
+              <Label htmlFor="wallet-name">
+                {t("wallet.dialog.walletName")}
+              </Label>
               <Input
                 id="wallet-name"
                 placeholder={t("wallet.dialog.enterWalletName")}
@@ -675,7 +404,9 @@ export default function Wallet() {
 
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="import-wallet-name">{t("wallet.dialog.walletName")}</Label>
+              <Label htmlFor="import-wallet-name">
+                {t("wallet.dialog.walletName")}
+              </Label>
               <Input
                 id="import-wallet-name"
                 placeholder={t("wallet.dialog.enterWalletName")}
@@ -686,7 +417,9 @@ export default function Wallet() {
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="solana-private-key">{t("wallet.dialog.solanaPrivateKey")}</Label>
+              <Label htmlFor="solana-private-key">
+                {t("wallet.dialog.solanaPrivateKey")}
+              </Label>
               <div className="relative">
                 <Input
                   id="solana-private-key"
@@ -797,12 +530,16 @@ export default function Wallet() {
                 onClick={() => setShowPrivateKey(!showPrivateKey)}
                 className="text-sm"
               >
-                {showPrivateKey ? t("wallet.dialog.hideKeys") : t("wallet.dialog.showKeys")}
+                {showPrivateKey
+                  ? t("wallet.dialog.hideKeys")
+                  : t("wallet.dialog.showKeys")}
               </Button>
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="solana-key">{t("wallet.dialog.solanaPrivateKey")}</Label>
+              <Label htmlFor="solana-key">
+                {t("wallet.dialog.solanaPrivateKey")}
+              </Label>
               <div className="relative">
                 <Input
                   id="solana-key"
@@ -829,7 +566,9 @@ export default function Wallet() {
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="eth-key">{t("wallet.dialog.ethereumPrivateKey")}</Label>
+              <Label htmlFor="eth-key">
+                {t("wallet.dialog.ethereumPrivateKey")}
+              </Label>
               <div className="relative">
                 <Input
                   id="eth-key"
@@ -856,7 +595,9 @@ export default function Wallet() {
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="bnb-key">{t("wallet.dialog.bnbPrivateKey")}</Label>
+              <Label htmlFor="bnb-key">
+                {t("wallet.dialog.bnbPrivateKey")}
+              </Label>
               <div className="relative">
                 <Input
                   id="bnb-key"
@@ -902,104 +643,7 @@ export default function Wallet() {
         <h2 className="text-2xl font-bold">{t("wallet.asset")}</h2>
       </div>
 
-      <Card className="border-none shadow-md dark:shadow-blue-900/5">
-        <CardContent className="p-0">
-          <div className="rounded-lg overflow-hidden">
-            <div className="max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent">
-              <div className="sticky top-0 z-10 bg-background">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="bg-muted/50">
-                      <TableHead className="w-[25%]">{t("wallet.assets.token")}</TableHead>
-                      <TableHead className="w-[20%]">{t("wallet.assets.balance")}</TableHead>
-                      <TableHead className="w-[20%]">{t("wallet.assets.price")}</TableHead>
-                      <TableHead className="w-[20%]">{t("wallet.assets.value")}</TableHead>
-                      <TableHead className="w-[15%]">{t("wallet.assets.address")}</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                </Table>
-              </div>
-              <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent">
-                <Table>
-                  <TableBody>
-                    {/* List of tokens */}
-                    {tokenList?.tokens?.map((token: any) => (
-                      <TableRow 
-                        key={token.token_address} 
-                        className="hover:bg-muted/30 cursor-pointer"
-                        onClick={() => router.push(`/trading/token?address=${token.token_address}`)}
-                      >
-                        <TableCell className="w-[25%]">
-                          <div className="flex items-center">
-                            {token.token_logo_url ? (
-                              <img
-                                src={token.token_logo_url}
-                                alt={token.token_symbol}
-                                className="size-8 mr-2 rounded-full"
-                              />
-                            ) : (
-                              <div className="w-6 h-6 mr-2 bg-gray-200 rounded-full flex items-center justify-center">
-                                <span className="text-xs text-gray-500">
-                                  {token.token_symbol[0]}
-                                </span>
-                              </div>
-                            )}
-                            <div>
-                              <div className="font-medium">{token.token_name}</div>
-                              <div className="text-sm text-gray-500">{token.token_symbol}</div>
-                            </div>
-                            {token.is_verified && (
-                              <Badge variant="outline" className="ml-2 bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400 border-green-200 dark:border-green-800">
-                                Verified
-                              </Badge>
-                            )}
-                          </div>
-                        </TableCell>
-                        <TableCell className="w-[20%]">
-                          <div className="font-medium">
-                            {formatBalance(token.token_balance)} {token.token_symbol}
-                          </div>
-                        </TableCell>
-                        <TableCell className="w-[20%]">
-                          <div className="font-medium">
-                            ${formatBalance(token.token_price_usd)}
-                          </div>
-                          <div className="text-xs text-gray-500">
-                            {formatBalance(token.token_price_sol)} SOL
-                          </div>
-                        </TableCell>
-                        <TableCell className="w-[20%]">
-                          <div className="font-medium">
-                            ${formatBalance(token.token_balance_usd)}
-                          </div>
-                        </TableCell>
-                        <TableCell className="w-[15%]">
-                          <div className="flex items-center">
-                            <span className="truncate w-32">
-                              {token.token_address.slice(0, 6)}...{token.token_address.slice(-4)}
-                            </span>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="ml-2 h-6 w-6"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleCopy(token.token_address);
-                              }}
-                            >
-                              <Copy className="h-3 w-3" />
-                            </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <AssetsSection tokens={tokenList?.tokens} />
     </div>
   );
 }

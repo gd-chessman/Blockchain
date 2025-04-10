@@ -65,6 +65,7 @@
     },
     "trading": {
         "title": "거래",
+        "trade": "거래",
         "list_token_title": "토큰 목록",
         "marketOverview": "시장 개요",
         "yourPortfolio": "내 포트폴리오",
@@ -130,7 +131,17 @@
         "placeOrder": "주문하기",
         "marketIsOpen": "시장이 열렸습니다",
         "token": "토큰",
-        "action": "액션"
+        "action": "액션",
+        "tokenInfo": {
+            "name": "이름",
+            "symbol": "심볼",
+            "address": "주소",
+            "price": "가격",
+            "change24h": "24시간 변동",
+            "marketCap": "시가총액",
+            "volume24h": "24시간 거래량",
+            "decimals": "소수점"
+        }
     },
     "navigation": {
         "dashboard": "대시보드",

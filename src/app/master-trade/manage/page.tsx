@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
+import { Button } from "@/ui/button";
+import { Input } from "@/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
 import {
   Table,
   TableBody,
@@ -12,9 +12,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
+} from "@/ui/table";
+import { Badge } from "@/ui/badge";
+import { Checkbox } from "@/ui/checkbox";
 import { Copy } from "lucide-react";
 import { useLang } from "@/lang/useLang";
 import { MasterTradingService } from "@/services/api";
@@ -22,16 +22,16 @@ import { useQuery } from "@tanstack/react-query";
 import { getMyConnects, getMyGroups } from "@/services/api/MasterTradingService";
 import { getInforWallet } from "@/services/api/TelegramWalletService";
 import { useRouter } from "next/navigation";
-import { ToastNotification } from "@/components/ui/toast";
+import { ToastNotification } from "@/ui/toast";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "@/components/ui/dialog";
+} from "@/ui/dialog";
 import { useAuth } from "@/hooks/useAuth";
-import LogWarring from "@/components/ui/log-warring";
+import LogWarring from "@/ui/log-warring";
 
 type Group = {
   mg_id: number;
@@ -296,15 +296,35 @@ export default function ManageMasterTrade() {
     <div className="container mx-auto p-6">
       {showToast && <ToastNotification message={toastMessage} />}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-        <h1 className="text-3xl font-bold">{t("masterTrade.manage.title")}</h1>
+        <div className="flex items-center">
+          <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 dark:from-yellow-500 dark:to-yellow-800 rounded-xl flex items-center justify-center mr-4 text-white shadow-lg shadow-yellow-500/20 dark:shadow-yellow-800/20 animate-float">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-crown h-7 w-7"
+            >
+              <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"></path>
+            </svg>
+          </div>
+          <h1 className="text-3xl font-bold font-comic bg-clip-text text-transparent bg-gradient-to-r from-yellow-500 to-orange-500 dark:from-yellow-300 dark:to-orange-300 uppercase">
+            {t("masterTrade.manage.title")}
+          </h1>
+        </div>
         <Button className="mt-4 md:mt-0 bg-green-500 hover:bg-green-600" onClick={() => router.push("/master-trade")}>
           {t("masterTrade.manage.connectWithOtherMaster")}
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 ">
         {/* Create New Group */}
-        <Card className="border-none shadow-md dark:shadow-blue-900/5 flex flex-col justify-center gap-8">
+        <Card className="shadow-md dark:shadow-blue-900/5 flex flex-col justify-center gap-8">
           <CardHeader>
             <CardTitle>
               {t("masterTrade.manage.createNewGroup.title")}
@@ -340,7 +360,7 @@ export default function ManageMasterTrade() {
         </Card>
 
         {/* Group Management */}
-        <Card className="border-none shadow-md dark:shadow-blue-900/5 lg:col-span-2">
+        <Card className="shadow-md dark:shadow-blue-900/5 lg:col-span-2">
           <CardContent className="p-4">
             <div className="flex gap-2 mb-4">
               <Button
@@ -393,8 +413,8 @@ export default function ManageMasterTrade() {
               </Button>
             </div>
 
-            <div className="rounded-lg overflow-hidden">
-              <div className="max-h-[300px] overflow-y-auto scrollbar-thin">
+            <div className="rounded-lg overflow-hidden border-2 border-primary">
+              <div className="max-h-[300px] overflow-y-auto scrollbar-thin ">
                 <Table>
                   <TableHeader className="sticky top-0 z-10 bg-background">
                     <TableRow className="bg-muted/50">
@@ -496,7 +516,7 @@ export default function ManageMasterTrade() {
         </Card>
 
         {/* Connection Management */}
-        <Card className="border-none shadow-md dark:shadow-blue-900/5 lg:col-span-3">
+        <Card className="shadow-md dark:shadow-blue-900/5 lg:col-span-3">
           <CardContent className="p-6">
             <Tabs defaultValue="connected" onValueChange={setActiveTab}>
               <div className="flex justify-between items-center mb-4">
@@ -655,7 +675,7 @@ function ConnectionsTable({
   const isConnectedTab = connections.some(conn => conn.status === "connect");
 
   return (
-    <div className="rounded-lg overflow-hidden">
+    <div className="rounded-lg overflow-hidden border-2 border-primary">
       <div className="max-h-[400px] overflow-y-auto scrollbar-thin">
         <Table>
           <TableHeader className="sticky top-0 z-10 bg-background">

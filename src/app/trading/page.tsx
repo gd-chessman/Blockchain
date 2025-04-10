@@ -1,6 +1,6 @@
 "use client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
+import { Button } from "@/ui/button";
 import {
   Table,
   TableBody,
@@ -8,29 +8,32 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/ui/table";
 import { useLang } from "@/lang";
 import { useRouter } from "next/navigation";
 import { Search, Loader2, Copy } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/ui/input";
 import { useState, useEffect } from "react";
 import { useWsSubscribeTokens } from "@/hooks/useWsSubscribeTokens";
 import { SolonaTokenService } from "@/services/api";
 import { useDebounce } from "@/hooks/useDebounce";
 import { truncateString } from "@/utils/format";
-import { ToastNotification } from "@/components/ui/toast";
+import { ToastNotification } from "@/ui/toast";
 import { useAuth } from "@/hooks/useAuth";
+import { TableTokenList } from "@/components/trading/TableTokenList";
 
 export default function Trading() {
   const router = useRouter();
   const { t } = useLang();
   const { isAuthenticated } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
-  const debouncedSearchQuery = useDebounce(searchQuery, 100); // 2 seconds delay
+  const debouncedSearchQuery = useDebounce(searchQuery, 300); 
   const [isSearching, setIsSearching] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const { tokenMessages } = useWsSubscribeTokens({limit: 18});
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const { tokenMessages } = useWsSubscribeTokens({ limit: 18 });
   const [tokens, setTokens] = useState<
     {
       id: number;
@@ -67,18 +70,20 @@ export default function Trading() {
         try {
           const parsedMessage = JSON.parse(message);
           // Convert WebSocket data format to match API format
-          const convertedTokens = parsedMessage.data.tokens.map((token: any) => ({
-            id: 0, // WebSocket data doesn't have ID
-            name: token.slt_name,
-            symbol: token.slt_symbol,
-            address: token.slt_address,
-            decimals: token.slt_decimals,
-            logoUrl: token.slt_logo_url,
-            coingeckoId: null,
-            tradingviewSymbol: null,
-            isVerified: token.slt_is_verified,
-            marketCap: 0 // WebSocket data doesn't have marketCap
-          }));
+          const convertedTokens = parsedMessage.data.tokens.map(
+            (token: any) => ({
+              id: 0, // WebSocket data doesn't have ID
+              name: token.slt_name,
+              symbol: token.slt_symbol,
+              address: token.slt_address,
+              decimals: token.slt_decimals,
+              logoUrl: token.slt_logo_url,
+              coingeckoId: null,
+              tradingviewSymbol: null,
+              isVerified: token.slt_is_verified,
+              marketCap: 0, // WebSocket data doesn't have marketCap
+            })
+          );
           setTokens(convertedTokens);
         } catch (error) {
           console.error("Error parsing JSON:", error);
@@ -95,22 +100,30 @@ export default function Trading() {
       if (!debouncedSearchQuery.trim()) {
         setSearchResults([]);
         setIsSearching(false);
+        setCurrentPage(1);
+        setTotalPages(1);
         return;
       }
       setIsSearching(true);
       try {
-        const res = await SolonaTokenService.getSearchTokenInfor(debouncedSearchQuery);
+        const res = await SolonaTokenService.getSearchTokenInfor(
+          debouncedSearchQuery,
+          currentPage,
+          18
+        );
         setSearchResults(res.tokens || []);
+        setTotalPages(Math.ceil(res.total / 18));
       } catch (error) {
         console.error("Error searching tokens:", error);
         setSearchResults([]);
+        setTotalPages(1);
       } finally {
         setIsSearching(false);
       }
     };
 
     searchData();
-  }, [debouncedSearchQuery]);
+  }, [debouncedSearchQuery, currentPage]);
 
   // Use search results if available, otherwise use WebSocket data
   const displayTokens = debouncedSearchQuery.trim() ? searchResults : tokens;
@@ -119,24 +132,51 @@ export default function Trading() {
     e.preventDefault();
     e.stopPropagation();
     navigator.clipboard.writeText(address);
-    setToastMessage(t('createCoin.copySuccess'));
+    setToastMessage(t("createCoin.copySuccess"));
     setShowToast(true);
     setTimeout(() => {
       setShowToast(false);
     }, 3000);
   };
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
     <div className="container mx-auto p-6">
       {showToast && (
-        <ToastNotification 
+        <ToastNotification
           message={toastMessage}
-          onClose={() => setShowToast(false)} 
+          onClose={() => setShowToast(false)}
         />
       )}
-      <Card className="mb-6 border-none shadow-md dark:shadow-blue-900/5">
-        <CardHeader className="flex justify-between flex-row items-center">
-          <CardTitle>{t("trading.list_token_title")}</CardTitle>
+      <Card className="mb-6 border-none shadow-none bg-transparent">
+        <CardHeader className="flex justify-between flex-row items-center !p-0 mb-6 flex-wrap">
+          <div className="flex items-center">
+            <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-600 dark:from-pink-500 dark:to-purple-800 rounded-xl flex items-center justify-center mr-4 text-white shadow-lg shadow-purple-500/20 dark:shadow-purple-800/20 animate-bounce">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-bar-chart4 h-7 w-7"
+              >
+                <path d="M3 3v18h18"></path>
+                <path d="M13 17V9"></path>
+                <path d="M18 17V5"></path>
+                <path d="M8 17v-3"></path>
+              </svg>
+            </div>
+            <CardTitle className="text-3xl font-bold font-comic bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500 dark:from-pink-300 dark:to-purple-300 uppercase">
+              {t("trading.list_token_title")}
+            </CardTitle>
+          </div>
           <div className="relative w-full md:w-auto mt-4 md:mt-0">
             {isSearching ? (
               <Loader2 className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground animate-spin" />
@@ -150,7 +190,7 @@ export default function Trading() {
               onChange={(e) => {
                 if (!isAuthenticated) {
                   setShowToast(true);
-                  setToastMessage(t('createCoin.pleaseConnectWallet'));
+                  setToastMessage(t("createCoin.pleaseConnectWallet"));
                   setSearchQuery("");
                   return;
                 }
@@ -160,10 +200,10 @@ export default function Trading() {
                 }
               }}
               onKeyDown={(e) => {
-                if (e.key === 'Enter' && searchQuery.trim()) {
+                if (e.key === "Enter" && searchQuery.trim()) {
                   if (!isAuthenticated) {
                     setShowToast(true);
-                    setToastMessage(t('createCoin.pleaseConnectWallet'));
+                    setToastMessage(t("createCoin.pleaseConnectWallet"));
                     setSearchQuery("");
                     return;
                   }
@@ -174,71 +214,91 @@ export default function Trading() {
           </div>
         </CardHeader>
         {displayTokens && (
-          <CardContent>
-            <div className="rounded-lg overflow-hidden">
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-muted/50">
-                    <TableHead>{t("trading.token")}</TableHead>
-                    <TableHead>{t("trading.symbol")}</TableHead>
-                    <TableHead>{t("trading.address")}</TableHead>
-                    <TableHead>{t("trading.decimals")}</TableHead>
-                    <TableHead>{t("trading.verified")}</TableHead>
-                    <TableHead>{t("trading.action")}</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {displayTokens.map((token, index) => (
-                    <TableRow
-                      key={index}
-                      className="hover:bg-muted/30 cursor-pointer"
-                      onClick={() =>
-                        router.push(`trading/token?address=${token.address}`)
-                      }
-                    >
-                      <TableCell>
-                        <div className="flex items-center gap-2">
-                          <img
-                            src={token.logoUrl}
-                            alt="token logo"
-                            className="size-10 rounded-full"
-                          />
-                          <p>{token.name}</p>
-                        </div>
-                      </TableCell>
-                      <TableCell>{token.symbol}</TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-2">
-                          <span className="truncate max-w-[200px]">{truncateString(token.address, 14)}</span>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-6 w-6 p-0"
-                            onClick={(e) => handleCopyAddress(token.address, e)}
-                          >
-                            <Copy className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                      <TableCell>{token.decimals}</TableCell>
-                      <TableCell>{token.isVerified ? "Yes" : "No"}</TableCell>
-                      <TableCell>
-                        <div className="flex space-x-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="bg-blue-50 dark:bg-blue-900/20 text-green-600 dark:text-green-300 border-green-200 dark:border-green-800 hover:bg-green-100 dark:hover:bg-green-900/30"
-                          >
-                            {t("createCoin.myCoins.tradeButton")}
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+          <CardContent className="!p-0">
+            <TableTokenList
+              tokens={displayTokens}
+              onCopyAddress={handleCopyAddress}
+            />
           </CardContent>
+        )}
+        {debouncedSearchQuery.trim() && totalPages > 1 && (
+          <div className="flex justify-center mt-6 pb-6">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => handlePageChange(1)}
+                disabled={currentPage === 1}
+                className="px-3 py-1 rounded-md bg-muted hover:bg-muted/80 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                «
+              </button>
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="px-3 py-1 rounded-md bg-muted hover:bg-muted/80 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                ‹
+              </button>
+
+              {currentPage > 2 && (
+                <button
+                  onClick={() => handlePageChange(1)}
+                  className="px-3 py-1 rounded-md bg-muted hover:bg-muted/80"
+                >
+                  1
+                </button>
+              )}
+              {currentPage > 3 && <span className="px-2">...</span>}
+
+              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                let page;
+                if (currentPage <= 3) {
+                  page = i + 1;
+                } else if (currentPage >= totalPages - 2) {
+                  page = totalPages - 4 + i;
+                } else {
+                  page = currentPage - 2 + i;
+                }
+                return page;
+              }).map((page) => (
+                <button
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={`px-3 py-1 rounded-md ${
+                    currentPage === page
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted hover:bg-muted/80"
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
+
+              {currentPage < totalPages - 2 && <span className="px-2">...</span>}
+              {currentPage < totalPages - 1 && (
+                <button
+                  onClick={() => handlePageChange(totalPages)}
+                  className="px-3 py-1 rounded-md bg-muted hover:bg-muted/80"
+                >
+                  {totalPages}
+                </button>
+              )}
+
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 rounded-md bg-muted hover:bg-muted/80 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                ›
+              </button>
+              <button
+                onClick={() => handlePageChange(totalPages)}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 rounded-md bg-muted hover:bg-muted/80 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                »
+              </button>
+            </div>
+          </div>
         )}
       </Card>
     </div>
