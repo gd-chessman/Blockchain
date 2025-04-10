@@ -50,6 +50,7 @@ import TrandingViewChartPage from "@/components/chart/TrandingViewChartPage";
 import IframeChartPage from "@/components/chart/IframeChartPage";
 import TokenInformation from "@/components/trading/token/TokenInformation";
 import MyCoins from "@/components/trading/token/MyCoins";
+import OtherCoins from "@/components/trading/token/OtherCoins";
 
 interface Order {
   created_at: string;
@@ -727,67 +728,13 @@ function TradingContent() {
             isVerified={tokenInfor?.isVerified || false}
             onCopyAddress={handleCopy}
           />
-
-          <Card className="shadow-md dark:shadow-blue-900/5 border-2 border-primary">
-            <CardHeader>
-              <CardTitle>{t("trading.otherCoins")}</CardTitle>
-            </CardHeader>
-            <CardHeader className="pt-0">
-              <div className="relative w-full">
-                {isSearching ? (
-                  <Loader2 className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground animate-spin" />
-                ) : (
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground cursor-pointer" />
-                )}
-                <Input
-                  type="text"
-                  placeholder={t("trading.searchCoinsPlaceholder")}
-                  className="pl-10 w-full"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 gap-4">
-                <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50">
-                  <div
-                    className=" overflow-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent"
-                    style={{ maxHeight: historyTransactionsHeight + 734 }}
-                  >
-                    <div className="space-y-4">
-                      {displayTokens?.map((token, index) => (
-                        <Link
-                          key={index}
-                          className={`flex text-sm gap-6 cursor-pointer ${
-                            index < displayTokens.length - 1
-                              ? "border-b-2 pb-2"
-                              : ""
-                          }`}
-                          href={`/trading/token?address=${token.address}`}
-                        >
-                          <img
-                            src={token.logoUrl}
-                            alt=""
-                            className="size-10 rounded-full"
-                          />
-                          <div>
-                            <p>{token.name}</p>{" "}
-                            <p className="text-muted-foreground text-xs">
-                              {token.symbol}
-                            </p>{" "}
-                          </div>
-                          <small className="text-green-600 text-xl ml-auto block">
-                            {token.isVerified ? " ✓" : "x"}
-                          </small>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <OtherCoins 
+            historyTransactionsHeight={historyTransactionsHeight}
+            tokens={displayTokens}
+            searchQuery={searchQuery}
+            isSearching={isSearching}
+            onSearchChange={setSearchQuery}
+          />
         </div>
         <div className="lg:col-span-3">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
