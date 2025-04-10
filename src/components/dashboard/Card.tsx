@@ -91,12 +91,12 @@ export default function TokenCard({
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 dark:from-purple-500 dark:to-purple-800 opacity-30 blur-[2px] scale-110"></div>
                 <div className="absolute inset-0 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden border border-purple-300 dark:border-purple-700">
                   <img
-                    src={token.logoUrl || ""}
+                    src={token.logoUrl || "/placeholder.png"}
                     alt={token.name}
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement
-                      target.src = ""
+                      target.src = "/placeholder.png"
                     }}
                   />
                 </div>
