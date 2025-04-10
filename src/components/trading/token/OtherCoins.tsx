@@ -1,8 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Input } from "@/ui/input";
-import { Loader2, Search } from "lucide-react";
+import { Loader2, Search, Star } from "lucide-react";
 import Link from "next/link";
 import { useLang } from "@/lang";
+import { Button } from "@/ui/button";
 
 interface Token {
   id: number;
@@ -23,6 +24,7 @@ interface OtherCoinsProps {
   searchQuery: string;
   isSearching: boolean;
   onSearchChange: (value: string) => void;
+  onStarClick: (token: Token) => void;
 }
 
 export default function OtherCoins({ 
@@ -30,7 +32,8 @@ export default function OtherCoins({
   tokens,
   searchQuery,
   isSearching,
-  onSearchChange
+  onSearchChange,
+  onStarClick
 }: OtherCoinsProps) {
   const { t } = useLang();
 
@@ -71,6 +74,17 @@ export default function OtherCoins({
                     }`}
                     href={`/trading/token?address=${token.address}`}
                   >
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6 p-0 hover:text-yellow-500"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onStarClick(token);
+                      }}
+                    >
+                      <Star className="h-4 w-4" />
+                    </Button>
                     <img
                       src={token.logoUrl}
                       alt=""
