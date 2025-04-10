@@ -14,7 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/ui/table";
-import { Copy, Search } from "lucide-react";
+import { Copy, Search, Inbox } from "lucide-react";
 import { Badge } from "@/ui/badge";
 import { useLang } from "@/lang";
 import { useQuery } from "@tanstack/react-query";
@@ -356,7 +356,10 @@ export default function MasterTrade() {
                           colSpan={4}
                           className="text-center py-8 text-muted-foreground"
                         >
-                          {t("masterTrade.noData.notConnected")}
+                          <div className="flex flex-col items-center gap-2">
+                            <Inbox className="h-12 w-12 text-primary animate-bounce" />
+                            {t("masterTrade.noData.notConnected")}
+                          </div>
                         </TableCell>
                       </TableRow>
                     )}
@@ -496,7 +499,10 @@ export default function MasterTrade() {
                           colSpan={4}
                           className="text-center py-8 text-muted-foreground"
                         >
-                          {t("masterTrade.noData.connected")}
+                          <div className="flex flex-col items-center gap-2">
+                            <Inbox className="h-12 w-12 text-primary animate-bounce" />
+                            {t("masterTrade.noData.connected")}
+                          </div>
                         </TableCell>
                       </TableRow>
                     )}
@@ -595,7 +601,10 @@ export default function MasterTrade() {
                           colSpan={4}
                           className="text-center py-8 text-muted-foreground"
                         >
-                          {t("masterTrade.noData.disconnected")}
+                          <div className="flex flex-col items-center gap-2">
+                            <Inbox className="h-12 w-12 text-primary animate-bounce" />
+                            {t("masterTrade.noData.disconnected")}
+                          </div>
                         </TableCell>
                       </TableRow>
                     )}
@@ -690,7 +699,10 @@ export default function MasterTrade() {
                           colSpan={4}
                           className="text-center py-8 text-muted-foreground"
                         >
-                          {t("masterTrade.noData.pending")}
+                          <div className="flex flex-col items-center gap-2">
+                            <Inbox className="h-12 w-12 text-primary animate-bounce" />
+                            {t("masterTrade.noData.pending")}
+                          </div>
                         </TableCell>
                       </TableRow>
                     )}
