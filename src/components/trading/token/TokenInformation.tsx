@@ -72,7 +72,7 @@ export default function TokenInformation({
               <span className="text-muted-foreground">
                 {t("trading.verified")}:
               </span>
-              <span className="text-right text-green-600">
+              <span className={`text-right ${isVerified ? 'text-green-600' : 'text-red-600'}`}>
                 {isVerified ? "✓" : "x"}
               </span>
             </div>
