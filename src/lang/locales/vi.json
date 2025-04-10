@@ -169,7 +169,11 @@
       "searchCoinsPlaceholder": "Tìm kiếm coin...",
       "selectGroupsPlaceholder": "Chọn nhóm...",
       "noGroupsAvailable": "Không có nhóm nào khả dụng",
-      "myCoins": "Coin của tôi"
+      "myCoins": "Coin của tôi",
+      "tabs": {
+          "allTokens": "Tất Cả Token",
+          "favorites": "Yêu Thích"
+      }
   },
   "navigation": {
       "newcoin": "Tạo Coin Mới",

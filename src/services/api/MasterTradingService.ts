@@ -130,3 +130,15 @@ export const masterJoinGroup = async (item: { mg_id: number })=>{
         throw error;
     }
 }
+
+export const getDetailCopies = async (wallet_master: string) => {
+    try {
+        const temp = await axiosClient.get("/master-trading/detail-copies", {
+            params: { wallet_master }
+        });
+        return temp.data;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}

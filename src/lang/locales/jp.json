@@ -169,7 +169,11 @@
         "searchCoinsPlaceholder": "コインを検索...",
         "selectGroupsPlaceholder": "グループを選択...",
         "noGroupsAvailable": "利用可能なグループはありません",
-        "myCoins": "マイコイン"
+        "myCoins": "マイコイン",
+        "tabs": {
+            "allTokens": "すべてのトークン",
+            "favorites": "お気に入り"
+        }
     },
     "navigation": {
         "dashboard": "ダッシュボード",

@@ -11,7 +11,7 @@ import {
 } from "@/ui/table";
 import { useLang } from "@/lang";
 import { useRouter } from "next/navigation";
-import { Search, Loader2, Copy } from "lucide-react";
+import { Search, Loader2, Copy, Star } from "lucide-react";
 import { Input } from "@/ui/input";
 import { useState, useEffect } from "react";
 import { useWsSubscribeTokens } from "@/hooks/useWsSubscribeTokens";
@@ -21,6 +21,7 @@ import { truncateString } from "@/utils/format";
 import { ToastNotification } from "@/ui/toast";
 import { useAuth } from "@/hooks/useAuth";
 import { TableTokenList } from "@/components/trading/TableTokenList";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
 
 export default function Trading() {
   const router = useRouter();
@@ -33,6 +34,7 @@ export default function Trading() {
   const [toastMessage, setToastMessage] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [activeTab, setActiveTab] = useState("all");
   const { tokenMessages } = useWsSubscribeTokens({ limit: 18 });
   const [tokens, setTokens] = useState<
     {
@@ -46,6 +48,7 @@ export default function Trading() {
       tradingviewSymbol: string | null;
       isVerified: boolean;
       marketCap: number;
+      isFavorite?: boolean;
     }[]
   >([]);
   const [searchResults, setSearchResults] = useState<
@@ -60,6 +63,7 @@ export default function Trading() {
       tradingviewSymbol: string | null;
       isVerified: boolean;
       marketCap: number;
+      isFavorite?: boolean;
     }[]
   >([]);
 
@@ -228,15 +232,41 @@ export default function Trading() {
             />
           </div>
         </CardHeader>
-        {displayTokens && (
-          <CardContent className="!p-0">
-            <TableTokenList
-              tokens={displayTokens}
-              onCopyAddress={handleCopyAddress}
-              onStarClick={handleStarClick}
-            />
-          </CardContent>
-        )}
+        <Tabs defaultValue="all" onValueChange={setActiveTab}>
+          <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsTrigger value="all">
+              {t("trading.tabs.allTokens")}
+            </TabsTrigger>
+            <TabsTrigger value="favorites">
+              <Star className="h-4 w-4 mr-2" />
+              {t("trading.tabs.favorites")}
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="all">
+            {displayTokens && (
+              <CardContent className="!p-0">
+                <TableTokenList
+                  tokens={displayTokens}
+                  onCopyAddress={handleCopyAddress}
+                  onStarClick={handleStarClick}
+                />
+              </CardContent>
+            )}
+          </TabsContent>
+
+          <TabsContent value="favorites">
+            {displayTokens && (
+              <CardContent className="!p-0">
+                <TableTokenList
+                  tokens={displayTokens.filter(token => token.isFavorite)}
+                  onCopyAddress={handleCopyAddress}
+                  onStarClick={handleStarClick}
+                />
+              </CardContent>
+            )}
+          </TabsContent>
+        </Tabs>
         {debouncedSearchQuery.trim() && totalPages > 1 && (
           <div className="flex justify-center mt-6 pb-6">
             <div className="flex items-center gap-2">

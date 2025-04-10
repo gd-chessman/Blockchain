@@ -141,6 +141,10 @@
             "marketCap": "시가총액",
             "volume24h": "24시간 거래량",
             "decimals": "소수점"
+        },
+        "tabs": {
+            "allTokens": "모든 토큰",
+            "favorites": "즐겨찾기"
         }
     },
     "navigation": {
