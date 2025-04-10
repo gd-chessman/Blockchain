@@ -145,7 +145,7 @@ export default function Trading() {
 
   const handleStarClick = async (token: any) => {
     try {
-      const data = { tokenId: token.id, status: "on" };;
+      const data = {tokenId: token.id, status: "on" };;
       const response = await SolonaTokenService.toggleWishlist(data);
       if (response) {
         setToastMessage(t("trading.wishlistUpdated"));
