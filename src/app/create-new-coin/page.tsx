@@ -14,7 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/ui/table";
-import { Copy, DogIcon } from "lucide-react";
+import { Coins, Copy, DogIcon } from "lucide-react";
 import { Avatar } from "@/ui/avatar";
 import { useForm } from "react-hook-form";
 import { TelegramWalletService } from "@/services/api";
@@ -155,23 +155,7 @@ export default function CreateCoin() {
       )}
       <div className="flex items-center mb-6">
         <div className="w-12 h-12 bg-gradient-to-br from-[#b752e1] to-[#9a3cc9] dark:from-[#b752e1] dark:to-[#8a2cb8] rounded-xl flex items-center justify-center mr-4 text-white shadow-lg shadow-[#b752e1]/20 dark:shadow-[#b752e1]/20 animate-wiggle">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="lucide lucide-coins h-7 w-7"
-          >
-            <circle cx="8" cy="8" r="6"></circle>
-            <path d="M18.09 10.37A6 6 0 1 1 10.34 18"></path>
-            <path d="M7 6h1v4"></path>
-            <path d="m16.71 13.88.7.71-2.82 2.82"></path>
-          </svg>
+        <Coins className="h-7 w-7" />
         </div>
         <h1 className="text-3xl font-bold font-comic bg-clip-text text-transparent bg-gradient-to-r from-[#b752e1] to-[#9a3cc9] dark:from-[#b752e1] dark:to-[#9a3cc9] uppercase">
           {t("createCoin.title")}
