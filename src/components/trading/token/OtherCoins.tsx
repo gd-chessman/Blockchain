@@ -82,7 +82,7 @@ export default function OtherCoins({
                         {token.symbol}
                       </p>{" "}
                     </div>
-                    <small className="text-green-600 text-xl ml-auto block">
+                    <small className={`text-xl ml-auto block ${token.isVerified ? "text-green-600" : "text-red-600"}`}>
                       {token.isVerified ? " ✓" : "x"}
                     </small>
                   </Link>
