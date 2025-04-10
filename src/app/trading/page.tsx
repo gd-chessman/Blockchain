@@ -131,6 +131,7 @@ export default function Trading() {
           currentPage,
           18
         );
+        setActiveTab("all");
         setSearchResults(res.tokens || []);
         setTotalPages(Math.ceil(res.total / 18));
       } catch (error) {
@@ -273,7 +274,7 @@ export default function Trading() {
             />
           </div>
         </CardHeader>
-        <Tabs defaultValue="all" onValueChange={setActiveTab}>
+        <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid w-full grid-cols-2 mb-6">
             <TabsTrigger value="all">
               {t("trading.tabs.allTokens")}
