@@ -267,7 +267,7 @@ export default function Trading() {
             )}
           </TabsContent>
         </Tabs>
-        {debouncedSearchQuery.trim() && totalPages > 1 && (
+        {debouncedSearchQuery.trim() && totalPages > 1 && activeTab === "all" && (
           <div className="flex justify-center mt-6 pb-6">
             <div className="flex items-center gap-2">
               <button

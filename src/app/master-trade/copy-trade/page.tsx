@@ -3,9 +3,20 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
 import { TrendingUp, Users, Star, CheckCircle2, XCircle } from "lucide-react";
 import { useLang } from "@/lang";
+import { useQuery } from "@tanstack/react-query";
+import { getDetailCopies } from "@/services/api/MasterTradingService";
+import { useSearchParams } from "next/navigation";
 
 export default function CopyTrade() {
+  const searchParams = useSearchParams();
+  const address = searchParams?.get("address");
+  console.log("address", address);
   const { t } = useLang();
+  const { data: detailCopies, refetch: refecthDetailCopies } = useQuery({
+    queryKey: ["detail-copies"],
+    queryFn: () => getDetailCopies(address || ""),
+  });
+  console.log("detailCopies", detailCopies);
 
   return (
     <div className="container mx-auto p-6">
