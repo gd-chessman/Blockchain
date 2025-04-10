@@ -51,8 +51,8 @@ export default function Trading() {
       isFavorite?: boolean;
     }[]
   >([]);
-  const [wishlistTokens, setWishlistTokens] = useState<
-    {
+  const [wishlistTokens, setWishlistTokens] = useState<{
+    tokens: {
       id: number;
       name: string;
       symbol: string;
@@ -64,8 +64,9 @@ export default function Trading() {
       isVerified: boolean;
       marketCap: number;
       isFavorite?: boolean;
-    }[]
-  >([]);
+    }[];
+    total: number;
+  }>({ tokens: [], total: 0 });
   const [searchResults, setSearchResults] = useState<
     {
       id: number;
@@ -154,7 +155,7 @@ export default function Trading() {
           setWishlistTokens(wishlistData);
         } catch (error) {
           console.error("Error fetching wishlist:", error);
-          setWishlistTokens([]);
+          setWishlistTokens({ tokens: [], total: 0 });
         }
       }
     };
@@ -292,7 +293,7 @@ export default function Trading() {
             {displayTokens && (
               <CardContent className="!p-0">
                 <TableTokenList
-                  tokens={displayTokens.filter(token => token.isFavorite)}
+                  tokens={wishlistTokens?.tokens || []}
                   onCopyAddress={handleCopyAddress}
                   onStarClick={handleStarClick}
                 />
