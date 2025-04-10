@@ -51,6 +51,21 @@ export default function Trading() {
       isFavorite?: boolean;
     }[]
   >([]);
+  const [wishlistTokens, setWishlistTokens] = useState<
+    {
+      id: number;
+      name: string;
+      symbol: string;
+      address: string;
+      decimals: number;
+      logoUrl: string;
+      coingeckoId: string | null;
+      tradingviewSymbol: string | null;
+      isVerified: boolean;
+      marketCap: number;
+      isFavorite?: boolean;
+    }[]
+  >([]);
   const [searchResults, setSearchResults] = useState<
     {
       id: number;
@@ -128,6 +143,24 @@ export default function Trading() {
 
     searchData();
   }, [debouncedSearchQuery, currentPage]);
+
+  // Add new effect to fetch wishlist when favorites tab is active
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      if (activeTab === "favorites" && isAuthenticated) {
+        try {
+          const wishlistData = await SolonaTokenService.getMyWishlist();
+          console.log("wishlistData", wishlistData);
+          setWishlistTokens(wishlistData);
+        } catch (error) {
+          console.error("Error fetching wishlist:", error);
+          setWishlistTokens([]);
+        }
+      }
+    };
+
+    fetchWishlist();
+  }, [activeTab, isAuthenticated]);
 
   // Use search results if available, otherwise use WebSocket data
   const displayTokens = debouncedSearchQuery.trim() ? searchResults : tokens;
