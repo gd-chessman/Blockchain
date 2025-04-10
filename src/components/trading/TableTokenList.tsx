@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "@/ui/table";
 import { Button } from "@/ui/button";
-import { Copy, ExternalLink } from "lucide-react";
+import { Copy, ExternalLink, Star } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useLang } from "@/lang";
 import { truncateString } from "@/utils/format";
@@ -28,9 +28,10 @@ interface Token {
 interface TableTokenListProps {
   tokens: Token[];
   onCopyAddress: (address: string, e: React.MouseEvent) => void;
+  onStarClick: (token: Token) => void;
 }
 
-export function TableTokenList({ tokens, onCopyAddress }: TableTokenListProps) {
+export function TableTokenList({ tokens, onCopyAddress, onStarClick }: TableTokenListProps) {
   const router = useRouter();
   const { t } = useLang();
 
@@ -58,6 +59,17 @@ export function TableTokenList({ tokens, onCopyAddress }: TableTokenListProps) {
             >
               <TableCell>
                 <div className="flex items-center gap-2">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-6 w-6 p-0 hover:text-yellow-500"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onStarClick(token);
+                    }}
+                  >
+                    <Star className="h-4 w-4" />
+                  </Button>
                   <img
                     src={token.logoUrl}
                     alt="token logo"
