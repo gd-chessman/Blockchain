@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from "@/ui/card"
 import { Button } from "@/ui/button"
-import { CheckCircle2, ExternalLink, Copy } from "lucide-react"
+import { CheckCircle2, ExternalLink, Copy, X } from "lucide-react"
 import { cn } from "@/libs/utils"
 import { truncateString } from "@/utils/format"
 import { ToastNotification } from "@/ui/toast"
@@ -104,19 +104,14 @@ export default function TokenCard({
               <div>
                 <div className="font-bold flex items-center">
                   {token.name}
-                  {token.isVerified && <CheckCircle2 className="ml-1 h-3 w-3 text-green-500" />}
+                  {token.isVerified ? (
+                    <CheckCircle2 className="ml-1 size-4 text-green-500" />
+                  ) : (
+                    <X className="ml-1 size-4 text-red-500" />
+                  )}
                 </div>
                 <div className="text-xs text-muted-foreground">{token.symbol}</div>
               </div>
-            </div>
-            <div
-              className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                token.isVerified
-                  ? "bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                  : "bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400"
-              }`}
-            >
-              {/* {token.isVerified ? "✓" : "✗"} */}
             </div>
           </div>
 
