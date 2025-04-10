@@ -48,6 +48,7 @@ import { getPriceSolona } from "@/services/api/SolonaTokenService";
 import { getWalletBalanceByAddress } from "@/services/api/TelegramWalletService";
 import TrandingViewChartPage from "@/components/chart/TrandingViewChartPage";
 import IframeChartPage from "@/components/chart/IframeChartPage";
+import TokenInformation from "@/components/trading/token/TokenInformation";
 
 interface Order {
   created_at: string;
@@ -706,7 +707,9 @@ function TradingContent() {
               <path d="M8 17v-3"></path>
             </svg>
           </div>
-          <h1 className="tracking-tight text-3xl font-bold font-comic bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500 dark:from-pink-300 dark:to-purple-300 uppercase">{t("trading.title")}</h1>
+          <h1 className="tracking-tight text-3xl font-bold font-comic bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500 dark:from-pink-300 dark:to-purple-300 uppercase">
+            {t("trading.title")}
+          </h1>
         </div>
         <div className="text-sm text-muted-foreground mt-2 md:mt-0">
           {t("trading.marketIsOpen")} • 24h
@@ -715,62 +718,14 @@ function TradingContent() {
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
         <div className="flex flex-col gap-6 ">
-          <Card className="shadow-md dark:shadow-blue-900/5 border-2 border-primary">
-            <CardHeader>
-              <CardTitle>{t("trading.tokenInformation")}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="p-3 border rounded-md bg-white/50 dark:bg-gray-900/50">
-                  <div className="flex justify-between mb-6">
-                    <span className={`text-sm font-medium text-green-500`}>
-                      {t("trading.attributes")}
-                    </span>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-6 text-blue-500 hover:text-blue-700"
-                    >
-                      {t("trading.value")}
-                    </Button>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <span className="text-muted-foreground">
-                      {t("trading.name")}:
-                    </span>
-                    <span className="text-right">{tokenInfor?.name}</span>
-                    <span className="text-muted-foreground">
-                      {t("trading.symbol")}:
-                    </span>
-                    <span className="text-right">{tokenInfor?.symbol}</span>
-                    <span className="text-muted-foreground">
-                      {t("trading.address")}:
-                    </span>
-                    <div className="flex items-center justify-between">
-                      <span className="text-right truncate">{address}</span>
-                      <button
-                        onClick={handleCopy}
-                        className="ml-2 p-1 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900"
-                        title={t("trading.copyAddress")}
-                      >
-                        <Copy className="h-4 w-4 text-blue-500 hover:text-blue-700" />
-                      </button>
-                    </div>
-                    <span className="text-muted-foreground">
-                      {t("trading.decimals")}:
-                    </span>
-                    <span className="text-right">{tokenInfor?.decimals}</span>
-                    <span className="text-muted-foreground">
-                      {t("trading.verified")}:
-                    </span>
-                    <span className="text-right text-green-600">
-                      {tokenInfor?.isVerified ? "✓" : "x"}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <TokenInformation
+            name={tokenInfor?.name || ""}
+            symbol={tokenInfor?.symbol || ""}
+            address={address || ""}
+            decimals={tokenInfor?.decimals || 0}
+            isVerified={tokenInfor?.isVerified || false}
+            onCopyAddress={handleCopy}
+          />
 
           <Card className="shadow-md dark:shadow-blue-900/5 border-2 border-primary">
             <CardHeader>
