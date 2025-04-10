@@ -143,6 +143,10 @@ export default function Trading() {
     setCurrentPage(page);
   };
 
+  const handleStarClick = (token: any) => {
+    console.log("Star clicked:", token);
+  };
+
   return (
     <div className="container mx-auto p-6">
       {showToast && (
@@ -218,6 +222,7 @@ export default function Trading() {
             <TableTokenList
               tokens={displayTokens}
               onCopyAddress={handleCopyAddress}
+              onStarClick={handleStarClick}
             />
           </CardContent>
         )}

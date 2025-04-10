@@ -28,7 +28,7 @@ interface Token {
 interface TableTokenListProps {
   tokens: Token[];
   onCopyAddress: (address: string, e: React.MouseEvent) => void;
-  onStarClick: (token: Token) => void;
+  onStarClick?: (token: Token) => void;
 }
 
 export function TableTokenList({ tokens, onCopyAddress, onStarClick }: TableTokenListProps) {
@@ -65,7 +65,7 @@ export function TableTokenList({ tokens, onCopyAddress, onStarClick }: TableToke
                     className="h-6 w-6 p-0 hover:text-yellow-500"
                     onClick={(e) => {
                       e.stopPropagation();
-                      onStarClick(token);
+                      onStarClick?.(token);
                     }}
                   >
                     <Star className="h-4 w-4" />

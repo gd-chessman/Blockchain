@@ -24,7 +24,7 @@ interface OtherCoinsProps {
   searchQuery: string;
   isSearching: boolean;
   onSearchChange: (value: string) => void;
-  onStarClick: (token: Token) => void;
+  onStarClick?: (token: Token) => void;
 }
 
 export default function OtherCoins({ 
@@ -80,7 +80,7 @@ export default function OtherCoins({
                       className="h-6 w-6 p-0 hover:text-yellow-500"
                       onClick={(e) => {
                         e.preventDefault();
-                        onStarClick(token);
+                        onStarClick?.(token);
                       }}
                     >
                       <Star className="h-4 w-4" />
