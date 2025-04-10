@@ -151,7 +151,6 @@ export default function Trading() {
       if (activeTab === "favorites" && isAuthenticated) {
         try {
           const wishlistData = await SolonaTokenService.getMyWishlist();
-          console.log("wishlistData", wishlistData);
           setWishlistTokens(wishlistData);
         } catch (error) {
           console.error("Error fetching wishlist:", error);

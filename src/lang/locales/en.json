@@ -190,7 +190,9 @@
       "tabs": {
           "allTokens": "All Tokens",
           "favorites": "Favorites"
-      }
+      },
+      "wishlistUpdated": "Wishlist updated successfully",
+      "wishlistError": "Failed to update wishlist"
   },
   "navigation": {
       "newcoin": "Create New Coin",

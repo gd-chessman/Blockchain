@@ -173,7 +173,9 @@
         "tabs": {
             "allTokens": "すべてのトークン",
             "favorites": "お気に入り"
-        }
+        },
+        "wishlistUpdated": "お気に入りリストが更新されました",
+        "wishlistError": "お気に入りリストの更新に失敗しました"
     },
     "navigation": {
         "dashboard": "ダッシュボード",
