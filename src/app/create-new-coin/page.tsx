@@ -643,7 +643,7 @@ export default function CreateCoin() {
                       </div>
                     ))}
                     {(!memeCoins || memeCoins.length === 0) && (
-                      <div className="text-center text-muted-foreground py-2 text-sm w-full">
+                      <div className="text-center text-muted-foreground py-2 text-sm w-full col-span-3">
                         {t("createCoin.latestTokens.noTokens")}
                       </div>
                     )}
