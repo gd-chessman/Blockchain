@@ -29,9 +29,10 @@ interface TableTokenListProps {
   tokens: Token[];
   onCopyAddress: (address: string, e: React.MouseEvent) => void;
   onStarClick?: (token: Token) => void;
+  isFavoritesTab?: boolean;
 }
 
-export function TableTokenList({ tokens, onCopyAddress, onStarClick }: TableTokenListProps) {
+export function TableTokenList({ tokens, onCopyAddress, onStarClick, isFavoritesTab = false }: TableTokenListProps) {
   const router = useRouter();
   const { t } = useLang();
 
@@ -62,7 +63,7 @@ export function TableTokenList({ tokens, onCopyAddress, onStarClick }: TableToke
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-6 w-6 p-0 hover:text-yellow-500"
+                    className={`h-6 w-6 p-0 hover:text-yellow-500 ${isFavoritesTab ? 'text-yellow-500' : ''}`}
                     onClick={(e) => {
                       e.stopPropagation();
                       onStarClick?.(token);

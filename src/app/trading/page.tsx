@@ -291,6 +291,7 @@ export default function Trading() {
                   tokens={displayTokens}
                   onCopyAddress={handleCopyAddress}
                   onStarClick={handleStarClick}
+                  isFavoritesTab={false}
                 />
               </CardContent>
             )}
@@ -303,6 +304,7 @@ export default function Trading() {
                   tokens={wishlistTokens?.tokens || []}
                   onCopyAddress={handleCopyAddress}
                   onStarClick={handleStarClick}
+                  isFavoritesTab={true}
                 />
               </CardContent>
             )}
