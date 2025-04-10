@@ -71,7 +71,7 @@ export function TableTokenList({ tokens, onCopyAddress, onStarClick }: TableToke
                     <Star className="h-4 w-4" />
                   </Button>
                   <img
-                    src={token.logoUrl}
+                    src={token.logoUrl || "/placeholder.png"}
                     alt="token logo"
                     className="size-10 rounded-full"
                   />

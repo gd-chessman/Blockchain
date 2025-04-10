@@ -86,7 +86,7 @@ export default function OtherCoins({
                       <Star className="h-4 w-4" />
                     </Button>
                     <img
-                      src={token.logoUrl}
+                      src={token.logoUrl || "/placeholder.png"}
                       alt=""
                       className="size-10 rounded-full"
                     />
