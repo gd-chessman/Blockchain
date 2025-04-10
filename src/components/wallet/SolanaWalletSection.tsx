@@ -49,7 +49,6 @@ export default function SolanaWalletSection({
   handleDeleteWallet,
 }: SolanaWalletSectionProps) {
   const { t } = useLang();
-  console.log(myWallets);
 
   return (
     <Card className="border-none shadow-md dark:shadow-blue-900/5">
