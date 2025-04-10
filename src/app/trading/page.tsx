@@ -182,11 +182,19 @@ export default function Trading() {
 
   const handleStarClick = async (token: any) => {
     try {
-      const data = {tokenId: token.id, status: "on" };;
+      const data = {
+        tokenId: token.id,
+        status: activeTab === "favorites" ? "off" : "on"
+      };
       const response = await SolonaTokenService.toggleWishlist(data);
       if (response) {
         setToastMessage(t("trading.wishlistUpdated"));
         setShowToast(true);
+        // Refresh wishlist if in favorites tab
+        if (activeTab === "favorites") {
+          const wishlistData = await SolonaTokenService.getMyWishlist();
+          setWishlistTokens(wishlistData);
+        }
       }
     } catch (error) {
       console.error("Error toggling wishlist:", error);
