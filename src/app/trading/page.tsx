@@ -72,7 +72,7 @@ export default function Trading() {
           // Convert WebSocket data format to match API format
           const convertedTokens = parsedMessage.data.tokens.map(
             (token: any) => ({
-              id: 0, // WebSocket data doesn't have ID
+              id: token.slt_id,
               name: token.slt_name,
               symbol: token.slt_symbol,
               address: token.slt_address,
@@ -143,8 +143,19 @@ export default function Trading() {
     setCurrentPage(page);
   };
 
-  const handleStarClick = (token: any) => {
-    console.log("Star clicked:", token);
+  const handleStarClick = async (token: any) => {
+    try {
+      const data = { tokenId: token.id, status: "on" };;
+      const response = await SolonaTokenService.toggleWishlist(data);
+      if (response) {
+        setToastMessage(t("trading.wishlistUpdated"));
+        setShowToast(true);
+      }
+    } catch (error) {
+      console.error("Error toggling wishlist:", error);
+      setToastMessage(t("trading.wishlistError"));
+      setShowToast(true);
+    }
   };
 
   return (

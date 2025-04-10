@@ -81,6 +81,7 @@ function TradingContent() {
   const queryClient = useQueryClient();
   const [tokens, setTokens] = useState<
     {
+      slt_id: number;
       slt_name: string;
       slt_address: string;
       slt_symbol: string;
@@ -191,7 +192,7 @@ function TradingContent() {
   const displayTokens = debouncedSearchQuery.trim()
     ? searchResults
     : tokens?.map((token) => ({
-        id: 0,
+        id: token.slt_id,
         name: token.slt_name,
         symbol: token.slt_symbol,
         address: token.slt_address,

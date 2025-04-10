@@ -91,7 +91,7 @@ export default function Dashboard() {
           const convertedTokens = parsedMessage.data.tokens.map(
             (token: any) => {
               return {
-                id: 0,
+                id: token.slt_id,
                 name: token.slt_name || token.name,
                 symbol: token.slt_symbol || token.symbol,
                 address: token.slt_address || token.address,
