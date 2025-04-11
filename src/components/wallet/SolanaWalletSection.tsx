@@ -150,7 +150,7 @@ export default function SolanaWalletSection({
                     </TableCell>
                     <TableCell>
                       <Badge variant="outline" className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800">
-                        {wallet.wallet_type || "Primary"}
+                      {t(`navigation.selectWallet.walletType.${wallet.wallet_type?.toLowerCase() || 'primary'}`)}
                       </Badge>
                     </TableCell>
                     <TableCell>
@@ -200,7 +200,7 @@ export default function SolanaWalletSection({
                         variant="outline"
                         className="bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 border-blue-200 dark:border-blue-800"
                       >
-                        {wallet.wallet_auth}
+                        {t(`navigation.selectWallet.walletAuth.${wallet.wallet_auth?.toLowerCase() || 'owner'}`)}
                       </Badge>
                     </TableCell>
                     <TableCell>
