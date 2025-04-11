@@ -31,6 +31,12 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
   const pathname = usePathname();
   const isTradingPage = pathname?.startsWith('/trading');
   const isDashboardPage = pathname?.startsWith('/dashboard');
+  const tokenStackRef = useRef<Token[]>([]); // Stack chứa tối đa 100 token
+  const updateIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const isInitialLoadRef = useRef(true);
+  const MAX_STACK_SIZE = 100; // Giới hạn stack 100 token
+  const DISPLAY_INTERVAL = 1000; // Hiển thị mỗi 1s
+  const TOKENS_PER_UPDATE = 1; // Số token cập nhật mỗi lần
 
   const convertToken = (token: any): Token => {
     return {
@@ -45,6 +51,22 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
       isVerified: token.slt_is_verified || token.isVerified,
       marketCap: 0,
     };
+  };
+
+  const updateTokens = () => {
+    if (!mountedRef.current || tokenStackRef.current.length === 0) return;
+
+    // Lấy 2 token mới nhất từ stack và xóa chúng khỏi stack
+    const newTokens = tokenStackRef.current.slice(0, TOKENS_PER_UPDATE);
+    tokenStackRef.current = tokenStackRef.current.slice(TOKENS_PER_UPDATE);
+    
+    if (newTokens.length > 0) {
+      setTokens(prevTokens => {
+        // Thêm các token mới vào đầu mảng và giới hạn số lượng theo params.limit
+        return [...newTokens, ...prevTokens].slice(0, params?.limit || 24);
+      });
+      
+    }
   };
 
   const connect = () => {
@@ -63,6 +85,8 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
         console.log("✅ Connected to Socket.IO server - useWsSubscribeTokens");
         setIsConnected(true);
         setError(null);
+        // Reset stack khi kết nối lại
+        tokenStackRef.current = [];
         newSocket.emit('subscribeTokens', params || {});
       });
 
@@ -85,10 +109,29 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
         if (mountedRef.current) {
           try {
             const rawTokens = data.data?.tokens || [];
-            const convertedTokens = rawTokens
-              .slice(-24) // Keep only the latest 24 tokens
-              .map(convertToken);
-            setTokens(convertedTokens);
+            const convertedTokens = rawTokens.map(convertToken);
+
+            if (isInitialLoadRef.current) {
+              // Lần đầu kết nối: 
+              // 1. Hiển thị theo limit
+              setTokens(convertedTokens.slice(0, params?.limit || 24));
+              // 2. Lưu phần còn lại vào stack (nếu có)
+              tokenStackRef.current = convertedTokens.slice(params?.limit || 24);
+              isInitialLoadRef.current = false;
+              console.log('Initial load:', convertedTokens.length, 'tokens');
+            } else {
+              // Các lần cập nhật sau:
+              // Tạo Set chứa các address đã có trong stack
+              const existingAddresses = new Set(tokenStackRef.current.map(token => token.address));
+              
+              // Lọc ra các token mới có address chưa tồn tại trong stack
+              const uniqueNewTokens = convertedTokens.filter((token: Token) => !existingAddresses.has(token.address));
+              
+              // Thêm tokens mới vào cuối stack và giữ tối đa MAX_STACK_SIZE
+              tokenStackRef.current = [...tokenStackRef.current, ...uniqueNewTokens]
+                .slice(-MAX_STACK_SIZE);
+            
+            }
           } catch (error) {
             console.error("Error processing token data:", error);
           }
@@ -111,6 +154,8 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
   // Effect to handle page navigation
   useEffect(() => {
     if (isTradingPage || isDashboardPage) {
+      isInitialLoadRef.current = true;
+      tokenStackRef.current = []; // Reset stack
       connect();
     } else {
       if (socket) {
@@ -126,11 +171,17 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
   useEffect(() => {
     mountedRef.current = true;
     
+    // Cập nhật tokens mỗi 0.5s
+    updateIntervalRef.current = setInterval(updateTokens, DISPLAY_INTERVAL);
+    
     return () => {
       mountedRef.current = false;
       if (socket) {
         socket.emit('unSubscribeTokens');
         socket.disconnect();
+      }
+      if (updateIntervalRef.current) {
+        clearInterval(updateIntervalRef.current);
       }
     };
   }, []);
