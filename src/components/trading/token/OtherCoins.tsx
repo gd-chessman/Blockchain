@@ -65,7 +65,7 @@ export default function OtherCoins({
         <CardContent>
           <div className="">
             <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50">
-              <div className="space-y-4">
+              <div className="space-y-4 max-h-[11.25rem] overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent">
                 {favoriteTokens.map((token, index) => (
                   <Link
                     key={index}
@@ -111,7 +111,7 @@ export default function OtherCoins({
           <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50">
             <div
               className="overflow-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent"
-              style={{ maxHeight: historyTransactionsHeight + 734 }}
+              style={{ maxHeight: historyTransactionsHeight + 600 }}
             >
               <div className="space-y-4">
                 {tokens?.map((token, index) => (

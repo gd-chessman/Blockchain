@@ -126,7 +126,7 @@ function TradingContent() {
     queryKey: ["groups"],
     queryFn: getMyGroups,
   });
-  const { data: myWishlist } = useQuery({
+  const { data: myWishlist, refetch: refetchMyWishlist } = useQuery({
     queryKey: ["myWishlist"],
     queryFn: getMyWishlist,
   });
@@ -683,6 +683,20 @@ function TradingContent() {
     }
   }, [orders, pendingOrders]);
 
+  const handleStarClick = async (token: any) => {
+    try {
+      const data = {
+        tokenId: token.id,
+        status: "on"
+      };
+      const response = await SolonaTokenService.toggleWishlist(data);
+      refetchMyWishlist();
+    } catch (error) {
+      console.error("Error toggling wishlist:", error);
+    }
+  };
+
+
   if (!isMounted) {
     return (
       <div className="flex flex-col items-center justify-center h-[80vh]">
@@ -742,6 +756,7 @@ function TradingContent() {
             isSearching={isSearching}
             onSearchChange={setSearchQuery}
             favoriteTokens={myWishlist?.tokens}
+            onStarClick={handleStarClick}
           />
         </div>
         <div className="lg:col-span-3">
