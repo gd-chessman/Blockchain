@@ -14,7 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/ui/table";
-import { Coins, Copy, DogIcon } from "lucide-react";
+import { Coins, Copy, DogIcon, ExternalLink } from "lucide-react";
 import { Avatar } from "@/ui/avatar";
 import { useForm } from "react-hook-form";
 import { TelegramWalletService } from "@/services/api";
@@ -155,7 +155,7 @@ export default function CreateCoin() {
       )}
       <div className="flex items-center mb-6">
         <div className="w-12 h-12 bg-gradient-to-br from-[#b752e1] to-[#9a3cc9] dark:from-[#b752e1] dark:to-[#8a2cb8] rounded-xl flex items-center justify-center mr-4 text-white shadow-lg shadow-[#b752e1]/20 dark:shadow-[#b752e1]/20 animate-wiggle">
-        <Coins className="h-7 w-7" />
+          <Coins className="h-7 w-7" />
         </div>
         <h1 className="text-3xl font-bold font-comic bg-clip-text text-transparent bg-gradient-to-r from-[#b752e1] to-[#9a3cc9] dark:from-[#b752e1] dark:to-[#9a3cc9] uppercase">
           {t("createCoin.title")}
@@ -762,14 +762,17 @@ export default function CreateCoin() {
                           <TableCell>{coin.decimals}</TableCell>
                           <TableCell>
                             <Button
-                              className="bg-green-500 hover:bg-green-600 text-white h-8"
+                              variant="outline"
+                              size="sm"
                               onClick={() =>
                                 router.push(
                                   `/trading/token?address=${coin.address}`
                                 )
                               }
+                              className="text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 border-purple-300 dark:border-purple-700 rounded-full"
                             >
-                              {t("createCoin.myCoins.tradeButton")}
+                              <ExternalLink className="mr-1 h-3 w-3" />
+                              {t("trading.trade")}
                             </Button>
                           </TableCell>
                         </TableRow>
