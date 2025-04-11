@@ -35,7 +35,7 @@ export default function Trading() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [activeTab, setActiveTab] = useState("all");
-  const { tokenMessages } = useWsSubscribeTokens({ limit: 18 });
+  const { tokens: wsTokens } = useWsSubscribeTokens({ limit: 18 });
   const [tokens, setTokens] = useState<
     {
       id: number;
@@ -83,36 +83,12 @@ export default function Trading() {
     }[]
   >([]);
 
-  // Parse messages and extract tokens
+  // Update tokens when WebSocket data changes
   useEffect(() => {
-    if (Array.isArray(tokenMessages)) {
-      tokenMessages.forEach((message) => {
-        try {
-          const parsedMessage = JSON.parse(message);
-          // Convert WebSocket data format to match API format
-          const convertedTokens = parsedMessage.data.tokens.map(
-            (token: any) => ({
-              id: token.slt_id,
-              name: token.slt_name,
-              symbol: token.slt_symbol,
-              address: token.slt_address,
-              decimals: token.slt_decimals,
-              logoUrl: token.slt_logo_url,
-              coingeckoId: null,
-              tradingviewSymbol: null,
-              isVerified: token.slt_is_verified,
-              marketCap: 0, // WebSocket data doesn't have marketCap
-            })
-          );
-          setTokens(convertedTokens);
-        } catch (error) {
-          console.error("Error parsing JSON:", error);
-        }
-      });
-    } else {
-      console.error("messages is not an array:", tokenMessages);
+    if (wsTokens && wsTokens.length > 0) {
+      setTokens(wsTokens);
     }
-  }, [tokenMessages]);
+  }, [wsTokens]);
 
   // Effect to handle search when debounced value changes
   useEffect(() => {

@@ -2,6 +2,19 @@ import { useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { io, Socket } from 'socket.io-client';
 
+interface Token {
+  id: number;
+  name: string;
+  symbol: string;
+  address: string;
+  decimals: number;
+  logoUrl: string;
+  coingeckoId: string | null;
+  tradingviewSymbol: string | null;
+  isVerified: boolean;
+  marketCap: number;
+}
+
 interface SubscribeParams {
   page?: number;
   limit?: number;
@@ -11,13 +24,28 @@ interface SubscribeParams {
 
 export function useWsSubscribeTokens(params?: SubscribeParams) {
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [tokenMessages, setTokenMessages] = useState<string[]>([]);
+  const [tokens, setTokens] = useState<Token[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const mountedRef = useRef(true);
   const pathname = usePathname();
   const isTradingPage = pathname?.startsWith('/trading');
   const isDashboardPage = pathname?.startsWith('/dashboard');
+
+  const convertToken = (token: any): Token => {
+    return {
+      id: token.slt_id,
+      name: token.slt_name || token.name,
+      symbol: token.slt_symbol || token.symbol,
+      address: token.slt_address || token.address,
+      decimals: token.slt_decimals || token.decimals,
+      logoUrl: token.slt_logo_url || token.logoUrl,
+      coingeckoId: null,
+      tradingviewSymbol: null,
+      isVerified: token.slt_is_verified || token.isVerified,
+      marketCap: 0,
+    };
+  };
 
   const connect = () => {
     if (!mountedRef.current) return;
@@ -56,12 +84,11 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
       newSocket.on('tokenUpdate', (data) => {
         if (mountedRef.current) {
           try {
-            const tokens = data.data?.tokens || [];
-            setTokenMessages([JSON.stringify({
-              data: {
-                tokens: tokens.slice(-24) // Keep only the latest 24 tokens
-              }
-            })]);
+            const rawTokens = data.data?.tokens || [];
+            const convertedTokens = rawTokens
+              .slice(-24) // Keep only the latest 24 tokens
+              .map(convertToken);
+            setTokens(convertedTokens);
           } catch (error) {
             console.error("Error processing token data:", error);
           }
@@ -116,5 +143,5 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
     }
   };
 
-  return { socket, tokenMessages, sendMessage, error, isConnected };
+  return { socket, tokens, sendMessage, error, isConnected };
 }

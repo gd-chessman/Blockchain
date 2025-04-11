@@ -77,7 +77,7 @@ interface Connect {
 function TradingContent() {
   const { t } = useLang();
   const { isAuthenticated } = useAuth();
-  const { tokenMessages } = useWsSubscribeTokens({ limit: 30 });
+  const { tokens: wsTokens } = useWsSubscribeTokens({ limit: 30 });
   const queryClient = useQueryClient();
   const [tokens, setTokens] = useState<
     {
@@ -188,6 +188,22 @@ function TradingContent() {
     searchData();
   }, [debouncedSearchQuery]);
 
+  // Update tokens when WebSocket data changes
+  useEffect(() => {
+    if (wsTokens && wsTokens.length > 0) {
+      const convertedTokens = wsTokens.map(token => ({
+        slt_id: token.id,
+        slt_name: token.name,
+        slt_address: token.address,
+        slt_symbol: token.symbol,
+        slt_decimals: token.decimals,
+        slt_is_verified: token.isVerified,
+        slt_logo_url: token.logoUrl
+      }));
+      setTokens(convertedTokens);
+    }
+  }, [wsTokens]);
+
   // Use search results if available, otherwise use WebSocket data
   const displayTokens = debouncedSearchQuery.trim()
     ? searchResults
@@ -203,21 +219,6 @@ function TradingContent() {
         isVerified: token.slt_is_verified,
         marketCap: 0,
       }));
-
-  useEffect(() => {
-    if (Array.isArray(tokenMessages)) {
-      tokenMessages.forEach((message) => {
-        try {
-          const parsedMessage = JSON.parse(message);
-          setTokens(parsedMessage.data.tokens);
-        } catch (error) {
-          console.error("Error parsing JSON:", error);
-        }
-      });
-    } else {
-      console.error("messages is not an array:", tokenMessages);
-    }
-  }, [tokenMessages]);
 
   const handleTimeframeChange = (timeframe: string) => {
     console.log(`Timeframe changed to: ${timeframe}`);

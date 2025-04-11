@@ -36,7 +36,7 @@ export default function Dashboard() {
   const [isSearching, setIsSearching] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const { tokenMessages } = useWsSubscribeTokens({ limit: 18 });
+  const { tokens: wsTokens } = useWsSubscribeTokens({ limit: 18 });
   const [showNotification, setShowNotification] = useState(false);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
@@ -79,42 +79,13 @@ export default function Dashboard() {
     }
   }, [showNotification]);
 
-  // Parse messages and extract tokens
+  // Update tokens when WebSocket data changes
   useEffect(() => {
-    if (Array.isArray(tokenMessages) && tokenMessages.length > 0) {
-      const lastMessage = tokenMessages[tokenMessages.length - 1];
-
-      try {
-        const parsedMessage = JSON.parse(lastMessage);
-
-        if (parsedMessage.data && parsedMessage.data.tokens) {
-          const convertedTokens = parsedMessage.data.tokens.map(
-            (token: any) => {
-              return {
-                id: token.slt_id,
-                name: token.slt_name || token.name,
-                symbol: token.slt_symbol || token.symbol,
-                address: token.slt_address || token.address,
-                decimals: token.slt_decimals || token.decimals,
-                logoUrl: token.slt_logo_url || token.logoUrl,
-                coingeckoId: null,
-                tradingviewSymbol: null,
-                isVerified: token.slt_is_verified || token.isVerified,
-                marketCap: 0,
-              };
-            }
-          );
-          setTokens(convertedTokens);
-          setIsLoading(false);
-        } else {
-          console.log("No tokens found in message data");
-        }
-      } catch (error) {
-        console.error("Error parsing JSON:", error);
-      }
-    } else {
+    if (wsTokens && wsTokens.length > 0) {
+      setTokens(wsTokens);
+      setIsLoading(false);
     }
-  }, [tokenMessages]);
+  }, [wsTokens]);
 
   // Fetch initial tokens if WebSocket is not providing data
   useEffect(() => {
@@ -123,7 +94,6 @@ export default function Dashboard() {
         const response = await SolonaTokenService.getSearchTokenInfor("");
         if (response && response.tokens) {
           setTokens(response.tokens);
-        } else {
         }
       } catch (error) {
         console.error("Error fetching tokens:", error);
