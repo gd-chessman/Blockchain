@@ -685,9 +685,10 @@ function TradingContent() {
 
   const handleStarClick = async (token: any) => {
     try {
+      const isFavorite = myWishlist?.tokens?.some((t: any) => t.id === token.id);
       const data = {
         tokenId: token.id,
-        status: "on"
+        status: isFavorite ? "off" : "on"
       };
       const response = await SolonaTokenService.toggleWishlist(data);
       refetchMyWishlist();
