@@ -129,6 +129,7 @@ function TradingContent() {
   const { data: myWishlist, refetch: refetchMyWishlist } = useQuery({
     queryKey: ["myWishlist"],
     queryFn: getMyWishlist,
+    refetchOnMount: true,
   });
   const { data: walletInfor, refetch: refetchWalletInfor } = useQuery({
     queryKey: ["wallet-infor"],
