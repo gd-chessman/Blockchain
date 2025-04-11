@@ -192,7 +192,8 @@
           "favorites": "Favorites"
       },
       "wishlistUpdated": "Wishlist updated successfully",
-      "wishlistError": "Failed to update wishlist"
+      "wishlistError": "Failed to update wishlist",
+      "addToFavorite": "Add to favorite"
   },
   "navigation": {
       "newcoin": "Create New Coin",

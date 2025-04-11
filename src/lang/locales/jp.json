@@ -175,7 +175,8 @@
             "favorites": "お気に入り"
         },
         "wishlistUpdated": "お気に入りリストが更新されました",
-        "wishlistError": "お気に入りリストの更新に失敗しました"
+        "wishlistError": "お気に入りリストの更新に失敗しました",
+        "addToFavorite": "お気に入りに追加"
     },
     "navigation": {
         "dashboard": "ダッシュボード",

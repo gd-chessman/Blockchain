@@ -9,7 +9,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
-import { Pencil, TrendingUp, Check, X, Loader2, Search } from "lucide-react";
+import { Pencil, TrendingUp, Check, X, Loader2, Search, Star } from "lucide-react";
 import { useEffect, useState, useRef, Suspense } from "react";
 import { useLang } from "@/lang";
 import { Copy } from "lucide-react";
@@ -736,7 +736,10 @@ function TradingContent() {
           </h1>
         </div>
         <div className="text-sm text-muted-foreground mt-2 md:mt-0">
-          {t("trading.marketIsOpen")} • 24h
+          {/* {t("trading.marketIsOpen")} • 24h */}
+          <Button className="ml-2 inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 h-8 rounded-full px-3 text-xs bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white" onClick={() => handleStarClick(tokenInfor)}>
+            {t("trading.addToFavorite")}
+          </Button>
         </div>
       </div>
 
