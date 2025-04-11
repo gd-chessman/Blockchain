@@ -110,7 +110,7 @@ export default function OtherCoins({
         <div className="grid grid-cols-1 gap-4">
           <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50">
             <div
-              className="overflow-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent"
+              className="overflow-auto h-72 md:h-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent"
               style={{ maxHeight: historyTransactionsHeight + 600 }}
             >
               <div className="space-y-4">
