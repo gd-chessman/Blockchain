@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import usePercent from "@/hooks/usePercent";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
+  getMyWishlist,
   getTokenInforByAddress,
   getTokenPrice,
 } from "@/services/api/SolonaTokenService";
@@ -124,6 +125,10 @@ function TradingContent() {
   const { data: groupsResponse } = useQuery({
     queryKey: ["groups"],
     queryFn: getMyGroups,
+  });
+  const { data: myWishlist } = useQuery({
+    queryKey: ["myWishlist"],
+    queryFn: getMyWishlist,
   });
   const { data: walletInfor, refetch: refetchWalletInfor } = useQuery({
     queryKey: ["wallet-infor"],
@@ -736,6 +741,7 @@ function TradingContent() {
             searchQuery={searchQuery}
             isSearching={isSearching}
             onSearchChange={setSearchQuery}
+            favoriteTokens={myWishlist?.tokens}
           />
         </div>
         <div className="lg:col-span-3">

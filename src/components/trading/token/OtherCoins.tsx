@@ -16,6 +16,7 @@ interface Token {
   tradingviewSymbol: string | null;
   isVerified: boolean;
   marketCap: number;
+  isFavorite?: boolean;
 }
 
 interface OtherCoinsProps {
@@ -23,6 +24,7 @@ interface OtherCoinsProps {
   tokens: Token[];
   searchQuery: string;
   isSearching: boolean;
+  favoriteTokens: Token[];
   onSearchChange: (value: string) => void;
   onStarClick?: (token: Token) => void;
 }
@@ -33,7 +35,8 @@ export default function OtherCoins({
   searchQuery,
   isSearching,
   onSearchChange,
-  onStarClick
+  onStarClick,
+  favoriteTokens = []
 }: OtherCoinsProps) {
   const { t } = useLang();
 
@@ -58,6 +61,51 @@ export default function OtherCoins({
           />
         </div>
       </CardHeader>
+      {favoriteTokens && favoriteTokens.length > 0 && (
+        <CardContent>
+          <div className="">
+            <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50">
+              <div className="space-y-4">
+                {favoriteTokens.map((token, index) => (
+                  <Link
+                    key={index}
+                    className={`flex text-sm gap-6 cursor-pointer ${
+                      index < favoriteTokens.length - 1 ? "border-b-2 pb-2" : ""
+                    }`}
+                    href={`/trading/token?address=${token.address}`}
+                  >
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6 p-0 text-yellow-500 hover:text-yellow-600"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onStarClick?.(token);
+                      }}
+                    >
+                      <Star className="h-4 w-4" />
+                    </Button>
+                    <img
+                      src={token.logoUrl || "/placeholder.png"}
+                      alt=""
+                      className="size-10 rounded-full"
+                    />
+                    <div>
+                      <p>{token.name}</p>{" "}
+                      <p className="text-muted-foreground text-xs">
+                        {token.symbol}
+                      </p>{" "}
+                    </div>
+                    <small className={`text-xl ml-auto block ${token.isVerified ? "text-green-600" : "text-red-600"}`}>
+                      {token.isVerified ? " ✓" : "x"}
+                    </small>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      )}
       <CardContent>
         <div className="grid grid-cols-1 gap-4">
           <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50">
@@ -77,7 +125,7 @@ export default function OtherCoins({
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-6 w-6 p-0 hover:text-yellow-500"
+                      className={`h-6 w-6 p-0 ${token.isFavorite ? "text-yellow-500" : ""} hover:text-yellow-500`}
                       onClick={(e) => {
                         e.preventDefault();
                         onStarClick?.(token);
