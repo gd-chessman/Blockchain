@@ -6,8 +6,9 @@ import { useLang } from "@/lang";
 import { useQuery } from "@tanstack/react-query";
 import { getDetailCopies } from "@/services/api/MasterTradingService";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function CopyTrade() {
+function CopyTradeContent() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const { t } = useLang();
@@ -50,5 +51,13 @@ export default function CopyTrade() {
         </TabsContent>
       </Tabs>
     </div>
+  );
+}
+
+export default function CopyTrade() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CopyTradeContent />
+    </Suspense>
   );
 }
