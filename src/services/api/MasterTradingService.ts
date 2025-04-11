@@ -131,9 +131,9 @@ export const masterJoinGroup = async (item: { mg_id: number })=>{
     }
 }
 
-export const getDetailCopies = async (wallet_master: any) => {
+export const getDetailCopies = async (id: any) => {
     try {
-        const temp = await axiosClient.get(`/master-trading/detail-copies?wallet_master=${wallet_master}`);
+        const temp = await axiosClient.get(`/master-trading/detail-copies?id=${id}`);
         return temp.data;
     } catch (error) {
         console.log(error);

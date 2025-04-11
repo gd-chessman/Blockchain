@@ -9,12 +9,11 @@ import { useSearchParams } from "next/navigation";
 
 export default function CopyTrade() {
   const searchParams = useSearchParams();
-  const address = searchParams?.get("address");
-  console.log("address", address);
+  const id = searchParams.get("id");
   const { t } = useLang();
   const { data: detailCopies, refetch: refecthDetailCopies } = useQuery({
     queryKey: ["detail-copies"],
-    queryFn: () => getDetailCopies(address || ""),
+    queryFn: () => getDetailCopies(id || ""),
   });
   console.log("detailCopies", detailCopies);
 
