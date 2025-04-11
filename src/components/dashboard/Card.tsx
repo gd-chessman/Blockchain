@@ -6,7 +6,7 @@ import { CheckCircle2, ExternalLink, Copy, X } from "lucide-react"
 import { cn } from "@/libs/utils"
 import { truncateString } from "@/utils/format"
 import { ToastNotification } from "@/ui/toast"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useLang } from "@/lang"
 
 // Meme class mapping
@@ -61,12 +61,20 @@ export default function TokenCard({
     setShowToast(true)
   }
 
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => {
+        setShowToast(false)
+      }, 2000)
+      return () => clearTimeout(timer)
+    }
+  }, [showToast])
+
   return (
     <>
       {showToast && (
         <ToastNotification
           message={t('createCoin.copySuccess')}
-          duration={2000}
           onClose={() => setShowToast(false)}
         />
       )}
