@@ -34,7 +34,7 @@ export default function MyCoins({ coins, className = "" }: MyCoinsProps) {
                   href={`/trading/token?address=${token.address}`}
                 >
                   <img
-                    src={token.logo_url}
+                    src={token.logo_url || "/placeholder.png"}
                     alt=""
                     className="size-10 rounded-full"
                   />
