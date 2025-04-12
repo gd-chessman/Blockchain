@@ -145,7 +145,7 @@ export default function Navigation() {
 
         {/* Tabs ở giữa */}
         <div className="hidden md:flex items-center justify-center flex-1 px-4">
-          <div className="flex items-center justify-center gap-1 xl:gap-4 2xl:gap-8">
+          <div className="flex items-center justify-center gap-1 xl:gap-4">
             {navItems.map((item) => (
               <Link
                 key={item.href}
