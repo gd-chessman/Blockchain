@@ -68,7 +68,7 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
           return prevTokens;
         }
         // Di chuyển token từ đầu stack vào đầu mảng tokens
-        return [tokenToMove, ...prevTokens].slice(0, params?.limit || 24);
+        return [tokenToMove, ...prevTokens].slice(0, params?.limit || 48);
       });
     }
   };
@@ -117,9 +117,9 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
 
             if (isInitialLoadRef.current) {
               // Lần đầu kết nối: hiển thị theo limit
-              setTokens(convertedTokens.slice(0, params?.limit || 24));
+              setTokens(convertedTokens.slice(0, params?.limit || 48));
               // Lưu phần còn lại vào stack
-              tokenStackRef.current = convertedTokens.slice(params?.limit || 24);
+              tokenStackRef.current = convertedTokens.slice(params?.limit || 48);
               isInitialLoadRef.current = false;
               console.log('Initial load:', convertedTokens.length, 'tokens');
             } else {
@@ -138,13 +138,13 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
                   // Thêm tokens mới vào đầu mảng tokens
                   const newTokens = [...uniqueNewTokens, ...prevTokens];
                   // Lấy các token bị đẩy ra khỏi giới hạn và thêm vào stack
-                  const overflowTokens = newTokens.slice(params?.limit || 24);
+                  const overflowTokens = newTokens.slice(params?.limit || 48);
                   // Lọc bỏ các token trùng lặp trong stack
                   const uniqueOverflowTokens = overflowTokens.filter(token => 
                     !tokenStackRef.current.some(existingToken => existingToken.address === token.address)
                   );
                   tokenStackRef.current = [...tokenStackRef.current, ...uniqueOverflowTokens];
-                  return newTokens.slice(0, params?.limit || 24);
+                  return newTokens.slice(0, params?.limit || 48);
                 });
               }
             }
