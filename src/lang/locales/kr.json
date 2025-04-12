@@ -151,7 +151,7 @@
         "addToFavorite": "즐겨찾기에 추가"
     },
     "navigation": {
-        "newcoin-pumpfun": "밈코인만들기(펌프펀상장)",
+        "newcoin": "밈코인만들기(펌프펀상장)",
         "dashboard": "대시보드",
         "trading": "거래",
         "copytrade": "복사 거래",
@@ -159,7 +159,7 @@
         "wallet": "내 지갑",
         "settings": "설정",
         "logout": "로그아웃",
-        "newcoin": "코인만들기(별도문의)",
+        "newcoin-other": "코인만들기(별도문의)",
         "selectWallet": {
             "title": "지갑 선택",
             "walletType": {
@@ -656,7 +656,7 @@
     "common": {
         "actions": "작업"
     },
-    "createCoinPumpfun": {
+    "createCoinOther": {
         "developer": "개발 중",
         "title": "밈코인만들기(펌프펀상장)",
         "subtitle": "몇 분 안에 자신만의 밈 코인을 만드세요",

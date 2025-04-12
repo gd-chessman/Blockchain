@@ -98,8 +98,8 @@ export default function Navigation() {
 
   const navItems = [
     {
-      name: "newcoin-pumpfun",
-      href: "/create-coin-pumpfun",
+      name: "newcoin-other",
+      href: "/create-coin-other",
       icon: <Coins className="mr-2 h-5 w-5" />,
     },
     {
