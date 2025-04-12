@@ -127,8 +127,8 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
               // Lọc ra các token mới có address chưa tồn tại trong stack
               const uniqueNewTokens = convertedTokens.filter((token: Token) => !existingAddresses.has(token.address));
               
-              // Thêm tokens mới vào cuối stack và giữ tối đa MAX_STACK_SIZE
-              tokenStackRef.current = [...tokenStackRef.current, ...uniqueNewTokens]
+              // Thêm tokens mới vào đầu stack và giữ tối đa MAX_STACK_SIZE
+              tokenStackRef.current = [...uniqueNewTokens, ...tokenStackRef.current]
                 .slice(-MAX_STACK_SIZE);
             
             }
