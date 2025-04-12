@@ -154,11 +154,11 @@
         "dashboard": "대시보드",
         "trading": "거래",
         "copytrade": "복사 거래",
-        "mastertrade": "마스터 거래",
+        "mastertrade": "카피트레이딩",
         "wallet": "지갑",
         "settings": "설정",
         "logout": "로그아웃",
-        "newcoin": "새 코인 만들기",
+        "newcoin": "코인만들기(별도문의)",
         "selectWallet": {
             "title": "지갑 선택",
             "walletType": {
