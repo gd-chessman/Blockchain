@@ -27,7 +27,7 @@ axiosClient.interceptors.response.use(
       // localStorage.removeItem("auth_token");
       // window.location.href = "/login";
     } else if (error.code === "ERR_NETWORK") {
-      console.error("Server is not responding. Please try again later.");
+      console.log("Server is not responding. Please try again later.");
     }
     return Promise.reject(error);
   }
