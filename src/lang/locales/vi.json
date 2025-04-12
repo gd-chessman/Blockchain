@@ -731,5 +731,10 @@
   },
   "createCoinOther": {
     "developer": "Tính năng đang phát triển"
+  },
+  "theme": {
+    "light": "Sáng",
+    "dark": "Tối",
+    "system": "Hệ thống"
   }
 }

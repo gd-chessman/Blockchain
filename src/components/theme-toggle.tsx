@@ -4,9 +4,10 @@ import { Button } from "@/ui/button"
 import { Moon, Sun } from "lucide-react"
 import { useThemeToggle } from "@/hooks/use-theme-toggle"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/ui/dropdown-menu"
-
+import { useLang } from "@/lang/useLang"
 export function ThemeToggle() {
   const { theme, setTheme, mounted } = useThemeToggle()
+  const { t } = useLang()
 
   if (!mounted) {
     return (
@@ -49,11 +50,11 @@ export function ThemeToggle() {
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme("light")}>
           <Sun className="mr-2 h-4 w-4" />
-          <span>Light</span>
+          <span>{t("theme.light")}</span>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("dark")}>
           <Moon className="mr-2 h-4 w-4" />
-          <span>Dark</span>
+          <span>{t("theme.dark")}</span>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("system")}>
           <svg
@@ -72,7 +73,7 @@ export function ThemeToggle() {
             <line x1="8" x2="16" y1="21" y2="21" />
             <line x1="12" x2="12" y1="17" y2="21" />
           </svg>
-          <span>System</span>
+          <span>{t("theme.system")}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

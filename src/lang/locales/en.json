@@ -775,5 +775,10 @@
   },
   "createCoinOther": {
     "developer": "Feature under development"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
   }
 }

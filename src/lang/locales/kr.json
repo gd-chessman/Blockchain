@@ -724,5 +724,10 @@
             "noTokens": "사용 가능한 토큰이 없습니다"
         },
         "pleaseConnectWallet": "이 기능을 사용하려면 지갑을 연결해주세요"
+    },
+    "theme": {
+        "light": "라이트",
+        "dark": "다크",
+        "system": "시스템"
     }
 }
