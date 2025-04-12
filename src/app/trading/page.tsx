@@ -256,7 +256,7 @@ export default function Trading() {
               {t("trading.tabs.allTokens")}
             </TabsTrigger>
             <TabsTrigger value="favorites">
-              <Star className="h-4 w-4 mr-2" />
+              <Star className="h-4 w-4 mr-2 text-yellow-500" />
               {t("trading.tabs.favorites")}
             </TabsTrigger>
           </TabsList>
