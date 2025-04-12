@@ -65,7 +65,7 @@
     },
     "trading": {
         "title": "거래",
-        "trade": "거래",
+        "trade": "구매",
         "list_token_title": "토큰 목록",
         "marketOverview": "시장 개요",
         "yourPortfolio": "내 포트폴리오",
