@@ -180,7 +180,7 @@ export default function Navigation() {
                   className="bg-green-500 hover:bg-green-600 text-white font-semibold"
                   onClick={() =>
                     window.open(
-                      "https://t.me/kcomeme_connect_wallet_bot?start",
+                      "https://t.me/michosso_connect_wallet_bot?start",
                       "_blank"
                     )
                   }
