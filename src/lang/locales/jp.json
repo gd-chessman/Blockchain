@@ -743,5 +743,8 @@
             "noTokens": "利用可能なトークンはありません"
         },
         "pleaseConnectWallet": "この機能を実行するにはウォレットを接続してください"
+    },
+    "createCoinOther": {
+        "developer": "開発中の機能"
     }
 }

@@ -727,5 +727,8 @@
       "noTokens": "Không có token nào"
     },
     "pleaseConnectWallet": "Vui lòng kết nối ví để thực hiện chức năng này"
+  },
+  "createCoinOther": {
+    "developer": "Tính năng đang phát triển"
   }
 }

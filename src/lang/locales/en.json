@@ -771,5 +771,8 @@
     "pleaseConnectWallet": "Please connect your wallet to perform this action",
     "success": "Coin created successfully",
     "error": "Failed to create coin"
+  },
+  "createCoinOther": {
+    "developer": "Feature under development"
   }
 }
