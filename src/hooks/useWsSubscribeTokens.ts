@@ -56,16 +56,20 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
   const updateTokens = () => {
     if (!mountedRef.current || tokenStackRef.current.length === 0) return;
 
-    // Lấy 2 token mới nhất từ stack và xóa chúng khỏi stack
-    const newTokens = tokenStackRef.current.slice(0, TOKENS_PER_UPDATE);
-    tokenStackRef.current = tokenStackRef.current.slice(TOKENS_PER_UPDATE);
+    // Lấy token từ đầu stack và xóa nó khỏi stack
+    const tokenToMove = tokenStackRef.current[0];
+    tokenStackRef.current = tokenStackRef.current.slice(1);
     
-    if (newTokens.length > 0) {
+    if (tokenToMove) {
       setTokens(prevTokens => {
-        // Thêm các token mới vào đầu mảng và giới hạn số lượng theo params.limit
-        return [...newTokens, ...prevTokens].slice(0, params?.limit || 24);
+        // Kiểm tra xem token đã tồn tại trong mảng tokens chưa
+        const isDuplicate = prevTokens.some(token => token.address === tokenToMove.address);
+        if (isDuplicate) {
+          return prevTokens;
+        }
+        // Di chuyển token từ đầu stack vào đầu mảng tokens
+        return [tokenToMove, ...prevTokens].slice(0, params?.limit || 24);
       });
-      
     }
   };
 
@@ -112,25 +116,37 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
             const convertedTokens = rawTokens.map(convertToken);
 
             if (isInitialLoadRef.current) {
-              // Lần đầu kết nối: 
-              // 1. Hiển thị theo limit
+              // Lần đầu kết nối: hiển thị theo limit
               setTokens(convertedTokens.slice(0, params?.limit || 24));
-              // 2. Lưu phần còn lại vào stack (nếu có)
+              // Lưu phần còn lại vào stack
               tokenStackRef.current = convertedTokens.slice(params?.limit || 24);
               isInitialLoadRef.current = false;
               console.log('Initial load:', convertedTokens.length, 'tokens');
             } else {
               // Các lần cập nhật sau:
-              // Tạo Set chứa các address đã có trong stack
-              const existingAddresses = new Set(tokenStackRef.current.map(token => token.address));
+              // Tạo Set chứa các address đã có trong tokens và stack
+              const existingAddresses = new Set([
+                ...tokens.map(token => token.address),
+                ...tokenStackRef.current.map(token => token.address)
+              ]);
               
-              // Lọc ra các token mới có address chưa tồn tại trong stack
+              // Lọc ra các token mới có address chưa tồn tại
               const uniqueNewTokens = convertedTokens.filter((token: Token) => !existingAddresses.has(token.address));
               
-              // Thêm tokens mới vào cuối và giữ tối đa MAX_STACK_SIZE
-              tokenStackRef.current = [...tokenStackRef.current, ...uniqueNewTokens]
-                .slice(-MAX_STACK_SIZE);
-            
+              if (uniqueNewTokens.length > 0) {
+                setTokens(prevTokens => {
+                  // Thêm tokens mới vào đầu mảng tokens
+                  const newTokens = [...uniqueNewTokens, ...prevTokens];
+                  // Lấy các token bị đẩy ra khỏi giới hạn và thêm vào stack
+                  const overflowTokens = newTokens.slice(params?.limit || 24);
+                  // Lọc bỏ các token trùng lặp trong stack
+                  const uniqueOverflowTokens = overflowTokens.filter(token => 
+                    !tokenStackRef.current.some(existingToken => existingToken.address === token.address)
+                  );
+                  tokenStackRef.current = [...tokenStackRef.current, ...uniqueOverflowTokens];
+                  return newTokens.slice(0, params?.limit || 24);
+                });
+              }
             }
           } catch (error) {
             console.error("Error processing token data:", error);
