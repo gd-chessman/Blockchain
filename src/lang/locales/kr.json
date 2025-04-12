@@ -151,11 +151,12 @@
         "addToFavorite": "즐겨찾기에 추가"
     },
     "navigation": {
+        "newcoin-pumpfun": "밈코인만들기(펌프펀상장)",
         "dashboard": "대시보드",
         "trading": "거래",
         "copytrade": "복사 거래",
         "mastertrade": "카피트레이딩",
-        "wallet": "지갑",
+        "wallet": "내 지갑",
         "settings": "설정",
         "logout": "로그아웃",
         "newcoin": "코인만들기(별도문의)",
