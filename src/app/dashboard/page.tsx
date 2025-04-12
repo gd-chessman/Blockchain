@@ -1,24 +1,11 @@
 "use client";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ArrowUp,
   Loader2,
   Search,
 } from "lucide-react";
 import { useWsSubscribeTokens } from "@/hooks/useWsSubscribeTokens";
 import { useState, useEffect } from "react";
 import { SolonaTokenService } from "@/services/api";
-import { truncateString } from "@/utils/format";
 import { useLang } from "@/lang/useLang";
 import { useRouter } from "next/navigation";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -36,7 +23,10 @@ export default function Dashboard() {
   const [isSearching, setIsSearching] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const { tokens: wsTokens } = useWsSubscribeTokens({ limit: 18 });
+  const [screenSize, setScreenSize] = useState<number>(window.innerWidth);
+  const { tokens: wsTokens } = useWsSubscribeTokens({ 
+    limit: screenSize >= 1280 && screenSize < 1536 ? 16 : 18 
+  });
   const [showNotification, setShowNotification] = useState(false);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
@@ -78,6 +68,15 @@ export default function Dashboard() {
       return () => clearTimeout(timer);
     }
   }, [showNotification]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenSize(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Update tokens when WebSocket data changes
   useEffect(() => {
@@ -227,7 +226,7 @@ export default function Dashboard() {
           </div>
         ) : displayTokens.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6">
               {displayTokens.map((token, index) => (
                 <TokenCard
                   key={index}
