@@ -35,8 +35,8 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
   const updateIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const isInitialLoadRef = useRef(true);
   const MAX_STACK_SIZE = 100; // Giới hạn stack 100 token
-  const DISPLAY_INTERVAL = 1500; // Hiển thị mỗi s
-  const TOKENS_PER_UPDATE = 2; // Số token cập nhật mỗi lần
+  const DISPLAY_INTERVAL = 1000; // Hiển thị mỗi s
+  const TOKENS_PER_UPDATE = 1; // Số token cập nhật mỗi lần
 
   const convertToken = (token: any): Token => {
     return {
