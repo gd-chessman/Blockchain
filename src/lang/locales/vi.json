@@ -179,7 +179,8 @@
       "addToFavorite": "Thêm vào yêu thích"
   },
   "navigation": {
-      "newcoin": "Tạo Coin Mới",
+      "newcoin": "Tạo Coin Mới (Pumpfun)",
+      "newcoin-other": "Tạo Coin Khác",
       "dashboard": "Bảng Điều Khiển",
       "trading": "Giao Dịch",
       "copytrade": "Sao Chép GD",

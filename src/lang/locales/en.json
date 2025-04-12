@@ -196,7 +196,8 @@
       "addToFavorite": "Add to favorite"
   },
   "navigation": {
-      "newcoin": "Create New Coin",
+      "newcoin": "Create New Coin (Pumpfun)",
+      "newcoin-other": "Create Other Coin",
       "dashboard": "Dashboard",
       "trading": "Trading",
       "copytrade": "Copy Trade",
