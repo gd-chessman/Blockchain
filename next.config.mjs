@@ -1,14 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    output: 'standalone',
-    // Các cấu hình khác của bạn có thể nằm ở đây
-    images: {
+  output: 'standalone',
+  images: {
+      domains: [
+          'coin-images.coingecko.com',
+      ],
       unoptimized: true,
-    },
-    experimental: {
-      outputFileTracingRoot: undefined,
-    },
-  };
-  
+  },
+  async rewrites() {
+      return [
+          {
+              source: '/api/:path*',
+              destination: process.env.NEXT_PUBLIC_API_URL + '/api/:path*',
+          },
+      ];
+  },
+};
+
 export default nextConfig;
-  
