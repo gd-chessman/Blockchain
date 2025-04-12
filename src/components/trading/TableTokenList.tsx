@@ -96,7 +96,11 @@ export function TableTokenList({ tokens, onCopyAddress, onStarClick, isFavorites
                 </div>
               </TableCell>
               <TableCell>{token.decimals}</TableCell>
-              <TableCell>{token.isVerified ? "Yes" : "No"}</TableCell>
+              <TableCell>
+                <span className={token.isVerified ? "text-green-500" : "text-red-500"}>
+                  {token.isVerified ? "✓" : "✗"}
+                </span>
+              </TableCell>
               <TableCell>
                 <div className="flex space-x-2">
                   <Button
