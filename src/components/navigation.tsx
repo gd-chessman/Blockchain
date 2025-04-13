@@ -153,7 +153,7 @@ export default function Navigation() {
                 className={cn(
                   "flex items-center px-3 py-2 rounded-lg transition-all hover:bg-white/10 text-sm font-semibold text-black dark:text-white",
                   pathname?.startsWith(item.href)
-                    ? "bg-white/20 shadow-sm"
+                    ? "bg-zinc-300 dark:bg-white/20 shadow-sm"
                     : "bg-transparent"
                 )}
               >
