@@ -167,7 +167,7 @@ export default function Navigation() {
         {/* Các nút chức năng bên phải */}
         <div className="flex items-center gap-1 md:gap-3">
           {isAuthenticated && mounted && walletInfor && (
-            <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-[0.6rem] md:text-xs font-bold text-white dark:text-white border-white">
+            <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-[0.6rem] md:text-xs font-bold text-black dark:text-white border-white">
               {walletInfor.solana_balance?.toFixed(5) || '0.00000'} SOL (${walletInfor.solana_balance_usd?.toFixed(2) || '0.00'})
             </div>
           )}
