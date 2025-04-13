@@ -97,11 +97,11 @@ export default function Navigation() {
 
 
   const navItems = [
-    {
-      name: "newcoin-other",
-      href: "/create-coin-other",
-      icon: <Coins className="mr-2 h-5 w-5" />,
-    },
+    // {
+    //   name: "newcoin-other",
+    //   href: "/create-coin-other",
+    //   icon: <Coins className="mr-2 h-5 w-5" />,
+    // },
     {
       name: "newcoin",
       href: "/create-new-coin",
