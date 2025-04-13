@@ -74,7 +74,7 @@ export function TableTokenList({ tokens, onCopyAddress, onStarClick, isFavorites
                   <img
                     src={token.logoUrl || "/placeholder.png"}
                     alt="token logo"
-                    className="size-10 rounded-full"
+                    className="size-12 rounded-full"
                   />
                   <p>{token.name}</p>
                 </div>
