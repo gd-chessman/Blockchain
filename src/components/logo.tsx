@@ -13,14 +13,14 @@ export function Logo() {
             <Image 
               src="/logo.png" 
               alt="Logo App" 
-              width={72} 
+              width={78} 
               height={48}
               className="md:hidden"
             />
             <Image 
               src="/logo.png" 
               alt="Logo App" 
-              width={110} 
+              width={120} 
               height={90}
               className="hidden md:block"
             />
@@ -37,14 +37,14 @@ export function Logo() {
           <Image 
             src={theme === "dark" ? "/logo-white.png" : "/logo.png"} 
             alt="Logo App" 
-            width={72} 
+            width={78} 
             height={64}
             className="md:hidden"
           />
           <Image 
             src={theme === "dark" ? "/logo-white.png" : "/logo.png"} 
             alt="Logo App" 
-            width={110} 
+            width={120} 
             height={90}
             className="hidden md:block"
           />
