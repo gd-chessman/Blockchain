@@ -39,6 +39,7 @@ export default function OtherCoins({
   favoriteTokens = []
 }: OtherCoinsProps) {
   const { t } = useLang();
+  console.log(tokens);
 
   return (
     <Card className="shadow-md dark:shadow-blue-900/5 border">
@@ -96,9 +97,12 @@ export default function OtherCoins({
                         {token.symbol}
                       </p>{" "}
                     </div>
-                    <small className={`text-xl ml-auto block ${token.isVerified ? "text-green-600" : "text-red-600"}`}>
-                      {token.isVerified ? " ✓" : "x"}
-                    </small>
+                    <div className="ml-auto flex items-center gap-4">
+                      <span className="text-sm font-medium">${(Math.random() * 1000).toFixed(2)}</span>
+                      <small className={`text-xl ${token.isVerified ? "text-green-600" : "text-red-600"}`}>
+                        {token.isVerified ? " ✓" : "x"}
+                      </small>
+                    </div>
                   </Link>
                 ))}
               </div>
@@ -111,7 +115,7 @@ export default function OtherCoins({
           <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50">
             <div
               className="overflow-auto h-72 md:h-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent"
-              style={{ maxHeight: historyTransactionsHeight + 720 }}
+              style={{ maxHeight: historyTransactionsHeight + 620 }}
             >
               <div className="space-y-4">
                 {tokens?.map((token, index) => (
@@ -144,9 +148,12 @@ export default function OtherCoins({
                         {token.symbol}
                       </p>{" "}
                     </div>
-                    <small className={`text-xl ml-auto block ${token.isVerified ? "text-green-600" : "text-red-600"}`}>
-                      {token.isVerified ? " ✓" : "x"}
-                    </small>
+                    <div className="ml-auto flex items-center gap-4">
+                      <span className="text-sm font-medium">${(Math.random() * 1000).toFixed(2)}</span>
+                      <small className={`text-xl ${token.isVerified ? "text-green-600" : "text-red-600"}`}>
+                        {token.isVerified ? " ✓" : "x"}
+                      </small>
+                    </div>
                   </Link>
                 ))}
               </div>
