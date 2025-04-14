@@ -63,8 +63,9 @@
       }
   },
   "trading": {
-      "title": "Giao Dịch",
+      "title": "Giao dịch",
       "trade": "Giao dịch",
+      "liquidity": "Thanh khoản",
       "list_token_title": "Danh Sách Token",
       "marketOverview": "Tổng Quan Thị Trường",
       "yourPortfolio": "Danh Mục Đầu Tư Của Bạn",

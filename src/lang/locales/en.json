@@ -66,6 +66,7 @@
   "trading": {
       "title": "Trading",
       "trade": "Trade",
+      "liquidity": "Liquidity",
       "list_token_title": "Token List",
       "marketOverview": "Market Overview",
       "yourPortfolio": "Your Portfolio",

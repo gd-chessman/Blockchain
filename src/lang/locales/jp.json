@@ -66,6 +66,7 @@
     "trading": {
         "title": "取引",
         "trade": "取引",
+        "liquidity": "流動性",
         "list_token_title": "トークン一覧",
         "marketOverview": "市場概要",
         "yourPortfolio": "ポートフォリオ",
