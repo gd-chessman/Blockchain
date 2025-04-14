@@ -27,7 +27,7 @@ export default function MyCoins({ coins, className = "" }: MyCoinsProps) {
           {coins.length === 0 ? (
             <div className="flex flex-col items-center justify-center p-8">
               <p className="text-muted-foreground mb-4">{t("trading.noCoins")}</p>
-              <Button asChild>
+              <Button asChild className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white">
                 <Link href="/create-new-coin">{t("trading.createNewCoin")}</Link>
               </Button>
             </div>
