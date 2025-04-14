@@ -59,7 +59,7 @@ export default function AssetsSection({
   };
 
   return (
-    <div className="rounded-lg overflow-hidden border-2 border-primary">
+    <div className="rounded-lg overflow-hidden border">
       <Card className="border-none shadow-md dark:shadow-blue-900/5">
         <CardContent className="p-0">
           <div className="rounded-lg overflow-hidden">

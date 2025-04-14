@@ -51,9 +51,9 @@ export default function SolanaWalletSection({
   const { t } = useLang();
 
   return (
-    <Card className="border-none shadow-md dark:shadow-blue-900/5">
+    <Card className="border-none dark:shadow-blue-900/5">
       <CardContent className="p-0">
-        <div className="overflow-hidden rounded-lg border-2 border-primary">
+        <div className="overflow-hidden rounded-lg border">
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/50">
