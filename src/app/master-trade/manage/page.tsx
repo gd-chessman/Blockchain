@@ -460,7 +460,7 @@ export default function ManageMasterTrade() {
                                 : "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400 border-gray-200 dark:border-gray-800"
                             }
                           >
-                            {group.mg_status.toUpperCase()}
+                            {t(`masterTrade.manage.groupManagement.${group.mg_status}`)}
                           </Badge>
                         </TableCell>
                         <TableCell className="text-right !py-2">
