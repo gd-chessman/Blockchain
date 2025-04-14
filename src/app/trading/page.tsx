@@ -241,7 +241,7 @@ export default function Trading() {
               <div className="flex items-center">
                 <Star className="h-4 w-4 mr-2 text-yellow-500" />
                 {t("trading.tabs.favorites")}
-                <span className="ml-2 bg-muted px-2 py-0.5 rounded-full text-xs">
+                <span className="ml-2 bg-blue-500 text-white px-2 py-0.5 rounded-full text-xs">
                   {myWishlist?.total || 0}
                 </span>
               </div>
