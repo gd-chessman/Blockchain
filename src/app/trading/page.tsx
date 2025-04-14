@@ -22,13 +22,14 @@ import { ToastNotification } from "@/ui/toast";
 import { useAuth } from "@/hooks/useAuth";
 import { TableTokenList } from "@/components/trading/TableTokenList";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
+import LogWarring from "@/ui/log-warring";
 
 export default function Trading() {
   const router = useRouter();
   const { t } = useLang();
   const { isAuthenticated } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
-  const debouncedSearchQuery = useDebounce(searchQuery, 300); 
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const [isSearching, setIsSearching] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
@@ -161,7 +162,7 @@ export default function Trading() {
     try {
       const data = {
         tokenId: token.id,
-        status: activeTab === "favorites" ? "off" : "on"
+        status: activeTab === "favorites" ? "off" : "on",
       };
       const response = await SolonaTokenService.toggleWishlist(data);
       if (response) {
@@ -252,9 +253,7 @@ export default function Trading() {
         </CardHeader>
         <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="all">
-              {t("trading.tabs.allTokens")}
-            </TabsTrigger>
+            <TabsTrigger value="all">{t("trading.tabs.allTokens")}</TabsTrigger>
             <TabsTrigger value="favorites">
               <Star className="h-4 w-4 mr-2 text-yellow-500" />
               {t("trading.tabs.favorites")}
@@ -275,7 +274,8 @@ export default function Trading() {
           </TabsContent>
 
           <TabsContent value="favorites">
-            {displayTokens && (
+            {!isAuthenticated && <LogWarring />}
+            {isAuthenticated && displayTokens && (
               <CardContent className="!p-0">
                 <TableTokenList
                   tokens={wishlistTokens?.tokens || []}
@@ -287,85 +287,89 @@ export default function Trading() {
             )}
           </TabsContent>
         </Tabs>
-        {debouncedSearchQuery.trim() && totalPages > 1 && activeTab === "all" && (
-          <div className="flex justify-center mt-6 pb-6">
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => handlePageChange(1)}
-                disabled={currentPage === 1}
-                className="px-3 py-1 rounded-md bg-muted hover:bg-muted/80 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                «
-              </button>
-              <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="px-3 py-1 rounded-md bg-muted hover:bg-muted/80 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                ‹
-              </button>
-
-              {currentPage > 2 && (
+        {debouncedSearchQuery.trim() &&
+          totalPages > 1 &&
+          activeTab === "all" && (
+            <div className="flex justify-center mt-6 pb-6">
+              <div className="flex items-center gap-2">
                 <button
                   onClick={() => handlePageChange(1)}
-                  className="px-3 py-1 rounded-md bg-muted hover:bg-muted/80"
+                  disabled={currentPage === 1}
+                  className="px-3 py-1 rounded-md bg-muted hover:bg-muted/80 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  1
+                  «
                 </button>
-              )}
-              {currentPage > 3 && <span className="px-2">...</span>}
-
-              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                let page;
-                if (currentPage <= 3) {
-                  page = i + 1;
-                } else if (currentPage >= totalPages - 2) {
-                  page = totalPages - 4 + i;
-                } else {
-                  page = currentPage - 2 + i;
-                }
-                return page;
-              }).map((page) => (
                 <button
-                  key={page}
-                  onClick={() => handlePageChange(page)}
-                  className={`px-3 py-1 rounded-md ${
-                    currentPage === page
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted hover:bg-muted/80"
-                  }`}
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="px-3 py-1 rounded-md bg-muted hover:bg-muted/80 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {page}
+                  ‹
                 </button>
-              ))}
 
-              {currentPage < totalPages - 2 && <span className="px-2">...</span>}
-              {currentPage < totalPages - 1 && (
+                {currentPage > 2 && (
+                  <button
+                    onClick={() => handlePageChange(1)}
+                    className="px-3 py-1 rounded-md bg-muted hover:bg-muted/80"
+                  >
+                    1
+                  </button>
+                )}
+                {currentPage > 3 && <span className="px-2">...</span>}
+
+                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                  let page;
+                  if (currentPage <= 3) {
+                    page = i + 1;
+                  } else if (currentPage >= totalPages - 2) {
+                    page = totalPages - 4 + i;
+                  } else {
+                    page = currentPage - 2 + i;
+                  }
+                  return page;
+                }).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`px-3 py-1 rounded-md ${
+                      currentPage === page
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted hover:bg-muted/80"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+
+                {currentPage < totalPages - 2 && (
+                  <span className="px-2">...</span>
+                )}
+                {currentPage < totalPages - 1 && (
+                  <button
+                    onClick={() => handlePageChange(totalPages)}
+                    className="px-3 py-1 rounded-md bg-muted hover:bg-muted/80"
+                  >
+                    {totalPages}
+                  </button>
+                )}
+
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className="px-3 py-1 rounded-md bg-muted hover:bg-muted/80 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  ›
+                </button>
                 <button
                   onClick={() => handlePageChange(totalPages)}
-                  className="px-3 py-1 rounded-md bg-muted hover:bg-muted/80"
+                  disabled={currentPage === totalPages}
+                  className="px-3 py-1 rounded-md bg-muted hover:bg-muted/80 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {totalPages}
+                  »
                 </button>
-              )}
-
-              <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className="px-3 py-1 rounded-md bg-muted hover:bg-muted/80 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                ›
-              </button>
-              <button
-                onClick={() => handlePageChange(totalPages)}
-                disabled={currentPage === totalPages}
-                className="px-3 py-1 rounded-md bg-muted hover:bg-muted/80 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                »
-              </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
       </Card>
     </div>
   );
