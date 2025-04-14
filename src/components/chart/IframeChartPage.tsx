@@ -35,7 +35,9 @@ export default function IframeChartPage({ token }: IframeChartPageProps) {
   }, [])
 
   return (
-    <div style={{ 
+    <div 
+    className='rounded'
+    style={{ 
       position: 'relative',
       width: '100%',
       height: '470px',
@@ -45,6 +47,7 @@ export default function IframeChartPage({ token }: IframeChartPageProps) {
     }}>
       <iframe
         src={`https://www.gmgn.cc/kline/sol/${token}?theme=${theme}&interval=1D`}
+        className='rounded'
         style={{ 
           width: '100%', 
           height: '500px',
