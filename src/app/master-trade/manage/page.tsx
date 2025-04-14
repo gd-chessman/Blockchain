@@ -774,10 +774,15 @@ function ConnectionsTable({
                     }
                   >
                     {connection.status === "block" 
-                      ? "Blocked" 
+                      ? t("masterTrade.manage.connectionManagement.actions.block")
                       : connection.status === "pause"
-                      ? "Paused"
-                      : connection.status}
+                      ? t("masterTrade.manage.connectionManagement.actions.pause")
+                      : connection.status === "connect"
+                      ? t("masterTrade.manage.connectionManagement.actions.connect")
+                      : connection.status === "pending"
+                      ? t("masterTrade.manage.connectionManagement.actions.pending")
+                      : connection.status
+                      }
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
