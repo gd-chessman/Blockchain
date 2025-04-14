@@ -64,7 +64,7 @@ export default function AssetsSection({
         <CardContent className="p-0">
           <div className="rounded-lg overflow-hidden">
             <div className="max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent">
-              <div className="sticky top-0 z-10">
+              <div className="sticky top-0 z-10 bg-background">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/50">

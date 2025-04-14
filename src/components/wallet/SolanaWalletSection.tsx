@@ -79,7 +79,7 @@ export default function SolanaWalletSection({
         <CardContent className="p-0">
           <div className="overflow-hidden rounded-lg border">
             <Table>
-              <TableHeader>
+              <TableHeader className='bg-background'>
                 <TableRow className="bg-muted/50">
                   <TableHead>{t("wallet.table.walletName")}</TableHead>
                   <TableHead>{t("wallet.table.type")}</TableHead>
