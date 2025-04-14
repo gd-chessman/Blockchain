@@ -9,7 +9,15 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
-import { Pencil, TrendingUp, Check, X, Loader2, Search, Star } from "lucide-react";
+import {
+  Pencil,
+  TrendingUp,
+  Check,
+  X,
+  Loader2,
+  Search,
+  Star,
+} from "lucide-react";
 import { useEffect, useState, useRef, Suspense } from "react";
 import { useLang } from "@/lang";
 import { Copy } from "lucide-react";
@@ -197,14 +205,14 @@ function TradingContent() {
   // Update tokens when WebSocket data changes
   useEffect(() => {
     if (wsTokens && wsTokens.length > 0) {
-      const convertedTokens = wsTokens.map(token => ({
+      const convertedTokens = wsTokens.map((token) => ({
         slt_id: token.id,
         slt_name: token.name,
         slt_address: token.address,
         slt_symbol: token.symbol,
         slt_decimals: token.decimals,
         slt_is_verified: token.isVerified,
-        slt_logo_url: token.logoUrl
+        slt_logo_url: token.logoUrl,
       }));
       setTokens(convertedTokens);
     }
@@ -686,10 +694,12 @@ function TradingContent() {
 
   const handleStarClick = async (token: any) => {
     try {
-      const isFavorite = myWishlist?.tokens?.some((t: any) => t.id === token.id);
+      const isFavorite = myWishlist?.tokens?.some(
+        (t: any) => t.id === token.id
+      );
       const data = {
         tokenId: token.id,
-        status: isFavorite ? "off" : "on"
+        status: isFavorite ? "off" : "on",
       };
       const response = await SolonaTokenService.toggleWishlist(data);
       refetchMyWishlist();
@@ -697,7 +707,6 @@ function TradingContent() {
       console.error("Error toggling wishlist:", error);
     }
   };
-
 
   if (!isMounted) {
     return (
@@ -738,7 +747,10 @@ function TradingContent() {
         </div>
         <div className="text-sm text-muted-foreground mt-2 md:mt-0">
           {/* {t("trading.marketIsOpen")} • 24h */}
-          <Button className="ml-2 inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 h-8 rounded-full px-3 text-xs bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white" onClick={() => handleStarClick(tokenInfor)}>
+          <Button
+            className="ml-2 inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 h-8 rounded-full px-3 text-xs bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
+            onClick={() => handleStarClick(tokenInfor)}
+          >
             {t("trading.addToFavorite")}
           </Button>
         </div>
@@ -754,7 +766,7 @@ function TradingContent() {
             isVerified={tokenInfor?.isVerified || false}
             onCopyAddress={handleCopy}
           />
-          <OtherCoins 
+          <OtherCoins
             historyTransactionsHeight={historyTransactionsHeight}
             tokens={displayTokens}
             searchQuery={searchQuery}
@@ -774,10 +786,28 @@ function TradingContent() {
                     <CardDescription>{tokenInfor?.name}</CardDescription>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-bold">
-                      ${tokenPrice?.priceUSD?.toFixed(9) || "0.00"}
+                    <div className="text-sm flex gap-4">
+                      <div className="flex items-center gap-2">
+                        <span>Market Cap:</span>
+                        <span className="text-muted-foreground">$8.3B</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span>Holders:</span>
+                        <span className="text-muted-foreground">623279</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span>Total supply:</span>
+                        <span className="text-muted-foreground">1000M</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span>Pair:</span>
+                        <span className="text-muted-foreground">9d9mb...yy2</span>
+                      </div>
+                      
                     </div>
-                    {/* <div className="text-sm text-green-500">+3.2% (24h)</div> */}
+                    <div className="text-2xl font-bold">
+                      {/* ${tokenPrice?.priceUSD?.toFixed(9) || "0.00"} */}
+                    </div>
                   </div>
                 </div>
               </CardHeader>
