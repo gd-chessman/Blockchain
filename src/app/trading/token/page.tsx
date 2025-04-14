@@ -789,19 +789,19 @@ function TradingContent() {
                     <div className="text-sm flex gap-4">
                       <div className="flex items-center gap-2">
                         <span>Market Cap:</span>
-                        <span className="text-muted-foreground">$8.3B</span>
+                        <span className="text-muted-foreground">{tokenInfor?.marketCap?.toFixed(1)}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <span>Holders:</span>
-                        <span className="text-muted-foreground">623279</span>
+                        <span className="text-muted-foreground">{tokenInfor?.holders}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span>Total supply:</span>
-                        <span className="text-muted-foreground">1000M</span>
+                        <span>Volume24h :</span>
+                        <span className="text-muted-foreground">{tokenInfor?.volume24h?.toFixed(1)}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span>Pair:</span>
-                        <span className="text-muted-foreground">9d9mb...yy2</span>
+                        <span>Liquidity:</span>
+                        <span className="text-muted-foreground">{tokenInfor?.liquidity?.toFixed(1)}</span>
                       </div>
                       
                     </div>

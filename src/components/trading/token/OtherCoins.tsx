@@ -39,7 +39,6 @@ export default function OtherCoins({
   favoriteTokens = []
 }: OtherCoinsProps) {
   const { t } = useLang();
-  console.log(tokens);
 
   return (
     <Card className="shadow-md dark:shadow-blue-900/5 border">
