@@ -37,7 +37,7 @@ export function TableTokenList({ tokens, onCopyAddress, onStarClick, isFavorites
   const { t } = useLang();
 
   return (
-    <div className="rounded-lg overflow-hidden border-2 border-primary">
+    <div className="rounded-lg overflow-hidden border">
       <Table>
         <TableHeader>
           <TableRow className="bg-muted/50">
