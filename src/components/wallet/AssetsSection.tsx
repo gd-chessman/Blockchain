@@ -124,7 +124,7 @@ export default function AssetsSection({
                                 variant="outline"
                                 className="ml-2 bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400 border-green-200 dark:border-green-800"
                               >
-                                Verified
+                                ✓
                               </Badge>
                             )}
                           </div>
