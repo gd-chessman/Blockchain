@@ -664,6 +664,10 @@
               "joinError": "Failed to join group"
           },
           "copySuccess": "Wallet address copied successfully"
+      },
+      "type": {
+          "normal": "Normal",
+          "vip": "VIP"
       }
   },
   "wallet": {

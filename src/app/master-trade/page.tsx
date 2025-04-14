@@ -317,7 +317,7 @@ export default function MasterTrade() {
                                   : "uppercase"
                               }
                             >
-                              {trader.type}
+                              {t("masterTrade.type." + trader.type)}
                             </Badge>
                           </TableCell>
                           <TableCell>
@@ -419,7 +419,7 @@ export default function MasterTrade() {
                                   : "uppercase"
                               }
                             >
-                              {trader.type}
+                              {t("masterTrade.type." + trader.type)}
                             </Badge>
                           </TableCell>
                           <TableCell>
@@ -570,7 +570,7 @@ export default function MasterTrade() {
                                   : ""
                               }
                             >
-                              {trader.type}
+                              {t("masterTrade.type." + trader.type)}
                             </Badge>
                           </TableCell>
                           <TableCell>
@@ -672,7 +672,7 @@ export default function MasterTrade() {
                                   : "uppercase"
                               }
                             >
-                              {trader.type}
+                              {t("masterTrade.type." + trader.type)}
                             </Badge>
                           </TableCell>
                           <TableCell>

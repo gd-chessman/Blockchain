@@ -636,6 +636,10 @@
                 "joinSuccess": "グループに正常に参加しました",
                 "joinError": "グループへの参加に失敗しました"
             }
+        },
+        "type": {
+            "normal": "通常",
+            "vip": "VIP"
         }
     },
     "wallet": {

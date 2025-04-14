@@ -609,6 +609,10 @@
                 "joinSuccess": "그룹에 성공적으로 참여했습니다",
                 "joinError": "그룹 참여에 실패했습니다"
             }
+        },
+        "type": {
+            "normal": "일반",
+            "vip": "VIP"
         }
     },
     "wallet": {

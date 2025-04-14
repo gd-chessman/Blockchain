@@ -622,7 +622,15 @@
               "cancel": "Hủy",
               "joinSuccess": "Tham gia nhóm thành công",
               "joinError": "Tham gia nhóm thất bại"
+          },
+          "type": {
+              "normal": "Thường",
+              "vip": "VIP"
           }
+      },
+      "type": {
+          "normal": "Thường",
+          "vip": "VIP"
       }
   },
   "wallet": {
