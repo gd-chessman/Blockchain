@@ -38,7 +38,7 @@ export default function RootLayout({
         <QueryClientProvider client={queryClient}>
           <LangProvider>
             <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-              <div className="min-h-screen bg-[#bfbfbf] dark:bg-gray-950 transition-colors duration-300">
+              <div className="min-h-screen bg-[#747474] dark:bg-gray-950 transition-colors duration-300">
                 <Navigation />
                 <main className="min-h-[calc(100vh-64px)]">{children}</main>
               </div>
