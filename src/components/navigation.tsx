@@ -191,7 +191,7 @@ export default function Navigation() {
               {isAuthenticated && walletInfor && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button className="p-2 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-bold">
+                    <Button className="p-2 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold">
                       <Wallet2 className="sm:hidden h-4 w-4 mr-1" />
                       <span className="hidden sm:inline">{truncateString(walletInfor.solana_address, 14)}</span>
                       <ChevronDown size={16} className="ml-1" />
