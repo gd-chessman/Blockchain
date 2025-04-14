@@ -258,6 +258,7 @@ export default function Trading() {
                   onCopyAddress={handleCopyAddress}
                   onStarClick={handleStarClick}
                   isFavoritesTab={false}
+                  isLoading={!wsTokens || wsTokens.length === 0}
                 />
               </CardContent>
             )}
@@ -272,6 +273,7 @@ export default function Trading() {
                   onCopyAddress={handleCopyAddress}
                   onStarClick={handleStarClick}
                   isFavoritesTab={true}
+                  isLoading={!wsTokens || wsTokens.length === 0}
                 />
               </CardContent>
             )}
