@@ -667,6 +667,12 @@
           "ethereumPrivateKey": "Khóa Riêng Tư Ethereum",
           "bnbPrivateKey": "Khóa Riêng Tư BNB",
           "close": "Đóng"
+      },
+      "delete": {
+          "title": "Xóa Ví",
+          "description": "Bạn có chắc chắn muốn xóa ví này? Hành động này không thể hoàn tác.",
+          "cancel": "Hủy",
+          "confirm": "Xóa"
       }
   },
   "createCoin": {

@@ -680,6 +680,12 @@
             "ethereumPrivateKey": "イーサリアム秘密鍵",
             "bnbPrivateKey": "BNB秘密鍵",
             "close": "閉じる"
+        },
+        "delete": {
+            "title": "ウォレットの削除",
+            "description": "このウォレットを削除してもよろしいですか？この操作は元に戻せません。",
+            "cancel": "キャンセル",
+            "confirm": "削除"
         }
     },
     "common": {

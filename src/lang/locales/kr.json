@@ -655,6 +655,12 @@
             "ethereumPrivateKey": "이더리움 개인 키",
             "bnbPrivateKey": "BNB 개인 키",
             "close": "닫기"
+        },
+        "delete": {
+            "title": "지갑 삭제",
+            "description": "이 지갑을 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.",
+            "cancel": "취소",
+            "confirm": "삭제"
         }
     },
     "common": {

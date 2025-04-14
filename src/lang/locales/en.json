@@ -708,6 +708,12 @@
           "ethereumPrivateKey": "Ethereum Private Key",
           "bnbPrivateKey": "BNB Private Key",
           "close": "Close"
+      },
+      "delete": {
+          "title": "Delete Wallet",
+          "description": "Are you sure you want to delete this wallet? This action cannot be undone.",
+          "cancel": "Cancel",
+          "confirm": "Delete"
       }
   },
   "common": {
