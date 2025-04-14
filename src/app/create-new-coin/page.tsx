@@ -700,7 +700,7 @@ export default function CreateCoin() {
                 {memeCoins?.length || 0} {t("createCoin.myCoins.count")}
               </div>
             </CardHeader>
-            <CardContent className="!px-0">
+            <CardContent className="!px-0 border rounded-lg">
               <div className="rounded-lg overflow-hidden">
                 <Table>
                   <TableHeader>
