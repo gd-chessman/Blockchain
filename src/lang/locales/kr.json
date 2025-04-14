@@ -115,6 +115,7 @@
         "type": "유형",
         "totalUSD": "총 USD",
         "recentOrders": "최근 주문",
+        "percentage": "퍼센트",
         "percentageOfBalance": "잔액 비율",
         "tradeWithTheGroup": "그룹과 함께 거래하기",
         "selectGroups": "그룹 선택...",
