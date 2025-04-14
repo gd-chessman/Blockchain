@@ -19,8 +19,8 @@ export function Logo() {
           <Image 
             src="/logo.png" 
             alt="Logo App" 
-            width={78} 
-            height={78}
+            width={48} 
+            height={48}
             className="hidden md:block"
           />
         </div>
