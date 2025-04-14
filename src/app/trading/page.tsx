@@ -168,6 +168,9 @@ export default function Trading() {
       if (response) {
         setToastMessage(t("trading.wishlistUpdated"));
         setShowToast(true);
+        setTimeout(() => {
+          setShowToast(false);
+        }, 3000);
         // Refresh wishlist if in favorites tab
         if (activeTab === "favorites") {
           const wishlistData = await SolonaTokenService.getMyWishlist();
@@ -178,6 +181,9 @@ export default function Trading() {
       console.error("Error toggling wishlist:", error);
       setToastMessage(t("trading.wishlistError"));
       setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
     }
   };
 
@@ -229,6 +235,9 @@ export default function Trading() {
                 if (!isAuthenticated) {
                   setShowToast(true);
                   setToastMessage(t("createCoin.pleaseConnectWallet"));
+                  setTimeout(() => {
+                    setShowToast(false);
+                  }, 3000);
                   setSearchQuery("");
                   return;
                 }
@@ -242,6 +251,9 @@ export default function Trading() {
                   if (!isAuthenticated) {
                     setShowToast(true);
                     setToastMessage(t("createCoin.pleaseConnectWallet"));
+                    setTimeout(() => {
+                      setShowToast(false);
+                    }, 3000);
                     setSearchQuery("");
                     return;
                   }
