@@ -148,7 +148,7 @@ export default function OtherCoins({
                       </p>{" "}
                     </div>
                     <div className="ml-auto flex items-center gap-4">
-                      <span className="text-sm font-medium">${(Math.random() * 1000).toFixed(2)}</span>
+                      {/* <span className="text-sm font-medium">${(Math.random() * 1000).toFixed(2)}</span> */}
                       <small className={`text-xl ${token.isVerified ? "text-green-600" : "text-red-600"}`}>
                         {token.isVerified ? " ✓" : "x"}
                       </small>
