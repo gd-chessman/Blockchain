@@ -195,7 +195,8 @@
       },
       "wishlistUpdated": "Wishlist updated successfully",
       "wishlistError": "Failed to update wishlist",
-      "addToFavorite": "Add to favorite"
+      "addToFavorite": "Add to favorite",
+      "failed": "Failed"
   },
   "navigation": {
       "newcoin": "Create New Coin (Pumpfun)",

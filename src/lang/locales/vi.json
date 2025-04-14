@@ -178,7 +178,8 @@
       },
       "wishlistUpdated": "Cập nhật danh sách yêu thích thành công",
       "wishlistError": "Cập nhật danh sách yêu thích thất bại",
-      "addToFavorite": "Thêm vào yêu thích"
+      "addToFavorite": "Thêm vào yêu thích",
+      "failed": "Thất bại"
   },
   "navigation": {
       "newcoin": "Tạo Coin Mới (Pumpfun)",

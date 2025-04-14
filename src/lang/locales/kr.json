@@ -152,7 +152,8 @@
         },
         "wishlistUpdated": "위시리스트가 업데이트되었습니다",
         "wishlistError": "위시리스트 업데이트에 실패했습니다",
-        "addToFavorite": "즐겨찾기에 추가"
+        "addToFavorite": "즐겨찾기에 추가",
+        "failed": "실패"
     },
     "navigation": {
         "newcoin": "밈코인만들기(펌프펀상장)",
