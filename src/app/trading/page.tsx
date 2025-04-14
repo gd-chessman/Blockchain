@@ -52,6 +52,7 @@ export default function Trading() {
       isVerified: boolean;
       marketCap: number;
       isFavorite?: boolean;
+      liquidity: any;
     }[]
   >([]);
   const { data: myWishlist, refetch: refetchMyWishlist } = useQuery({
@@ -72,6 +73,7 @@ export default function Trading() {
       isVerified: boolean;
       marketCap: number;
       isFavorite?: boolean;
+      liquidity: any;
     }[]
   >([]);
 
