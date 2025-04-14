@@ -758,14 +758,14 @@ function TradingContent() {
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
         <div className="flex flex-col gap-6 ">
-          <TokenInformation
+          {/* <TokenInformation
             name={tokenInfor?.name || ""}
             symbol={tokenInfor?.symbol || ""}
             address={address || ""}
             decimals={tokenInfor?.decimals || 0}
             isVerified={tokenInfor?.isVerified || false}
             onCopyAddress={handleCopy}
-          />
+          /> */}
           <OtherCoins
             historyTransactionsHeight={historyTransactionsHeight}
             tokens={displayTokens}
