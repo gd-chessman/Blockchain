@@ -23,6 +23,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { TableTokenList } from "@/components/trading/TableTokenList";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
 import LogWarring from "@/ui/log-warring";
+import { getMyWishlist } from "@/services/api/SolonaTokenService";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Trading() {
   const router = useRouter();
@@ -52,22 +54,11 @@ export default function Trading() {
       isFavorite?: boolean;
     }[]
   >([]);
-  const [wishlistTokens, setWishlistTokens] = useState<{
-    tokens: {
-      id: number;
-      name: string;
-      symbol: string;
-      address: string;
-      decimals: number;
-      logoUrl: string;
-      coingeckoId: string | null;
-      tradingviewSymbol: string | null;
-      isVerified: boolean;
-      marketCap: number;
-      isFavorite?: boolean;
-    }[];
-    total: number;
-  }>({ tokens: [], total: 0 });
+  const { data: myWishlist, refetch: refetchMyWishlist } = useQuery({
+    queryKey: ["myWishlist"],
+    queryFn: getMyWishlist,
+    refetchOnMount: true,
+  });
   const [searchResults, setSearchResults] = useState<
     {
       id: number;
@@ -123,23 +114,6 @@ export default function Trading() {
     searchData();
   }, [debouncedSearchQuery, currentPage]);
 
-  // Add new effect to fetch wishlist when favorites tab is active
-  useEffect(() => {
-    const fetchWishlist = async () => {
-      if (activeTab === "favorites" && isAuthenticated) {
-        try {
-          const wishlistData = await SolonaTokenService.getMyWishlist();
-          setWishlistTokens(wishlistData);
-        } catch (error) {
-          console.error("Error fetching wishlist:", error);
-          setWishlistTokens({ tokens: [], total: 0 });
-        }
-      }
-    };
-
-    fetchWishlist();
-  }, [activeTab, isAuthenticated]);
-
   // Use search results if available, otherwise use WebSocket data
   const displayTokens = debouncedSearchQuery.trim() ? searchResults : tokens;
 
@@ -171,11 +145,8 @@ export default function Trading() {
         setTimeout(() => {
           setShowToast(false);
         }, 3000);
-        // Refresh wishlist if in favorites tab
-        if (activeTab === "favorites") {
-          const wishlistData = await SolonaTokenService.getMyWishlist();
-          setWishlistTokens(wishlistData);
-        }
+        // Refresh wishlist using refetch
+        refetchMyWishlist();
       }
     } catch (error) {
       console.error("Error toggling wishlist:", error);
@@ -267,8 +238,13 @@ export default function Trading() {
           <TabsList className="grid w-full grid-cols-2 mb-6">
             <TabsTrigger value="all">{t("trading.tabs.allTokens")}</TabsTrigger>
             <TabsTrigger value="favorites">
-              <Star className="h-4 w-4 mr-2 text-yellow-500" />
-              {t("trading.tabs.favorites")}
+              <div className="flex items-center">
+                <Star className="h-4 w-4 mr-2 text-yellow-500" />
+                {t("trading.tabs.favorites")}
+                <span className="ml-2 bg-muted px-2 py-0.5 rounded-full text-xs">
+                  {myWishlist?.total || 0}
+                </span>
+              </div>
             </TabsTrigger>
           </TabsList>
 
@@ -287,10 +263,10 @@ export default function Trading() {
 
           <TabsContent value="favorites">
             {!isAuthenticated && <LogWarring />}
-            {isAuthenticated && displayTokens && (
+            {isAuthenticated && (
               <CardContent className="!p-0">
                 <TableTokenList
-                  tokens={wishlistTokens?.tokens || []}
+                  tokens={myWishlist?.tokens || []}
                   onCopyAddress={handleCopyAddress}
                   onStarClick={handleStarClick}
                   isFavoritesTab={true}
