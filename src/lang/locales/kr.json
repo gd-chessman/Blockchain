@@ -5,11 +5,11 @@
         "columns": {
             "coin": "코인",
             "price": "가격",
-            "24h": "24시간 변동률",
-            "7d": "7일 변동률",
+            "24h": "24시간 % 변화",
+            "7d": "7일 % 변화",
             "marketCap": "시가총액",
             "volume": "거래량",
-            "actions": "액션"
+            "actions": "작업"
         },
         "actions": {
             "buy": "구매"
@@ -157,7 +157,8 @@
         "wishlistError": "위시리스트 업데이트에 실패했습니다",
         "addToFavorite": "즐겨찾기에 추가",
         "failed": "실패",
-        "marketCap": "시가총액"
+        "marketCap": "시가총액",
+        "noTokens": "거래 가능한 토큰이 없습니다"
     },
     "navigation": {
         "newcoin": "밈코인만들기(펌프펀상장)",
