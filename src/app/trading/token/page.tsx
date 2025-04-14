@@ -766,7 +766,7 @@ function TradingContent() {
         </div>
         <div className="lg:col-span-3">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="mb-6 shadow-md dark:shadow-blue-900/5 border-2 border-primary lg:col-span-2">
+            <Card className="mb-6 shadow-md dark:shadow-blue-900/5 border lg:col-span-2">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
@@ -788,7 +788,7 @@ function TradingContent() {
             <MyCoins coins={memeCoins} className="mb-6" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="shadow-md dark:shadow-blue-900/5 border-2 border-primary lg:col-span-2">
+            <Card className="shadow-md dark:shadow-blue-900/5 border lg:col-span-2">
               <CardHeader>
                 <CardTitle>{t("trading.placeOrder")}</CardTitle>
               </CardHeader>
@@ -1145,7 +1145,7 @@ function TradingContent() {
               </CardContent>
             </Card>
 
-            <Card className="shadow-md dark:shadow-blue-900/5 border-2 border-primary">
+            <Card className="shadow-md dark:shadow-blue-900/5">
               <CardHeader>
                 <CardTitle>{t("trading.listConnect")}</CardTitle>
               </CardHeader>
@@ -1228,7 +1228,7 @@ function TradingContent() {
             </Card>
           </div>
 
-          <Card className="mt-6 shadow-md dark:shadow-blue-900/5 border-2 border-primary">
+          <Card className="mt-6 shadow-md dark:shadow-blue-900/5 border">
             <CardHeader>
               <CardTitle>{t("trading.historyTransactions")}</CardTitle>
             </CardHeader>

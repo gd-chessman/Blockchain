@@ -17,7 +17,7 @@ export default function MyCoins({ coins, className = "" }: MyCoinsProps) {
   const { t } = useLang();
 
   return (
-    <Card className={`shadow-md dark:shadow-blue-900/5 border-2 border-primary ${className}`}>
+    <Card className={`shadow-md dark:shadow-blue-900/5 border ${className}`}>
       <CardHeader>
         <CardTitle>{t("trading.myCoins")}</CardTitle>
       </CardHeader>

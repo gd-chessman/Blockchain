@@ -24,7 +24,7 @@ export default function TokenInformation({
   const { t } = useLang();
 
   return (
-    <Card className="shadow-md dark:shadow-blue-900/5 border-2 border-primary">
+    <Card className="shadow-md dark:shadow-blue-900/5 border">
       <CardHeader>
         <CardTitle>{t("trading.tokenInformation")}</CardTitle>
       </CardHeader>
