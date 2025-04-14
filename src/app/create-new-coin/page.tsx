@@ -180,7 +180,7 @@ export default function CreateCoin() {
 
         <TabsContent value="create">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
-            <Card className="shadow-md dark:shadow-blue-900/5 border-2 border-primary">
+            <Card className="shadow-md dark:shadow-blue-900/5 ">
               <CardHeader>
                 <CardTitle>{t("createCoin.tabs.create")}</CardTitle>
               </CardHeader>
@@ -590,7 +590,7 @@ export default function CreateCoin() {
             </Card>
 
             <div className="hidden md:block space-y-4 h-full">
-              <Card className="shadow-md dark:shadow-blue-900/5 border-2 border-primary">
+              <Card className="shadow-md dark:shadow-blue-900/5 ">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-2xl">
                     {t("createCoin.latestTokens.title")}
@@ -651,7 +651,7 @@ export default function CreateCoin() {
                 </CardContent>
               </Card>
 
-              <Card className="shadow-md dark:shadow-blue-900/5 border-2 border-primary">
+              <Card className="shadow-md dark:shadow-blue-900/5">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-2xl">
                     {t("createCoin.preview.title")}
@@ -701,7 +701,7 @@ export default function CreateCoin() {
               </div>
             </CardHeader>
             <CardContent className="!px-0">
-              <div className="rounded-lg overflow-hidden border-2 border-primary">
+              <div className="rounded-lg overflow-hidden">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/50">
