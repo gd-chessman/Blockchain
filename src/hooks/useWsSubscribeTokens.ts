@@ -13,6 +13,7 @@ interface Token {
   tradingviewSymbol: string | null;
   isVerified: boolean;
   marketCap: number;
+  liquidity: any;
 }
 
 interface SubscribeParams {
@@ -46,10 +47,11 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
       address: token.slt_address || token.address,
       decimals: token.slt_decimals || token.decimals,
       logoUrl: token.slt_logo_url || token.logoUrl,
+      liquidity: token.slt_initial_liquidity || token.liquidity,
       coingeckoId: null,
       tradingviewSymbol: null,
       isVerified: token.slt_is_verified || token.isVerified,
-      marketCap: 0,
+      marketCap: token.slt_market_cap || token.marketCap,
     };
   };
 

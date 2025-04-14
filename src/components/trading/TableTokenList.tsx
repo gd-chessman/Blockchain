@@ -24,6 +24,7 @@ interface Token {
   tradingviewSymbol: string | null;
   isVerified: boolean;
   marketCap: number;
+  liquidity: any;
 }
 
 interface TableTokenListProps {
@@ -47,8 +48,8 @@ export function TableTokenList({ tokens, onCopyAddress, onStarClick, isFavorites
                 <TableHead>{t("trading.token")}</TableHead>
                 <TableHead>{t("trading.symbol")}</TableHead>
                 <TableHead>{t("trading.address")}</TableHead>
-                <TableHead>{t("trading.decimals")}</TableHead>
-                <TableHead>{t("trading.verified")}</TableHead>
+                <TableHead>{t("trading.liquidity")}</TableHead>
+                <TableHead>{t("trading.marketCap")}</TableHead>
                 <TableHead>{t("trading.action")}</TableHead>
               </TableRow>
             </TableHeader>
@@ -98,11 +99,11 @@ export function TableTokenList({ tokens, onCopyAddress, onStarClick, isFavorites
                       </Button>
                     </div>
                   </TableCell>
-                  <TableCell>{token.decimals}</TableCell>
+                  <TableCell>{Number(token.liquidity)?.toFixed(1)}</TableCell>
                   <TableCell>
-                    <span className={token.isVerified ? "text-green-500" : "text-red-500"}>
-                      {token.isVerified ? "✓" : "✗"}
-                    </span>
+                    {/* <span className={token.isVerified ? "text-green-500" : "text-red-500"}> */}
+                      {Number(token.marketCap)?.toFixed(1)}
+                    {/* </span> */}
                   </TableCell>
                   <TableCell>
                     <div className="flex space-x-2">
