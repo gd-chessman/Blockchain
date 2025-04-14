@@ -216,19 +216,25 @@ export default function Dashboard() {
         ) : displayTokens.length > 0 ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-6 gap-6">
-              {displayTokens.map((token, index) => (
-                <TokenCard
-                  key={index}
-                  token={token}
-                  index={index}
-                  isHovered={hoveredCard === index}
-                  onMouseEnter={() => setHoveredCard(index)}
-                  onMouseLeave={() => setHoveredCard(null)}
-                  onTradeClick={() =>
-                    router.push(`/trading/token?address=${token.address}`)
-                  }
-                />
-              ))}
+              {displayTokens.map((token, index) => {
+                // Skip last 2 tokens when screen width is between 1280px and 1800px
+                if (window.innerWidth >= 1280 && window.innerWidth < 1800 && index >= displayTokens.length - 2) {
+                  return null;
+                }
+                return (
+                  <TokenCard
+                    key={index}
+                    token={token}
+                    index={index}
+                    isHovered={hoveredCard === index}
+                    onMouseEnter={() => setHoveredCard(index)}
+                    onMouseLeave={() => setHoveredCard(null)}
+                    onTradeClick={() =>
+                      router.push(`/trading/token?address=${token.address}`)
+                    }
+                  />
+                );
+              })}
             </div>
             {debouncedSearchQuery.trim() && totalPages > 1 && (
               <div className="flex justify-center mt-6">
