@@ -693,12 +693,12 @@ export default function CreateCoin() {
         </TabsContent>
 
         <TabsContent value="my-coins">
-          <CardHeader className="flex flex-row items-center justify-between !px-0">
-            <CardTitle>{t("createCoin.myCoins.title")}</CardTitle>
+          <div className="flex flex-row items-center justify-between !px-0 space-y-1.5 p-6">
+            <h1 className="text-2xl font-semibold leading-none tracking-tight">{t("createCoin.myCoins.title")}</h1>
             <div className="text-sm text-muted-foreground text-zinc-400">
               {memeCoins?.length || 0} {t("createCoin.myCoins.count")}
             </div>
-          </CardHeader>
+          </div>
           <Card className="border-none shadow-none ">
             <CardContent className="!px-0 border rounded-lg">
               <div className="rounded-lg overflow-hidden">
