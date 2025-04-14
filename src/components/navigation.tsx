@@ -24,7 +24,7 @@ import { LangToggle } from "./lang-toggle";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
-import { getInforWallet, getMyWallets, useWallet, getListBuyToken } from "@/services/api/TelegramWalletService";
+import { getInforWallet, getMyWallets, useWallet } from "@/services/api/TelegramWalletService";
 import { truncateString } from "@/utils/format";
 import {
   DropdownMenu,
@@ -59,10 +59,6 @@ export default function Navigation() {
     queryFn: getMyWallets,
     staleTime: 30000,
   });
-  const { data: tokenList, refetch: refetchTokenList } = useQuery({
-    queryKey: ["token-buy-list"],
-    queryFn: getListBuyToken,
-  });
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAuthenticated, logout, updateToken } = useAuth();
@@ -75,7 +71,6 @@ export default function Navigation() {
       const res = await useWallet({ wallet_id: walletId });
       updateToken(res.token);
       await refetch();
-      await refetchTokenList();
       window.location.reload();
     } catch (error) {
       console.error('Error changing wallet:', error);
