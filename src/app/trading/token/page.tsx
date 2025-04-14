@@ -780,7 +780,7 @@ function TradingContent() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card className="mb-6 shadow-md dark:shadow-blue-900/5 border lg:col-span-2">
               <CardHeader>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between flex-wrap">
                   <div>
                     <CardTitle>{tokenInfor?.symbol}/SOL</CardTitle>
                     <CardDescription>{tokenInfor?.name}</CardDescription>
