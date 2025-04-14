@@ -707,7 +707,7 @@ function TradingContent() {
     );
   }
 
-  if (!isAuthenticated) return <LogWarring />;
+  // if (!isAuthenticated) return <LogWarring />;
 
   return (
     <div className="container mx-auto p-6">
