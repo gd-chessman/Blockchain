@@ -122,10 +122,12 @@
             "symbol": "シンボル",
             "address": "アドレス",
             "price": "価格",
-            "change24h": "24時間変動",
+            "change24h": "24時間の変化",
             "marketCap": "時価総額",
             "volume24h": "24時間取引量",
-            "decimals": "小数点"
+            "decimals": "小数点",
+            "holders": "保有者数",
+            "liquidity": "流動性"
         },
         "percentButtons": {
             "percent25": "25%",

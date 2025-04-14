@@ -127,7 +127,9 @@
           "change24h": "Thay đổi 24h",
           "marketCap": "Vốn hóa thị trường",
           "volume24h": "Khối lượng 24h",
-          "decimals": "Số thập phân"
+          "decimals": "Số thập phân",
+          "holders": "Người nắm giữ",
+          "liquidity": "Thanh khoản"
       },
       "percentButtons": {
           "percent25": "25%",

@@ -124,7 +124,9 @@
           "change24h": "24h Change",
           "marketCap": "Market Cap",
           "volume24h": "24h Volume",
-          "decimals": "Decimals"
+          "decimals": "Decimals",
+          "holders": "Holders",
+          "liquidity": "Liquidity"
       },
       "percentButtons": {
           "percent25": "25%",
