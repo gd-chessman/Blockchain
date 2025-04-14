@@ -1,31 +1,54 @@
 import Image from "next/image"
 import Link from "next/link"
+import { useThemeToggle } from "@/hooks/use-theme-toggle"
 
 export function Logo() {
+  const { theme, mounted } = useThemeToggle()
+
+  if (!mounted) {
+    return (
+      <Link href="/dashboard" className="flex items-center">
+        <div className="relative flex items-center">
+          <div className="relative z-10 ml-3 mr-1">
+            <Image 
+              src="/logo.png" 
+              alt="Logo App" 
+              width={72} 
+              height={48}
+              className="md:hidden"
+            />
+            <Image 
+              src="/logo.png" 
+              alt="Logo App" 
+              width={110} 
+              height={90}
+              className="hidden md:block"
+            />
+          </div>
+        </div>
+      </Link>
+    )
+  }
+
   return (
     <Link href="/dashboard" className="flex items-center">
       <div className="relative flex items-center">
-       
-
-        {/* Logo text with 3D effect */}
         <div className="relative z-10 ml-3 mr-1">
           <Image 
-            src="/logo.png" 
+            src={theme === "dark" ? "/logo-white.png" : "/logo.png"} 
             alt="Logo App" 
-            width={48} 
-            height={48}
+            width={72} 
+            height={64}
             className="md:hidden"
           />
           <Image 
-            src="/logo.png" 
+            src={theme === "dark" ? "/logo-white.png" : "/logo.png"} 
             alt="Logo App" 
-            width={48} 
-            height={48}
+            width={110} 
+            height={90}
             className="hidden md:block"
           />
         </div>
-
- 
       </div>
     </Link>
   )
