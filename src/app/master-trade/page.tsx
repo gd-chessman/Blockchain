@@ -271,7 +271,7 @@ export default function MasterTrade() {
         <TabsContent value="not-connected">
           <Card className="border-none shadow-md dark:shadow-blue-900/5">
             <CardContent className="p-0">
-              <div className="rounded-lg overflow-hidden border-2 border-primary">
+              <div className="rounded-lg overflow-hidden border">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/50">
@@ -357,7 +357,7 @@ export default function MasterTrade() {
                           className="text-center py-8 text-muted-foreground"
                         >
                           <div className="flex flex-col items-center gap-2">
-                            <Inbox className="h-12 w-12 text-primary animate-bounce" />
+                            <Inbox className="h-12 w-12 animate-bounce" />
                             {t("masterTrade.noData.notConnected")}
                           </div>
                         </TableCell>
@@ -373,7 +373,7 @@ export default function MasterTrade() {
         <TabsContent value="connect">
           <Card className="border-none shadow-md dark:shadow-blue-900/5">
             <CardContent className="p-0">
-              <div className="rounded-lg overflow-hidden border-2 border-primary">
+              <div className="rounded-lg overflow-hidden border">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/50">
@@ -508,7 +508,7 @@ export default function MasterTrade() {
                           className="text-center py-8 text-muted-foreground"
                         >
                           <div className="flex flex-col items-center gap-2">
-                            <Inbox className="h-12 w-12 text-primary animate-bounce" />
+                            <Inbox className="h-12 w-12 animate-bounce" />
                             {t("masterTrade.noData.connected")}
                           </div>
                         </TableCell>
@@ -524,7 +524,7 @@ export default function MasterTrade() {
         <TabsContent value="disconnect">
           <Card className="border-none shadow-md dark:shadow-blue-900/5">
             <CardContent className="p-0">
-              <div className="rounded-lg overflow-hidden border-2 border-primary">
+              <div className="rounded-lg overflow-hidden border">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/50">
@@ -610,7 +610,7 @@ export default function MasterTrade() {
                           className="text-center py-8 text-muted-foreground"
                         >
                           <div className="flex flex-col items-center gap-2">
-                            <Inbox className="h-12 w-12 text-primary animate-bounce" />
+                            <Inbox className="h-12 w-12 animate-bounce" />
                             {t("masterTrade.noData.disconnected")}
                           </div>
                         </TableCell>
@@ -626,7 +626,7 @@ export default function MasterTrade() {
         <TabsContent value="pending">
           <Card className="border-none shadow-md dark:shadow-blue-900/5">
             <CardContent className="p-0">
-              <div className="rounded-lg overflow-hidden border-2 border-primary">
+              <div className="rounded-lg overflow-hidden border">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/50">
@@ -708,7 +708,7 @@ export default function MasterTrade() {
                           className="text-center py-8 text-muted-foreground"
                         >
                           <div className="flex flex-col items-center gap-2">
-                            <Inbox className="h-12 w-12 text-primary animate-bounce" />
+                            <Inbox className="h-12 w-12 animate-bounce" />
                             {t("masterTrade.noData.pending")}
                           </div>
                         </TableCell>
