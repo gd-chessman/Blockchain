@@ -23,10 +23,7 @@ export default function Dashboard() {
   const [isSearching, setIsSearching] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [screenSize, setScreenSize] = useState<number>(0);
-  const { tokens: wsTokens } = useWsSubscribeTokens({ 
-    limit: screenSize >= 1280 && screenSize < 1800 ? 16 : 18 
-  });
+  const { tokens: wsTokens } = useWsSubscribeTokens({ limit: 18 });
   const [showNotification, setShowNotification] = useState(false);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
@@ -69,14 +66,6 @@ export default function Dashboard() {
     }
   }, [showNotification]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenSize(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   // Update tokens when WebSocket data changes
   useEffect(() => {
