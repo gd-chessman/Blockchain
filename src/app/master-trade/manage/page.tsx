@@ -413,7 +413,7 @@ export default function ManageMasterTrade() {
               </Button>
             </div>
 
-            <div className="rounded-lg overflow-hidden border-2 border-primary">
+            <div className="rounded-lg overflow-hidden border">
               <div className="max-h-[300px] overflow-y-auto scrollbar-thin ">
                 <Table>
                   <TableHeader className="sticky top-0 z-10 bg-background">
@@ -675,7 +675,7 @@ function ConnectionsTable({
   const isConnectedTab = connections.some(conn => conn.status === "connect");
 
   return (
-    <div className="rounded-lg overflow-hidden border-2 border-primary">
+    <div className="rounded-lg overflow-hidden border">
       <div className="max-h-[400px] overflow-y-auto scrollbar-thin">
         <Table>
           <TableHeader className="sticky top-0 z-10 bg-background">
