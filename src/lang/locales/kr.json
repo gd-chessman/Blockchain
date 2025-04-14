@@ -121,6 +121,8 @@
         "selectGroups": "그룹 선택...",
         "noGroupsAvailable": "사용 가능한 그룹이 없습니다",
         "myCoins": "내 코인",
+        "noCoins": "사용 가능한 코인이 없습니다",
+        "createNewCoin": "새 코인 만들기",
         "attributes": "속성",
         "value": "값",
         "listConnect": "연결 목록",

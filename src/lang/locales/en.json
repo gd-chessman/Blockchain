@@ -187,6 +187,8 @@
       "selectGroupsPlaceholder": "Select groups...",
       "noGroupsAvailable": "No groups available",
       "myCoins": "My Coins",
+      "noCoins": "No coins available",
+      "createNewCoin": "Create New Coin",
       "tabs": {
           "allTokens": "All Tokens",
           "favorites": "Favorites"

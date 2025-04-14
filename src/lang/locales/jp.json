@@ -170,6 +170,8 @@
         "selectGroupsPlaceholder": "グループを選択...",
         "noGroupsAvailable": "利用可能なグループはありません",
         "myCoins": "マイコイン",
+        "noCoins": "利用可能なコインがありません",
+        "createNewCoin": "新しいコインを作成",
         "tabs": {
             "allTokens": "すべてのトークン",
             "favorites": "お気に入り"
