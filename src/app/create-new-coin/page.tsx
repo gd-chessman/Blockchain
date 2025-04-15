@@ -162,7 +162,7 @@ export default function CreateCoin() {
         </h1>
       </div>
       <div className="text-sm text-muted-foreground my-2 md:mt-0 ml-auto">
-        {t("createCoin.subtitle")}
+        {/* {t("createCoin.subtitle")} */}
       </div>
 
       <Tabs defaultValue="create" className="w-full">
