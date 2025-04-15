@@ -59,7 +59,7 @@ export function TableTokenList({ tokens, onCopyAddress, onStarClick, isFavorites
                 <TableRow>
                   <TableCell colSpan={6} className="h-32">
                     <div className="flex justify-center items-center">
-                      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                      <Loader2 color="#eab308" className="h-8 w-8 animate-spin text-muted-foreground" />
                     </div>
                   </TableCell>
                 </TableRow>

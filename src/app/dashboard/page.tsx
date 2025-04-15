@@ -211,7 +211,7 @@ export default function Dashboard() {
         </div>
         {isLoading || (!debouncedSearchQuery.trim() && tokens.length === 0) ? (
           <div className="flex justify-center items-center h-40">
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            <Loader2 color="#eab308" className="h-8 w-8 animate-spin text-muted-foreground" />
           </div>
         ) : displayTokens.length > 0 ? (
           <>
