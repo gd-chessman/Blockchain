@@ -27,7 +27,7 @@ export default function RootLayout({
     <html suppressHydrationWarning>
       <head>
         <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
-        <link rel="icon" href="/logo.png" type="image/png" />
+        <link rel="icon" href="/favicon.png" type="image/png" />
         <style jsx global>{`
           body {
             font-family: Arial, sans-serif;
