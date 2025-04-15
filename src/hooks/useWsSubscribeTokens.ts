@@ -14,6 +14,7 @@ interface Token {
   isVerified: boolean;
   marketCap: number;
   liquidity: any;
+  program: string;
 }
 
 interface SubscribeParams {
@@ -36,7 +37,7 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
   const updateIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const isInitialLoadRef = useRef(true);
   const MAX_STACK_SIZE = 100; // Giới hạn stack 100 token
-  const DISPLAY_INTERVAL = 3000; // Hiển thị mỗi s
+  const DISPLAY_INTERVAL = 2000; // Hiển thị mỗi s
   const TOKENS_PER_UPDATE = 1; // Số token cập nhật mỗi lần
 
   const convertToken = (token: any): Token => {
@@ -52,6 +53,7 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
       tradingviewSymbol: null,
       isVerified: token.slt_is_verified || token.isVerified,
       marketCap: token.slt_market_cap || token.marketCap,
+      program: token.slt_program || token.slt_program,
     };
   };
 
@@ -111,6 +113,7 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
         if (mountedRef.current) {
           try {
             const rawTokens = data.data?.tokens || [];
+            console.log(rawTokens);
             const convertedTokens = rawTokens.map(convertToken);
 
             if (isInitialLoadRef.current) {
