@@ -15,7 +15,7 @@ import {
 } from "@/ui/table";
 import { Badge } from "@/ui/badge";
 import { Checkbox } from "@/ui/checkbox";
-import { Copy } from "lucide-react";
+import { Copy, Crown } from "lucide-react";
 import { useLang } from "@/lang/useLang";
 import { MasterTradingService } from "@/services/api";
 import { useQuery } from "@tanstack/react-query";
@@ -298,20 +298,7 @@ export default function ManageMasterTrade() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <div className="flex items-center">
           <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 dark:from-yellow-500 dark:to-yellow-800 rounded-xl flex items-center justify-center mr-4 text-white shadow-lg shadow-yellow-500/20 dark:shadow-yellow-800/20 animate-float">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-crown h-7 w-7"
-            >
-              <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"></path>
-            </svg>
+          <Crown className="h-7 w-7" />
           </div>
           <h1 className="text-3xl font-bold font-comic bg-clip-text text-transparent bg-gradient-to-r from-yellow-500 to-orange-500 dark:from-yellow-300 dark:to-orange-300 uppercase">
             {t("masterTrade.manage.title")}
