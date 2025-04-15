@@ -280,7 +280,7 @@ export default function Wallet() {
               variant="outline"
               className="ml-2 bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400 border-green-200 dark:border-green-800"
             >
-              {walletInfor?.solana_balance?.toFixed(4)} SOL
+              {walletInfor?.solana_balance?.toFixed(5)} SOL
             </Badge>
           </div>
         </div>
