@@ -30,7 +30,7 @@ export default function WalletCards({ payloadToken }: { payloadToken: any }) {
         />
       )}
       {/* Solana Wallet */}
-      <Card className="border-2 border-purple-500 bg-purple-50 dark:bg-purple-900/10 shadow-md dark:shadow-blue-900/5">
+      <Card className="border-2 border-purple-500 bg-[#bfbfbf] dark:bg-purple-900/10 shadow-md dark:shadow-blue-900/5">
         <CardContent className="p-6">
           <div className="flex items-center mb-4">
             <div className="w-6 h-6 mr-2">
@@ -77,7 +77,7 @@ export default function WalletCards({ payloadToken }: { payloadToken: any }) {
       </Card>
 
       {/* ETH Wallet */}
-      <Card className="border-2 border-blue-500 bg-blue-50 dark:bg-blue-900/10 shadow-md dark:shadow-blue-900/5">
+      <Card className="border-2 border-blue-500 bg-[#bfbfbf] dark:bg-blue-900/10 shadow-md dark:shadow-blue-900/5">
         <CardContent className="p-6">
           <div className="flex items-center mb-4">
             <div className="w-6 h-6 mr-2">
@@ -129,7 +129,7 @@ export default function WalletCards({ payloadToken }: { payloadToken: any }) {
       </Card>
 
       {/* BNB Wallet */}
-      <Card className="border-2 border-yellow-500 bg-yellow-50 dark:bg-yellow-900/10 shadow-md dark:shadow-blue-900/5">
+      <Card className="border-2 border-yellow-500 bg-[#bfbfbf] dark:bg-yellow-900/10 shadow-md dark:shadow-blue-900/5">
         <CardContent className="p-6">
           <div className="flex items-center mb-4">
             <div className="w-6 h-6 mr-2">

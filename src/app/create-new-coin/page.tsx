@@ -573,7 +573,7 @@ export default function CreateCoin() {
 
                   <Button
                     type="submit"
-                    className="w-full bg-green-500 hover:bg-green-600 mt-6"
+                    className="w-full bg-[#d8e8f7] hover:bg-[#cfe8ff] mt-6"
                     disabled={isLoading}
                   >
                     {isLoading ? (

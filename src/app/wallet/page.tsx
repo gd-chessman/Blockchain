@@ -248,7 +248,7 @@ export default function Wallet() {
       {/* Wallet Info Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <div className="flex items-center">
-          <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 dark:from-orange-500 dark:to-orange-800 rounded-xl flex items-center justify-center mr-4 text-white shadow-lg shadow-orange-500/20 dark:shadow-orange-800/20 animate-float">
+          <div className="w-12 h-12 bg-gradient-to-br bg-[#d8e8f7] text-black rounded-xl flex items-center justify-center mr-4 shadow-lg shadow-orange-500/20 dark:shadow-orange-800/20 animate-float">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -266,7 +266,7 @@ export default function Wallet() {
               <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path>
             </svg>
           </div>
-          <h1 className="text-3xl font-bold font-comic bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-red-500 dark:from-orange-300 dark:to-red-300 uppercase">
+          <h1 className="text-3xl font-bold font-comic bg-clip-text text-transparent bg-gradient-to-r bg-[#d8e8f7] uppercase">
             {t("wallet.title")}
           </h1>
         </div>
