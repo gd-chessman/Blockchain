@@ -144,10 +144,10 @@ export default function Dashboard() {
         />
       )}
       <div className="flex items-start md:items-center mb-6">
-        <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 dark:from-yellow-500 dark:to-yellow-800 rounded-xl flex items-center justify-center mr-4 text-white shadow-lg shadow-yellow-500/20 dark:shadow-yellow-800/20 animate-bounce">
+        <div className="w-12 h-12 bg-gradient-to-br bg-[#d8e8f7] text-black rounded-xl flex items-center justify-center mr-4  shadow-lg shadow-yellow-500/20 dark:shadow-yellow-800/20 animate-bounce">
         <Rocket className="h-7 w-7" />
         </div>
-        <h1 className="text-3xl font-bold font-comic bg-clip-text text-transparent bg-gradient-to-r from-yellow-500 to-pink-500 dark:from-yellow-300 dark:to-pink-300 uppercase">
+        <h1 className="text-3xl font-bold font-comic bg-clip-text text-transparent bg-gradient-to-r bg-[#d8e8f7] uppercase">
           {t("dashboard.title")}
         </h1>
         <div className="text-sm text-muted-foreground mt-2 md:mt-0">

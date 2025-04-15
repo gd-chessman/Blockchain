@@ -154,10 +154,10 @@ export default function CreateCoin() {
         />
       )}
       <div className="flex items-center mb-6">
-        <div className="w-12 h-12 bg-gradient-to-br from-[#b752e1] to-[#9a3cc9] dark:from-[#b752e1] dark:to-[#8a2cb8] rounded-xl flex items-center justify-center mr-4 text-white shadow-lg shadow-[#b752e1]/20 dark:shadow-[#b752e1]/20 animate-wiggle">
+        <div className="w-12 h-12 bg-gradient-to-br bg-[#d8e8f7] text-black rounded-xl flex items-center justify-center mr-4 shadow-lg shadow-[#b752e1]/20 dark:shadow-[#b752e1]/20 animate-wiggle">
           <Coins className="h-7 w-7" />
         </div>
-        <h1 className="text-3xl font-bold font-comic bg-clip-text text-transparent bg-gradient-to-r from-[#b752e1] to-[#9a3cc9] dark:from-[#b752e1] dark:to-[#9a3cc9] uppercase">
+        <h1 className="text-3xl font-bold font-comic bg-clip-text text-transparent bg-gradient-to-r bg-[#d8e8f7] uppercase">
           {t("createCoin.title")}
         </h1>
       </div>
@@ -631,7 +631,7 @@ export default function CreateCoin() {
                         </div>
                         <Button
                           size="sm"
-                          className="bg-green-500 hover:bg-green-600 text-white h-7 text-xs w-full"
+                          className="bg-[#d8e8f7] text-black h-7 text-xs w-full"
                           onClick={() =>
                             router.push(
                               `/trading/token?address=${coin.address}`

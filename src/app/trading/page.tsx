@@ -171,10 +171,10 @@ export default function Trading() {
       <Card className="mb-6 border-none shadow-none bg-transparent">
         <CardHeader className="flex justify-between flex-row items-center !p-0 mb-6 flex-wrap">
           <div className="flex items-center">
-            <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-600 dark:from-pink-500 dark:to-purple-800 rounded-xl flex items-center justify-center mr-4 text-white shadow-lg shadow-purple-500/20 dark:shadow-purple-800/20 animate-bounce">
+            <div className="w-12 h-12 bg-gradient-to-br bg-[#d8e8f7] text-black rounded-xl flex items-center justify-center mr-4  shadow-lg shadow-purple-500/20 dark:shadow-purple-800/20 animate-bounce">
               <BarChart4 className="h-7 w-7" />
             </div>
-            <h1 className="text-3xl font-bold font-comic bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500 dark:from-pink-300 dark:to-purple-300 uppercase">
+            <h1 className="text-3xl font-bold font-comic bg-clip-text text-transparent bg-gradient-to-r bg-[#d8e8f7] uppercase">
               {t("trading.list_token_title")}
             </h1>
           </div>
