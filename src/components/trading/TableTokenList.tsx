@@ -115,10 +115,10 @@ export function TableTokenList({ tokens, onCopyAddress, onStarClick, isFavorites
                         </Button>
                       </div>
                     </TableCell>
-                    <TableCell>{Number(token.liquidity)?.toFixed(1)}</TableCell>
+                    <TableCell>${Number(token.liquidity)?.toFixed(1)}K</TableCell>
                     <TableCell>
                       {/* <span className={token.isVerified ? "text-green-500" : "text-red-500"}> */}
-                        {Number(token.marketCap)?.toFixed(1)}
+                        ${Number(token.marketCap)?.toFixed(1)}K
                       {/* </span> */}
                     </TableCell>
                     <TableCell>
