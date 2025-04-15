@@ -20,7 +20,7 @@ export function Logo() {
             <Image 
               src="/logo.png" 
               alt="Logo App" 
-              width={120} 
+              width={160} 
               height={90}
               className="hidden md:block"
             />
@@ -44,7 +44,7 @@ export function Logo() {
           <Image 
             src={theme === "dark" ? "/logo-white.png" : "/logo.png"} 
             alt="Logo App" 
-            width={120} 
+            width={160} 
             height={90}
             className="hidden md:block"
           />
