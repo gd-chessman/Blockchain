@@ -25,6 +25,7 @@ interface Token {
   isVerified: boolean;
   marketCap: number;
   liquidity: any;
+  program?: string;
 }
 
 interface TableTokenListProps {
@@ -96,7 +97,16 @@ export function TableTokenList({ tokens, onCopyAddress, onStarClick, isFavorites
                           alt="token logo"
                           className="size-12 rounded-full"
                         />
-                        <p>{token.name}</p>
+                        <div className="flex items-center gap-2">
+                          <p>{token.name}</p>
+                          {token.program === "pumpfun" && (
+                            <img
+                              src="/pump.webp"
+                              alt="pump"
+                              className="h-4 w-4"
+                            />
+                          )}
+                        </div>
                       </div>
                     </TableCell>
                     <TableCell>{token.symbol}</TableCell>
