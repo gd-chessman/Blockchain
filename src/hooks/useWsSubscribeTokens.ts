@@ -113,7 +113,7 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
         if (mountedRef.current) {
           try {
             const rawTokens = data.data?.tokens || [];
-            console.log(rawTokens);
+            // console.log(rawTokens);
             const convertedTokens = rawTokens.map(convertToken);
 
             if (isInitialLoadRef.current) {

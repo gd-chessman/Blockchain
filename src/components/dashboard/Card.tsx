@@ -37,7 +37,8 @@ interface TokenCardProps {
     decimals: number
     logoUrl: string
     isVerified: boolean,
-    marketCap: any
+    marketCap: any,
+    program?: any
   }
   index: number
   isHovered?: boolean
@@ -70,6 +71,7 @@ export default function TokenCard({
       return () => clearTimeout(timer)
     }
   }, [showToast])
+  console.log(token);
 
   return (
     <>
@@ -92,6 +94,11 @@ export default function TokenCard({
       >
         {/* Decorative elements */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-400/5 to-purple-600/10 dark:from-purple-400/10 dark:to-purple-600/20 rounded-bl-full -z-10"></div>
+        {token.program == "pumpfun" && (
+          <div className="absolute top-1 right-1 size-6 z-20">
+            <img src="/pump.webp" alt="pump" className="w-full h-full object-contain" />
+          </div>
+        )}
 
         <CardContent className="p-6">
           <div className="flex justify-between items-start mb-4">
