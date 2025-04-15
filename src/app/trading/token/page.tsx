@@ -1243,7 +1243,7 @@ function TradingContent() {
                                     connect.member_id
                                   )
                                 }
-                                className="data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500"
+                                className="border-yellow-500 data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500"
                               />
                             </div>
                           ))
