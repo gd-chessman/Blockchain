@@ -143,10 +143,10 @@
             "address": "주소",
             "price": "가격",
             "change24h": "24시간 변동",
-            "marketCap": "시가총액",
-            "volume24h": "24시간 거래량",
+            "marketCap": "시장 가치",
+            "volume24h": "24시 거래량",
             "decimals": "소수점",
-            "holders": "보유자 수",
+            "holders": "홀더",
             "liquidity": "유동성"
         },
         "tabs": {

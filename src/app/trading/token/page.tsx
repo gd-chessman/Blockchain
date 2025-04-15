@@ -786,22 +786,23 @@ function TradingContent() {
                     <CardDescription>{tokenInfor?.name}</CardDescription>
                   </div>
                   <div className="text-right">
-                    <div className="text-sm flex gap-4">
-                      <div className="flex items-center gap-2">
+                    <div className="text-sm flex gap-4 ">
+                      <div className="flex items-center flex-col">
                         <span>{t("trading.tokenInfo.marketCap")}:</span>
-                        <span className="text-muted-foreground">{tokenInfor?.marketCap?.toFixed(1)}</span>
+                        <span className="text-muted-foreground">${tokenInfor?.marketCap?.toFixed(1)}K</span>
                       </div>
-                      <div className="flex items-center gap-2">
+
+                      <div className="flex items-center flex-col">
+                        <span>{t("trading.tokenInfo.volume24h")}:</span>
+                        <span className="text-muted-foreground">${tokenInfor?.volume24h?.toFixed(1)}K</span>
+                      </div>
+                      <div className="flex items-center flex-col">
+                        <span>{t("trading.tokenInfo.liquidity")}:</span>
+                        <span className="text-muted-foreground">${tokenInfor?.liquidity?.toFixed(1)}K</span>
+                      </div>
+                      <div className="flex items-center flex-col">
                         <span>{t("trading.tokenInfo.holders")}:</span>
                         <span className="text-muted-foreground">{tokenInfor?.holders}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span>{t("trading.tokenInfo.volume24h")}:</span>
-                        <span className="text-muted-foreground">{tokenInfor?.volume24h?.toFixed(1)}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span>{t("trading.tokenInfo.liquidity")}:</span>
-                        <span className="text-muted-foreground">{tokenInfor?.liquidity?.toFixed(1)}</span>
                       </div>
                       
                     </div>
