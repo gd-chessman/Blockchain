@@ -11,7 +11,7 @@ import {
 } from "@/ui/table";
 import { useLang } from "@/lang";
 import { useRouter } from "next/navigation";
-import { Search, Loader2, Copy, Star } from "lucide-react";
+import { Search, Loader2, Copy, Star, BarChart4 } from "lucide-react";
 import { Input } from "@/ui/input";
 import { useState, useEffect } from "react";
 import { useWsSubscribeTokens } from "@/hooks/useWsSubscribeTokens";
@@ -172,23 +172,7 @@ export default function Trading() {
         <CardHeader className="flex justify-between flex-row items-center !p-0 mb-6 flex-wrap">
           <div className="flex items-center">
             <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-600 dark:from-pink-500 dark:to-purple-800 rounded-xl flex items-center justify-center mr-4 text-white shadow-lg shadow-purple-500/20 dark:shadow-purple-800/20 animate-bounce">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-bar-chart4 h-7 w-7"
-              >
-                <path d="M3 3v18h18"></path>
-                <path d="M13 17V9"></path>
-                <path d="M18 17V5"></path>
-                <path d="M8 17v-3"></path>
-              </svg>
+              <BarChart4 className="h-7 w-7" />
             </div>
             <CardTitle className="text-3xl font-bold font-comic bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500 dark:from-pink-300 dark:to-purple-300 uppercase">
               {t("trading.list_token_title")}
