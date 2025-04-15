@@ -103,7 +103,7 @@ export default function TokenCard({
         <CardContent className="p-6">
           <div className="flex justify-between items-start mb-4">
             <div className="flex items-center">
-              <div className="relative size-16 mr-3 flex-shrink-0">
+              <div className="relative size-20 mr-3 flex-shrink-0">
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 dark:from-purple-500 dark:to-purple-800 opacity-30 blur-[2px] scale-110"></div>
                 <div className="absolute inset-0 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden border border-purple-300 dark:border-purple-700">
                   <img

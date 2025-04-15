@@ -50,6 +50,9 @@ export default function TradingChart({
                 <div className="flex items-center gap-2">
                   <CardTitle>{tokenInfor?.symbol}/SOL</CardTitle>
                   <CardDescription>{tokenInfor?.name}</CardDescription>
+                  {tokenInfor?.program === "pumpfun" && (
+                    <img src="/pump.webp" alt="pump" className="h-6 w-6" />
+                  )}
                 </div>
                 <div className="flex items-center gap-2">
                   <p className="text-sm">
