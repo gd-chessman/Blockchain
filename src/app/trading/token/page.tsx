@@ -56,9 +56,6 @@ import { useAuth } from "@/hooks/useAuth";
 import { ToastNotification } from "@/ui/toast";
 import { getPriceSolona } from "@/services/api/SolonaTokenService";
 import { getWalletBalanceByAddress } from "@/services/api/TelegramWalletService";
-import TrandingViewChartPage from "@/components/chart/TrandingViewChartPage";
-import IframeChartPage from "@/components/chart/IframeChartPage";
-import TokenInformation from "@/components/trading/token/TokenInformation";
 import MyCoins from "@/components/trading/token/MyCoins";
 import OtherCoins from "@/components/trading/token/OtherCoins";
 import HistoryTransactions from "@/components/trading/token/HistoryTransactions";
@@ -744,15 +741,7 @@ function TradingContent() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-        <div className="flex flex-col gap-6 ">
-          {/* <TokenInformation
-            name={tokenInfor?.name || ""}
-            symbol={tokenInfor?.symbol || ""}
-            address={address || ""}
-            decimals={tokenInfor?.decimals || 0}
-            isVerified={tokenInfor?.isVerified || false}
-            onCopyAddress={handleCopy}
-          /> */}
+        <div className="flex flex-col gap-6 order-3 lg:order-1">
           <OtherCoins
             historyTransactionsHeight={historyTransactionsHeight}
             tokens={displayTokens}
@@ -763,10 +752,10 @@ function TradingContent() {
             onStarClick={handleStarClick}
           />
         </div>
-        <div className="lg:col-span-3">
+        <div className="lg:col-span-3 order-1">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <TradingChart tokenInfor={tokenInfor} address={address} />
-            <MyCoins coins={memeCoins} className="mb-6" />
+            <MyCoins coins={memeCoins} className="mb-6 hidden md:block" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card className="shadow-md dark:shadow-blue-900/5 border lg:col-span-2">
@@ -1209,6 +1198,9 @@ function TradingContent() {
             </Card>
           </div>
           <HistoryTransactions pendingOrders={pendingOrders} orders={orders} historyTransactionsRef={historyTransactionsRef} />
+        </div>
+        <div className="order-2 md:hidden">
+          <MyCoins coins={memeCoins} className="mb-6" />
         </div>
       </div>
 
