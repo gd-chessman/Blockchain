@@ -728,14 +728,14 @@ function TradingContent() {
           <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-600 dark:from-pink-500 dark:to-purple-800 rounded-xl flex items-center justify-center mr-4 text-white shadow-lg shadow-purple-500/20 dark:shadow-purple-800/20 animate-bounce">
             <BarChart4 className="h-7 w-7" />
           </div>
-          <h1 className="tracking-tight text-3xl font-bold font-comic bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500 dark:from-pink-300 dark:to-purple-300 uppercase">
+          <h1 className="tracking-tight text-3xl font-bold font-comic bg-clip-text text-transparent bg-gradient-to-r bg-[#d8e8f7] text-black uppercase">
             {t("trading.title")}
           </h1>
         </div>
         <div className="text-sm text-muted-foreground mt-2 md:mt-0">
           {/* {t("trading.marketIsOpen")} • 24h */}
           <Button
-            className="ml-2 inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 h-8 rounded-full px-3 text-xs bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
+            className="ml-2 inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium bg-[#d8e8f7] text-black"
             onClick={() => handleStarClick(tokenInfor)}
           >
             {t("trading.addToFavorite")}
