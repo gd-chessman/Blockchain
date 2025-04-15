@@ -115,52 +115,46 @@ export default function OtherCoins({
             <div
               className="overflow-auto h-80 lg:h-full max-h-[60rem] md:h-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent"
             >
-              {(!tokens || tokens.length === 0) ? (
-                <div className="flex items-center justify-center h-40">
-                  <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {tokens.map((token, index) => (
-                    <Link
-                      key={index}
-                      className={`flex text-sm gap-6 cursor-pointer ${
-                        index < tokens.length - 1 ? "border-b-2 pb-2" : ""
-                      }`}
-                      href={`/trading/token?address=${token.address}`}
+              <div className="space-y-4">
+                {tokens.map((token, index) => (
+                  <Link
+                    key={index}
+                    className={`flex text-sm gap-6 cursor-pointer ${
+                      index < tokens.length - 1 ? "border-b-2 pb-2" : ""
+                    }`}
+                    href={`/trading/token?address=${token.address}`}
+                  >
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className={`h-6 w-6 p-0 ${token.isFavorite ? "text-yellow-500" : ""} hover:text-yellow-500`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onStarClick?.(token);
+                      }}
                     >
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className={`h-6 w-6 p-0 ${token.isFavorite ? "text-yellow-500" : ""} hover:text-yellow-500`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          onStarClick?.(token);
-                        }}
-                      >
-                        <Star className="h-4 w-4" />
-                      </Button>
-                      <img
-                        src={token.logoUrl || "/placeholder.png"}
-                        alt=""
-                        className="size-10 rounded-full"
-                      />
-                      <div>
-                        <p>{token.name}</p>{" "}
-                        <p className="text-muted-foreground text-xs">
-                          {token.symbol}
-                        </p>{" "}
-                      </div>
-                      <div className="ml-auto flex items-center gap-4">
-                      {/* <span className="text-sm font-medium">${(Math.random() * 1000).toFixed(2)}</span> */}
-                        <small className={`text-xl ${token.isVerified ? "text-green-600" : "text-red-600"}`}>
-                          {token.isVerified ? " ✓" : "x"}
-                        </small>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              )}
+                      <Star className="h-4 w-4" />
+                    </Button>
+                    <img
+                      src={token.logoUrl || "/placeholder.png"}
+                      alt=""
+                      className="size-10 rounded-full"
+                    />
+                    <div>
+                      <p>{token.name}</p>{" "}
+                      <p className="text-muted-foreground text-xs">
+                        {token.symbol}
+                      </p>{" "}
+                    </div>
+                    <div className="ml-auto flex items-center gap-4">
+                    {/* <span className="text-sm font-medium">${(Math.random() * 1000).toFixed(2)}</span> */}
+                      <small className={`text-xl ${token.isVerified ? "text-green-600" : "text-red-600"}`}>
+                        {token.isVerified ? " ✓" : "x"}
+                      </small>
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>
