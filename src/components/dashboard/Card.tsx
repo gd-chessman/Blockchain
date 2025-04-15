@@ -36,7 +36,8 @@ interface TokenCardProps {
     address: string
     decimals: number
     logoUrl: string
-    isVerified: boolean
+    isVerified: boolean,
+    marketCap: any
   }
   index: number
   isHovered?: boolean
@@ -142,8 +143,8 @@ export default function TokenCard({
 
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
-              <div className="text-xs text-muted-foreground mb-1">{t('trading.tokenInfo.decimals')}</div>
-              <div className="text-sm font-medium">{token.decimals}</div>
+              <div className="text-xs text-muted-foreground mb-1">{t('trading.tokenInfo.marketCap')}</div>
+              <div className="text-sm font-medium">${Number(token.marketCap)?.toFixed(1)}K</div>
             </div>
             <div>
               <div className="text-xs text-muted-foreground mb-1">{t('trading.tokenInfo.symbol')}</div>
