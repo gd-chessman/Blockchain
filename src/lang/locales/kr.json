@@ -36,7 +36,7 @@
             "profitable": "{count}건의 이익"
         },
         "cryptocurrencies": {
-            "title": "암호화폐",
+            "title": "뉴페어",
             "no_tokens": "사용 가능한 토큰이 없습니다",
             "token": {
                 "address": "주소",
