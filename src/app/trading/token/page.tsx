@@ -61,6 +61,7 @@ import TokenInformation from "@/components/trading/token/TokenInformation";
 import MyCoins from "@/components/trading/token/MyCoins";
 import OtherCoins from "@/components/trading/token/OtherCoins";
 import HistoryTransactions from "@/components/trading/token/HistoryTransactions";
+import TradingChart from "@/components/trading/token/TradingChart";
 
 interface Order {
   created_at: string;
@@ -779,44 +780,7 @@ function TradingContent() {
         </div>
         <div className="lg:col-span-3">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="mb-6 shadow-md dark:shadow-blue-900/5 border lg:col-span-2">
-              <CardHeader>
-                <div className="flex items-center justify-between flex-wrap">
-                  <div>
-                    <CardTitle>{tokenInfor?.symbol}/SOL</CardTitle>
-                    <CardDescription>{tokenInfor?.name}</CardDescription>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm flex gap-4 ">
-                      <div className="flex items-center flex-col">
-                        <span>{t("trading.tokenInfo.marketCap")}:</span>
-                        <span className="text-muted-foreground">${tokenInfor?.marketCap?.toFixed(1)}K</span>
-                      </div>
-
-                      <div className="flex items-center flex-col">
-                        <span>{t("trading.tokenInfo.volume24h")}:</span>
-                        <span className="text-muted-foreground">${tokenInfor?.volume24h?.toFixed(1)}K</span>
-                      </div>
-                      <div className="flex items-center flex-col">
-                        <span>{t("trading.tokenInfo.liquidity")}:</span>
-                        <span className="text-muted-foreground">${tokenInfor?.liquidity?.toFixed(1)}K</span>
-                      </div>
-                      <div className="flex items-center flex-col">
-                        <span>{t("trading.tokenInfo.holders")}:</span>
-                        <span className="text-muted-foreground">{tokenInfor?.holders}</span>
-                      </div>
-                      
-                    </div>
-                    <div className="text-2xl font-bold">
-                      {/* ${tokenPrice?.priceUSD?.toFixed(9) || "0.00"} */}
-                    </div>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <IframeChartPage token={address} />
-              </CardContent>
-            </Card>
+            <TradingChart tokenInfor={tokenInfor} address={address} />
             <MyCoins coins={memeCoins} className="mb-6" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
