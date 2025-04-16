@@ -26,6 +26,9 @@ export default function TradingChart({
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(tokenInfor?.address);
     setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 3000);
   };
 
   return (
