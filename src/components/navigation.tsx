@@ -172,7 +172,7 @@ export default function Navigation() {
             <>
               {!isAuthenticated && (
                 <Button
-                  className="bg-[#d8e8f7] text-black font-semibold"
+                  className="bg-[#d8e8f7] text-black font-semibold h-max"
                   onClick={() =>
                     window.open(
                       process.env.NEXT_PUBLIC_TELEGRAM_BOT_URL,
@@ -186,7 +186,7 @@ export default function Navigation() {
               {isAuthenticated && walletInfor && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button className="p-2 bg-[#d8e8f7] text-black font-bold">
+                    <Button className="p-2 bg-[#d8e8f7] text-black font-bold h-max">
                       <Wallet2 className="sm:hidden h-4 w-4 mr-1" />
                       <span className="hidden sm:inline">{truncateString(walletInfor.solana_address, 14)}</span>
                       <ChevronDown size={16} className="ml-1" />
