@@ -85,6 +85,26 @@ export default function TokenInforDetail() {
     <Card className="p-4 mb-6 w-full">
       <div className="w-full">
         <div className="space-y-4 w-full">
+          {/* Market Statistics */}
+          <div className="grid grid-cols-4 gap-4 pb-4 border-b">
+            <div className="flex flex-col">
+              <span className="text-sm text-muted-foreground">Market Cap</span>
+              <span className="text-sm font-medium">$3518.5K</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-sm text-muted-foreground">24h Volume</span>
+              <span className="text-sm font-medium">$1169.3K</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-sm text-muted-foreground">Liquidity</span>
+              <span className="text-sm font-medium">$4589.6K</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-sm text-muted-foreground">Holders</span>
+              <span className="text-sm font-medium">3</span>
+            </div>
+          </div>
+
           {/* Time frame stats */}
           <div className="grid grid-cols-4 w-full gap-2">
             {(Object.keys(timeFrameData) as TimeFrame[]).map((timeFrame) => (
