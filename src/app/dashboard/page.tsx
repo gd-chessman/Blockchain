@@ -161,11 +161,11 @@ export default function Dashboard() {
       </div>
 
       <div className="mt-8 mb-12">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
           <h2 className="text-2xl font-bold flex gap-8">
             {t("dashboard.cryptocurrencies.title")}
-          <CardFlash tokens={tokensFlash} />
           </h2>
+          <CardFlash tokens={tokensFlash} />
           <div className="relative w-full md:w-[400px] mt-4 md:mt-0">
             {isSearching ? (
               <Loader2 className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground animate-spin" />

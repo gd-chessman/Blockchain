@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function CardFlash({ tokens }: { tokens: any[] }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-[40rem]">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full md:w-[40rem] mr-auto">
     {tokens.slice(0, 2).map((token, index) => (
       <div key={index} className="border p-1.5 rounded-lg text-xs border-[#d8e8f7] flash-animation bg-[#d8e8f7] text-black">
         <div className="flex items-center justify-between">
