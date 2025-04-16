@@ -14,6 +14,8 @@ import { Input } from "@/ui/input";
 import { useAuth } from "@/hooks/useAuth";
 import { ToastNotification } from "@/ui/toast";
 import TokenCard from "@/components/dashboard/Card";
+import { useWsSubscribeTokensFlash } from "@/hooks/useWsSubscribeTokensFlash";
+import CardFlash from "@/components/dashboard/CardFlash";
 
 export default function Dashboard() {
   const { t } = useLang();
@@ -27,6 +29,9 @@ export default function Dashboard() {
   const { tokens: wsTokens } = useWsSubscribeTokens({ limit: 18 });
   const [showNotification, setShowNotification] = useState(false);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const { tokens: tokensFlash, isConnected, error } = useWsSubscribeTokensFlash({
+    limit: 9,
+  });
 
   const [tokens, setTokens] = useState<
     {
@@ -157,8 +162,9 @@ export default function Dashboard() {
 
       <div className="mt-8 mb-12">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-          <h2 className="text-2xl font-bold">
+          <h2 className="text-2xl font-bold flex gap-8">
             {t("dashboard.cryptocurrencies.title")}
+          <CardFlash tokens={tokensFlash} />
           </h2>
           <div className="relative w-full md:w-[400px] mt-4 md:mt-0">
             {isSearching ? (

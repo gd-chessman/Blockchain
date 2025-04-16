@@ -3,26 +3,42 @@ import React from 'react'
 
 export default function CardFlash({ tokens }: { tokens: any[] }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-[52rem]">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-[40rem]">
     {tokens.slice(0, 2).map((token, index) => (
-      <div key={index} className="border p-2 rounded-lg text-sm">
+      <div key={index} className="border p-1.5 rounded-lg text-xs border-[#d8e8f7] flash-animation bg-[#d8e8f7] text-black">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             {token.logoUrl && (
-              <img src={token.logoUrl} alt={token.symbol} className="w-6 h-6 rounded" />
+              <img src={token.logoUrl} alt={token.symbol} className="w-5 h-5 rounded" />
             )}
             <div>
-              <h3 className="font-semibold text-sm max-w-[12rem] truncate">{token.name}</h3>
-              <p className="text-gray-600 text-xs">{token.symbol}</p>
+              <h3 className="font-semibold text-xs max-w-[10rem] truncate text-black">{token.name}</h3>
+              <p className="text-black text-[10px]">{token.symbol}</p>
             </div>
           </div>
           <div className="text-right">
-            <p className="text-xs">{truncateString(token.address, 20)}</p>
-            <p className="text-xs">Market Cap: ${Number(token.marketCap).toFixed(1)}</p>
+            <p className="text-[10px] text-black">{truncateString(token.address, 20)}</p>
+            <p className="text-[10px] text-black">Market Cap: ${Number(token.marketCap).toFixed(1)}</p>
           </div>
         </div>
       </div>
     ))}
+    <style jsx>{`
+      @keyframes flash {
+        0% {
+          box-shadow: 0 0 0 0 rgba(216, 232, 247, 0.4);
+        }
+        50% {
+          box-shadow: 0 0 10px 5px rgba(216, 232, 247, 0.8);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(216, 232, 247, 0.4);
+        }
+      }
+      .flash-animation {
+        animation: flash 1s infinite;
+      }
+    `}</style>
   </div>
   )
 }

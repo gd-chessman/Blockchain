@@ -11,14 +11,7 @@ import { useLang } from "@/lang"
 
 // Meme class mapping
 const memeClasses = [
-  "meme-card-yellow",
-  "meme-card-purple",
-  "meme-card-yellow",
-  "meme-card-purple",
   "meme-card-blue",
-  "meme-card-yellow",
-  "meme-card-orange",
-  "meme-card-green",
 ]
 
 // Get meme class for a token
