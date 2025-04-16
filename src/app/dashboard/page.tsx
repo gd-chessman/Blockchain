@@ -161,8 +161,8 @@ export default function Dashboard() {
       </div>
 
       <div className="mt-8 mb-12">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-          <h2 className="text-2xl font-bold flex gap-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-6">
+          <h2 className="text-2xl font-bold flex">
             {t("dashboard.cryptocurrencies.title")}
           </h2>
           <CardFlash tokens={tokensFlash} />
