@@ -262,7 +262,7 @@ export default function MasterTrade() {
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/50">
-                      <TableHead className="w-[300px]">
+                      <TableHead >
                         {t("masterTrade.table.walletAddress")}
                       </TableHead>
                       <TableHead>{t("masterTrade.table.type")}</TableHead>
@@ -277,7 +277,7 @@ export default function MasterTrade() {
                       filteredTraders.map((trader: any) => (
                         <TableRow key={trader.id} className="hover:bg-muted/30">
                           <TableCell className="font-medium">
-                            <div className="w-64 truncate">
+                            <div className="whitespace-nowrap">
                               {trader.solana_address.slice(0, 6)}...
                               {trader.solana_address.slice(-4)}
                               <Button
@@ -364,7 +364,7 @@ export default function MasterTrade() {
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/50">
-                      <TableHead className="w-[300px]">
+                      <TableHead >
                         {t("masterTrade.table.walletAddress")}
                       </TableHead>
                       <TableHead>{t("masterTrade.table.type")}</TableHead>
@@ -379,7 +379,7 @@ export default function MasterTrade() {
                       filteredTraders.map((trader: any) => (
                         <TableRow key={trader.id} className="hover:bg-muted/30">
                           <TableCell className="font-medium">
-                            <div className="w-64 truncate">
+                            <div className="whitespace-nowrap">
                               {trader.solana_address.slice(0, 6)}...
                               {trader.solana_address.slice(-4)}
                               <Button
@@ -515,7 +515,7 @@ export default function MasterTrade() {
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/50">
-                      <TableHead className="w-[300px]">
+                      <TableHead >
                         {t("masterTrade.table.walletAddress")}
                       </TableHead>
                       <TableHead>{t("masterTrade.table.type")}</TableHead>
@@ -530,7 +530,7 @@ export default function MasterTrade() {
                       filteredTraders.map((trader: any) => (
                         <TableRow key={trader.id} className="hover:bg-muted/30">
                           <TableCell className="font-medium">
-                            <div className="w-64 truncate">
+                            <div className="whitespace-nowrap" >
                               {trader.solana_address.slice(0, 6)}...
                               {trader.solana_address.slice(-4)}
                               <Button
@@ -617,7 +617,7 @@ export default function MasterTrade() {
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/50">
-                      <TableHead className="w-[300px]">
+                      <TableHead >
                         {t("masterTrade.table.walletAddress")}
                       </TableHead>
                       <TableHead>{t("masterTrade.table.type")}</TableHead>
@@ -632,7 +632,7 @@ export default function MasterTrade() {
                       filteredTraders.map((trader: any) => (
                         <TableRow key={trader.id} className="hover:bg-muted/30">
                           <TableCell className="font-medium">
-                            <div className="w-64 truncate">
+                            <div className="whitespace-nowrap">
                               {trader.solana_address.slice(0, 6)}...
                               {trader.solana_address.slice(-4)}
                               <Button
