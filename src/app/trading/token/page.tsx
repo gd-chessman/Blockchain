@@ -727,7 +727,7 @@ function TradingContent() {
         <div className="text-sm text-muted-foreground mt-2 md:mt-0">
           {/* {t("trading.marketIsOpen")} • 24h */}
           <Button
-            className="ml-2 inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium bg-[#d8e8f7] text-black"
+            className="ml-2 inline-flex h-7 rounded-full items-center justify-center gap-2 whitespace-nowrap font-medium bg-[#d8e8f7] text-black"
             onClick={() => handleStarClick(tokenInfor)}
           >
             {myWishlist?.tokens?.some((t: any) => t.id === tokenInfor?.id) 
