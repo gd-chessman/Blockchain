@@ -14,3 +14,22 @@ export const truncateString = (str: string | null | undefined, maxLength: number
     return str.slice(0, halfLength) + "..." + str.slice(str.length - halfLength);
   };
   
+export const formatNumberWithSuffix = (input: number | string): string => {
+  const num = typeof input === 'string' ? parseFloat(input) : input;
+  
+  if (isNaN(num)) {
+    return '0';
+  }
+
+  if (num >= 1000000000) {
+    return (num / 1000000000).toFixed(1) + 'B';
+  }
+  if (num >= 1000000) {
+    return (num / 1000000).toFixed(1) + 'M';
+  }
+  if (num >= 1000) {
+    return (num / 1000).toFixed(1) + 'K';
+  }
+  return num.toString();
+};
+  

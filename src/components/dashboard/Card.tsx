@@ -6,7 +6,7 @@ import { CheckCircle2, ExternalLink, Copy, X } from "lucide-react"
 import { cn } from "@/libs/utils"
 import { truncateString } from "@/utils/format"
 import { ToastNotification } from "@/ui/toast"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useLang } from "@/lang"
 
 // Meme class mapping
@@ -51,7 +51,24 @@ export default function TokenCard({
   isBlinking = false,
 }: TokenCardProps) {
   const [showToast, setShowToast] = useState(false)
+  const [shouldBlink, setShouldBlink] = useState(false)
   const { t } = useLang();
+
+  // Track previous address to detect changes
+  const prevAddressRef = useRef(token.address);
+
+  useEffect(() => {
+    if (index === 0 && token.address !== prevAddressRef.current) {
+      setShouldBlink(true);
+      prevAddressRef.current = token.address;
+      
+      const timer = setTimeout(() => {
+        setShouldBlink(false);
+      }, 1000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [token.address, index]);
 
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(token.address)
@@ -82,7 +99,7 @@ export default function TokenCard({
           isHovered
             ? "scale-[1.02] shadow-xl dark:shadow-purple-900/20 z-10 animate-wiggle"
             : "shadow-lg dark:shadow-purple-900/10",
-          (index === 0 && isBlinking) && "animate-pulse"
+          (index === 0 && shouldBlink) && " !border-[#d8e8f7] !shadow !shadow-[#d8e8f7] bg-[#d8e8f7] text-black"
         )}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
