@@ -203,7 +203,7 @@ export default function MasterTrade() {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder={t("masterTrade.searchPlaceholder")}
-            className="pl-10 w-full md:w-[300px]"
+            className="pl-10 w-full md:w-[18.75rem]"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -215,7 +215,7 @@ export default function MasterTrade() {
           <Button
             variant="default"
             onClick={() => router.push("/master-trade/manage")}
-            className="w-full md:w-[300px] bg-green-500 hover:bg-green-600 text-white font-medium shadow-md hover:shadow-lg transition-all duration-200"
+            className="w-full md:w-[18.75rem] bg-green-500 hover:bg-green-600 text-white font-medium shadow-md hover:shadow-lg transition-all duration-200"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
