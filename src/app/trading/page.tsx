@@ -25,6 +25,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
 import LogWarring from "@/ui/log-warring";
 import { getMyWishlist } from "@/services/api/SolonaTokenService";
 import { useQuery } from "@tanstack/react-query";
+import { getTopCoins } from "@/services/api/OnChainService";
 
 export default function Trading() {
   const router = useRouter();
@@ -38,7 +39,10 @@ export default function Trading() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [activeTab, setActiveTab] = useState("all");
-  const { tokens: wsTokens } = useWsSubscribeTokens({ limit: 18 });
+  const { data: topCoins, isLoading: isLoadingTopCoins } = useQuery({
+    queryKey: ["topCoins"],
+    queryFn: () => getTopCoins({ sort_by: "market_cap", sort_type: "desc", offset: 0, limit: 18 }),
+  });
   const [tokens, setTokens] = useState<
     {
       id: number;
@@ -77,12 +81,12 @@ export default function Trading() {
     }[]
   >([]);
 
-  // Update tokens when WebSocket data changes
+  // Update tokens when topCoins data changes
   useEffect(() => {
-    if (wsTokens && wsTokens.length > 0) {
-      setTokens(wsTokens);
+    if (topCoins && topCoins.length > 0) {
+      setTokens(topCoins);
     }
-  }, [wsTokens]);
+  }, [topCoins]);
 
   // Effect to handle search when debounced value changes
   useEffect(() => {
@@ -116,7 +120,7 @@ export default function Trading() {
     searchData();
   }, [debouncedSearchQuery, currentPage]);
 
-  // Use search results if available, otherwise use WebSocket data
+  // Use search results if available, otherwise use topCoins data
   const displayTokens = debouncedSearchQuery.trim() ? searchResults : tokens;
 
   const handleCopyAddress = (address: string, e: React.MouseEvent) => {
@@ -242,7 +246,7 @@ export default function Trading() {
                   onCopyAddress={handleCopyAddress}
                   onStarClick={handleStarClick}
                   isFavoritesTab={false}
-                  isLoading={!wsTokens || wsTokens.length === 0}
+                  isLoading={isLoadingTopCoins}
                 />
               </CardContent>
             )}

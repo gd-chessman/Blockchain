@@ -13,25 +13,12 @@ import { useLang } from "@/lang";
 import { truncateString } from "@/utils/format";
 import { Card, CardContent } from "@/ui/card";
 
-interface Token {
-  id: number;
-  name: string;
-  symbol: string;
-  address: string;
-  decimals: number;
-  logoUrl: string;
-  coingeckoId: string | null;
-  tradingviewSymbol: string | null;
-  isVerified: boolean;
-  marketCap: number;
-  liquidity: any;
-  program?: string;
-}
+
 
 interface TableTokenListProps {
-  tokens: Token[];
+  tokens: any;
   onCopyAddress: (address: string, e: React.MouseEvent) => void;
-  onStarClick?: (token: Token) => void;
+  onStarClick?: (token: any) => void;
   isFavoritesTab?: boolean;
   isLoading?: boolean;
 }
@@ -71,7 +58,7 @@ export function TableTokenList({ tokens, onCopyAddress, onStarClick, isFavorites
                   </TableCell>
                 </TableRow>
               ) : (
-                tokens.map((token, index) => (
+                tokens.map((token: any, index: any) => (
                   <TableRow
                     key={index}
                     className="hover:bg-muted/30 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
@@ -93,7 +80,7 @@ export function TableTokenList({ tokens, onCopyAddress, onStarClick, isFavorites
                           <Star className="h-4 w-4" />
                         </Button>
                         <img
-                          src={token.logoUrl || "/placeholder.png"}
+                          src={token.logo_uri || token.logoUrl || "/placeholder.png"}
                           alt="token logo"
                           className="size-12 rounded-full"
                         />
