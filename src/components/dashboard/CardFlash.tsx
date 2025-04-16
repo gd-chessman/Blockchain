@@ -12,7 +12,7 @@ export default function CardFlash({ tokens }: { tokens: any[] }) {
               <img src={token.logoUrl} alt={token.symbol} className="w-6 h-6 rounded" />
             )}
             <div>
-              <h3 className="font-semibold text-sm">{token.name}</h3>
+              <h3 className="font-semibold text-sm max-w-[12rem] truncate">{token.name}</h3>
               <p className="text-gray-600 text-xs">{token.symbol}</p>
             </div>
           </div>
