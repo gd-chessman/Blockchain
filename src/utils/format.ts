@@ -30,6 +30,6 @@ export const formatNumberWithSuffix = (input: number | string): string => {
   if (num >= 1000) {
     return (num / 1000).toFixed(1) + 'K';
   }
-  return num.toString();
+  return num.toFixed(1);
 };
   
