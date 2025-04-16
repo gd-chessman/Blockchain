@@ -24,6 +24,35 @@ interface SubscribeParams {
   random?: boolean;
 }
 
+// Cache for preloaded images
+const imageCache = new Map<string, HTMLImageElement>();
+
+// Function to preload an image
+const preloadImage = (url: string): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    if (imageCache.has(url)) {
+      resolve();
+      return;
+    }
+
+    const img = new Image();
+    img.onload = () => {
+      imageCache.set(url, img);
+      resolve();
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
+};
+
+// Function to preload multiple images
+const preloadImages = async (tokens: Token[]) => {
+  const preloadPromises = tokens.map(token => 
+    token.logoUrl ? preloadImage(token.logoUrl) : Promise.resolve()
+  );
+  await Promise.all(preloadPromises);
+};
+
 export function useWsSubscribeTokensFlash(params?: SubscribeParams) {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [tokens, setTokens] = useState<Token[]>([]);
@@ -41,13 +70,19 @@ export function useWsSubscribeTokensFlash(params?: SubscribeParams) {
   const TOKENS_PER_UPDATE = 1; // Số token cập nhật mỗi lần
 
   const convertToken = (token: any): Token => {
+    // Optimize logo URL
+    const logoUrl = token.slt_logo_url || token.logoUrl;
+    const optimizedLogoUrl = logoUrl ? 
+      (logoUrl.startsWith('http') ? logoUrl : `https://${logoUrl}`) : 
+      '/placeholder.png';
+
     return {
       id: token.slt_id,
       name: token.slt_name || token.name,
       symbol: token.slt_symbol || token.symbol,
       address: token.slt_address || token.address,
       decimals: token.slt_decimals || token.decimals,
-      logoUrl: token.slt_logo_url || token.logoUrl,
+      logoUrl: optimizedLogoUrl,
       liquidity: token.slt_initial_liquidity || token.liquidity,
       coingeckoId: null,
       tradingviewSymbol: null,
@@ -65,11 +100,13 @@ export function useWsSubscribeTokensFlash(params?: SubscribeParams) {
     tokenStackRef.current = tokenStackRef.current.slice(TOKENS_PER_UPDATE);
     
     if (newTokens.length > 0) {
+      // Preload images for new tokens
+      preloadImages(newTokens).catch(console.error);
+      
       setTokens(prevTokens => {
         // Thêm các token mới vào đầu mảng và giới hạn số lượng theo params.limit
         return [...newTokens, ...prevTokens].slice(0, params?.limit || 24);
       });
-      
     }
   };
 
@@ -117,13 +154,15 @@ export function useWsSubscribeTokensFlash(params?: SubscribeParams) {
             const convertedTokens = rawTokens.map(convertToken);
 
             if (isInitialLoadRef.current) {
-              // Lần đầu kết nối: 
-              // 1. Hiển thị theo limit
-              setTokens(convertedTokens.slice(0, params?.limit || 24));
-              // 2. Lưu phần còn lại vào stack (nếu có)
-              tokenStackRef.current = convertedTokens.slice(params?.limit || 24);
-              isInitialLoadRef.current = false;
-              console.log('Initial load:', convertedTokens.length, 'tokens');
+              // Preload images for initial tokens
+              preloadImages(convertedTokens.slice(0, params?.limit || 24))
+                .then(() => {
+                  setTokens(convertedTokens.slice(0, params?.limit || 24));
+                  tokenStackRef.current = convertedTokens.slice(params?.limit || 24);
+                  isInitialLoadRef.current = false;
+                  console.log('Initial load:', convertedTokens.length, 'tokens');
+                })
+                .catch(console.error);
             } else {
               // Các lần cập nhật sau:
               // Tạo Set chứa các address đã có trong stack
@@ -132,10 +171,13 @@ export function useWsSubscribeTokensFlash(params?: SubscribeParams) {
               // Lọc ra các token mới có address chưa tồn tại trong stack
               const uniqueNewTokens = convertedTokens.filter((token: Token) => !existingAddresses.has(token.address));
               
-              // Thêm tokens mới vào cuối và giữ tối đa MAX_STACK_SIZE
-              tokenStackRef.current = [...tokenStackRef.current, ...uniqueNewTokens]
-                .slice(-MAX_STACK_SIZE);
-            
+              // Preload images for new unique tokens
+              preloadImages(uniqueNewTokens)
+                .then(() => {
+                  tokenStackRef.current = [...tokenStackRef.current, ...uniqueNewTokens]
+                    .slice(-MAX_STACK_SIZE);
+                })
+                .catch(console.error);
             }
           } catch (error) {
             console.error("Error processing token data:", error);
