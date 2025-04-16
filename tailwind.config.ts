@@ -62,10 +62,23 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "light-sweep": {
+          "0%": { 
+            backgroundPosition: "100% 0",
+            backgroundImage: "linear-gradient(90deg, transparent, rgba(216, 232, 247, 0.3), transparent)",
+            backgroundSize: "200% 100%"
+          },
+          "100%": { 
+            backgroundPosition: "-100% 0",
+            backgroundImage: "linear-gradient(90deg, transparent, rgba(216, 232, 247, 0.3), transparent)",
+            backgroundSize: "200% 100%"
+          }
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "light-sweep": "light-sweep 12s linear forwards"
       },
       screens: {
         '3xl': '1800px',

@@ -99,7 +99,7 @@ export default function TokenCard({
           isHovered
             ? "scale-[1.02] shadow-xl dark:shadow-purple-900/20 z-10 animate-wiggle"
             : "shadow-lg dark:shadow-purple-900/10",
-          (index === 0 && shouldBlink) && " !border-[#d8e8f7] !shadow !shadow-[#d8e8f7] bg-[#d8e8f7] text-black"
+          (index === 0 && shouldBlink) && "animate-light-sweep bg-[length:200%_100%] !border-[#d8e8f7] !shadow !shadow-[#d8e8f7]"
         )}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
