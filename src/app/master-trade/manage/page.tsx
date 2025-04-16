@@ -304,7 +304,7 @@ export default function ManageMasterTrade() {
             {t("masterTrade.manage.title")}
           </h1>
         </div>
-        <Button className="mt-4 md:mt-0 bg-green-500 hover:bg-green-600" onClick={() => router.push("/master-trade")}>
+        <Button className="mt-4 md:mt-0 bg-[#d8e8f7] text-black" onClick={() => router.push("/master-trade")}>
           {t("masterTrade.manage.connectWithOtherMaster")}
         </Button>
       </div>

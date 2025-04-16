@@ -215,7 +215,7 @@ export default function MasterTrade() {
           <Button
             variant="default"
             onClick={() => router.push("/master-trade/manage")}
-            className="w-full md:w-[18.75rem] bg-green-500 hover:bg-green-600 text-white font-medium shadow-md hover:shadow-lg transition-all duration-200"
+            className="w-full md:w-[18.75rem] bg-[#d8e8f7] text-black font-medium shadow-md hover:shadow-lg transition-all duration-200"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
