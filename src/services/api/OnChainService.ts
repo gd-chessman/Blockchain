@@ -11,3 +11,13 @@ import axiosClient from "@/utils/axiosClient";
       return [];
     }
   };
+
+export const getOrderHistories = async (item: any) => {
+  try {
+    const temp = await axiosClient.get(`/on-chain/histories?address=${item.address}&offset=${item.offset}&limit=${item.limit}&sort_by=${item.sort_by}&sort_type=${item.sort_type}&tx_type=${item.tx_type}`);
+    return temp.data.data.items;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
