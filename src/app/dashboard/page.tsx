@@ -223,6 +223,7 @@ export default function Dashboard() {
                     onTradeClick={() =>
                       router.push(`/trading/token?address=${token.address}`)
                     }
+                    isBlinking={true}
                   />
                 );
               })}

@@ -38,6 +38,7 @@ interface TokenCardProps {
   onMouseEnter?: () => void
   onMouseLeave?: () => void
   onTradeClick: () => void
+  isBlinking?: boolean
 }
 
 export default function TokenCard({
@@ -47,6 +48,7 @@ export default function TokenCard({
   onMouseEnter,
   onMouseLeave,
   onTradeClick,
+  isBlinking = false,
 }: TokenCardProps) {
   const [showToast, setShowToast] = useState(false)
   const { t } = useLang();
@@ -80,6 +82,7 @@ export default function TokenCard({
           isHovered
             ? "scale-[1.02] shadow-xl dark:shadow-purple-900/20 z-10 animate-wiggle"
             : "shadow-lg dark:shadow-purple-900/10",
+          (index === 0 && isBlinking) && "animate-pulse"
         )}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
