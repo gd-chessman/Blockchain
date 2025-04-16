@@ -36,7 +36,7 @@ export function useWsSubscribeTokensFlash(params?: SubscribeParams) {
   const tokenStackRef = useRef<Token[]>([]); // Stack chứa tối đa 100 token
   const updateIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const isInitialLoadRef = useRef(true);
-  const MAX_STACK_SIZE = 100; // Giới hạn stack 100 token
+  const MAX_STACK_SIZE = 50; // Giới hạn stack 100 token
   const DISPLAY_INTERVAL = 500; // Hiển thị mỗi s
   const TOKENS_PER_UPDATE = 1; // Số token cập nhật mỗi lần
 
