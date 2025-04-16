@@ -730,7 +730,9 @@ function TradingContent() {
             className="ml-2 inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium bg-[#d8e8f7] text-black"
             onClick={() => handleStarClick(tokenInfor)}
           >
-            {t("trading.addToFavorite")}
+            {myWishlist?.tokens?.some((t: any) => t.id === tokenInfor?.id) 
+              ? t("trading.removeFromFavorite") 
+              : t("trading.addToFavorite")}
           </Button>
         </div>
       </div>

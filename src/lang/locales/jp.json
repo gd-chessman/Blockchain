@@ -182,6 +182,7 @@
         "wishlistUpdated": "お気に入りリストが更新されました",
         "wishlistError": "お気に入りリストの更新に失敗しました",
         "addToFavorite": "お気に入りに追加",
+        "removeFromFavorite": "お気に入りから削除",
         "failed": "失敗",
         "noTokens": "取引可能なトークンがありません"
     },

@@ -182,6 +182,7 @@
       "wishlistUpdated": "Cập nhật danh sách yêu thích thành công",
       "wishlistError": "Cập nhật danh sách yêu thích thất bại",
       "addToFavorite": "Thêm vào yêu thích",
+      "removeFromFavorite": "Xóa khỏi yêu thích",
       "failed": "Thất bại",
       "noTokens": "Không có token nào để giao dịch"
   },

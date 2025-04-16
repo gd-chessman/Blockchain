@@ -156,6 +156,7 @@
         "wishlistUpdated": "위시리스트가 업데이트되었습니다",
         "wishlistError": "위시리스트 업데이트에 실패했습니다",
         "addToFavorite": "즐겨찾기에 추가",
+        "removeFromFavorite": "즐겨찾기에서 제거",
         "failed": "실패",
         "marketCap": "시가총액",
         "noTokens": "거래 가능한 토큰이 없습니다"

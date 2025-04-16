@@ -191,7 +191,8 @@
       },
       "wishlistUpdated": "Wishlist updated successfully",
       "wishlistError": "Failed to update wishlist",
-      "addToFavorite": "Add to favorite",
+      "addToFavorite": "Add to Favorite",
+      "removeFromFavorite": "Remove from Favorite",
       "failed": "Failed",
       "noTokens": "No tokens available for trading"
   },
