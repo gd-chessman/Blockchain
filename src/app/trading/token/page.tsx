@@ -91,13 +91,14 @@ function TradingContent() {
   const queryClient = useQueryClient();
   const [tokens, setTokens] = useState<
     {
-      slt_id: number;
-      slt_name: string;
-      slt_address: string;
-      slt_symbol: string;
-      slt_decimals: number;
-      slt_is_verified: boolean;
-      slt_logo_url: string;
+      id: number;
+      name: string;
+      address: string;
+      symbol: string;
+      decimals: number;
+      isVerified: boolean;
+      logoUrl: string;
+      program: string;
     }[]
   >([]);
   const [value, setValue] = useState(0);
@@ -175,6 +176,7 @@ function TradingContent() {
       tradingviewSymbol: string | null;
       isVerified: boolean;
       marketCap: number;
+      program: string;
     }[]
   >([]);
 
@@ -206,16 +208,7 @@ function TradingContent() {
   // Update tokens when WebSocket data changes
   useEffect(() => {
     if (wsTokens && wsTokens.length > 0) {
-      const convertedTokens = wsTokens.map((token) => ({
-        slt_id: token.id,
-        slt_name: token.name,
-        slt_address: token.address,
-        slt_symbol: token.symbol,
-        slt_decimals: token.decimals,
-        slt_is_verified: token.isVerified,
-        slt_logo_url: token.logoUrl,
-      }));
-      setTokens(convertedTokens);
+      setTokens(wsTokens);
     }
   }, [wsTokens]);
 
@@ -223,16 +216,17 @@ function TradingContent() {
   const displayTokens = debouncedSearchQuery.trim()
     ? searchResults
     : tokens?.map((token) => ({
-        id: token.slt_id,
-        name: token.slt_name,
-        symbol: token.slt_symbol,
-        address: token.slt_address,
-        decimals: token.slt_decimals,
-        logoUrl: token.slt_logo_url,
+        id: token.id,
+        name: token.name,
+        symbol: token.symbol,
+        address: token.address,
+        decimals: token.decimals,
+        logoUrl: token.logoUrl,
         coingeckoId: null,
         tradingviewSymbol: null,
-        isVerified: token.slt_is_verified,
+        isVerified: token.isVerified,
         marketCap: 0,
+        program: token.program,
       }));
 
   const handleTimeframeChange = (timeframe: string) => {

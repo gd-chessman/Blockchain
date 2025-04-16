@@ -17,6 +17,7 @@ interface Token {
   isVerified: boolean;
   marketCap: number;
   isFavorite?: boolean;
+  program?: string;
 }
 
 interface OtherCoinsProps {
@@ -91,7 +92,12 @@ export default function OtherCoins({
                       className="size-10 rounded-full"
                     />
                     <div>
-                      <p>{token.name}</p>{" "}
+                      <p className="flex items-center gap-2">
+                        {token.name}
+                        {token.program === "pumpfun" && (
+                          <img src="/pump.webp" alt="pump" className="h-4 w-4" />
+                        )}
+                      </p>{" "}
                       <p className="text-muted-foreground text-xs">
                         {token.symbol}
                       </p>{" "}
@@ -146,7 +152,12 @@ export default function OtherCoins({
                         className="size-10 rounded-full"
                       />
                       <div>
-                        <p>{token.name}</p>{" "}
+                        <p className="flex items-center gap-2">
+                          {token.name}
+                          {token.program === "pumpfun" && (
+                            <img src="/pump.webp" alt="pump" className="h-4 w-4" />
+                          )}
+                        </p>{" "}
                         <p className="text-muted-foreground text-xs">
                           {token.symbol}
                         </p>{" "}
