@@ -71,7 +71,6 @@ export default function TokenCard({
       return () => clearTimeout(timer)
     }
   }, [showToast])
-  console.log(token);
 
   return (
     <>
