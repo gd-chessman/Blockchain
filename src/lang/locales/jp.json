@@ -177,7 +177,8 @@
         "createNewCoin": "新しいコインを作成",
         "tabs": {
             "allTokens": "すべてのトークン",
-            "favorites": "お気に入り"
+            "favorites": "お気に入り",
+            "topCoins": "トップコイン"
         },
         "wishlistUpdated": "お気に入りリストが更新されました",
         "wishlistError": "お気に入りリストの更新に失敗しました",

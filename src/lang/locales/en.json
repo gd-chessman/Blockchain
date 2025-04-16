@@ -187,7 +187,8 @@
       "createNewCoin": "Create New Coin",
       "tabs": {
           "allTokens": "All Tokens",
-          "favorites": "Favorites"
+          "favorites": "Favorites",
+          "topCoins": "Top Coins"
       },
       "wishlistUpdated": "Wishlist updated successfully",
       "wishlistError": "Failed to update wishlist",

@@ -226,7 +226,7 @@ export default function Trading() {
         </CardHeader>
         <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="all">{t("trading.tabs.allTokens")}</TabsTrigger>
+            <TabsTrigger value="all">{t("trading.tabs.topCoins")}</TabsTrigger>
             <TabsTrigger value="favorites">
               <div className="flex items-center">
                 <Star className="h-4 w-4 mr-2 text-yellow-500" />

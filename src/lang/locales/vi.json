@@ -177,7 +177,8 @@
       "createNewCoin": "Tạo đồng coin mới",
       "tabs": {
           "allTokens": "Tất Cả Token",
-          "favorites": "Yêu Thích"
+          "favorites": "Yêu Thích",
+          "topCoins": "Coin Hàng Đầu"
       },
       "wishlistUpdated": "Cập nhật danh sách yêu thích thành công",
       "wishlistError": "Cập nhật danh sách yêu thích thất bại",

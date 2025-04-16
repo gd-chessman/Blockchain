@@ -151,7 +151,8 @@
         },
         "tabs": {
             "allTokens": "모든 토큰",
-            "favorites": "즐겨찾기"
+            "favorites": "즐겨찾기",
+            "topCoins": "인기 코인"
         },
         "wishlistUpdated": "위시리스트가 업데이트되었습니다",
         "wishlistError": "위시리스트 업데이트에 실패했습니다",
