@@ -292,7 +292,7 @@ export default function Wallet() {
       {/* Get Private Key Button */}
       <div className="flex justify-center mb-8">
         <Button
-          className="bg-[#d8e8f7] text-black font-medium"
+          className="bg-[#d8e8f7] hover:bg-[#d3eaff] text-black font-medium"
           onClick={() => setIsPrivateKeyOpen(true)}
         >
           <Shield className="mr-2 h-5 w-5" />
