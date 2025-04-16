@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/ui/card";
-import { truncateString } from "@/utils/format";
+import { formatNumberWithSuffix, truncateString } from "@/utils/format";
 import React from "react";
 import { Copy } from "lucide-react";
 import { ToastNotification } from "@/ui/toast";
@@ -76,20 +76,21 @@ export default function TradingChart({
                 <div className="flex items-center flex-col">
                   <span>{t("trading.tokenInfo.marketCap")}:</span>
                   <span className="text-muted-foreground">
-                    ${tokenInfor?.marketCap?.toFixed(1)}K
+                    {/* ${tokenInfor?.marketCap?.toFixed(1)}K */}
+                    ${formatNumberWithSuffix(tokenInfor?.marketCap)}
                   </span>
                 </div>
 
                 <div className="flex items-center flex-col">
                   <span>{t("trading.tokenInfo.volume24h")}:</span>
                   <span className="text-muted-foreground">
-                    ${tokenInfor?.volume24h?.toFixed(1)}K
+                    ${formatNumberWithSuffix(tokenInfor?.volume24h)}
                   </span>
                 </div>
                 <div className="flex items-center flex-col">
                   <span>{t("trading.tokenInfo.liquidity")}:</span>
                   <span className="text-muted-foreground">
-                    ${tokenInfor?.liquidity?.toFixed(1)}K
+                    ${formatNumberWithSuffix(tokenInfor?.liquidity)}
                   </span>
                 </div>
                 <div className="flex items-center flex-col">
