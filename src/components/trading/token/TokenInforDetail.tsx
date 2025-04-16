@@ -82,7 +82,7 @@ export default function TokenInforDetail() {
   const currentData = timeFrameData[selectedTimeFrame]
 
   return (
-    <Card className="p-4 mb-6 w-full">
+    <Card className="p-4 mb-6 w-full hidden md:block">
       <div className="w-full">
         <div className="space-y-4 w-full">
           {/* Market Statistics */}
