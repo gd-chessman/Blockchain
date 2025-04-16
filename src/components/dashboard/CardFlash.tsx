@@ -1,9 +1,11 @@
+import { useLang } from '@/lang/useLang';
 import { truncateString } from '@/utils/format';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 
 export default function CardFlash({ tokens }: { tokens: any[] }) {
   const router = useRouter();
+  const { t } = useLang();
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full md:w-[40rem] mr-auto">
@@ -25,7 +27,7 @@ export default function CardFlash({ tokens }: { tokens: any[] }) {
           </div>
           <div className="text-right">
             <p className="text-[10px] text-black">{truncateString(token.address, 20)}</p>
-            <p className="text-[10px] text-black">Market Cap: ${Number(token.marketCap).toFixed(1)}</p>
+            <p className="text-[10px] text-black">{t("trading.marketCap")}: ${Number(token.marketCap).toFixed(1)}</p>
           </div>
         </div>
       </div>
