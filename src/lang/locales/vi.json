@@ -184,7 +184,11 @@
       "addToFavorite": "Thêm vào yêu thích",
       "removeFromFavorite": "Xóa khỏi yêu thích",
       "failed": "Thất bại",
-      "noTokens": "Không có token nào để giao dịch"
+      "noTokens": "Không có token nào để giao dịch",
+      "volume1h": "Khối lượng 1h",
+      "volume1hChange": "Thay đổi khối lượng 1h",
+      "volume24h": "Khối lượng 24h",
+      "volume24hChange": "Thay đổi khối lượng 24h"
   },
   "navigation": {
       "newcoin": "Tạo Coin Mới (Pumpfun)",

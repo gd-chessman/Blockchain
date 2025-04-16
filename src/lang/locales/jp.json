@@ -184,7 +184,11 @@
         "addToFavorite": "お気に入りに追加",
         "removeFromFavorite": "お気に入りから削除",
         "failed": "失敗",
-        "noTokens": "取引可能なトークンがありません"
+        "noTokens": "取引可能なトークンがありません",
+        "volume1h": "1時間取引量",
+        "volume1hChange": "1時間取引量の変化",
+        "volume24h": "24時間取引量",
+        "volume24hChange": "24時間取引量の変化"
     },
     "navigation": {
         "dashboard": "ダッシュボード",

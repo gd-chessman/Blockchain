@@ -10,7 +10,7 @@ import { Button } from "@/ui/button";
 import { Copy, ExternalLink, Star, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useLang } from "@/lang";
-import { truncateString } from "@/utils/format";
+import { formatNumberWithSuffix, truncateString } from "@/utils/format";
 import { Card, CardContent } from "@/ui/card";
 
 
@@ -37,6 +37,11 @@ export function TableTokenList({ tokens, onCopyAddress, onStarClick, isFavorites
                 <TableHead>{t("trading.token")}</TableHead>
                 <TableHead>{t("trading.symbol")}</TableHead>
                 <TableHead>{t("trading.address")}</TableHead>
+                <TableHead>{t("trading.price")}</TableHead>
+                <TableHead>{t("trading.volume1h")}</TableHead>
+                <TableHead>{t("trading.volume1hChange")}</TableHead>
+                <TableHead>{t("trading.volume24h")}</TableHead>
+                <TableHead>{t("trading.volume24hChange")}</TableHead>
                 <TableHead>{t("trading.liquidity")}</TableHead>
                 <TableHead>{t("trading.marketCap")}</TableHead>
                 <TableHead>{t("trading.action")}</TableHead>
@@ -112,10 +117,19 @@ export function TableTokenList({ tokens, onCopyAddress, onStarClick, isFavorites
                         </Button>
                       </div>
                     </TableCell>
-                    <TableCell>${Number(token.liquidity)?.toFixed(1)}K</TableCell>
+                    <TableCell>${formatNumberWithSuffix(token.price)}</TableCell>
+                    <TableCell>${Number(token.volume_1h_usd)?.toFixed(1)}K</TableCell>
+                    <TableCell className={token.volume_1h_change_percent >= 0 ? "text-green-500" : "text-red-500"}>
+                      {token.volume_1h_change_percent?.toFixed(2)}%
+                    </TableCell>
+                    <TableCell>${Number(token.volume_24h_usd)?.toFixed(1)}K</TableCell>
+                    <TableCell className={token.volume_24h_change_percent >= 0 ? "text-green-500" : "text-red-500"}>
+                      {token.volume_24h_change_percent?.toFixed(2)}%
+                    </TableCell>
+                    <TableCell>${formatNumberWithSuffix(token.liquidity)}</TableCell>
                     <TableCell>
                       {/* <span className={token.isVerified ? "text-green-500" : "text-red-500"}> */}
-                        ${Number(token.marketCap)?.toFixed(1)}K
+                        ${formatNumberWithSuffix(token.market_cap)}
                       {/* </span> */}
                     </TableCell>
                     <TableCell>

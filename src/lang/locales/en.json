@@ -194,7 +194,11 @@
       "addToFavorite": "Add to Favorite",
       "removeFromFavorite": "Remove from Favorite",
       "failed": "Failed",
-      "noTokens": "No tokens available for trading"
+      "noTokens": "No tokens available for trading",
+      "volume1h": "1h Volume",
+      "volume1hChange": "1h Volume Change",
+      "volume24h": "24h Volume",
+      "volume24hChange": "24h Volume Change"
   },
   "navigation": {
       "newcoin": "Create New Coin (Pumpfun)",

@@ -159,7 +159,11 @@
         "removeFromFavorite": "즐겨찾기에서 제거",
         "failed": "실패",
         "marketCap": "시가총액",
-        "noTokens": "거래 가능한 토큰이 없습니다"
+        "noTokens": "거래 가능한 토큰이 없습니다",
+        "volume1h": "1시간 거래량",
+        "volume1hChange": "1시간 거래량 변화",
+        "volume24h": "24시간 거래량",
+        "volume24hChange": "24시간 거래량 변화"
     },
     "navigation": {
         "newcoin": "밈코인만들기(펌프펀상장)",

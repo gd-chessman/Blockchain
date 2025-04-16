@@ -41,7 +41,7 @@ export default function Trading() {
   const [activeTab, setActiveTab] = useState("all");
   const { data: topCoins, isLoading: isLoadingTopCoins } = useQuery({
     queryKey: ["topCoins"],
-    queryFn: () => getTopCoins({ sort_by: "market_cap", sort_type: "desc", offset: 0, limit: 18 }),
+    queryFn: () => getTopCoins({ sort_by: "", sort_type: "desc", offset: 0, limit: 18 }),
   });
   const [tokens, setTokens] = useState<
     {
