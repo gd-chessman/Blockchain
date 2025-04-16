@@ -4,31 +4,8 @@ import { Loader2, Search, Star } from "lucide-react";
 import Link from "next/link";
 import { useLang } from "@/lang";
 import { Button } from "@/ui/button";
+import { formatNumberWithSuffix } from "@/utils/format";
 
-interface Token {
-  id: number;
-  name: string;
-  symbol: string;
-  address: string;
-  decimals: number;
-  logoUrl: string;
-  coingeckoId: string | null;
-  tradingviewSymbol: string | null;
-  isVerified: boolean;
-  marketCap: number;
-  isFavorite?: boolean;
-  program?: string;
-}
-
-interface OtherCoinsProps {
-  historyTransactionsHeight: number;
-  tokens: Token[];
-  searchQuery: string;
-  isSearching: boolean;
-  favoriteTokens: Token[];
-  onSearchChange: (value: string) => void;
-  onStarClick?: (token: Token) => void;
-}
 
 export default function OtherCoins({
   historyTransactionsHeight,
@@ -38,7 +15,7 @@ export default function OtherCoins({
   onSearchChange,
   onStarClick,
   favoriteTokens = [],
-}: OtherCoinsProps) {
+}: any) {
   const { t } = useLang();
 
   return (
@@ -67,7 +44,7 @@ export default function OtherCoins({
           <div className="">
             <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50">
               <div className="space-y-4 max-h-[11.25rem] overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent">
-                {favoriteTokens.map((token, index) => (
+                {favoriteTokens.map((token: any, index: any ) => (
                   <Link
                     key={index}
                     className={`flex text-sm gap-6 cursor-pointer ${
@@ -87,7 +64,7 @@ export default function OtherCoins({
                       <Star className="h-4 w-4" />
                     </Button>
                     <img
-                      src={token.logoUrl || "/placeholder.png"}
+                      src={token.logoUrl || token.logo_uri || "/placeholder.png"}
                       alt=""
                       className="size-10 rounded-full"
                     />
@@ -109,9 +86,9 @@ export default function OtherCoins({
                       </p>{" "}
                     </div>
                     <div className="ml-auto flex items-center gap-4">
-                      {/* <span className="text-sm font-medium">${(Math.random() * 1000).toFixed(2)}</span> */}
+                      <span className="text-xs font-medium">${formatNumberWithSuffix(token.price || 0)}</span>
                       <small
-                        className={`text-xl ${
+                        className={`text-sm ${
                           token.isVerified ? "text-green-600" : "text-red-600"
                         }`}
                       >
@@ -135,7 +112,7 @@ export default function OtherCoins({
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {tokens.map((token, index) => (
+                  {tokens.map((token: any, index: any) => (
                     <Link
                       key={index}
                       className={`flex text-sm gap-6 cursor-pointer ${
@@ -143,7 +120,7 @@ export default function OtherCoins({
                       }`}
                       href={`/trading/token?address=${token.address}`}
                     >
-                      <Button
+                      {/* <Button
                         variant="ghost"
                         size="icon"
                         className={`h-6 w-6 p-0 ${
@@ -155,9 +132,9 @@ export default function OtherCoins({
                         }}
                       >
                         <Star className="h-4 w-4" />
-                      </Button>
+                      </Button> */}
                       <img
-                        src={token.logoUrl || "/placeholder.png"}
+                        src={token.logoUrl || token.logo_uri || "/placeholder.png"}
                         alt=""
                         className="size-10 rounded-full"
                       />
@@ -179,9 +156,9 @@ export default function OtherCoins({
                         </p>{" "}
                       </div>
                       <div className="ml-auto flex items-center gap-4">
-                        {/* <span className="text-sm font-medium">${(Math.random() * 1000).toFixed(2)}</span> */}
+                        <span className="text-xs font-medium">${formatNumberWithSuffix(token.price || 0)}</span>
                         <small
-                          className={`text-xl ${
+                          className={`text-sm ${
                             token.isVerified ? "text-green-600" : "text-red-600"
                           }`}
                         >

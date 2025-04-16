@@ -61,6 +61,7 @@ import OtherCoins from "@/components/trading/token/OtherCoins";
 import HistoryTransactions from "@/components/trading/token/HistoryTransactions";
 import TradingChart from "@/components/trading/token/TradingChart";
 import TokenInforDetail from "@/components/trading/token/TokenInforDetail";
+import { getTopCoins } from "@/services/api/OnChainService";
 
 interface Order {
   created_at: string;
@@ -123,6 +124,10 @@ function TradingContent() {
     queryKey: ["my-tokens"],
     queryFn: getMyTokens,
   });
+  const { data: topCoins, isLoading: isLoadingTopCoins } = useQuery({
+    queryKey: ["topCoins"],
+    queryFn: () => getTopCoins({ sort_by: "market_cap", sort_type: "desc", offset: 0, limit: 18 }),
+  });
   const { data: orders, refetch: refetchOrders } = useQuery({
     queryKey: ["orders"],
     queryFn: () => getOrders(address),
@@ -177,6 +182,7 @@ function TradingContent() {
       isVerified: boolean;
       marketCap: number;
       program: string;
+      price?: number;
     }[]
   >([]);
 
@@ -205,29 +211,41 @@ function TradingContent() {
     searchData();
   }, [debouncedSearchQuery]);
 
-  // Update tokens when WebSocket data changes
+  // Update tokens when topCoins data changes
   useEffect(() => {
-    if (wsTokens && wsTokens.length > 0) {
-      setTokens(wsTokens);
+    if (topCoins && topCoins.length > 0) {
+      setTokens(topCoins);
     }
-  }, [wsTokens]);
+  }, [topCoins]);
 
-  // Use search results if available, otherwise use WebSocket data
+  // Use search results if available, otherwise use topCoins data
   const displayTokens = debouncedSearchQuery.trim()
     ? searchResults
-    : tokens?.map((token) => ({
+    : topCoins?.map((token: {
+      id: number;
+      name: string;
+      symbol: string;
+      address: string;
+      decimals: number;
+      logoUrl?: string;
+      logo_uri?: string;
+      isVerified: boolean;
+      program: string;
+      price?: number;
+    }) => ({
         id: token.id,
         name: token.name,
         symbol: token.symbol,
         address: token.address,
         decimals: token.decimals,
-        logoUrl: token.logoUrl,
+        logoUrl: token.logoUrl || token.logo_uri || "/placeholder.png",
         coingeckoId: null,
         tradingviewSymbol: null,
         isVerified: token.isVerified,
         marketCap: 0,
         program: token.program,
-      }));
+        price: token.price || 0,
+      })) || [];
 
   const handleTimeframeChange = (timeframe: string) => {
     console.log(`Timeframe changed to: ${timeframe}`);
