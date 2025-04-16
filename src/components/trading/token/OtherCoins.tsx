@@ -30,14 +30,14 @@ interface OtherCoinsProps {
   onStarClick?: (token: Token) => void;
 }
 
-export default function OtherCoins({ 
-  historyTransactionsHeight, 
+export default function OtherCoins({
+  historyTransactionsHeight,
   tokens,
   searchQuery,
   isSearching,
   onSearchChange,
   onStarClick,
-  favoriteTokens = []
+  favoriteTokens = [],
 }: OtherCoinsProps) {
   const { t } = useLang();
 
@@ -93,9 +93,15 @@ export default function OtherCoins({
                     />
                     <div>
                       <p className="flex items-center gap-2">
-                        {token.name}
+                        <span className="max-w-[10rem] truncate">
+                          {token.name}
+                        </span>
                         {token.program === "pumpfun" && (
-                          <img src="/pump.webp" alt="pump" className="h-4 w-4" />
+                          <img
+                            src="/pump.webp"
+                            alt="pump"
+                            className="h-4 w-4"
+                          />
                         )}
                       </p>{" "}
                       <p className="text-muted-foreground text-xs">
@@ -104,7 +110,11 @@ export default function OtherCoins({
                     </div>
                     <div className="ml-auto flex items-center gap-4">
                       {/* <span className="text-sm font-medium">${(Math.random() * 1000).toFixed(2)}</span> */}
-                      <small className={`text-xl ${token.isVerified ? "text-green-600" : "text-red-600"}`}>
+                      <small
+                        className={`text-xl ${
+                          token.isVerified ? "text-green-600" : "text-red-600"
+                        }`}
+                      >
                         {token.isVerified ? " ✓" : "x"}
                       </small>
                     </div>
@@ -118,10 +128,8 @@ export default function OtherCoins({
       <CardContent>
         <div className="grid grid-cols-1 gap-4">
           <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50">
-            <div
-              className="overflow-auto h-80 lg:h-full max-h-[60rem] md:h-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent"
-            >
-              {(!tokens || tokens.length === 0 && !searchQuery) ? (
+            <div className="overflow-auto h-80 lg:h-full max-h-[60rem] md:h-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent">
+              {!tokens || (tokens.length === 0 && !searchQuery) ? (
                 <div className="flex items-center justify-center h-40">
                   <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
                 </div>
@@ -138,7 +146,9 @@ export default function OtherCoins({
                       <Button
                         variant="ghost"
                         size="icon"
-                        className={`h-6 w-6 p-0 ${token.isFavorite ? "text-yellow-500" : ""} hover:text-yellow-500`}
+                        className={`h-6 w-6 p-0 ${
+                          token.isFavorite ? "text-yellow-500" : ""
+                        } hover:text-yellow-500`}
                         onClick={(e) => {
                           e.preventDefault();
                           onStarClick?.(token);
@@ -153,9 +163,15 @@ export default function OtherCoins({
                       />
                       <div>
                         <p className="flex items-center gap-2">
-                          {token.name}
+                          <span className="max-w-[10rem] truncate">
+                            {token.name}
+                          </span>
                           {token.program === "pumpfun" && (
-                            <img src="/pump.webp" alt="pump" className="h-4 w-4" />
+                            <img
+                              src="/pump.webp"
+                              alt="pump"
+                              className="h-4 w-4"
+                            />
                           )}
                         </p>{" "}
                         <p className="text-muted-foreground text-xs">
@@ -163,8 +179,12 @@ export default function OtherCoins({
                         </p>{" "}
                       </div>
                       <div className="ml-auto flex items-center gap-4">
-                      {/* <span className="text-sm font-medium">${(Math.random() * 1000).toFixed(2)}</span> */}
-                        <small className={`text-xl ${token.isVerified ? "text-green-600" : "text-red-600"}`}>
+                        {/* <span className="text-sm font-medium">${(Math.random() * 1000).toFixed(2)}</span> */}
+                        <small
+                          className={`text-xl ${
+                            token.isVerified ? "text-green-600" : "text-red-600"
+                          }`}
+                        >
                           {token.isVerified ? " ✓" : "x"}
                         </small>
                       </div>
