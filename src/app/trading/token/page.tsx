@@ -895,10 +895,10 @@ function TradingContent() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="h-8 flex-1 justify-start text-sm"
+                              className="h-8 flex-1 justify-start text-xs md:text-sm px-1 md:px-3"
                               onClick={() => handleValueChange(Number(percent))}
                             >
-                              <span className="text-sm">{percent}%</span>
+                              <span className="text-xs md:text-sm">{percent}%</span>
                             </Button>
                             <Button
                               variant="ghost"
@@ -951,7 +951,7 @@ function TradingContent() {
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                className="h-8 flex-1 justify-start text-sm"
+                                className="h-8 flex-1 justify-start text-xs md:text-sm px-1 md:px-3"
                                 onClick={() => {
                                   if (selectedAction === "buy") {
                                     setAmount(solAmount);
@@ -967,7 +967,7 @@ function TradingContent() {
                                   }
                                 }}
                               >
-                                <span className="text-sm">{solAmount} SOL</span>
+                                <span className="text-xs md:text-sm">{solAmount} SOL</span>
                               </Button>
                               <Button
                                 variant="ghost"
