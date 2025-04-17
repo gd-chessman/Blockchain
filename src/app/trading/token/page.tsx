@@ -125,7 +125,7 @@ function TradingContent() {
     queryFn: getMyTokens,
   });
   const { data: topCoins, isLoading: isLoadingTopCoins } = useQuery({
-    queryKey: ["topCoins"],
+    queryKey: ["topCoins_market_cap"],
     queryFn: () => getTopCoins({ sort_by: "market_cap", sort_type: "desc", offset: 0, limit: 18 }),
   });
   const { data: orderHistories, isLoading: isLoadingOrderHistories } = useQuery({
