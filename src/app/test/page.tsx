@@ -1,38 +1,96 @@
-'use client';
+"use client";
+import { useEffect, useRef, useState } from 'react';
+import { io, Socket, Manager } from 'socket.io-client';
 
-import React from 'react';
-import { useWsTokenTransaction } from '@/hooks/useWsTokenTransaction';
+interface PriceData {
+  tokenAddress: string;
+  price: number;
+  timestamp: number;
+}
+
+interface SubscribedData {
+  tokenAddress: string;
+}
+
+interface ErrorData {
+  message: string;
+}
 
 export default function TestPage() {
-  // Thay thế tokenAddress bằng địa chỉ token thực tế bạn muốn theo dõi
-  const tokenAddress = '2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump';
-  const { transaction, error, isConnected } = useWsTokenTransaction(tokenAddress);
-  console.log(transaction);
+  const [price, setPrice] = useState<number | null>(null);
+  const [lastUpdate, setLastUpdate] = useState<string>('');
+  const [connectionStatus, setConnectionStatus] = useState<string>('disconnected');
+  const socketRef = useRef<Socket | null>(null);
+  const tokenAddress = '4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R';
+
+  useEffect(() => {
+    // Initialize Socket.IO connection
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const manager = new Manager(baseUrl, {
+      path: '/socket.io',
+      transports: ['websocket'],
+      reconnectionAttempts: 5,
+      reconnectionDelay: 1000,
+      autoConnect: true,
+      withCredentials: false
+    });
+
+    // Connect to specific namespace
+    socketRef.current = manager.socket('/token-info');
+
+    // Handle connection events
+    socketRef.current.on('connect', () => {
+      console.log('Connected to WebSocket server');
+      setConnectionStatus('connected');
+      // Subscribe to token when connected
+      socketRef.current?.emit('subscribe', { tokenAddress });
+    });
+
+    socketRef.current.on('disconnect', () => {
+      console.log('Disconnected from WebSocket server');
+      setConnectionStatus('disconnected');
+    });
+
+    socketRef.current.on('price', (data: PriceData) => {
+      console.log('Received price update:', data);
+      setPrice(data.price);
+      setLastUpdate(new Date(data.timestamp).toLocaleString());
+    });
+
+    socketRef.current.on('subscribed', (data: SubscribedData) => {
+      console.log('Successfully subscribed to token:', data.tokenAddress);
+    });
+
+    socketRef.current.on('error', (error: ErrorData) => {
+      console.error('WebSocket error:', error.message);
+      setConnectionStatus('error');
+    });
+
+    // Cleanup on unmount
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.emit('unsubscribe', { tokenAddress });
+        socketRef.current.disconnect();
+      }
+    };
+  }, [tokenAddress]);
+
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Test Token Transaction</h1>
-      
-      <div className="mb-4">
-        <p className="font-semibold">Connection Status:</p>
-        <span className={`inline-block w-3 h-3 rounded-full mr-2 ${isConnected ? 'bg-green-500' : 'bg-red-500'}`}></span>
-        {isConnected ? 'Connected' : 'Disconnected'}
-      </div>
-
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-          Error: {error}
-        </div>
-      )}
-
+    <div className="p-5 text-black">
+      <h1 className="text-2xl font-bold mb-4">Token Price</h1>
       <div className="bg-white p-4 rounded-lg shadow">
-        <h2 className="text-xl font-semibold mb-2">Latest Transaction</h2>
-        {transaction ? (
-          <pre className="bg-gray-100 p-4 rounded overflow-auto">
-            {JSON.stringify(transaction, null, 2)}
-          </pre>
-        ) : (
-          <p className="text-gray-500">No transaction data received yet</p>
-        )}
+        <div className="mb-2">
+          <span className="font-semibold">Connection Status:</span> {connectionStatus}
+        </div>
+        <div className="mb-2">
+          <span className="font-semibold">Token Address:</span> {tokenAddress}
+        </div>
+        <div className="mb-2">
+          <span className="font-semibold">Current Price:</span> {price ? `$${price.toFixed(8)}` : 'Loading...'}
+        </div>
+        <div>
+          <span className="font-semibold">Last Update:</span> {lastUpdate || 'No updates yet'}
+        </div>
       </div>
     </div>
   );
