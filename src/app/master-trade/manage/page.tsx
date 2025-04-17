@@ -510,7 +510,7 @@ export default function ManageMasterTrade() {
                 <TabsList className="overflow-x-auto md:overflow-x-visible whitespace-nowrap max-w-full">
                   <TabsTrigger value="pending">
                     {t("masterTrade.manage.connectionManagement.tabs.pending")}{" "}
-                    <Badge variant="outline" className="ml-1">
+                    <Badge variant="outline" className="ml-1 text-black">
                       {myConnects.filter((c) => c.status === "pending").length}
                     </Badge>
                   </TabsTrigger>
@@ -518,7 +518,7 @@ export default function ManageMasterTrade() {
                     {t(
                       "masterTrade.manage.connectionManagement.tabs.connected"
                     )}{" "}
-                    <Badge variant="outline" className="ml-1">
+                    <Badge variant="outline" className="ml-1 text-black">
                       {
                         myConnects.filter((c) => c.status === "connect")
                           .length
@@ -527,13 +527,13 @@ export default function ManageMasterTrade() {
                   </TabsTrigger>
                   <TabsTrigger value="paused">
                     {t("masterTrade.manage.connectionManagement.tabs.paused")}{" "}
-                    <Badge variant="outline" className="ml-1">
+                    <Badge variant="outline" className="ml-1 text-black">
                       {myConnects.filter((c) => c.status === "pause").length}
                     </Badge>
                   </TabsTrigger>
                   <TabsTrigger value="blocked">
                     {t("masterTrade.manage.connectionManagement.tabs.blocked")}{" "}
-                    <Badge variant="outline" className="ml-1">
+                    <Badge variant="outline" className="ml-1 text-black">
                       {myConnects.filter((c) => c.status === "block").length}
                     </Badge>
                   </TabsTrigger>
