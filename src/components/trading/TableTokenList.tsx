@@ -75,7 +75,6 @@ export function TableTokenList({
             <TableHeader>
               <TableRow className="bg-muted/50">
                 <TableHead>{t("trading.token")}</TableHead>
-                <TableHead>{t("trading.symbol")}</TableHead>
                 <TableHead>{t("trading.address")}</TableHead>
                 <TableHead>{t("trading.price")}</TableHead>
                 <TableHead 
@@ -177,8 +176,9 @@ export function TableTokenList({
                           alt="token logo"
                           className="size-12 rounded-full"
                         />
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-col">
                           <p>{token.name}</p>
+                          <p className="text-sm text-muted-foreground">{token.symbol}</p>
                           {token.program === "pumpfun" && (
                             <img
                               src="/pump.webp"
@@ -189,7 +189,6 @@ export function TableTokenList({
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell>{token.symbol}</TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <span className="truncate max-w-[200px]">
