@@ -130,13 +130,14 @@ function TradingContent() {
   });
   const { data: orderHistories, isLoading: isLoadingOrderHistories } = useQuery({
     queryKey: ["orderHistories", address],
-    queryFn: () => getOrderHistories({ 
-      address: address || "", 
-      offset: 0, 
-      limit: 20, 
-      sort_by: "created_at", 
-      sort_type: "desc",
-      tx_type: "all"
+    queryFn: () => getOrderHistories({
+      address: address || '',
+      offset: 0,
+      limit: 100,
+      sort_by: 'block_unix_time',
+      sort_type: 'desc',
+      tx_type: 'swap',
+      owner: ''
     }),
     enabled: !!address,
   });
@@ -718,12 +719,13 @@ function TradingContent() {
   }, [orders, pendingOrders]);
 
   const handleStarClick = async (token: any) => {
+    console.log("token", token);
     try {
       const isFavorite = myWishlist?.tokens?.some(
         (t: any) => t.id === token.id
       );
       const data = {
-        tokenId: token.id,
+        token_address: token.address,
         status: isFavorite ? "off" : "on",
       };
       const response = await SolonaTokenService.toggleWishlist(data);
