@@ -58,10 +58,10 @@ export function TableTokenList({
     return (
       <div className="flex flex-col h-5">
         <TiArrowSortedUp 
-          className={`h-4 w-4 ${sortBy === field && sortType === "asc" ? "text-blue-500" : "text-muted-foreground"}`} 
+          className={`${sortBy === field && sortType === "asc" ? "text-blue-500" : "text-muted-foreground"}`} 
         />
         <TiArrowSortedDown 
-          className={`h-4 w-4 -mt-1 ${sortBy === field && sortType === "desc" ? "text-blue-500" : "text-muted-foreground"}`} 
+          className={`-mt-1.5 ${sortBy === field && sortType === "desc" ? "text-blue-500" : "text-muted-foreground"}`} 
         />
       </div>
     );
