@@ -7,7 +7,8 @@ import {
   TableRow,
 } from "@/ui/table";
 import { Button } from "@/ui/button";
-import { Copy, ExternalLink, Star, Loader2, ChevronUp, ChevronDown } from "lucide-react";
+import { Copy, ExternalLink, Star, Loader2 } from "lucide-react";
+import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import { useRouter } from "next/navigation";
 import { useLang } from "@/lang";
 import { formatNumberWithSuffix, truncateString } from "@/utils/format";
@@ -55,12 +56,12 @@ export function TableTokenList({
   const renderSortIcon = (field: string) => {
     if (!enableSort) return null;
     return (
-      <div className="flex flex-col">
-        <ChevronUp 
-          className={`h-3 w-3 ${sortBy === field && sortType === "asc" ? "text-primary" : "text-muted-foreground"}`} 
+      <div className="flex flex-col  h-max">
+        <TiArrowSortedUp 
+          className={` ${sortBy === field && sortType === "asc" ? "text-blue-500" : "text-muted-foreground"}`} 
         />
-        <ChevronDown 
-          className={`h-3 w-3 ${sortBy === field && sortType === "desc" ? "text-primary" : "text-muted-foreground"}`} 
+        <TiArrowSortedDown 
+          className={` ${sortBy === field && sortType === "desc" ? "text-blue-500" : "text-muted-foreground"}`} 
         />
       </div>
     );
