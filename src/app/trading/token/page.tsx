@@ -139,7 +139,7 @@ function TradingContent() {
     queryFn: () => getOrderHistories({
       address: address || '',
       offset: 0,
-      limit: 100,
+      limit: 20,
       sort_by: 'block_unix_time',
       sort_type: 'desc',
       tx_type: 'swap',
