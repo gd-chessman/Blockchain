@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/ui/card"
 import { Button } from "@/ui/button"
 import { CheckCircle2, ExternalLink, Copy, X } from "lucide-react"
 import { cn } from "@/libs/utils"
-import { truncateString } from "@/utils/format"
+import { formatNumberWithSuffix, truncateString } from "@/utils/format"
 import { ToastNotification } from "@/ui/toast"
 import { useState, useEffect, useRef } from "react"
 import { useLang } from "@/lang"
@@ -163,7 +163,7 @@ export default function TokenCard({
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
               <div className="text-xs text-muted-foreground mb-1">{t('trading.tokenInfo.marketCap')}</div>
-              <div className="text-sm font-medium">${Number(token.marketCap)?.toFixed(1)}K</div>
+              <div className="text-sm font-medium">${formatNumberWithSuffix(token.marketCap)}</div>
             </div>
             <div>
               <div className="text-xs text-muted-foreground mb-1">{t('trading.tokenInfo.symbol')}</div>
