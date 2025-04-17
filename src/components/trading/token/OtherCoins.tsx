@@ -1,11 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { Input } from "@/ui/input";
-import { Loader2, Search, Star } from "lucide-react";
+import { Loader2, Search, Star, ArrowUpDown, ChevronDown, ArrowUp, ArrowDown } from "lucide-react";
 import Link from "next/link";
 import { useLang } from "@/lang";
 import { Button } from "@/ui/button";
 import { formatNumberWithSuffix } from "@/utils/format";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "@/hooks/useDebounce";
 import { SolonaTokenService } from "@/services/api";
@@ -17,6 +17,31 @@ export default function OtherCoins() {
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [sortBy, setSortBy] = useState("");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const sortOptions = [
+    { value: "", label: "None" },
+    { value: "marketCap", label: "Market Cap" },
+    { value: "liquidity", label: "Liquidity" },
+    { value: "volume_1h_usd", label: "1h Volume" },
+    { value: "volume_1h_change_percent", label: "1h Volume Change" },
+    { value: "volume_24h_usd", label: "24h Volume" },
+    { value: "volume_24h_change_percent", label: "24h Volume Change" },
+  ];
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const { data: topCoins, isLoading: isLoadingTopCoins } = useQuery({
     queryKey: ["topCoins_market_cap"],
@@ -79,10 +104,23 @@ export default function OtherCoins() {
         coingeckoId: null,
         tradingviewSymbol: null,
         isVerified: token.isVerified,
-        marketCap: 0,
+        marketCap: token.market_cap || 0,
         program: token.program,
         price: token.price || 0,
+        liquidity: token.liquidity || 0,
+        volume_1h_usd: token.volume_1h_usd || 0,
+        volume_1h_change_percent: token.volume_1h_change_percent || 0,
+        volume_24h_usd: token.volume_24h_usd || 0,
+        volume_24h_change_percent: token.volume_24h_change_percent || 0,
       })) || [];
+
+  // Sort tokens based on selected criteria
+  const sortedTokens = [...displayTokens].sort((a, b) => {
+    if (!sortBy) return 0;
+    const aValue = a[sortBy] || 0;
+    const bValue = b[sortBy] || 0;
+    return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
+  });
 
   return (
     <Card className="shadow-md dark:shadow-blue-900/5 border">
@@ -163,6 +201,48 @@ export default function OtherCoins() {
       )}
       <CardContent>
         <div className="grid grid-cols-1 gap-4">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="relative flex-1" ref={dropdownRef}>
+              <Button
+                variant="outline"
+                className="w-full justify-between"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              >
+                {sortOptions.find(option => option.value === sortBy)?.label || "Sort by"}
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+              {isDropdownOpen && (
+                <div className="absolute z-10 mt-1 w-full bg-white dark:bg-gray-900 border rounded-md shadow-lg">
+                  {sortOptions.map((option) => (
+                    <button
+                      key={option.value}
+                      className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 ${
+                        sortBy === option.value ? "bg-gray-100 dark:bg-gray-800" : ""
+                      }`}
+                      onClick={() => {
+                        setSortBy(option.value);
+                        setIsDropdownOpen(false);
+                      }}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => setSortDirection(sortDirection === "asc" ? "desc" : "asc")}
+              className={sortDirection === "asc" ? "text-green-500" : "text-red-500"}
+            >
+              {sortDirection === "asc" ? (
+                <ArrowUp className="h-4 w-4" />
+              ) : (
+                <ArrowDown className="h-4 w-4" />
+              )}
+            </Button>
+          </div>
           <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50">
             <div className="overflow-auto h-80 lg:h-full max-h-[60rem] md:h-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent">
               {isLoadingTopCoins ? (
@@ -171,11 +251,11 @@ export default function OtherCoins() {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {displayTokens.map((token: any, index: any) => (
+                  {sortedTokens.map((token: any, index: any) => (
                     <Link
                       key={index}
                       className={`flex text-sm gap-6 cursor-pointer ${
-                        index < displayTokens.length - 1 ? "border-b-2 pb-2" : ""
+                        index < sortedTokens.length - 1 ? "border-b-2 pb-2" : ""
                       }`}
                       href={`/trading/token?address=${token.address}`}
                     >
