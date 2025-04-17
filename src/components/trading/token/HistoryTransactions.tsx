@@ -23,7 +23,7 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
                 <CardTitle>{t("trading.historyTransactions")}</CardTitle>
             </CardHeader>
             <CardContent>
-                <div ref={historyTransactionsRef} className="overflow-x-auto">
+                <div ref={historyTransactionsRef} className="overflow-x-auto max-h-[31.25rem] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300">
                     <table className="w-full">
                         <thead>
                             <tr className="text-sm text-muted-foreground border-b">

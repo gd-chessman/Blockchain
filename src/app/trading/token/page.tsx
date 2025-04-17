@@ -143,11 +143,12 @@ function TradingContent() {
       sort_by: 'block_unix_time',
       sort_type: 'desc',
       tx_type: 'swap',
-      owner: "8EbySEW8WJHUrNfmSNe85TuWmsVaV6T7Q6MzwkYyGgnZ"
+      owner: walletInfor.solana_address
 
     }),
-    enabled: !!address,
+    enabled: !!address && !!walletInfor?.solana_address,
   });
+  console.log("orderHistories", walletInfor?.solana_address);
   const { data: orders, refetch: refetchOrders } = useQuery({
     queryKey: ["orders"],
     queryFn: () => getOrders(address),
