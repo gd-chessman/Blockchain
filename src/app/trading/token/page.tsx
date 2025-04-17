@@ -61,7 +61,7 @@ import OtherCoins from "@/components/trading/token/OtherCoins";
 import HistoryTransactions from "@/components/trading/token/HistoryTransactions";
 import TradingChart from "@/components/trading/token/TradingChart";
 import TokenInforDetail from "@/components/trading/token/TokenInforDetail";
-import { getTopCoins } from "@/services/api/OnChainService";
+import { getOrderHistories, getTopCoins } from "@/services/api/OnChainService";
 
 interface Order {
   created_at: string;
@@ -127,6 +127,18 @@ function TradingContent() {
   const { data: topCoins, isLoading: isLoadingTopCoins } = useQuery({
     queryKey: ["topCoins"],
     queryFn: () => getTopCoins({ sort_by: "market_cap", sort_type: "desc", offset: 0, limit: 18 }),
+  });
+  const { data: orderHistories, isLoading: isLoadingOrderHistories } = useQuery({
+    queryKey: ["orderHistories", address],
+    queryFn: () => getOrderHistories({ 
+      address: address || "", 
+      offset: 0, 
+      limit: 20, 
+      sort_by: "created_at", 
+      sort_type: "desc",
+      tx_type: "all"
+    }),
+    enabled: !!address,
   });
   const { data: orders, refetch: refetchOrders } = useQuery({
     queryKey: ["orders"],
