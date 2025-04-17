@@ -7,25 +7,64 @@ import {
   TableRow,
 } from "@/ui/table";
 import { Button } from "@/ui/button";
-import { Copy, ExternalLink, Star, Loader2 } from "lucide-react";
+import { Copy, ExternalLink, Star, Loader2, ChevronUp, ChevronDown } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useLang } from "@/lang";
 import { formatNumberWithSuffix, truncateString } from "@/utils/format";
 import { Card, CardContent } from "@/ui/card";
 
-
-
 interface TableTokenListProps {
-  tokens: any;
+  tokens: {
+    id: number;
+    name: string;
+    symbol: string;
+    address: string;
+    decimals: number;
+    logoUrl: string;
+    coingeckoId: string | null;
+    tradingviewSymbol: string | null;
+    isVerified: boolean;
+    marketCap: number;
+    isFavorite?: boolean;
+    liquidity: any;
+  }[];
   onCopyAddress: (address: string, e: React.MouseEvent) => void;
-  onStarClick?: (token: any) => void;
+  onStarClick: (token: any) => void;
   isFavoritesTab?: boolean;
   isLoading?: boolean;
+  sortBy?: string;
+  sortType?: string;
+  onSort?: (field: string) => void;
+  enableSort?: boolean;
 }
 
-export function TableTokenList({ tokens, onCopyAddress, onStarClick, isFavoritesTab = false, isLoading = false }: TableTokenListProps) {
+export function TableTokenList({ 
+  tokens, 
+  onCopyAddress, 
+  onStarClick, 
+  isFavoritesTab = false, 
+  isLoading = false,
+  sortBy,
+  sortType,
+  onSort,
+  enableSort = false
+}: TableTokenListProps) {
   const router = useRouter();
   const { t } = useLang();
+
+  const renderSortIcon = (field: string) => {
+    if (!enableSort) return null;
+    return (
+      <div className="flex flex-col">
+        <ChevronUp 
+          className={`h-3 w-3 ${sortBy === field && sortType === "asc" ? "text-primary" : "text-muted-foreground"}`} 
+        />
+        <ChevronDown 
+          className={`h-3 w-3 ${sortBy === field && sortType === "desc" ? "text-primary" : "text-muted-foreground"}`} 
+        />
+      </div>
+    );
+  };
 
   return (
     <Card className="border-none dark:shadow-blue-900/5">
@@ -38,12 +77,60 @@ export function TableTokenList({ tokens, onCopyAddress, onStarClick, isFavorites
                 <TableHead>{t("trading.symbol")}</TableHead>
                 <TableHead>{t("trading.address")}</TableHead>
                 <TableHead>{t("trading.price")}</TableHead>
-                <TableHead>{t("trading.marketCap")}</TableHead>
-                <TableHead>{t("trading.liquidity")}</TableHead>
-                <TableHead>{t("trading.volume1h")}</TableHead>
-                <TableHead>{t("trading.volume1hChange")}</TableHead>
-                <TableHead>{t("trading.volume24h")}</TableHead>
-                <TableHead>{t("trading.volume24hChange")}</TableHead>
+                <TableHead 
+                  className={`${enableSort ? "cursor-pointer hover:bg-muted/80 transition-colors" : ""}`}
+                  onClick={() => enableSort && onSort?.("market_cap")}
+                >
+                  <div className="flex items-center gap-1">
+                    {t("trading.marketCap")}
+                    {renderSortIcon("market_cap")}
+                  </div>
+                </TableHead>
+                <TableHead 
+                  className={`${enableSort ? "cursor-pointer hover:bg-muted/80 transition-colors" : ""}`}
+                  onClick={() => enableSort && onSort?.("liquidity")}
+                >
+                  <div className="flex items-center gap-1">
+                    {t("trading.liquidity")}
+                    {renderSortIcon("liquidity")}
+                  </div>
+                </TableHead>
+                <TableHead 
+                  className={`${enableSort ? "cursor-pointer hover:bg-muted/80 transition-colors" : ""}`}
+                  onClick={() => enableSort && onSort?.("volume_1h_usd")}
+                >
+                  <div className="flex items-center gap-1">
+                    {t("trading.volume1h")}
+                    {renderSortIcon("volume_1h_usd")}
+                  </div>
+                </TableHead>
+                <TableHead 
+                  className={`${enableSort ? "cursor-pointer hover:bg-muted/80 transition-colors" : ""}`}
+                  onClick={() => enableSort && onSort?.("volume_1h_change_percent")}
+                >
+                  <div className="flex items-center gap-1">
+                    {t("trading.volume1hChange")}
+                    {renderSortIcon("volume_1h_change_percent")}
+                  </div>
+                </TableHead>
+                <TableHead 
+                  className={`${enableSort ? "cursor-pointer hover:bg-muted/80 transition-colors" : ""}`}
+                  onClick={() => enableSort && onSort?.("volume_24h_usd")}
+                >
+                  <div className="flex items-center gap-1">
+                    {t("trading.volume24h")}
+                    {renderSortIcon("volume_24h_usd")}
+                  </div>
+                </TableHead>
+                <TableHead 
+                  className={`${enableSort ? "cursor-pointer hover:bg-muted/80 transition-colors" : ""}`}
+                  onClick={() => enableSort && onSort?.("volume_24h_change_percent")}
+                >
+                  <div className="flex items-center gap-1">
+                    {t("trading.volume24hChange")}
+                    {renderSortIcon("volume_24h_change_percent")}
+                  </div>
+                </TableHead>
                 <TableHead>{t("trading.action")}</TableHead>
               </TableRow>
             </TableHeader>

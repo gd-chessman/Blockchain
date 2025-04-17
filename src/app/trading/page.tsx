@@ -39,9 +39,11 @@ export default function Trading() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [activeTab, setActiveTab] = useState("all");
+  const [sortBy, setSortBy] = useState("");
+  const [sortType, setSortType] = useState("desc");
   const { data: topCoins, isLoading: isLoadingTopCoins } = useQuery({
-    queryKey: ["topCoins"],
-    queryFn: () => getTopCoins({ sort_by: "", sort_type: "desc", offset: 0, limit: 18 }),
+    queryKey: ["topCoins", sortBy, sortType],
+    queryFn: () => getTopCoins({ sort_by: sortBy, sort_type: sortType, offset: 0, limit: 18 }),
   });
   const [tokens, setTokens] = useState<
     {
@@ -164,6 +166,15 @@ export default function Trading() {
     }
   };
 
+  const handleSort = (field: string) => {
+    if (sortBy === field) {
+      setSortType(sortType === "asc" ? "desc" : "asc");
+    } else {
+      setSortBy(field);
+      setSortType("desc");
+    }
+  };
+
   return (
     <div className="container mx-auto p-6">
       {showToast && (
@@ -247,6 +258,10 @@ export default function Trading() {
                   onStarClick={handleStarClick}
                   isFavoritesTab={false}
                   isLoading={isLoadingTopCoins}
+                  sortBy={sortBy}
+                  sortType={sortType}
+                  onSort={handleSort}
+                  enableSort={true}
                 />
               </CardContent>
             )}

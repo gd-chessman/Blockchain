@@ -22,7 +22,7 @@ export const formatNumberWithSuffix = (input: number | string): string => {
   }
 
   const formatNumber = (n: number) => {
-    return n.toLocaleString('en-US', {
+    return n?.toLocaleString('en-US', {
       minimumFractionDigits: 0,
       maximumFractionDigits: 1
     });
