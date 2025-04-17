@@ -110,11 +110,10 @@ export default function TradingChart({
             </div>
 
             <div className="text-right">
-              <div className="text-sm flex gap-4 ">
+              {/* <div className="text-sm flex gap-4 ">
                 <div className="flex items-center flex-col">
                   <span>{t("trading.tokenInfo.marketCap")}:</span>
                   <span className="text-muted-foreground">
-                    {/* ${tokenInfor?.marketCap?.toFixed(1)}K */}
                     ${formatNumberWithSuffix(tokenInfor?.marketCap)}
                   </span>
                 </div>
@@ -137,7 +136,7 @@ export default function TradingChart({
                     {tokenInfor?.holders}
                   </span>
                 </div>
-              </div>
+              </div> */}
               <div className="text-2xl font-bold">
                 {/* ${tokenPrice?.priceUSD?.toFixed(9) || "0.00"} */}
               </div>
