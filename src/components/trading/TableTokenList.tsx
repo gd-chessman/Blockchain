@@ -58,7 +58,7 @@ export function TableTokenList({ tokens, onCopyAddress, onStarClick, isFavorites
                 </TableRow>
               ) : tokens.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="h-32 text-center text-muted-foreground">
+                  <TableCell colSpan={11} className="h-32 text-center text-muted-foreground">
                     {t("trading.noTokens")}
                   </TableCell>
                 </TableRow>
