@@ -208,11 +208,11 @@ export function TableTokenList({
                     <TableCell>${formatNumberWithSuffix(token.price)}</TableCell>
                     <TableCell>${formatNumberWithSuffix(token.market_cap)}</TableCell>
                     <TableCell>${formatNumberWithSuffix(token.liquidity)}</TableCell>
-                    <TableCell>${Number(token.volume_1h_usd)?.toFixed(1)}K</TableCell>
+                    <TableCell>${formatNumberWithSuffix(token.volume_1h_usd)}</TableCell>
                     <TableCell className={token.volume_1h_change_percent >= 0 ? "text-green-500" : "text-red-500"}>
                       {token.volume_1h_change_percent?.toFixed(2)}%
                     </TableCell>
-                    <TableCell>${Number(token.volume_24h_usd)?.toFixed(1)}K</TableCell>
+                    <TableCell>${formatNumberWithSuffix(token.volume_24h_usd)}</TableCell>
                     <TableCell className={token.volume_24h_change_percent >= 0 ? "text-green-500" : "text-red-500"}>
                       {token.volume_24h_change_percent?.toFixed(2)}%
                     </TableCell>
