@@ -56,12 +56,12 @@ export function TableTokenList({
   const renderSortIcon = (field: string) => {
     if (!enableSort) return null;
     return (
-      <div className="flex flex-col  h-max">
+      <div className="flex flex-col h-5">
         <TiArrowSortedUp 
-          className={` ${sortBy === field && sortType === "asc" ? "text-blue-500" : "text-muted-foreground"}`} 
+          className={`h-4 w-4 ${sortBy === field && sortType === "asc" ? "text-blue-500" : "text-muted-foreground"}`} 
         />
         <TiArrowSortedDown 
-          className={` ${sortBy === field && sortType === "desc" ? "text-blue-500" : "text-muted-foreground"}`} 
+          className={`h-4 w-4 -mt-1 ${sortBy === field && sortType === "desc" ? "text-blue-500" : "text-muted-foreground"}`} 
         />
       </div>
     );
