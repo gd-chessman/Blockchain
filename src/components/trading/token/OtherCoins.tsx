@@ -210,27 +210,29 @@ export default function OtherCoins() {
       <CardContent>
         <div className="grid grid-cols-1 gap-4">
           <div className="flex items-center gap-4 mb-4">
-            <div className="flex gap-2 flex-wrap">
-              {sortOptions.map((option) => (
-                <Button
-                  key={option.value}
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setSortBy(option.value)}
-                  className={`h-8 px-3 ${
-                    sortBy === option.value 
-                      ? "bg-[#d8e8f7] dark:bg-[#d8e8f7] border-0 text-black dark:text-black" 
-                      : ""
-                  }`}
-                >
-                  {option.label}
-                </Button>
-              ))}
+            <div className="flex gap-2 flex-1">
+              <div className="flex border rounded-md overflow-hidden flex-1">
+                {sortOptions.map((option, index) => (
+                  <Button
+                    key={option.value}
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setSortBy(option.value)}
+                    className={`h-8 px-3 rounded-none border-0 border-r flex-1 ${
+                      sortBy === option.value 
+                        ? "bg-[#d8e8f7] dark:bg-[#d8e8f7] text-black dark:text-black" 
+                        : ""
+                    } ${index === sortOptions.length - 1 ? 'border-r-0' : ''}`}
+                  >
+                    {option.label}
+                  </Button>
+                ))}
+              </div>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => setSortDirection(sortDirection === "asc" ? "desc" : "asc")}
-                className="h-8 px-3"
+                className="h-8 px-3 my-auto border rounded-md w-10"
               >
                 {sortDirection === "asc" ? (
                   <ArrowUp className="h-4 w-4" />
