@@ -52,6 +52,7 @@ export function useTokenInfor(tokenAddress: string) {
         if (mountedRef.current) {
           try {
             // Update price state with new price
+            console.log(data);
             setPrice(data.price);
           } catch (error) {
             console.error("Error processing price data:", error);

@@ -5,7 +5,7 @@ import { useWsTokenTransaction } from '@/hooks/useWsTokenTransaction';
 
 export default function TestPage() {
   // Thay thế tokenAddress bằng địa chỉ token thực tế bạn muốn theo dõi
-  const tokenAddress = 'DPTP4fUfWuwVTgCmttWBu6Sy5B9TeCTBjc2YKgpDpump';
+  const tokenAddress = '2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump';
   const { transaction, error, isConnected } = useWsTokenTransaction(tokenAddress);
   console.log(transaction);
   return (
