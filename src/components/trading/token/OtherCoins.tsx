@@ -17,20 +17,30 @@ export default function OtherCoins() {
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [sortBy, setSortBy] = useState("");
+  const [sortBy, setSortBy] = useState("market_cap");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const sortOptions = [
-    { value: "", label: "None" },
-    { value: "marketCap", label: "Market Cap" },
-    { value: "liquidity", label: "Liquidity" },
-    { value: "volume_1h_usd", label: "1h Volume" },
-    { value: "volume_1h_change_percent", label: "1h Volume Change" },
-    { value: "volume_24h_usd", label: "24h Volume" },
-    { value: "volume_24h_change_percent", label: "24h Volume Change" },
-  ];
+  const { data: topCoins, isLoading: isLoadingTopCoins, refetch: refetchTopCoins } = useQuery({
+    queryKey: ["topCoins", sortBy, sortDirection],
+    queryFn: () => getTopCoins({ 
+      sort_by: sortBy, 
+      sort_type: sortDirection, 
+      offset: 0, 
+      limit: 18 
+    }),
+  });
+
+  const { data: myWishlist, refetch: refetchMyWishlist } = useQuery({
+    queryKey: ["myWishlist"],
+    queryFn: () => SolonaTokenService.getMyWishlist(),
+    refetchOnMount: true,
+  });
+
+  useEffect(() => {
+    refetchTopCoins();
+  }, [sortBy, sortDirection, refetchTopCoins]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -42,17 +52,6 @@ export default function OtherCoins() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  const { data: topCoins, isLoading: isLoadingTopCoins } = useQuery({
-    queryKey: ["topCoins_market_cap"],
-    queryFn: () => getTopCoins({ sort_by: "market_cap", sort_type: "desc", offset: 0, limit: 18 }),
-  });
-
-  const { data: myWishlist, refetch: refetchMyWishlist } = useQuery({
-    queryKey: ["myWishlist"],
-    queryFn: () => SolonaTokenService.getMyWishlist(),
-    refetchOnMount: true,
-  });
 
   // Effect to handle search when debounced value changes
   useEffect(() => {
@@ -121,6 +120,16 @@ export default function OtherCoins() {
     const bValue = b[sortBy] || 0;
     return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
   });
+
+  const sortOptions = [
+    { value: "market_cap", label: "Market Cap" },
+    { value: "", label: "None" },
+    { value: "liquidity", label: "Liquidity" },
+    { value: "volume_1h_usd", label: "1h Volume" },
+    { value: "volume_1h_change_percent", label: "1h Volume Change" },
+    { value: "volume_24h_usd", label: "24h Volume" },
+    { value: "volume_24h_change_percent", label: "24h Volume Change" },
+  ];
 
   return (
     <Card className="shadow-md dark:shadow-blue-900/5 border">
