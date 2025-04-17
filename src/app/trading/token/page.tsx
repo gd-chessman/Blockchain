@@ -783,7 +783,7 @@ function TradingContent() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <TradingChart tokenInfor={tokenInfor} address={address} />
             {/* <MyCoins coins={memeCoins} className="mb-6 hidden md:block" /> */}
-            <TokenInforDetail />
+            <TokenInforDetail className="hidden md:block" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card className="shadow-md dark:shadow-blue-900/5 border lg:col-span-2">
@@ -1228,7 +1228,8 @@ function TradingContent() {
           <HistoryTransactions pendingOrders={pendingOrders} orders={orders} historyTransactionsRef={historyTransactionsRef} />
         </div>
         <div className="order-2 md:hidden">
-          <MyCoins coins={memeCoins} className="mb-6" />
+          {/* <MyCoins coins={memeCoins} className="mb-6" /> */}
+          <TokenInforDetail />
         </div>
       </div>
 

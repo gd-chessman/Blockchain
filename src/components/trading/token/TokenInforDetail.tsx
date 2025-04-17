@@ -82,7 +82,7 @@ const TimeFrameStats = ({ timeFrame, isSelected, onClick }: TimeFrameStatsProps)
 }
 
 
-export default function TokenInforDetail() {
+export default function TokenInforDetail({className}: {className?: string}) {
   const { t } = useLang();
   const searchParams = useSearchParams(); 
   const address = searchParams?.get("address");
@@ -94,7 +94,7 @@ export default function TokenInforDetail() {
   const currentData = timeFrameData[selectedTimeFrame]
 
   return (
-    <Card className="p-6 mb-6 w-full hidden md:block">
+    <Card className={cn("p-6 mb-6 w-full", className)}>
       <div className="w-full">
         <div className="space-y-4 w-full">
           {/* Market Statistics */}
