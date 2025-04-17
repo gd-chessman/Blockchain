@@ -28,9 +28,7 @@ export function useWsTokenTransaction(tokenAddress: string) {
         // Subscribe to token transactions when connected
         if (tokenAddress) {
           newSocket.emit('subscribe', {
-            data: {
-              tokenAddress: tokenAddress
-            }
+            tokenAddress: tokenAddress
           });
         }
       });

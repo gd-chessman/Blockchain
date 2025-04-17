@@ -28,9 +28,7 @@ export function useTokenInfor(tokenAddress: string) {
         // Subscribe to token price when connected
         if (tokenAddress) {
           newSocket.emit('subscribe', {
-            data: {
-              tokenAddress: tokenAddress
-            }
+            tokenAddress: tokenAddress
           });
         }
       });

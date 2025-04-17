@@ -1,85 +1,39 @@
 'use client';
 
-import TradingViewChart from '@/components/chart/TradingViewChart';
-import { useState, ChangeEvent } from 'react';
+import React from 'react';
+import { useWsTokenTransaction } from '@/hooks/useWsTokenTransaction';
 
-
-export default function Home() {
-
-  const [interval, setInterval] = useState<string>('D');
-  const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
-
-  const handleIntervalChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setInterval(e.target.value);
-  };
-
-  const toggleTheme = () => {
-    setIsDarkTheme((prev) => !prev);
-  };
-
+export default function TestPage() {
+  // Thay thế tokenAddress bằng địa chỉ token thực tế bạn muốn theo dõi
+  const tokenAddress = 'DPTP4fUfWuwVTgCmttWBu6Sy5B9TeCTBjc2YKgpDpump';
+  const { transaction, error, isConnected } = useWsTokenTransaction(tokenAddress);
+  console.log(transaction);
   return (
-    <div className="container">
-
-
-      <div className="controls">
-
-        <button onClick={toggleTheme} className="theme-toggle">
-          Toggle Theme
-        </button>
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">Test Token Transaction</h1>
+      
+      <div className="mb-4">
+        <p className="font-semibold">Connection Status:</p>
+        <span className={`inline-block w-3 h-3 rounded-full mr-2 ${isConnected ? 'bg-green-500' : 'bg-red-500'}`}></span>
+        {isConnected ? 'Connected' : 'Disconnected'}
       </div>
 
-      <div className="chart-container">
-        <TradingViewChart
-          interval={interval}
-          theme={isDarkTheme ? 'dark' : 'light'}
-        />
-      </div>
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          Error: {error}
+        </div>
+      )}
 
-      <style jsx>{`
-        .container {
-          display: flex;
-          flex-direction: column;
-          height: 100vh;
-          width: 100%;
-        }
-        .header {
-          background: ${isDarkTheme ? '#2a2e39' : '#2962ff'};
-          color: white;
-          padding: 1rem;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          width: 100%;
-        }
-        .chart-container {
-          flex: 1;
-          display: flex;
-          width: 100%;
-        }
-        .controls {
-          padding: 1rem;
-          background: ${isDarkTheme ? '#1e222d' : '#f5f5f5'};
-          display: flex;
-          gap: 1rem;
-          width: 100%;
-        }
-        select,
-        button {
-          padding: 0.5rem;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-          font-size: 14px;
-        }
-        button {
-          background: #2962ff;
-          color: white;
-          border: none;
-          cursor: pointer;
-        }
-        button:hover {
-          background: #1e4bd8;
-        }
-      `}</style>
+      <div className="bg-white p-4 rounded-lg shadow">
+        <h2 className="text-xl font-semibold mb-2">Latest Transaction</h2>
+        {transaction ? (
+          <pre className="bg-gray-100 p-4 rounded overflow-auto">
+            {JSON.stringify(transaction, null, 2)}
+          </pre>
+        ) : (
+          <p className="text-gray-500">No transaction data received yet</p>
+        )}
+      </div>
     </div>
   );
 }
