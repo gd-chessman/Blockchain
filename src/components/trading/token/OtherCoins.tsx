@@ -122,13 +122,13 @@ export default function OtherCoins() {
   });
 
   const sortOptions = [
-    { value: "market_cap", label: "Market Cap" },
+    { value: "market_cap", label: "MC" },
     { value: "", label: "None" },
-    { value: "liquidity", label: "Liquidity" },
-    { value: "volume_1h_usd", label: "1h Volume" },
-    { value: "volume_1h_change_percent", label: "1h Volume Change" },
-    { value: "volume_24h_usd", label: "24h Volume" },
-    { value: "volume_24h_change_percent", label: "24h Volume Change" },
+    { value: "liquidity", label: "Liq" },
+    { value: "volume_1h_usd", label: "1h Vol" },
+    { value: "volume_1h_change_percent", label: "1h%" },
+    { value: "volume_24h_usd", label: "24h Vol" },
+    { value: "volume_24h_change_percent", label: "24h%" },
   ];
 
   return (
