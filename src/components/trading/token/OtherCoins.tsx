@@ -87,13 +87,6 @@ export default function OtherCoins({
                     </div>
                     <div className="ml-auto flex items-center gap-4">
                       {/* <span className="text-xs font-medium">${formatNumberWithSuffix(token.price || 0)}</span> */}
-                      <small
-                        className={`text-sm ${
-                          token.isVerified ? "text-green-600" : "text-red-600"
-                        }`}
-                      >
-                        {token.isVerified ? " ✓" : "x"}
-                      </small>
                     </div>
                   </Link>
                 ))}
@@ -157,13 +150,6 @@ export default function OtherCoins({
                       </div>
                       <div className="ml-auto flex items-center gap-4">
                         <span className="text-xs font-medium">${formatNumberWithSuffix(token.price || 0)}</span>
-                        <small
-                          className={`text-sm ${
-                            token.isVerified ? "text-green-600" : "text-red-600"
-                          }`}
-                        >
-                          {token.isVerified ? " ✓" : "x"}
-                        </small>
                       </div>
                     </Link>
                   ))}
