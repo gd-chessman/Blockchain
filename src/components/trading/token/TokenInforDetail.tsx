@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card } from '@/ui/card'
 import { cn } from '@/libs/utils'
 import { getTokenInforByAddress, getTokenPrice } from '@/services/api/SolonaTokenService'
@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import { formatNumberWithSuffix } from '@/utils/format'
 import { useLang } from '@/lang/useLang'
+import { useTokenInfor } from '@/hooks/useTokenInfor'
 type TimeFrame = '1m' | '5m' | '1h' | '24h'
 
 interface TimeFrameData {
@@ -94,8 +95,26 @@ export default function TokenInforDetail({className}: {className?: string}) {
     queryKey: ["token-price", address],
     queryFn: () => getTokenPrice(address),
   });
+  const { price: realtimePrice } = useTokenInfor(address || '');
+  const [marketCap, setMarketCap] = useState<number | null>(null);
+  const [initialRatio, setInitialRatio] = useState<number | null>(null);
   const [selectedTimeFrame, setSelectedTimeFrame] = useState<TimeFrame>('1m')
   const currentData = timeFrameData[selectedTimeFrame]
+
+  useEffect(() => {
+    if (tokenInfor?.marketCap && tokenPrice?.priceUSD && !initialRatio) {
+      const ratio = tokenInfor.marketCap / tokenPrice.priceUSD;
+      setInitialRatio(ratio);
+      setMarketCap(tokenInfor.marketCap);
+    }
+  }, [tokenInfor, tokenPrice]);
+
+  useEffect(() => {
+    if (initialRatio && realtimePrice) {
+      const newMarketCap = initialRatio * realtimePrice;
+      setMarketCap(newMarketCap);
+    }
+  }, [realtimePrice, initialRatio]);
 
   return (
     <Card className={cn("p-6 mb-6 w-full", className)}>
@@ -105,7 +124,7 @@ export default function TokenInforDetail({className}: {className?: string}) {
           <div className="space-y-2 pb-4 border-b">
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">{t("trading.tokenInfo.marketCap")}</span>
-              <span className="text-sm font-medium">{tokenInfor ? `$${formatNumberWithSuffix(tokenInfor.marketCap)}` : '-'}</span>
+              <span className="text-sm font-medium">{marketCap ? `$${formatNumberWithSuffix(marketCap)}` : '-'}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">{t("trading.tokenInfo.volume24h")}</span>
