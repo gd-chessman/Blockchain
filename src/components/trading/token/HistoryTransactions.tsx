@@ -4,6 +4,7 @@ import React, { RefObject } from 'react'
 
 export default function HistoryTransactions({ pendingOrders = [], orders = [], historyTransactionsRef }: { pendingOrders?: any[], orders?: any[], historyTransactionsRef: any }) {
     const { t } = useLang();
+    console.log("orders", orders);
   return (
     <Card className="mt-6 shadow-md dark:shadow-blue-900/5 border">
     <CardHeader>

@@ -128,6 +128,12 @@ function TradingContent() {
     queryKey: ["topCoins_market_cap"],
     queryFn: () => getTopCoins({ sort_by: "market_cap", sort_type: "desc", offset: 0, limit: 18 }),
   });
+  const { data: walletInfor, refetch: refetchWalletInfor } = useQuery({
+    queryKey: ["wallet-infor"],
+    queryFn: getInforWallet,
+    refetchInterval: 30000,
+    refetchIntervalInBackground: true,
+  });
   const { data: orderHistories, isLoading: isLoadingOrderHistories } = useQuery({
     queryKey: ["orderHistories", address],
     queryFn: () => getOrderHistories({
@@ -137,7 +143,8 @@ function TradingContent() {
       sort_by: 'block_unix_time',
       sort_type: 'desc',
       tx_type: 'swap',
-      owner: ''
+      owner: "8EbySEW8WJHUrNfmSNe85TuWmsVaV6T7Q6MzwkYyGgnZ"
+
     }),
     enabled: !!address,
   });
@@ -159,12 +166,7 @@ function TradingContent() {
     queryFn: getMyWishlist,
     refetchOnMount: true,
   });
-  const { data: walletInfor, refetch: refetchWalletInfor } = useQuery({
-    queryKey: ["wallet-infor"],
-    queryFn: getInforWallet,
-    refetchInterval: 30000,
-    refetchIntervalInBackground: true,
-  });
+
   const [activeTab, setActiveTab] = useState("buy");
   const [selectedAction, setSelectedAction] = useState<"buy" | "sell">("buy");
   const { data: tokenAmount, refetch: refetchTokenAmount } = useQuery({
@@ -1227,7 +1229,7 @@ function TradingContent() {
               </CardContent>
             </Card>
           </div>
-          <HistoryTransactions pendingOrders={pendingOrders} orders={orders} historyTransactionsRef={historyTransactionsRef} />
+          <HistoryTransactions pendingOrders={pendingOrders} orders={orderHistories} historyTransactionsRef={historyTransactionsRef} />
         </div>
         <div className="order-2 md:hidden">
           {/* <MyCoins coins={memeCoins} className="mb-6" /> */}
