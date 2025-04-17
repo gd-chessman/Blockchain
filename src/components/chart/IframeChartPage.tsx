@@ -46,7 +46,7 @@ export default function IframeChartPage({ token }: IframeChartPageProps) {
       transition: 'opacity 0.3s ease-in-out'
     }}>
       <iframe
-        src={`https://www.gmgn.cc/kline/sol/${token}?theme=${theme}&interval=1D`}
+        src={`https://birdeye.so/tv-widget/${token}?chain=solana&viewMode=pair&chartInterval=1D&chartType=CANDLE&chartTimezone=Asia%2FBangkok&chartLeftToolbar=show&theme=${theme}`}
         className='rounded'
         style={{ 
           width: '100%', 
