@@ -177,7 +177,7 @@ export function TableTokenList({
                           className="size-12 rounded-full"
                         />
                         <div className="flex flex-col">
-                          <p>{token.name}</p>
+                          <p className="line-clamp-2">{token.name}</p>
                           <p className="text-sm text-muted-foreground">{token.symbol}</p>
                           {token.program === "pumpfun" && (
                             <img
