@@ -9,7 +9,7 @@ import {
 } from "@/ui/card";
 import { formatNumberWithSuffix, truncateString } from "@/utils/format";
 import React from "react";
-import { Copy } from "lucide-react";
+import { Copy, Globe, MessageSquare, Twitter, Search } from "lucide-react";
 import { ToastNotification } from "@/ui/toast";
 import { useState } from "react";
 
@@ -67,6 +67,44 @@ export default function TradingChart({
                   >
                     <Copy className="h-4 w-4" />
                   </button>
+                  <a
+                    href={`https://x.com/search?q=${tokenInfor?.address}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
+                  >
+                    <Search className="h-4 w-4" />
+                  </a>
+                  {tokenInfor?.telegram && (
+                    <a
+                      href={tokenInfor.telegram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
+                    >
+                      <MessageSquare className="h-4 w-4" />
+                    </a>
+                  )}
+                  {tokenInfor?.website && (
+                    <a
+                      href={tokenInfor.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
+                    >
+                      <Globe className="h-4 w-4" />
+                    </a>
+                  )}
+                  {tokenInfor?.twitter && (
+                    <a
+                      href={tokenInfor.twitter}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
+                    >
+                      <Twitter className="h-4 w-4" />
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
