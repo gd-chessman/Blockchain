@@ -5,18 +5,84 @@ import Link from "next/link";
 import { useLang } from "@/lang";
 import { Button } from "@/ui/button";
 import { formatNumberWithSuffix } from "@/utils/format";
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useDebounce } from "@/hooks/useDebounce";
+import { SolonaTokenService } from "@/services/api";
+import { getTopCoins } from "@/services/api/OnChainService";
 
-
-export default function OtherCoins({
-  historyTransactionsHeight,
-  tokens,
-  searchQuery,
-  isSearching,
-  onSearchChange,
-  onStarClick,
-  favoriteTokens = [],
-}: any) {
+export default function OtherCoins() {
   const { t } = useLang();
+  const [searchQuery, setSearchQuery] = useState("");
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+
+  const { data: topCoins, isLoading: isLoadingTopCoins } = useQuery({
+    queryKey: ["topCoins_market_cap"],
+    queryFn: () => getTopCoins({ sort_by: "market_cap", sort_type: "desc", offset: 0, limit: 18 }),
+  });
+
+  const { data: myWishlist, refetch: refetchMyWishlist } = useQuery({
+    queryKey: ["myWishlist"],
+    queryFn: () => SolonaTokenService.getMyWishlist(),
+    refetchOnMount: true,
+  });
+
+  // Effect to handle search when debounced value changes
+  useEffect(() => {
+    const searchData = async () => {
+      if (!debouncedSearchQuery.trim()) {
+        setSearchResults([]);
+        setIsSearching(false);
+        return;
+      }
+      setIsSearching(true);
+      try {
+        const res = await SolonaTokenService.getSearchTokenInfor(debouncedSearchQuery);
+        setSearchResults(res.tokens || []);
+      } catch (error) {
+        console.error("Error searching tokens:", error);
+        setSearchResults([]);
+      } finally {
+        setIsSearching(false);
+      }
+    };
+
+    searchData();
+  }, [debouncedSearchQuery]);
+
+  const handleStarClick = async (token: any) => {
+    try {
+      const isFavorite = myWishlist?.tokens?.some((t: any) => t.id === token.id);
+      const data = {
+        token_address: token.address,
+        status: isFavorite ? "off" : "on",
+      };
+      await SolonaTokenService.toggleWishlist(data);
+      refetchMyWishlist();
+    } catch (error) {
+      console.error("Error toggling wishlist:", error);
+    }
+  };
+
+  // Use search results if available, otherwise use topCoins data
+  const displayTokens = debouncedSearchQuery.trim()
+    ? searchResults
+    : topCoins?.map((token: any) => ({
+        id: token.id,
+        name: token.name,
+        symbol: token.symbol,
+        address: token.address,
+        decimals: token.decimals,
+        logoUrl: token.logoUrl || token.logo_uri || "/placeholder.png",
+        coingeckoId: null,
+        tradingviewSymbol: null,
+        isVerified: token.isVerified,
+        marketCap: 0,
+        program: token.program,
+        price: token.price || 0,
+      })) || [];
 
   return (
     <Card className="shadow-md dark:shadow-blue-900/5 border">
@@ -35,20 +101,20 @@ export default function OtherCoins({
             placeholder={t("trading.searchCoinsPlaceholder")}
             className="pl-10 w-full"
             value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
       </CardHeader>
-      {favoriteTokens && favoriteTokens.length > 0 && (
+      {myWishlist?.tokens && myWishlist.tokens.length > 0 && (
         <CardContent>
           <div className="">
             <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50">
               <div className="space-y-4 max-h-[11.25rem] overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent">
-                {favoriteTokens.map((token: any, index: any ) => (
+                {myWishlist.tokens.map((token: any, index: any) => (
                   <Link
                     key={index}
                     className={`flex text-sm gap-6 cursor-pointer ${
-                      index < favoriteTokens.length - 1 ? "border-b-2 pb-2" : ""
+                      index < myWishlist.tokens.length - 1 ? "border-b-2 pb-2" : ""
                     }`}
                     href={`/trading/token?address=${token.address}`}
                   >
@@ -58,7 +124,7 @@ export default function OtherCoins({
                       className="h-6 w-6 p-0 text-yellow-500 hover:text-yellow-600"
                       onClick={(e) => {
                         e.preventDefault();
-                        onStarClick?.(token);
+                        handleStarClick(token);
                       }}
                     >
                       <Star className="h-4 w-4" />
@@ -99,33 +165,20 @@ export default function OtherCoins({
         <div className="grid grid-cols-1 gap-4">
           <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50">
             <div className="overflow-auto h-80 lg:h-full max-h-[60rem] md:h-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent">
-              {!tokens || (tokens.length === 0 && !searchQuery) ? (
+              {isLoadingTopCoins ? (
                 <div className="flex items-center justify-center h-40">
                   <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {tokens.map((token: any, index: any) => (
+                  {displayTokens.map((token: any, index: any) => (
                     <Link
                       key={index}
                       className={`flex text-sm gap-6 cursor-pointer ${
-                        index < tokens.length - 1 ? "border-b-2 pb-2" : ""
+                        index < displayTokens.length - 1 ? "border-b-2 pb-2" : ""
                       }`}
                       href={`/trading/token?address=${token.address}`}
                     >
-                      {/* <Button
-                        variant="ghost"
-                        size="icon"
-                        className={`h-6 w-6 p-0 ${
-                          token.isFavorite ? "text-yellow-500" : ""
-                        } hover:text-yellow-500`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          onStarClick?.(token);
-                        }}
-                      >
-                        <Star className="h-4 w-4" />
-                      </Button> */}
                       <img
                         src={token.logoUrl || token.logo_uri || "/placeholder.png"}
                         alt=""

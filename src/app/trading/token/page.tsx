@@ -774,15 +774,7 @@ function TradingContent() {
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
         <div className="flex flex-col gap-6 order-3 lg:order-1">
-          <OtherCoins
-            historyTransactionsHeight={historyTransactionsHeight}
-            tokens={displayTokens}
-            searchQuery={searchQuery}
-            isSearching={isSearching}
-            onSearchChange={setSearchQuery}
-            favoriteTokens={myWishlist?.tokens}
-            onStarClick={handleStarClick}
-          />
+          <OtherCoins />
         </div>
         <div className="lg:col-span-3 order-1">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
