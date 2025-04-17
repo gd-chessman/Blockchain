@@ -123,7 +123,6 @@ export default function OtherCoins() {
 
   const sortOptions = [
     { value: "market_cap", label: "MC" },
-    { value: "", label: "None" },
     { value: "liquidity", label: "Liq" },
     { value: "volume_1h_usd", label: "1h Vol" },
     { value: "volume_1h_change_percent", label: "1h%" },
@@ -211,46 +210,35 @@ export default function OtherCoins() {
       <CardContent>
         <div className="grid grid-cols-1 gap-4">
           <div className="flex items-center gap-4 mb-4">
-            <div className="relative flex-1" ref={dropdownRef}>
+            <div className="flex gap-2 flex-wrap">
+              {sortOptions.map((option) => (
+                <Button
+                  key={option.value}
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setSortBy(option.value)}
+                  className={`h-8 px-3 ${
+                    sortBy === option.value 
+                      ? "bg-[#d8e8f7] dark:bg-[#d8e8f7] border-0 text-black dark:text-black" 
+                      : ""
+                  }`}
+                >
+                  {option.label}
+                </Button>
+              ))}
               <Button
                 variant="outline"
-                className="w-full justify-between"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                size="sm"
+                onClick={() => setSortDirection(sortDirection === "asc" ? "desc" : "asc")}
+                className="h-8 px-3"
               >
-                {sortOptions.find(option => option.value === sortBy)?.label || "Sort by"}
-                <ChevronDown className="h-4 w-4" />
+                {sortDirection === "asc" ? (
+                  <ArrowUp className="h-4 w-4" />
+                ) : (
+                  <ArrowDown className="h-4 w-4" />
+                )}
               </Button>
-              {isDropdownOpen && (
-                <div className="absolute z-10 mt-1 w-full bg-white dark:bg-gray-900 border rounded-md shadow-lg">
-                  {sortOptions.map((option) => (
-                    <button
-                      key={option.value}
-                      className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 ${
-                        sortBy === option.value ? "bg-gray-100 dark:bg-gray-800" : ""
-                      }`}
-                      onClick={() => {
-                        setSortBy(option.value);
-                        setIsDropdownOpen(false);
-                      }}
-                    >
-                      {option.label}
-                    </button>
-                  ))}
-                </div>
-              )}
             </div>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => setSortDirection(sortDirection === "asc" ? "desc" : "asc")}
-              className={sortDirection === "asc" ? "text-green-500" : "text-red-500"}
-            >
-              {sortDirection === "asc" ? (
-                <ArrowUp className="h-4 w-4" />
-              ) : (
-                <ArrowDown className="h-4 w-4" />
-              )}
-            </Button>
           </div>
           <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50">
             <div className="overflow-auto h-80 lg:h-full max-h-[60rem] md:h-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent">
