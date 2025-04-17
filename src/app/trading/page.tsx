@@ -261,7 +261,7 @@ export default function Trading() {
                   sortBy={sortBy}
                   sortType={sortType}
                   onSort={handleSort}
-                  enableSort={true}
+                  enableSort={!debouncedSearchQuery.trim()}
                 />
               </CardContent>
             )}
