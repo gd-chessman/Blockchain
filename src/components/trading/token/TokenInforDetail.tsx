@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Card } from '@/ui/card'
 import { cn } from '@/libs/utils'
-import { getTokenInforByAddress } from '@/services/api/SolonaTokenService'
+import { getTokenInforByAddress, getTokenPrice } from '@/services/api/SolonaTokenService'
 import { useSearchParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import { formatNumberWithSuffix } from '@/utils/format'
@@ -89,6 +89,10 @@ export default function TokenInforDetail({className}: {className?: string}) {
   const { data: tokenInfor, refetch } = useQuery({
     queryKey: ["token-infor", address],
     queryFn: () => getTokenInforByAddress(address),
+  });
+  const { data: tokenPrice } = useQuery({
+    queryKey: ["token-price", address],
+    queryFn: () => getTokenPrice(address),
   });
   const [selectedTimeFrame, setSelectedTimeFrame] = useState<TimeFrame>('1m')
   const currentData = timeFrameData[selectedTimeFrame]
