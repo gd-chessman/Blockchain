@@ -92,24 +92,24 @@ export default function TokenInforDetail() {
   const currentData = timeFrameData[selectedTimeFrame]
 
   return (
-    <Card className="p-4 mb-6 w-full hidden md:block">
+    <Card className="p-6 mb-6 w-full hidden md:block">
       <div className="w-full">
         <div className="space-y-4 w-full">
           {/* Market Statistics */}
-          <div className="grid grid-cols-4 gap-4 pb-4 border-b">
-            <div className="flex flex-col">
+          <div className="space-y-2 pb-4 border-b">
+            <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">Market Cap</span>
               <span className="text-sm font-medium">{tokenInfor ? `$${formatNumberWithSuffix(tokenInfor.marketCap)}` : '-'}</span>
             </div>
-            <div className="flex flex-col">
+            <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">24h Volume</span>
               <span className="text-sm font-medium">{tokenInfor ? `$${formatNumberWithSuffix(tokenInfor.volume24h)}` : '-'}</span>
             </div>
-            <div className="flex flex-col">
+            <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">Liquidity</span>
               <span className="text-sm font-medium">{tokenInfor ? `$${formatNumberWithSuffix(tokenInfor.liquidity)}` : '-'}</span>
             </div>
-            <div className="flex flex-col">
+            <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">Holders</span>
               <span className="text-sm font-medium">{tokenInfor ? tokenInfor.holders.toLocaleString() : '-'}</span>
             </div>
