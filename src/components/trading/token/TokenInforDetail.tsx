@@ -5,6 +5,7 @@ import { getTokenInforByAddress } from '@/services/api/SolonaTokenService'
 import { useSearchParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import { formatNumberWithSuffix } from '@/utils/format'
+import { useLang } from '@/lang/useLang'
 type TimeFrame = '1m' | '5m' | '1h' | '24h'
 
 interface TimeFrameData {
@@ -82,6 +83,7 @@ const TimeFrameStats = ({ timeFrame, isSelected, onClick }: TimeFrameStatsProps)
 
 
 export default function TokenInforDetail() {
+  const { t } = useLang();
   const searchParams = useSearchParams(); 
   const address = searchParams?.get("address");
   const { data: tokenInfor, refetch } = useQuery({
@@ -98,19 +100,19 @@ export default function TokenInforDetail() {
           {/* Market Statistics */}
           <div className="space-y-2 pb-4 border-b">
             <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">Market Cap</span>
+              <span className="text-sm text-muted-foreground">{t("trading.tokenInfo.marketCap")}</span>
               <span className="text-sm font-medium">{tokenInfor ? `$${formatNumberWithSuffix(tokenInfor.marketCap)}` : '-'}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">24h Volume</span>
+              <span className="text-sm text-muted-foreground">{t("trading.tokenInfo.volume24h")}</span>
               <span className="text-sm font-medium">{tokenInfor ? `$${formatNumberWithSuffix(tokenInfor.volume24h)}` : '-'}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">Liquidity</span>
+              <span className="text-sm text-muted-foreground">{t("trading.tokenInfo.liquidity")}</span>
               <span className="text-sm font-medium">{tokenInfor ? `$${formatNumberWithSuffix(tokenInfor.liquidity)}` : '-'}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">Holders</span>
+              <span className="text-sm text-muted-foreground">{t("trading.tokenInfo.holders")}</span>
               <span className="text-sm font-medium">{tokenInfor ? tokenInfor.holders.toLocaleString() : '-'}</span>
             </div>
           </div>
