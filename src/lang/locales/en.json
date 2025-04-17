@@ -150,7 +150,7 @@
       "tokenNotFound": "Token not found",
       "24hChange": "24h Change",
       "24hVolume": "24h Volume",
-      "marketCap": "Market Cap",
+      "marketCap": "MC",
       "historyTransactions": "History Transactions",
       "listConnect": "Connected Members",
       "noConnections": "No connected members",
@@ -196,10 +196,11 @@
       "removeFromFavorite": "Remove from Favorite",
       "failed": "Failed",
       "noTokens": "No tokens available for trading",
-      "volume1h": "1h Volume",
-      "volume1hChange": "1h Volume Change",
-      "volume24h": "24h Volume",
-      "volume24hChange": "24h Volume Change"
+      "volume1h": "1h Vol",
+      "volume1hChange": "1h%",
+      "volume24h": "24h Vol",
+      "volume24hChange": "24h%",
+      "liquidity": "Liq"
   },
   "navigation": {
       "newcoin": "Create New Coin (Pumpfun)",

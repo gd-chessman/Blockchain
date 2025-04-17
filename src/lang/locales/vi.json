@@ -186,10 +186,12 @@
       "removeFromFavorite": "Xóa khỏi yêu thích",
       "failed": "Thất bại",
       "noTokens": "Không có token nào để giao dịch",
-      "volume1h": "Khối lượng 1h",
-      "volume1hChange": "Thay đổi khối lượng 1h",
-      "volume24h": "Khối lượng 24h",
-      "volume24hChange": "Thay đổi khối lượng 24h"
+      "volume1h": "1h Vol",
+      "volume1hChange": "1h%",
+      "volume24h": "24h Vol",
+      "volume24hChange": "24h%",
+      "marketCap": "MC",
+      "liquidity": "Liq"
   },
   "navigation": {
       "newcoin": "Tạo Coin Mới (Pumpfun)",

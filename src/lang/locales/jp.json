@@ -186,10 +186,12 @@
         "removeFromFavorite": "お気に入りから削除",
         "failed": "失敗",
         "noTokens": "取引可能なトークンがありません",
-        "volume1h": "1時間取引量",
-        "volume1hChange": "1時間取引量の変化",
-        "volume24h": "24時間取引量",
-        "volume24hChange": "24時間取引量の変化"
+        "volume1h": "1h Vol",
+        "volume1hChange": "1h%",
+        "volume24h": "24h Vol",
+        "volume24hChange": "24h%",
+        "marketCap": "MC",
+        "liquidity": "Liq"
     },
     "navigation": {
         "dashboard": "ダッシュボード",
