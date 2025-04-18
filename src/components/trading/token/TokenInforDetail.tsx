@@ -97,6 +97,7 @@ export default function TokenInforDetail({className}: {className?: string}) {
     queryFn: () => getTokenPrice(address),
   });
   const { price: realtimePrice } = useTokenInfor(address || '');
+  console.log("realtimePrice", realtimePrice);
   const [marketCap, setMarketCap] = useState<number | null>(null);
   const [initialRatio, setInitialRatio] = useState<number | null>(null);
   const [selectedTimeFrame, setSelectedTimeFrame] = useState<TimeFrame>('1m')

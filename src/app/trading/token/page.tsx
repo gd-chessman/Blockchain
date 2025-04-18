@@ -148,7 +148,6 @@ function TradingContent() {
     }),
     enabled: !!address && !!walletInfor?.solana_address,
   });
-  console.log("orderHistories", walletInfor?.solana_address);
   const { data: orders, refetch: refetchOrders } = useQuery({
     queryKey: ["orders"],
     queryFn: () => getOrders(address),
