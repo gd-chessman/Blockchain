@@ -141,7 +141,6 @@ export default function Trading() {
   };
 
   const handleStarClick = async (token: any) => {
-    console.log(token)
     try {
       const data = {
         token_address: token.address,
