@@ -6,13 +6,14 @@ import { useLang } from "@/lang";
 import { Button } from "@/ui/button";
 import { formatNumberWithSuffix } from "@/utils/format";
 import { useState, useEffect, useRef } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useDebounce } from "@/hooks/useDebounce";
 import { SolonaTokenService } from "@/services/api";
 import { getTopCoins } from "@/services/api/OnChainService";
 
 export default function OtherCoins() {
   const { t } = useLang();
+  const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const [isSearching, setIsSearching] = useState(false);
@@ -21,6 +22,42 @@ export default function OtherCoins() {
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const sortOptions = [
+    { value: "market_cap", label: t("trading.marketCap") },
+    { value: "liquidity", label: t("trading.liquidity") },
+    { value: "volume_1h_usd", label: t("trading.volume1h") },
+    { value: "volume_1h_change_percent", label: t("trading.volume1hChange") },
+    { value: "volume_24h_usd", label: t("trading.volume24h") },
+    { value: "volume_24h_change_percent", label: t("trading.volume24hChange") },
+  ];
+
+  // Prefetch all sort options
+  useEffect(() => {
+    const prefetchAllSortOptions = async () => {
+      for (const option of sortOptions) {
+        await queryClient.prefetchQuery({
+          queryKey: ["topCoins", option.value, "desc"],
+          queryFn: () => getTopCoins({ 
+            sort_by: option.value, 
+            sort_type: "desc", 
+            offset: 0, 
+            limit: 18 
+          }),
+        });
+        await queryClient.prefetchQuery({
+          queryKey: ["topCoins", option.value, "asc"],
+          queryFn: () => getTopCoins({ 
+            sort_by: option.value, 
+            sort_type: "asc", 
+            offset: 0, 
+            limit: 18 
+          }),
+        });
+      }
+    };
+    prefetchAllSortOptions();
+  }, [queryClient]);
 
   const { data: topCoins, isLoading: isLoadingTopCoins, refetch: refetchTopCoins } = useQuery({
     queryKey: ["topCoins", sortBy, sortDirection],
@@ -125,15 +162,6 @@ export default function OtherCoins() {
     const bValue = b[sortBy] || 0;
     return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
   });
-
-  const sortOptions = [
-    { value: "market_cap", label: t("trading.marketCap") },
-    { value: "liquidity", label: t("trading.liquidity") },
-    { value: "volume_1h_usd", label: t("trading.volume1h") },
-    { value: "volume_1h_change_percent", label: t("trading.volume1hChange") },
-    { value: "volume_24h_usd", label: t("trading.volume24h") },
-    { value: "volume_24h_change_percent", label: t("trading.volume24hChange") },
-  ];
 
   return (
     <Card className="shadow-md dark:shadow-blue-900/5 border">
