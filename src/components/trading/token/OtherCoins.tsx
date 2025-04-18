@@ -78,13 +78,18 @@ export default function OtherCoins() {
 
   const handleStarClick = async (token: any) => {
     try {
-      const isFavorite = myWishlist?.tokens?.some((t: any) => t.id === token.id);
+      const isFavorite = myWishlist?.tokens?.some((t: any) => t.address === token.address);
       const data = {
         token_address: token.address,
         status: isFavorite ? "off" : "on",
       };
       await SolonaTokenService.toggleWishlist(data);
       refetchMyWishlist();
+      
+      // If adding to favorites, remove from sortedTokens
+      if (!isFavorite) {
+        setSearchResults(prev => prev.filter(t => t.address !== token.address));
+      }
     } catch (error) {
       console.error("Error toggling wishlist:", error);
     }
@@ -258,6 +263,21 @@ export default function OtherCoins() {
                       }`}
                       href={`/trading/token?address=${token.address}`}
                     >
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className={`h-6 w-6 p-0 ${
+                          myWishlist?.tokens?.some((t: any) => t.address === token.address)
+                            ? "text-yellow-500"
+                            : "text-muted-foreground"
+                        } hover:text-yellow-600`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleStarClick(token);
+                        }}
+                      >
+                        <Star className="h-4 w-4" />
+                      </Button>
                       <img
                         src={token.logoUrl || token.logo_uri || "/placeholder.png"}
                         alt=""
