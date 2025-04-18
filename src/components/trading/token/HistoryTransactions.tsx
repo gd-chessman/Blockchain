@@ -54,7 +54,9 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
     };
 
     // Combine real-time orders with existing orders and limit to 30 most recent
-    const allOrders = [...realTimeOrders, ...orders];
+    const allOrders = [...realTimeOrders, ...orders].filter(order => 
+        order.side === "buy" || order.side === "sell"
+    );
 
     return (
         <Card className="shadow-md dark:shadow-blue-900/5 border">
