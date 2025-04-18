@@ -49,8 +49,8 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
         return price.toFixed(6);
     };
 
-    // Combine real-time orders with existing orders
-    const allOrders = [...realTimeOrders, ...orders];
+    // Combine real-time orders with existing orders and limit to 30 most recent
+    const allOrders = [...realTimeOrders, ...orders].slice(0, 30);
 
     return (
         <Card className="mt-6 shadow-md dark:shadow-blue-900/5 border">
