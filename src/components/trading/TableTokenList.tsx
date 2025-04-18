@@ -13,6 +13,8 @@ import { useRouter } from "next/navigation";
 import { useLang } from "@/lang";
 import { formatNumberWithSuffix, truncateString } from "@/utils/format";
 import { Card, CardContent } from "@/ui/card";
+import { getMyWishlist } from "@/services/api/SolonaTokenService";
+import { useQuery } from "@tanstack/react-query";
 
 interface TableTokenListProps {
   tokens: {
@@ -52,6 +54,11 @@ export function TableTokenList({
 }: TableTokenListProps) {
   const router = useRouter();
   const { t } = useLang();
+  const { data: myWishlist, refetch: refetchMyWishlist } = useQuery({
+    queryKey: ["myWishlist"],
+    queryFn: getMyWishlist,
+    refetchOnMount: true,
+  });
 
   const renderSortIcon = (field: string) => {
     if (!enableSort) return null;
@@ -163,7 +170,7 @@ export function TableTokenList({
                         <Button
                           variant="ghost"
                           size="icon"
-                          className={`h-6 w-6 p-0 hover:text-yellow-500 ${isFavoritesTab ? 'text-yellow-500' : ''}`}
+                          className={`h-6 w-6 p-0 hover:text-yellow-500 ${isFavoritesTab || (myWishlist?.tokens?.some((item: any) => item.address === token.address)) ? 'text-yellow-500' : ''}`}
                           onClick={(e) => {
                             e.stopPropagation();
                             onStarClick?.(token);
