@@ -159,7 +159,6 @@ function TradingContent() {
   const { data: orders, refetch: refetchOrders } = useQuery({
     queryKey: ["orders"],
     queryFn: () => getOrders(address),
-    refetchInterval: 5000,
   });
   const { data: connects = [] } = useQuery({
     queryKey: ["connects"],
