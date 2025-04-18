@@ -59,7 +59,7 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
     );
 
     return (
-        <Card className="shadow-md dark:shadow-blue-900/5 border">
+        <Card className="shadow-md dark:shadow-blue-900/5 border h-full">
             <CardHeader>
                 <CardTitle>{t("trading.historyTransactions")}</CardTitle>
             </CardHeader>
