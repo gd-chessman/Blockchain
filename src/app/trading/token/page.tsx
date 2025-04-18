@@ -1183,7 +1183,7 @@ function TradingContent() {
               </CardContent>
             </Card>
           </div>
-          <HistoryTransactions pendingOrders={pendingOrders} orders={orderHistories} historyTransactionsRef={historyTransactionsRef} />
+          <HistoryTransactions pendingOrders={pendingOrders} orders={orderHistories} historyTransactionsRef={historyTransactionsRef} tokenAddress={address} />
         </div>
         <div className="order-2 md:hidden">
           {/* <MyCoins coins={memeCoins} className="mb-6" /> */}

@@ -1,21 +1,36 @@
 import { useLang } from '@/lang/useLang';
 import { Card, CardContent, CardHeader, CardTitle } from '@/ui/card'
-import React, { RefObject } from 'react'
+import React, { RefObject, useEffect, useState } from 'react'
+import { useWsTokenTransaction } from '@/hooks/useWsTokenTransaction';
 
-export default function HistoryTransactions({ pendingOrders = [], orders = [], historyTransactionsRef }: { pendingOrders?: any[], orders?: any[], historyTransactionsRef: any }) {
+export default function HistoryTransactions({ pendingOrders = [], orders = [], historyTransactionsRef, tokenAddress }: { pendingOrders?: any[], orders?: any[], historyTransactionsRef: any, tokenAddress: any }) {
     const { t } = useLang();
+    const [realTimeOrders, setRealTimeOrders] = useState<any[]>([]);
+    const { transaction } = useWsTokenTransaction(tokenAddress);
+    console.log("tokenAddress", tokenAddress);
     
+    useEffect(() => {
+        if (transaction) {
+            // Add new transaction to the beginning of the array
+            setRealTimeOrders(prev => [transaction, ...prev]);
+        }
+    }, [transaction]);
+
     const formatTime = (timestamp: number) => {
         return new Date(timestamp * 1000).toLocaleString();
     };
 
     const formatVolume = (volume: number) => {
-        return volume.toFixed(8);
+        return volume;
     };
 
     const formatPrice = (price: number) => {
-        return price.toFixed(8);
+        return price;
     };
+    console.log("transaction", transaction);
+
+    // Combine real-time orders with existing orders
+    const allOrders = [...realTimeOrders, ...orders];
 
     return (
         <Card className="mt-6 shadow-md dark:shadow-blue-900/5 border">
@@ -36,7 +51,7 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
                             </tr>
                         </thead>
                         <tbody>
-                            {[...pendingOrders, ...(orders || [])].map(
+                            {[...pendingOrders, ...allOrders].map(
                                 (order: any, index: number) => (
                                     <tr key={index} className="text-sm border-b">
                                         <td className="py-3 px-1">
