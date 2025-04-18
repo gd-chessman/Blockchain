@@ -50,7 +50,7 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
 
     const formatPrice = (price: number | undefined) => {
         if (price === undefined) return '0.0';
-        return price?.toFixed(2);
+        return price?.toFixed(6);
     };
 
     // Combine real-time orders with existing orders and limit to 30 most recent
