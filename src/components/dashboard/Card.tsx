@@ -8,6 +8,8 @@ import { formatNumberWithSuffix, truncateString } from "@/utils/format"
 import { ToastNotification } from "@/ui/toast"
 import { useState, useEffect, useRef } from "react"
 import { useLang } from "@/lang"
+import { useQuery } from "@tanstack/react-query"
+import { getPriceSolona } from "@/services/api/SolonaTokenService"
 
 // Meme class mapping
 const memeClasses = [
@@ -52,6 +54,10 @@ export default function TokenCard({
 }: TokenCardProps) {
   const [showToast, setShowToast] = useState(false)
   const [shouldBlink, setShouldBlink] = useState(false)
+  const { data: solPrice } = useQuery({
+    queryKey: ["sol-price"],
+    queryFn: () => getPriceSolona(),
+  });
   const { t } = useLang();
 
   // Track previous address to detect changes
@@ -163,7 +169,7 @@ export default function TokenCard({
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
               <div className="text-xs text-muted-foreground mb-1">{t('trading.tokenInfo.marketCap')}</div>
-              <div className="text-sm font-medium">${formatNumberWithSuffix(token.marketCap)}</div>
+              <div className="text-sm font-medium">${formatNumberWithSuffix(token.marketCap * solPrice?.priceUSD)}</div>
             </div>
             <div>
               <div className="text-xs text-muted-foreground mb-1">{t('trading.tokenInfo.symbol')}</div>

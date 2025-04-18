@@ -1,9 +1,15 @@
 import { useLang } from '@/lang/useLang';
+import { getPriceSolona } from '@/services/api/SolonaTokenService';
 import { formatNumberWithSuffix, truncateString } from '@/utils/format';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 
 export default function CardFlash({ tokens }: { tokens: any[] }) {
+  const { data: solPrice } = useQuery({
+    queryKey: ["sol-price"],
+    queryFn: () => getPriceSolona(),
+  });
   const router = useRouter();
   const { t } = useLang();
 
@@ -27,7 +33,7 @@ export default function CardFlash({ tokens }: { tokens: any[] }) {
           </div>
           <div className="text-right">
             <p className="text-[10px] text-black">{truncateString(token.address, 20)}</p>
-            <p className="text-[10px] text-black">{t("trading.marketCap")}: ${formatNumberWithSuffix(token.marketCap)}</p>
+            <p className="text-[10px] text-black">{t("trading.marketCap")}: ${formatNumberWithSuffix(token.marketCap * solPrice?.priceUSD)}</p>
           </div>
         </div>
       </div>
