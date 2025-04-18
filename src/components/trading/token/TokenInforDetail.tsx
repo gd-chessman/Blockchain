@@ -95,27 +95,32 @@ export default function TokenInforDetail({className}: {className?: string}) {
   const { data: tokenPrice, refetch: refetchTokenPrice } = useQuery({
     queryKey: ["token-price", address],
     queryFn: () => getTokenPrice(address),
+    enabled: !tokenInfor?.price,
   });
   const { price: realtimePrice } = useTokenInfor(address || '');
   const [marketCap, setMarketCap] = useState<number | null>(null);
   const [initialRatio, setInitialRatio] = useState<number | null>(null);
   const [selectedTimeFrame, setSelectedTimeFrame] = useState<TimeFrame>('1m')
   const currentData = timeFrameData[selectedTimeFrame]
+  console.log("tokenInfor", tokenInfor);
 
   useEffect(() => {
     setMarketCap(null);
     setInitialRatio(null);
     setSelectedTimeFrame('1m');
     refetchTokenInfor();
-    refetchTokenPrice();
-  }, [address, refetchTokenInfor, refetchTokenPrice]);
+    if (!tokenInfor?.price) {
+      refetchTokenPrice();
+    }
+  }, [address, refetchTokenInfor, refetchTokenPrice, tokenInfor?.price]);
 
   useEffect(() => {
-    if (!tokenInfor?.marketCap || !tokenPrice?.priceUSD || tokenPrice.priceUSD === 0) {
+    const price = tokenInfor?.price || tokenPrice?.priceUSD;
+    if (!tokenInfor?.marketCap || !price || price === 0) {
       return;
     }
 
-    const ratio = tokenInfor.marketCap / tokenPrice.priceUSD;
+    const ratio = tokenInfor.marketCap / price;
     setInitialRatio(ratio);
     setMarketCap(tokenInfor.marketCap);
   }, [tokenInfor, tokenPrice]);
