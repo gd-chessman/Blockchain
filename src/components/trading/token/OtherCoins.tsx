@@ -127,12 +127,12 @@ export default function OtherCoins() {
   });
 
   const sortOptions = [
-    { value: "market_cap", label: "MC" },
-    { value: "liquidity", label: "Liq" },
-    { value: "volume_1h_usd", label: "1h Vol" },
-    { value: "volume_1h_change_percent", label: "1h%" },
-    { value: "volume_24h_usd", label: "24h Vol" },
-    { value: "volume_24h_change_percent", label: "24h%" },
+    { value: "market_cap", label: t("trading.marketCap") },
+    { value: "liquidity", label: t("trading.liquidity") },
+    { value: "volume_1h_usd", label: t("trading.volume1h") },
+    { value: "volume_1h_change_percent", label: t("trading.volume1hChange") },
+    { value: "volume_24h_usd", label: t("trading.volume24h") },
+    { value: "volume_24h_change_percent", label: t("trading.volume24hChange") },
   ];
 
   return (
@@ -223,7 +223,7 @@ export default function OtherCoins() {
                     variant="outline"
                     size="sm"
                     onClick={() => setSortBy(option.value)}
-                    className={`h-8 px-3 rounded-none border-0 border-r flex-1 ${
+                    className={`h-8 px-2 cursor-pointer rounded-none border-0 border-r flex-1 ${
                       sortBy === option.value 
                         ? "bg-[#d8e8f7] dark:bg-[#d8e8f7] text-black dark:text-black" 
                         : ""
