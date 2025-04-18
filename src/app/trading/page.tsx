@@ -86,7 +86,7 @@ export default function Trading() {
   // Update tokens when topCoins data changes
   useEffect(() => {
     if (topCoins && topCoins.length > 0) {
-      setTokens(topCoins);
+      setTokens(topCoins.slice(3));
     }
   }, [topCoins]);
 
