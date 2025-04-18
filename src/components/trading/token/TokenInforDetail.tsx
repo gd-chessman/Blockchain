@@ -87,12 +87,12 @@ export default function TokenInforDetail({className}: {className?: string}) {
   const { t } = useLang();
   const searchParams = useSearchParams(); 
   const address = searchParams?.get("address");
-  const { data: tokenInfor, refetch } = useQuery({
+  const { data: tokenInfor, refetch: refetchTokenInfor } = useQuery({
     queryKey: ["token-infor", address],
     queryFn: () => getTokenInforByAddress(address),
     refetchInterval: 10000,
   });
-  const { data: tokenPrice } = useQuery({
+  const { data: tokenPrice, refetch: refetchTokenPrice } = useQuery({
     queryKey: ["token-price", address],
     queryFn: () => getTokenPrice(address),
   });
@@ -106,22 +106,27 @@ export default function TokenInforDetail({className}: {className?: string}) {
     setMarketCap(null);
     setInitialRatio(null);
     setSelectedTimeFrame('1m');
-    refetch();
-  }, [address, refetch]);
+    refetchTokenInfor();
+    refetchTokenPrice();
+  }, [address, refetchTokenInfor, refetchTokenPrice]);
 
   useEffect(() => {
-    if (tokenInfor?.marketCap && tokenPrice?.priceUSD && tokenPrice.priceUSD !== 0 && !initialRatio) {
-      const ratio = tokenInfor.marketCap / tokenPrice.priceUSD;
-      setInitialRatio(ratio);
-      setMarketCap(tokenInfor.marketCap);
+    if (!tokenInfor?.marketCap || !tokenPrice?.priceUSD || tokenPrice.priceUSD === 0) {
+      return;
     }
-  }, [tokenInfor, tokenPrice, initialRatio]);
+
+    const ratio = tokenInfor.marketCap / tokenPrice.priceUSD;
+    setInitialRatio(ratio);
+    setMarketCap(tokenInfor.marketCap);
+  }, [tokenInfor, tokenPrice]);
 
   useEffect(() => {
-    if (initialRatio && realtimePrice) {
-      const newMarketCap = initialRatio * realtimePrice;
-      setMarketCap(newMarketCap);
+    if (!initialRatio || !realtimePrice) {
+      return;
     }
+
+    const newMarketCap = initialRatio * realtimePrice;
+    setMarketCap(newMarketCap);
   }, [realtimePrice, initialRatio]);
 
   return (
