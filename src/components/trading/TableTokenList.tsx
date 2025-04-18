@@ -211,16 +211,16 @@ export function TableTokenList({
                         </Button>
                       </div>
                     </TableCell>
-                    <TableCell>${formatNumberWithSuffix(token.price)}</TableCell>
-                    <TableCell>${formatNumberWithSuffix(token.market_cap)}</TableCell>
-                    <TableCell>${formatNumberWithSuffix(token.liquidity)}</TableCell>
-                    <TableCell>${formatNumberWithSuffix(token.volume_1h_usd)}</TableCell>
+                    <TableCell>${formatNumberWithSuffix(token.price || 0)}</TableCell>
+                    <TableCell>${formatNumberWithSuffix(token.market_cap || 0)}</TableCell>
+                    <TableCell>${formatNumberWithSuffix(token.liquidity || 0)}</TableCell>
+                    <TableCell>${formatNumberWithSuffix(token.volume_1h_usd || 0)}</TableCell>
                     <TableCell className={token.volume_1h_change_percent >= 0 ? "text-green-500" : "text-red-500"}>
-                      {token.volume_1h_change_percent?.toFixed(2)}%
+                      {token.volume_1h_change_percent ? `${token.volume_1h_change_percent.toFixed(2)}%` : <span style={{ color: '#FFD700' }}>-</span>}
                     </TableCell>
-                    <TableCell>${formatNumberWithSuffix(token.volume_24h_usd)}</TableCell>
+                    <TableCell>${formatNumberWithSuffix(token.volume_24h_usd || 0)}</TableCell>
                     <TableCell className={token.volume_24h_change_percent >= 0 ? "text-green-500" : "text-red-500"}>
-                      {token.volume_24h_change_percent?.toFixed(2)}%
+                      {token.volume_24h_change_percent ? `${token.volume_24h_change_percent.toFixed(2)}%` : <span style={{ color: '#FFD700' }}>-</span>}
                     </TableCell>
                     <TableCell>
                       <div className="flex space-x-2">
