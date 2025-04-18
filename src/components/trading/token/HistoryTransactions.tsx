@@ -6,6 +6,7 @@ import { formatNumberWithSuffix } from '@/utils/format';
 
 interface Transaction {
     blockUnixTime: number;
+    block_unix_time: number;
     from: {
         address: string;
         amount: number;
@@ -53,8 +54,7 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
     };
 
     // Combine real-time orders with existing orders and limit to 30 most recent
-    const allOrders = [...realTimeOrders, ...orders].slice(0, 30);
-    console.log(allOrders);
+    const allOrders = [...realTimeOrders, ...orders];
 
     return (
         <Card className="shadow-md dark:shadow-blue-900/5 border">
@@ -79,7 +79,7 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
                                 (order: Transaction, index: number) => (
                                     <tr key={index} className="text-sm border-b">
                                         <td className="py-3 px-1">
-                                            {formatTime(order.blockUnixTime)}
+                                            {formatTime(order.blockUnixTime || order.block_unix_time)}
                                         </td>
                                         <td className="py-3 px-1">
                                             <span

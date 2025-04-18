@@ -147,7 +147,7 @@ function TradingContent() {
         getOrderHistories({
           address: address || "",
           offset: 0,
-          limit: 20,
+          limit: 50,
           sort_by: "block_unix_time",
           sort_type: "desc",
           tx_type: "swap",
