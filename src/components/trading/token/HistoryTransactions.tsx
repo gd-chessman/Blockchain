@@ -55,7 +55,7 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
     const allOrders = [...realTimeOrders, ...orders].slice(0, 30);
 
     return (
-        <Card className="mt-6 shadow-md dark:shadow-blue-900/5 border">
+        <Card className="shadow-md dark:shadow-blue-900/5 border">
             <CardHeader>
                 <CardTitle>{t("trading.historyTransactions")}</CardTitle>
             </CardHeader>
