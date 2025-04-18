@@ -65,7 +65,6 @@
   "trading": {
       "title": "Giao dịch",
       "trade": "Giao dịch",
-      "liquidity": "Thanh khoản",
       "list_token_title": "Danh Sách Token",
       "marketOverview": "Tổng Quan Thị Trường",
       "yourPortfolio": "Danh Mục Đầu Tư Của Bạn",
@@ -156,7 +155,8 @@
       "tokenNotFound": "Không tìm thấy token",
       "24hChange": "Thay Đổi 24h",
       "24hVolume": "Khối Lượng 24h",
-      "marketCap": "Vốn Hóa Thị Trường",
+      "marketCap": "Vốn hóa",
+      "liquidity": "Thanh khoản",
       "historyTransactions": "Lịch Sử Giao Dịch",
       "listConnect": "Thành Viên Đã Kết Nối",
       "noConnections": "Không có thành viên nào kết nối",
@@ -186,12 +186,10 @@
       "removeFromFavorite": "Xóa khỏi yêu thích",
       "failed": "Thất bại",
       "noTokens": "Không có token nào để giao dịch",
-      "volume1h": "1h Vol",
-      "volume1hChange": "1h%",
-      "volume24h": "24h Vol",
-      "volume24hChange": "24h%",
-      "marketCap": "MC",
-      "liquidity": "Liq"
+      "volume1h": "1h giao dịch",
+      "volume1hChange": "1h biến động",
+      "volume24h": "24h giao dịch",
+      "volume24hChange": "24h biến động"
   },
   "navigation": {
       "newcoin": "Tạo Coin Mới (Pumpfun)",

@@ -159,13 +159,13 @@
         "addToFavorite": "즐겨찾기에 추가",
         "removeFromFavorite": "즐겨찾기에서 제거",
         "failed": "실패",
-        "marketCap": "시가총액",
+        "marketCap": "시총",
         "noTokens": "거래 가능한 토큰이 없습니다",
-        "volume1h": "1h Vol",
-        "volume1hChange": "1h%",
-        "volume24h": "24h Vol",
-        "volume24hChange": "24h%",
-        "liquidity": "Liq"
+        "volume1h": "1h 거래",
+        "volume1hChange": "1h 변동",
+        "volume24h": "24h 거래",
+        "volume24hChange": "24h 변동",
+        "liquidity": "유동성"
     },
     "navigation": {
         "newcoin": "밈코인만들기(펌프펀상장)",
