@@ -41,11 +41,13 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
         return new Date(timestamp * 1000).toLocaleString();
     };
 
-    const formatVolume = (volume: number) => {
+    const formatVolume = (volume: number | undefined) => {
+        if (volume === undefined) return '0.000000';
         return volume.toFixed(6);
     };
 
-    const formatPrice = (price: number) => {
+    const formatPrice = (price: number | undefined) => {
+        if (price === undefined) return '0.000000';
         return price.toFixed(6);
     };
 
