@@ -104,7 +104,7 @@ export default function TokenInforDetail({className}: {className?: string}) {
   const currentData = timeFrameData[selectedTimeFrame]
 
   useEffect(() => {
-    if (tokenInfor?.marketCap && tokenPrice?.priceUSD && !initialRatio) {
+    if (tokenInfor?.marketCap && tokenPrice?.priceUSD && tokenPrice.priceUSD !== 0 && !initialRatio) {
       const ratio = tokenInfor.marketCap / tokenPrice.priceUSD;
       setInitialRatio(ratio);
       setMarketCap(tokenInfor.marketCap);
@@ -138,7 +138,7 @@ export default function TokenInforDetail({className}: {className?: string}) {
             </div>
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">{t("trading.tokenInfo.holders")}</span>
-              <span className="text-sm font-medium">{tokenInfor ? tokenInfor.holders.toLocaleString() : '-'}</span>
+              <span className="text-sm font-medium">{tokenInfor ? tokenInfor?.holders?.toLocaleString() : '-'}</span>
             </div>
           </div>
 
