@@ -3,15 +3,36 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/ui/card'
 import React, { RefObject, useEffect, useState } from 'react'
 import { useWsTokenTransaction } from '@/hooks/useWsTokenTransaction';
 
+interface Transaction {
+    blockUnixTime: number;
+    from: {
+        address: string;
+        amount: number;
+        changeAmount: number;
+        decimals: number;
+        nearestPrice: number;
+    };
+    owner: string;
+    side: string;
+    source: string;
+    to: {
+        address: string;
+        amount: number;
+        changeAmount: number;
+        decimals: number;
+    };
+    tokenAddress: string;
+    txHash: string;
+    volumeUSD: number;
+}
+
 export default function HistoryTransactions({ pendingOrders = [], orders = [], historyTransactionsRef, tokenAddress }: { pendingOrders?: any[], orders?: any[], historyTransactionsRef: any, tokenAddress: any }) {
     const { t } = useLang();
-    const [realTimeOrders, setRealTimeOrders] = useState<any[]>([]);
+    const [realTimeOrders, setRealTimeOrders] = useState<Transaction[]>([]);
     const { transaction } = useWsTokenTransaction(tokenAddress);
-    console.log("tokenAddress", tokenAddress);
     
     useEffect(() => {
         if (transaction) {
-            // Add new transaction to the beginning of the array
             setRealTimeOrders(prev => [transaction, ...prev]);
         }
     }, [transaction]);
@@ -21,13 +42,12 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
     };
 
     const formatVolume = (volume: number) => {
-        return volume;
+        return volume.toFixed(6);
     };
 
     const formatPrice = (price: number) => {
-        return price;
+        return price.toFixed(6);
     };
-    console.log("transaction", transaction);
 
     // Combine real-time orders with existing orders
     const allOrders = [...realTimeOrders, ...orders];
@@ -52,30 +72,30 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
                         </thead>
                         <tbody>
                             {[...pendingOrders, ...allOrders].map(
-                                (order: any, index: number) => (
+                                (order: Transaction, index: number) => (
                                     <tr key={index} className="text-sm border-b">
                                         <td className="py-3 px-1">
-                                            {formatTime(order.block_unix_time)}
+                                            {formatTime(order.blockUnixTime)}
                                         </td>
                                         <td className="py-3 px-1">
                                             <span
                                                 className={
-                                                    order.tx_type === "buy"
+                                                    order.side === "buy"
                                                         ? "text-green-500 uppercase"
                                                         : "text-red-500 uppercase"
                                                 }
                                             >
-                                                {t(`trading.${order.tx_type}`)}
+                                                {t(`trading.${order.side}`)}
                                             </span>
                                         </td>
                                         <td className="py-3 px-1">
-                                            ${formatPrice(order.price_pair)}
+                                            ${formatPrice(order.from.nearestPrice)}
                                         </td>
                                         <td className="py-3 px-1">
-                                            {formatVolume(order.volume)}
+                                            {formatVolume(Math.abs(order.from.changeAmount))}
                                         </td>
                                         <td className="py-3 px-1">
-                                            ${formatVolume(order.volume_usd)}
+                                            ${formatVolume(order.volumeUSD)}
                                         </td>
                                         <td className="py-3 px-1 uppercase">
                                             <span className="text-blue-600">
