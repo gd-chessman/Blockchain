@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   getTokenInforByAddress,
   getTokenPrice,
@@ -30,6 +30,11 @@ export default function TokenInforDetail({
   const { price: realtimePrice } = useTokenInfor(address || "");
   const [marketCap, setMarketCap] = useState<number | null>(null);
   const [initialRatio, setInitialRatio] = useState<number | null>(null);
+  
+  // Add refs to track previous values
+  const prevMarketCap = useRef<number | null>(null);
+  const prevVolume = useRef<number | null>(null);
+  const prevLiquidity = useRef<number | null>(null);
 
   useEffect(() => {
     setMarketCap(null);
@@ -60,31 +65,65 @@ export default function TokenInforDetail({
     setMarketCap(newMarketCap);
   }, [realtimePrice, initialRatio]);
 
+  // Helper function to determine if value increased
+  const isValueIncreased = (current: number | null, previous: number | null) => {
+    if (!current || !previous) return null;
+    return current > previous;
+  };
+
+  // Update previous values when new data arrives
+  useEffect(() => {
+    if (marketCap) prevMarketCap.current = marketCap;
+    if (tokenInfor?.volume24h) prevVolume.current = tokenInfor.volume24h;
+    if (tokenInfor?.liquidity) prevLiquidity.current = tokenInfor.liquidity;
+  }, [marketCap, tokenInfor]);
+
   return (
     <>
       <div className="text-sm flex gap-4 ">
         <div className="flex items-center flex-col">
           <span>{t("trading.tokenInfo.marketCap")}:</span>
-          <span className="text-muted-foreground">
-            {marketCap ? `$${formatNumberWithSuffix(marketCap)}` : "-"}
-          </span>
+          <div className="flex items-center gap-1">
+            <span className="text-muted-foreground">
+              {marketCap ? `$${formatNumberWithSuffix(marketCap)}` : "-"}
+            </span>
+            {isValueIncreased(marketCap, prevMarketCap.current) !== null && (
+              <span className={isValueIncreased(marketCap, prevMarketCap.current) ? "text-green-500" : "text-red-500"}>
+                {isValueIncreased(marketCap, prevMarketCap.current) ? "↑" : "↓"}
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="flex items-center flex-col">
           <span>{t("trading.tokenInfo.volume24h")}:</span>
-          <span className="text-muted-foreground">
-            {tokenInfor
-              ? `$${formatNumberWithSuffix(tokenInfor.volume24h)}`
-              : "-"}
-          </span>
+          <div className="flex items-center gap-1">
+            <span className="text-muted-foreground">
+              {tokenInfor
+                ? `$${formatNumberWithSuffix(tokenInfor.volume24h)}`
+                : "-"}
+            </span>
+            {isValueIncreased(tokenInfor?.volume24h, prevVolume.current) !== null && (
+              <span className={isValueIncreased(tokenInfor?.volume24h, prevVolume.current) ? "text-green-500" : "text-red-500"}>
+                {isValueIncreased(tokenInfor?.volume24h, prevVolume.current) ? "↑" : "↓"}
+              </span>
+            )}
+          </div>
         </div>
         <div className="flex items-center flex-col">
           <span>{t("trading.tokenInfo.liquidity")}:</span>
-          <span className="text-muted-foreground">
-            {tokenInfor
-              ? `$${formatNumberWithSuffix(tokenInfor.liquidity)}`
-              : "-"}
-          </span>
+          <div className="flex items-center gap-1">
+            <span className="text-muted-foreground">
+              {tokenInfor
+                ? `$${formatNumberWithSuffix(tokenInfor.liquidity)}`
+                : "-"}
+            </span>
+            {isValueIncreased(tokenInfor?.liquidity, prevLiquidity.current) !== null && (
+              <span className={isValueIncreased(tokenInfor?.liquidity, prevLiquidity.current) ? "text-green-500" : "text-red-500"}>
+                {isValueIncreased(tokenInfor?.liquidity, prevLiquidity.current) ? "↑" : "↓"}
+              </span>
+            )}
+          </div>
         </div>
         <div className="flex items-center flex-col">
           <span>{t("trading.tokenInfo.holders")}:</span>
