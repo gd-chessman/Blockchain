@@ -20,7 +20,7 @@ export default function TokenInforDetail({
   const { data: tokenInfor, refetch: refetchTokenInfor } = useQuery({
     queryKey: ["token-infor", address],
     queryFn: () => getTokenInforByAddress(address),
-    refetchInterval: 10000,
+    refetchInterval: 3000,
   });
   const { data: tokenPrice, refetch: refetchTokenPrice } = useQuery({
     queryKey: ["token-price", address],
