@@ -173,7 +173,7 @@ export function TableTokenList({
                           className={`h-6 w-6 p-0 hover:text-yellow-500 ${isFavoritesTab || (myWishlist?.tokens?.some((item: any) => item.address === token.address)) ? 'text-yellow-500' : ''}`}
                           onClick={(e) => {
                             e.stopPropagation();
-                            onStarClick?.(token);
+                            onStarClick?.({ ...token, status: myWishlist?.tokens?.some((item: any) => item.address === token.address) });
                           }}
                         >
                           <Star className="h-4 w-4" />
