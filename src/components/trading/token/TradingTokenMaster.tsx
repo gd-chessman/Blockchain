@@ -747,13 +747,15 @@ function TradingContent() {
         <div className="lg:col-span-3 order-1">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <TradingChart tokenInfor={tokenInfor} address={address} />
-            <HistoryTransactions
-              pendingOrders={pendingOrders}
-              orders={orderHistories}
-              historyTransactionsRef={historyTransactionsRef}
-              tokenAddress={address}
-            />
-            <div className="col-span-2">
+            <div className="order-2 lg:order-none">
+              <HistoryTransactions
+                pendingOrders={pendingOrders}
+                orders={orderHistories}
+                historyTransactionsRef={historyTransactionsRef}
+                tokenAddress={address}
+              />
+            </div>
+            <div className="lg:col-span-2">
               <Card className="shadow-md dark:shadow-blue-900/5 border">
                 <CardHeader>
                   {/* <CardTitle>{t("trading.placeOrder")}</CardTitle> */}
@@ -1204,10 +1206,6 @@ function TradingContent() {
               </CardContent>
             </Card>
           </div>
-        </div>
-        <div className="order-2 md:hidden">
-          {/* <MyCoins coins={memeCoins} className="mb-6" /> */}
-          <TokenInforDetail />
         </div>
       </div>
 
