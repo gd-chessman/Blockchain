@@ -83,6 +83,7 @@
         "insufficientBalance": "잔액 부족",
         "processing": "처리 중...",
         "executed": "거래 완료",
+        "completed": "완료됨",
         "tradingView": "거래 차트",
         "orderHistory": "주문 내역",
         "randomTokens": "추천 토큰",
