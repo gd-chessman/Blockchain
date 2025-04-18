@@ -236,7 +236,7 @@ export default function Trading() {
           </div>
         </CardHeader>
         <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-2 mb-6">
+          {/* <TabsList className="grid w-full grid-cols-2 mb-6">
             <TabsTrigger value="all">{t("trading.tabs.topCoins")}</TabsTrigger>
             <TabsTrigger value="favorites">
               <div className="flex items-center">
@@ -247,7 +247,7 @@ export default function Trading() {
                 </span>
               </div>
             </TabsTrigger>
-          </TabsList>
+          </TabsList> */}
 
           <TabsContent value="all">
             {displayTokens && (

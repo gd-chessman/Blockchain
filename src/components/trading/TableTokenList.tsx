@@ -160,7 +160,7 @@ export function TableTokenList({
                   >
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        {/* <Button
+                        <Button
                           variant="ghost"
                           size="icon"
                           className={`h-6 w-6 p-0 hover:text-yellow-500 ${isFavoritesTab ? 'text-yellow-500' : ''}`}
@@ -170,7 +170,7 @@ export function TableTokenList({
                           }}
                         >
                           <Star className="h-4 w-4" />
-                        </Button> */}
+                        </Button>
                         <img
                           src={token.logo_uri || token.logoUrl || "/placeholder.png"}
                           alt="token logo"
