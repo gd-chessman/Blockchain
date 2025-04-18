@@ -12,6 +12,7 @@ import React from "react";
 import { Copy, Globe, MessageSquare, Twitter, Search } from "lucide-react";
 import { ToastNotification } from "@/ui/toast";
 import { useState } from "react";
+import TokenInforDetail from "./ui/TokenInforDetail";
 
 export default function TradingChart({
   tokenInfor,
@@ -110,33 +111,7 @@ export default function TradingChart({
             </div>
 
             <div className="text-right">
-              {/* <div className="text-sm flex gap-4 ">
-                <div className="flex items-center flex-col">
-                  <span>{t("trading.tokenInfo.marketCap")}:</span>
-                  <span className="text-muted-foreground">
-                    ${formatNumberWithSuffix(tokenInfor?.marketCap)}
-                  </span>
-                </div>
-
-                <div className="flex items-center flex-col">
-                  <span>{t("trading.tokenInfo.volume24h")}:</span>
-                  <span className="text-muted-foreground">
-                    ${formatNumberWithSuffix(tokenInfor?.volume24h)}
-                  </span>
-                </div>
-                <div className="flex items-center flex-col">
-                  <span>{t("trading.tokenInfo.liquidity")}:</span>
-                  <span className="text-muted-foreground">
-                    ${formatNumberWithSuffix(tokenInfor?.liquidity)}
-                  </span>
-                </div>
-                <div className="flex items-center flex-col">
-                  <span>{t("trading.tokenInfo.holders")}:</span>
-                  <span className="text-muted-foreground">
-                    {tokenInfor?.holders}
-                  </span>
-                </div>
-              </div> */}
+              <TokenInforDetail />
               <div className="text-2xl font-bold">
                 {/* ${tokenPrice?.priceUSD?.toFixed(9) || "0.00"} */}
               </div>

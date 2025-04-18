@@ -60,7 +60,7 @@ import MyCoins from "@/components/trading/token/MyCoins";
 import OtherCoins from "@/components/trading/token/OtherCoins";
 import HistoryTransactions from "@/components/trading/token/HistoryTransactions";
 import TradingChart from "@/components/trading/token/TradingChart";
-import TokenInforDetail from "@/components/trading/token/TokenInforDetail";
+import TokenInforDetail from "@/components/trading/token/ui/TokenInforDetail";
 import { getOrderHistories, getTopCoins } from "@/services/api/OnChainService";
 
 interface Order {
