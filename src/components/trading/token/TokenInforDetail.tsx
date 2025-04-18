@@ -103,12 +103,19 @@ export default function TokenInforDetail({className}: {className?: string}) {
   const currentData = timeFrameData[selectedTimeFrame]
 
   useEffect(() => {
+    setMarketCap(null);
+    setInitialRatio(null);
+    setSelectedTimeFrame('1m');
+    refetch();
+  }, [address, refetch]);
+
+  useEffect(() => {
     if (tokenInfor?.marketCap && tokenPrice?.priceUSD && tokenPrice.priceUSD !== 0 && !initialRatio) {
       const ratio = tokenInfor.marketCap / tokenPrice.priceUSD;
       setInitialRatio(ratio);
       setMarketCap(tokenInfor.marketCap);
     }
-  }, [tokenInfor, tokenPrice]);
+  }, [tokenInfor, tokenPrice, initialRatio]);
 
   useEffect(() => {
     if (initialRatio && realtimePrice) {
