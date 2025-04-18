@@ -25,7 +25,6 @@ export default function TokenInforDetail({className}: {className?: string}) {
   const { price: realtimePrice } = useTokenInfor(address || '');
   const [marketCap, setMarketCap] = useState<number | null>(null);
   const [initialRatio, setInitialRatio] = useState<number | null>(null);
-  console.log("tokenInfor", tokenInfor);
 
   useEffect(() => {
     setMarketCap(null);

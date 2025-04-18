@@ -2,6 +2,7 @@ import { useLang } from '@/lang/useLang';
 import { Card, CardContent, CardHeader, CardTitle } from '@/ui/card'
 import React, { RefObject, useEffect, useState } from 'react'
 import { useWsTokenTransaction } from '@/hooks/useWsTokenTransaction';
+import { formatNumberWithSuffix } from '@/utils/format';
 
 interface Transaction {
     blockUnixTime: number;
@@ -42,17 +43,18 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
     };
 
     const formatVolume = (volume: number | undefined) => {
-        if (volume === undefined) return '0.000000';
-        return volume.toFixed(6);
+        if (volume === undefined) return '0.0';
+        return volume?.toFixed(2);
     };
 
     const formatPrice = (price: number | undefined) => {
-        if (price === undefined) return '0.000000';
-        return price.toFixed(6);
+        if (price === undefined) return '0.0';
+        return price?.toFixed(2);
     };
 
     // Combine real-time orders with existing orders and limit to 30 most recent
     const allOrders = [...realTimeOrders, ...orders].slice(0, 30);
+    console.log(allOrders);
 
     return (
         <Card className="shadow-md dark:shadow-blue-900/5 border">
@@ -94,7 +96,8 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
                                             ${formatPrice(order.from.nearestPrice)}
                                         </td>
                                         <td className="py-3 px-1">
-                                            {formatVolume(Math.abs(order.from.changeAmount))}
+                                           
+                                            {formatNumberWithSuffix(order.from.amount)}
                                         </td>
                                         <td className="py-3 px-1">
                                             ${formatVolume(order.volumeUSD)}
