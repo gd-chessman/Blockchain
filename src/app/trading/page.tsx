@@ -143,7 +143,7 @@ export default function Trading() {
   const handleStarClick = async (token: any) => {
     try {
       const data = {
-        tokenId: token.id,
+        token_address: token.address,
         status: activeTab === "favorites" ? "off" : "on",
       };
       const response = await SolonaTokenService.toggleWishlist(data);
