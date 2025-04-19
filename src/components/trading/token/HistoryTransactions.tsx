@@ -35,7 +35,7 @@ interface Transaction {
     volumeUSD: number;
 }
 
-export default function HistoryTransactions({ pendingOrders = [], orders = [], historyTransactionsRef, tokenAddress , className}: { pendingOrders?: any[], orders?: any[], historyTransactionsRef: any, tokenAddress: any, className?: string }) {
+export default function HistoryTransactions({ pendingOrders = [], orders = [], historyTransactionsRef, tokenAddress , className, maxHeight = '31.25rem'}: { pendingOrders?: any[], orders?: any[], historyTransactionsRef: any, tokenAddress: any, className?: string, maxHeight?: string }) {
     const { t } = useLang();
     const [realTimeOrders, setRealTimeOrders] = useState<Transaction[]>([]);
     const [showToast, setShowToast] = useState(false);
@@ -73,7 +73,7 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
                 <CardTitle>{t("trading.historyTransactions")}</CardTitle>
             </CardHeader>
             <CardContent>
-                <div ref={historyTransactionsRef} className={`overflow-x-auto max-h-[31.25rem] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300`}>
+                <div ref={historyTransactionsRef} className={`overflow-x-auto ${maxHeight} overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300`}>
                     <table className="w-full">
                         <thead>
                             <tr className="text-sm text-muted-foreground border-b">

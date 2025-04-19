@@ -761,6 +761,7 @@ function TradingContent() {
           className={`lg:col-span-1 lg:col-start-4 lg:row-start-1 ${
             walletInfor?.role === "member" ? "lg:row-span-2" : ""
           }`}
+          maxHeight={`${walletInfor?.role === "member" ? "max-h-[68.25rem]" : "max-h-[31.25rem]"}`}
         />
 
         {/* PlaceOrder chiếm cột 2-3, dòng 2 */}
