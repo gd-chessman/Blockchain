@@ -59,6 +59,7 @@ export default function Trading() {
       marketCap: number;
       isFavorite?: boolean;
       liquidity: any;
+      holder: number;
     }[]
   >([]);
   const { data: myWishlist, refetch: refetchMyWishlist } = useQuery({
@@ -80,6 +81,7 @@ export default function Trading() {
       marketCap: number;
       isFavorite?: boolean;
       liquidity: any;
+      holder: number;
     }[]
   >([]);
 

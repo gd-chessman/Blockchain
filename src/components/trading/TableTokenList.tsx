@@ -30,6 +30,7 @@ interface TableTokenListProps {
     marketCap: number;
     isFavorite?: boolean;
     liquidity: any;
+    holder: number;
   }[];
   onCopyAddress: (address: string, e: React.MouseEvent) => void;
   onStarClick: (token: any) => void;
@@ -100,6 +101,15 @@ export function TableTokenList({
                   <div className="flex items-center gap-1">
                     {t("trading.liquidity")}
                     {renderSortIcon("liquidity")}
+                  </div>
+                </TableHead>
+                <TableHead 
+                  className={`${enableSort ? "cursor-pointer hover:bg-muted/80 transition-colors" : ""}`}
+                  onClick={() => enableSort && onSort?.("holder")}
+                >
+                  <div className="flex items-center gap-1">
+                    {t("trading.holder")}
+                    {renderSortIcon("holder")}
                   </div>
                 </TableHead>
                 <TableHead 
@@ -214,6 +224,7 @@ export function TableTokenList({
                     <TableCell>${formatNumberWithSuffix(token.price || 0)}</TableCell>
                     <TableCell>${formatNumberWithSuffix(token.market_cap || 0)}</TableCell>
                     <TableCell>${formatNumberWithSuffix(token.liquidity || 0)}</TableCell>
+                    <TableCell>{formatNumberWithSuffix(token.holder || 0)}</TableCell>
                     <TableCell>${formatNumberWithSuffix(token.volume_1h_usd || 0)}</TableCell>
                     <TableCell className={token.volume_1h_change_percent >= 0 ? "text-green-500" : "text-red-500"}>
                       {token.volume_1h_change_percent ? `${token.volume_1h_change_percent.toFixed(2)}%` : <span style={{ color: '#FFD700' }}>-</span>}
