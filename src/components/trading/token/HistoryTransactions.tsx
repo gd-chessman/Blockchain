@@ -122,7 +122,7 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
                                         <td className="py-3 px-1 text-xs">
                                             <div className="flex items-center gap-1">
                                                 <span 
-                                                    className="cursor-pointer hover:text-blue-500 underline"
+                                                    className="cursor-pointer text-yellow-600 dark:text-yellow-200 hover:text-blue-500 underline"
                                                     onClick={() => {
                                                         router.push(`/trading/history?address=${tokenAddress}&by=${order.owner}`);
                                                     }}
