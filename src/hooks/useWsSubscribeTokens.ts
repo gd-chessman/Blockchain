@@ -28,7 +28,7 @@ interface SubscribeParams {
 const imageCache = new Map<string, HTMLImageElement>();
 
 // Function to preload an image
-const preloadImage = (url: string): Promise<void> => {
+const preloadImage = (url: string, shouldCache: boolean = false): Promise<void> => {
   return new Promise((resolve, reject) => {
     if (imageCache.has(url)) {
       resolve();
@@ -37,7 +37,9 @@ const preloadImage = (url: string): Promise<void> => {
 
     const img = new Image();
     img.onload = () => {
-      imageCache.set(url, img);
+      if (shouldCache) {
+        imageCache.set(url, img);
+      }
       resolve();
     };
     img.onerror = reject;
@@ -46,9 +48,9 @@ const preloadImage = (url: string): Promise<void> => {
 };
 
 // Function to preload multiple images
-const preloadImages = async (tokens: Token[]) => {
-  const preloadPromises = tokens.map(token => 
-    token.logoUrl ? preloadImage(token.logoUrl) : Promise.resolve()
+const preloadImages = async (tokens: Token[], shouldCache: boolean = false) => {
+  const preloadPromises = tokens.map((token, index) => 
+    token.logoUrl ? preloadImage(token.logoUrl, shouldCache && index === 0) : Promise.resolve()
   );
   await Promise.all(preloadPromises);
 };
@@ -100,13 +102,16 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
     tokenStackRef.current = tokenStackRef.current.slice(TOKENS_PER_UPDATE);
     
     if (newTokens.length > 0) {
-      // Preload images for new tokens
-      preloadImages(newTokens).catch(console.error);
-      
+      // Cập nhật giao diện ngay lập tức
       setTokens(prevTokens => {
-        // Thêm các token mới vào đầu mảng và giới hạn số lượng theo params.limit
-        return [...newTokens, ...prevTokens].slice(0, params?.limit || 24);
+        const updatedTokens = [...newTokens, ...prevTokens].slice(0, params?.limit || 24);
+        return updatedTokens;
       });
+
+      // Preload ảnh sau khi đã cập nhật giao diện
+      setTimeout(() => {
+        preloadImages(newTokens, true).catch(console.error);
+      }, 0);
     }
   };
 
@@ -150,34 +155,33 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
         if (mountedRef.current) {
           try {
             const rawTokens = data.data?.tokens || [];
-            // console.log(rawTokens);
             const convertedTokens = rawTokens.map(convertToken);
 
             if (isInitialLoadRef.current) {
-              // Preload images for initial tokens
-              preloadImages(convertedTokens.slice(0, params?.limit || 24))
-                .then(() => {
-                  setTokens(convertedTokens.slice(0, params?.limit || 24));
-                  tokenStackRef.current = convertedTokens.slice(params?.limit || 24);
-                  isInitialLoadRef.current = false;
-                  console.log('Initial load:', convertedTokens.length, 'tokens');
-                })
-                .catch(console.error);
+              // Cập nhật giao diện trước
+              const initialTokens = convertedTokens.slice(0, params?.limit || 24);
+              setTokens(initialTokens);
+              tokenStackRef.current = convertedTokens.slice(params?.limit || 24);
+              isInitialLoadRef.current = false;
+              console.log('Initial load:', convertedTokens.length, 'tokens');
+
+              // Preload ảnh sau khi đã cập nhật giao diện
+              setTimeout(() => {
+                preloadImages(initialTokens, false).catch(console.error);
+              }, 0);
             } else {
-              // Các lần cập nhật sau:
-              // Tạo Set chứa các address đã có trong stack
+              // Các lần cập nhật sau
               const existingAddresses = new Set(tokenStackRef.current.map(token => token.address));
-              
-              // Lọc ra các token mới có address chưa tồn tại trong stack
               const uniqueNewTokens = convertedTokens.filter((token: Token) => !existingAddresses.has(token.address));
               
-              // Preload images for new unique tokens
-              preloadImages(uniqueNewTokens)
-                .then(() => {
-                  tokenStackRef.current = [...tokenStackRef.current, ...uniqueNewTokens]
-                    .slice(-MAX_STACK_SIZE);
-                })
-                .catch(console.error);
+              // Cập nhật stack trước
+              tokenStackRef.current = [...tokenStackRef.current, ...uniqueNewTokens]
+                .slice(-MAX_STACK_SIZE);
+
+              // Preload ảnh sau khi đã cập nhật stack
+              setTimeout(() => {
+                preloadImages(uniqueNewTokens, true).catch(console.error);
+              }, 0);
             }
           } catch (error) {
             console.error("Error processing token data:", error);
