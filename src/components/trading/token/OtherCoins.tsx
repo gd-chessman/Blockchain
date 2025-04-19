@@ -11,7 +11,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { SolonaTokenService } from "@/services/api";
 import { getTopCoins } from "@/services/api/OnChainService";
 
-export default function OtherCoins() {
+export default function OtherCoins({ className }: { className?: string }) {
   const { t } = useLang();
   const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState("");
@@ -164,7 +164,7 @@ export default function OtherCoins() {
   });
 
   return (
-    <Card className="shadow-md dark:shadow-blue-900/5 border">
+    <Card className={`shadow-md dark:shadow-blue-900/5 border ${className}`}>
       <CardHeader>
         <CardTitle>{t("trading.otherCoins")}</CardTitle>
       </CardHeader>

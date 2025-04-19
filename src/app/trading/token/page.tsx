@@ -742,62 +742,55 @@ function TradingContent() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-        <div className="flex flex-col gap-6 order-3 lg:order-1">
-          <OtherCoins />
-        </div>
-
-        <div className="lg:col-span-3 order-1">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <TradingChart tokenInfor={tokenInfor} address={address} />
-            <HistoryTransactions
-                pendingOrders={pendingOrders}
-                orders={orderHistories}
-                historyTransactionsRef={historyTransactionsRef}
-                tokenAddress={address}
-                className="order-2 lg:order-none"
-              />
-              <PlaceOrder
-                selectedAction={selectedAction}
-                handleActionClick={handleActionClick}
-                balance={balance}
-                amount={amount}
-                handleAmountChange={handleAmountChange}
-                value={value}
-                handleValueChange={handleValueChange}
-                handleEditClick={handleEditClick}
-                handleSave={handleSave}
-                handleSolEditClick={handleSolEditClick}
-                handleSolSave={handleSolSave}
-                groupOptions={groupOptions}
-                selectedGroups={selectedGroups}
-                handleGroupChange={handleGroupChange}
-                handleTrading={handleTrading}
-                tokenInfor={tokenInfor}
-                solPrice={solPrice}
-                tokenAmount={tokenAmount}
-                marks={marks}
-                percentages={percentages}
-                editingIndex={editingIndex}
-                tempValue={tempValue}
-                setTempValue={setTempValue}
-                solAmounts={solAmounts}
-                editingSolIndex={editingSolIndex}
-                tempSolValue={tempSolValue}
-                setTempSolValue={setTempSolValue}
-                setAmount={setAmount}
-                setValue={setValue}
-                className="lg:col-span-2"
-              />
-            <ConnectedMembers
-              connects={connects}
-              memberBalances={memberBalances}
-              checkedConnections={checkedConnections}
-              handleCheckboxChange={handleCheckboxChange}
-              setShowToast={setShowToast}
-              className={walletInfor?.role === "member" ? "hidden" : ""}
-            />
-          </div>
-        </div>
+        <OtherCoins className="" />
+        <TradingChart tokenInfor={tokenInfor} address={address} className="lg:col-span-2"/>
+        <HistoryTransactions
+          pendingOrders={pendingOrders}
+          orders={orderHistories}
+          historyTransactionsRef={historyTransactionsRef}
+          tokenAddress={address}
+          className="order-2 lg:order-none"
+        />
+        <PlaceOrder
+          selectedAction={selectedAction}
+          handleActionClick={handleActionClick}
+          balance={balance}
+          amount={amount}
+          handleAmountChange={handleAmountChange}
+          value={value}
+          handleValueChange={handleValueChange}
+          handleEditClick={handleEditClick}
+          handleSave={handleSave}
+          handleSolEditClick={handleSolEditClick}
+          handleSolSave={handleSolSave}
+          groupOptions={groupOptions}
+          selectedGroups={selectedGroups}
+          handleGroupChange={handleGroupChange}
+          handleTrading={handleTrading}
+          tokenInfor={tokenInfor}
+          solPrice={solPrice}
+          tokenAmount={tokenAmount}
+          marks={marks}
+          percentages={percentages}
+          editingIndex={editingIndex}
+          tempValue={tempValue}
+          setTempValue={setTempValue}
+          solAmounts={solAmounts}
+          editingSolIndex={editingSolIndex}
+          tempSolValue={tempSolValue}
+          setTempSolValue={setTempSolValue}
+          setAmount={setAmount}
+          setValue={setValue}
+          className="lg:col-span-2"
+        />
+        <ConnectedMembers
+          connects={connects}
+          memberBalances={memberBalances}
+          checkedConnections={checkedConnections}
+          handleCheckboxChange={handleCheckboxChange}
+          setShowToast={setShowToast}
+          className={walletInfor?.role === "member" ? "hidden" : ""}
+        />
       </div>
 
       {showToast && (

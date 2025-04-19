@@ -44,7 +44,7 @@ export default function TradingChart({
           onClose={() => setShowToast(false)}
         />
       )}
-      <Card className={`shadow-md dark:shadow-blue-900/5 border lg:col-span-2 ${className}`}>
+      <Card className={`shadow-md dark:shadow-blue-900/5 border ${className}`}>
         <CardHeader>
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div className="flex items-center gap-2">
