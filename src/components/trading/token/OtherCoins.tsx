@@ -276,7 +276,15 @@ export default function OtherCoins({ className }: { className?: string }) {
             </div>
           </div>
           <div className="p-4 rounded-lg bg-white/50 dark:bg-gray-900/50">
-            <div className="overflow-auto h-80 lg:h-full max-h-[60rem] md:h-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent">
+            <div className={`overflow-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700 [&::-webkit-scrollbar-track]:bg-transparent ${
+              !myWishlist?.tokens || myWishlist.tokens.length === 0 
+                ? 'h-[calc(100vh-21rem)]' 
+                : myWishlist.tokens.length === 1 
+                  ? 'h-[calc(100vh-27rem)]'
+                  : myWishlist.tokens.length === 2
+                    ? 'h-[calc(100vh-31rem)]'
+                    : 'h-[calc(100vh-35rem)]'
+            }`}>
               {isLoadingTopCoins ? (
                 <div className="flex items-center justify-center h-40">
                   <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
