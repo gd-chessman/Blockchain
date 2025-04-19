@@ -30,7 +30,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.png" type="image/png" />
         <style jsx global>{`
           body {
-            font-family: Arial, sans-serif;
+            font-family: Switzer, MiSans, "Microsoft YaHei", sans-serif;
           }
         `}</style>
       </head>

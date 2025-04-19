@@ -166,7 +166,8 @@
         "volume1hChange": "1h 변동",
         "volume24h": "24h 거래",
         "volume24hChange": "24h 변동",
-        "liquidity": "유동성"
+        "liquidity": "유동성",
+        "holder": "홀더"
     },
     "navigation": {
         "newcoin": "밈코인만들기(펌프펀상장)",

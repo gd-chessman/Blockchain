@@ -191,7 +191,8 @@
         "volume24h": "24h取引",
         "volume24hChange": "24h変動",
         "marketCap": "MC",
-        "liquidity": "Liq"
+        "liquidity": "Liq",
+        "holder": "ホルダー"
     },
     "navigation": {
         "dashboard": "ダッシュボード",

@@ -200,7 +200,8 @@
       "volume1hChange": "1h%",
       "volume24h": "24h Vol",
       "volume24hChange": "24h%",
-      "liquidity": "Liq"
+      "liquidity": "Liq",
+      "holder": "Holder"
   },
   "navigation": {
       "newcoin": "Create New Coin (Pumpfun)",
