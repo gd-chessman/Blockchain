@@ -749,7 +749,7 @@ function TradingContent() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <TradingChart tokenInfor={tokenInfor} address={address} />
             <div className="order-2 lg:order-none row-span-2">
-              <ChatBubble />
+              {/* <ChatBubble /> */}
               <HistoryTransactions
                 pendingOrders={pendingOrders}
                 orders={orderHistories}

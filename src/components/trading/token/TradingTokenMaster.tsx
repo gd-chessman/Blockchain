@@ -62,6 +62,7 @@ import HistoryTransactions from "@/components/trading/token/HistoryTransactions"
 import TradingChart from "@/components/trading/token/TradingChart";
 import TokenInforDetail from "@/components/trading/token/ui/TokenInforDetail";
 import { getOrderHistories, getTopCoins } from "@/services/api/OnChainService";
+import ChatBubble from "@/components/chat/ChatBubble";
 
 interface Order {
   created_at: string;
@@ -748,6 +749,7 @@ function TradingContent() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <TradingChart tokenInfor={tokenInfor} address={address} />
             <div className="order-2 lg:order-none">
+            {/* <ChatBubble /> */}
               <HistoryTransactions
                 pendingOrders={pendingOrders}
                 orders={orderHistories}
