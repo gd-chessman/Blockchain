@@ -98,22 +98,22 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
                                                 {t(`trading.${order.side}`)}
                                             </span>
                                         </td>
-                                        <td className="py-3 px-1">
+                                        <td className="py-3 px-1 text-xs">
                                             ${formatPrice(order.from.nearestPrice)}
                                         </td>
-                                        <td className="py-3 px-1">
+                                        <td className="py-3 px-1 text-xs">
                                            
                                             {formatNumberWithSuffix(order.from.amount)}
                                         </td>
-                                        <td className="py-3 px-1">
+                                        <td className="py-3 px-1 text-xs">
                                             ${formatVolume(order.volumeUSD)}
                                         </td>
-                                        <td className="py-3 px-1 uppercase">
+                                        <td className="py-3 px-1 text-xs uppercase">
                                             <span className="text-blue-600 whitespace-nowrap">
                                                 {t("trading.completed")}
                                             </span>
                                         </td>
-                                        <td className="py-3 px-1">
+                                        <td className="py-3 px-1 text-xs">
                                             <div className="flex items-center gap-1">
                                                 {truncateString(order.owner, 8)}
                                                 <button 
