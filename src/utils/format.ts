@@ -22,9 +22,10 @@ export const formatNumberWithSuffix = (input: number | string): string => {
   }
 
   const formatNumber = (n: number) => {
+    const absNum = Math.abs(n);
     return n?.toLocaleString('en-US', {
       minimumFractionDigits: 0,
-      maximumFractionDigits: 2
+      maximumFractionDigits: absNum < 0.01 ? 6 : 2
     });
   };
 
