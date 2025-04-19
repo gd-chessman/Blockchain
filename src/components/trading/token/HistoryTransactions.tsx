@@ -17,6 +17,7 @@ interface Transaction {
         changeAmount: number;
         decimals: number;
         nearestPrice: number;
+        price: number;
     };
     owner: string;
     side: string;
@@ -27,6 +28,7 @@ interface Transaction {
         amount: number;
         changeAmount: number;
         decimals: number;
+        price: number;
     };
     tokenAddress: string;
     txHash: string;
@@ -103,7 +105,7 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
                                             </span>
                                         </td>
                                         <td className="py-3 px-1 text-xs">
-                                            ${formatPrice(order.from.nearestPrice)}
+                                            ${formatPrice(order.from.price || order.from.nearestPrice)}
                                         </td>
                                         <td className="py-3 px-1 text-xs">
                                            

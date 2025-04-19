@@ -14,6 +14,8 @@ interface Transaction {
         ui_amount: number;
         changeAmount: number;
         decimals: number;
+        amount: number;
+        price: number;
         nearestPrice: number;
     };
     owner: string;
@@ -24,6 +26,8 @@ interface Transaction {
         ui_amount: number;
         changeAmount: number;
         decimals: number;
+        amount: number;
+        price: number;
     };
     tokenAddress: string;
     txHash: string;
@@ -115,7 +119,7 @@ export default function HistoryTransactions({ orders = [], historyTransactionsRe
                                                 </span>
                                             </td>
                                             <td className="py-3 px-1">
-                                                ${formatPrice(order.from.nearestPrice)}
+                                                ${formatPrice(order.from.price || order.from.nearestPrice)}
                                             </td>
                                             <td className="py-3 px-1">
                                                 {formatNumberWithSuffix(order.from.ui_amount)}
