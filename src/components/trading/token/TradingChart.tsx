@@ -9,7 +9,8 @@ import {
 } from "@/ui/card";
 import { formatNumberWithSuffix, truncateString } from "@/utils/format";
 import React from "react";
-import { Copy, Globe, MessageSquare, Twitter, Search } from "lucide-react";
+import { Copy, Globe } from "lucide-react";
+import { SiTelegram } from 'react-icons/si';
 import { ToastNotification } from "@/ui/toast";
 import { useState } from "react";
 import TokenInforDetail from "./ui/TokenInforDetail";
@@ -96,7 +97,7 @@ export default function TradingChart({
                       rel="noopener noreferrer"
                       className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
                     >
-                      <MessageSquare className="h-4 w-4" />
+                      <SiTelegram className="h-4 w-4" />
                     </a>
                   )}
                   {tokenInfor?.website && (
