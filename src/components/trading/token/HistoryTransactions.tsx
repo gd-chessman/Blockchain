@@ -13,6 +13,7 @@ interface Transaction {
     from: {
         address: string;
         ui_amount: number;
+        amount: number;
         changeAmount: number;
         decimals: number;
         nearestPrice: number;
@@ -23,6 +24,7 @@ interface Transaction {
     to: {
         address: string;
         ui_amount: number;
+        amount: number;
         changeAmount: number;
         decimals: number;
     };
@@ -105,7 +107,7 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
                                         </td>
                                         <td className="py-3 px-1 text-xs">
                                            
-                                            {formatNumberWithSuffix(order.from.ui_amount)}
+                                            {formatNumberWithSuffix(order.from.ui_amount || order.from.amount)}
                                         </td>
                                         <td className="py-3 px-1 text-xs">
                                             ${formatVolume(order.volumeUSD)}
