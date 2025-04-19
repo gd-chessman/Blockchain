@@ -1,7 +1,7 @@
 import { Card } from '@/ui/card'
 import React, { useState } from 'react'
 
-export default function Chatbubble() {
+export default function ChatBubble() {
   const [showChat, setShowChat] = useState(false)
 
   return (
