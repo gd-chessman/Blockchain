@@ -55,12 +55,12 @@ export default function PlaceOrder({
   tokenInfor: any;
   solPrice: any;
   tokenAmount: any;
-  marks: number[];
-  percentages: number[];
+  marks: any;
+  percentages: any;
   editingIndex: number | null;
   tempValue: string;
   setTempValue: (value: string) => void;
-  solAmounts: number[];
+  solAmounts: any;
   editingSolIndex: number | null;
   tempSolValue: string;
   setTempSolValue: (value: string) => void;
@@ -222,7 +222,7 @@ export default function PlaceOrder({
 
           <div className="grid grid-cols-4 gap-2">
             {selectedAction === "buy" &&
-              solAmounts.map((solAmount, index) => (
+              solAmounts.map((solAmount: any, index: any) => (
                 <div
                   key={index}
                   className="relative flex items-center gap-1 border rounded-md hover:bg-muted/50 transition-colors p-0.5"
