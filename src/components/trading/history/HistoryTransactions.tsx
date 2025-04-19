@@ -11,7 +11,7 @@ interface Transaction {
     block_unix_time: number;
     from: {
         address: string;
-        amount: number;
+        ui_amount: number;
         changeAmount: number;
         decimals: number;
         nearestPrice: number;
@@ -21,7 +21,7 @@ interface Transaction {
     source: string;
     to: {
         address: string;
-        amount: number;
+        ui_amount: number;
         changeAmount: number;
         decimals: number;
     };
@@ -118,7 +118,7 @@ export default function HistoryTransactions({ orders = [], historyTransactionsRe
                                                 ${formatPrice(order.from.nearestPrice)}
                                             </td>
                                             <td className="py-3 px-1">
-                                                {formatNumberWithSuffix(order.from.amount)}
+                                                {formatNumberWithSuffix(order.from.ui_amount)}
                                             </td>
                                             <td className="py-3 px-1">
                                                 ${formatVolume(order.volumeUSD)}
