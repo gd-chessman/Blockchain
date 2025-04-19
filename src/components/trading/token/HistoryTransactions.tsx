@@ -87,8 +87,8 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
                                             <span
                                                 className={
                                                     order.side === "buy"
-                                                        ? "text-green-500 uppercase"
-                                                        : "text-red-500 uppercase"
+                                                        ? "text-green-500 uppercase whitespace-nowrap"
+                                                        : "text-red-500 uppercase whitespace-nowrap"
                                                 }
                                             >
                                                 {t(`trading.${order.side}`)}
@@ -105,7 +105,7 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
                                             ${formatVolume(order.volumeUSD)}
                                         </td>
                                         <td className="py-3 px-1 uppercase">
-                                            <span className="text-blue-600">
+                                            <span className="text-blue-600 whitespace-nowrap">
                                                 {t("trading.completed")}
                                             </span>
                                         </td>
