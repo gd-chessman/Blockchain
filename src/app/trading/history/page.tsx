@@ -1,6 +1,6 @@
 "use client"; 
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import HistoryTransactions from "@/components/trading/history/HistoryTransactions";
 import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
@@ -10,7 +10,7 @@ import { truncateString } from "@/utils/format";
 import { Copy } from "lucide-react";
 import { ToastNotification } from "@/ui/toast";
 
-export default function History() {
+function HistoryContent() {
   const { t } = useLang();
   const searchParams = useSearchParams();
   const address = searchParams?.get("address");
@@ -64,5 +64,13 @@ export default function History() {
         />
       )}
     </div>
+  );
+}
+
+export default function History() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HistoryContent />
+    </Suspense>
   );
 }

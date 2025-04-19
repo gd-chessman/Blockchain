@@ -148,7 +148,7 @@ export default function PlaceOrder({
                 className="w-full h-2 cursor-pointer accent-blue-500 bg-transparent appearance-none"
                 style={{
                   WebkitAppearance: "none",
-                  borderRadius: "8px",
+                  borderRadius: "0.5rem",
                   background: `linear-gradient(to right, #3b82f6 ${value}%, #e5e7eb ${value}%)`,
                 }}
               />
