@@ -24,7 +24,7 @@ export default function CardFlash({ tokens }: { tokens: any[] }) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             {token.logoUrl && (
-              <img src={token.logoUrl} alt={token.symbol} className="w-5 h-5 rounded" />
+              <img src={token.logoUrl} alt={token.symbol} className="w-6 h-6 rounded" />
             )}
             <div>
               <h3 className="font-semibold text-xs max-w-[10rem] truncate text-black">{token.name}</h3>
