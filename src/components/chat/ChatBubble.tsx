@@ -5,7 +5,7 @@ export default function ChatBubble({className}: {className?: string}) {
   const [showChat, setShowChat] = useState(false)
 
   return (
-    <div className={`w-full mb-6 ${className}`}>
+    <div className={`w-full  ${className}`}>
       {!showChat ? (
         <button
           onClick={() => setShowChat(true)}
@@ -24,7 +24,7 @@ export default function ChatBubble({className}: {className?: string}) {
               ✕
             </button>
           </div>
-          <div className="h-64 overflow-y-auto mb-4 border rounded-lg p-2">
+          <div className="h-[31.25rem] overflow-y-auto mb-4 border rounded-lg p-2">
             {/* Chat messages will go here */}
           </div>
           <div className="flex gap-2">
