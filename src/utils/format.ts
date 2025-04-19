@@ -32,6 +32,12 @@ export const formatNumberWithSuffix = (input: number | string): string => {
   const absNum = Math.abs(num);
   const sign = num < 0 ? '-' : '';
 
+  if (absNum >= 1000000000000000) {
+    return sign + '+>' + formatNumber(absNum / 1000000000000) + 'T';
+  }
+  if (absNum >= 1000000000000) {
+    return sign + formatNumber(absNum / 1000000000000) + 'T';
+  }
   if (absNum >= 1000000000) {
     return sign + formatNumber(absNum / 1000000000) + 'B';
   }
