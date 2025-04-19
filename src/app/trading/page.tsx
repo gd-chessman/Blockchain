@@ -39,7 +39,7 @@ export default function Trading() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [activeTab, setActiveTab] = useState("all");
-  const [sortBy, setSortBy] = useState("");
+  const [sortBy, setSortBy] = useState("volume_1h_usd");
   const [sortType, setSortType] = useState("desc");
   const { data: topCoins, isLoading: isLoadingTopCoins } = useQuery({
     queryKey: ["topCoins", sortBy, sortType],
