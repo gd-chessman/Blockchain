@@ -742,29 +742,33 @@ function TradingContent() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 auto-rows-min">
-        {/* Cột 1 */}
-        <OtherCoins className="lg:col-span-1 lg:row-span-2" />
+        {/* Cột 1 (mobile order 5) */}
+        <OtherCoins className="order-5 lg:order-none lg:col-span-1 lg:row-span-2" />
 
-        {/* TradingChart chiếm cột 2-3, dòng 1 */}
+        {/* TradingChart (mobile order 1) */}
         <TradingChart
           tokenInfor={tokenInfor}
           address={address}
-          className="lg:col-span-2 lg:col-start-2 lg:row-start-1"
+          className="order-1 lg:order-none lg:col-span-2 lg:col-start-2 lg:row-start-1"
         />
 
-        {/* HistoryTransactions chiếm cột 4, dòng 1 */}
+        {/* HistoryTransactions (mobile order 4) */}
         <HistoryTransactions
           pendingOrders={pendingOrders}
           orders={orderHistories}
           historyTransactionsRef={historyTransactionsRef}
           tokenAddress={address}
-          className={`lg:col-span-1 lg:col-start-4 lg:row-start-1 ${
+          className={`order-4 lg:order-none lg:col-span-1 lg:col-start-4 lg:row-start-1 ${
             walletInfor?.role === "member" ? "lg:row-span-2" : ""
           }`}
-          maxHeight={`${walletInfor?.role === "member" ? "max-h-[68.25rem]" : "max-h-[31.25rem]"}`}
+          maxHeight={`${
+            walletInfor?.role === "member"
+              ? "max-h-[68.25rem]"
+              : "max-h-[31.25rem]"
+          }`}
         />
 
-        {/* PlaceOrder chiếm cột 2-3, dòng 2 */}
+        {/* PlaceOrder (mobile order 2) */}
         <PlaceOrder
           selectedAction={selectedAction}
           handleActionClick={handleActionClick}
@@ -795,17 +799,17 @@ function TradingContent() {
           setTempSolValue={setTempSolValue}
           setAmount={setAmount}
           setValue={setValue}
-          className="lg:col-span-2 lg:col-start-2 lg:row-start-2"
+          className="order-2 lg:order-none lg:col-span-2 lg:col-start-2 lg:row-start-2"
         />
 
-        {/* ConnectedMembers chiếm cột 4, dòng 2 */}
+        {/* ConnectedMembers (mobile order 3) */}
         <ConnectedMembers
           connects={connects}
           memberBalances={memberBalances}
           checkedConnections={checkedConnections}
           handleCheckboxChange={handleCheckboxChange}
           setShowToast={setShowToast}
-          className={`lg:col-span-1 lg:col-start-4 lg:row-start-2 ${
+          className={`order-3 lg:order-none lg:col-span-1 lg:col-start-4 lg:row-start-2 ${
             walletInfor?.role === "member" ? "hidden" : ""
           }`}
         />
