@@ -36,6 +36,7 @@ export default function PlaceOrder({
   setTempSolValue,
   setAmount,
   setValue,
+  className,
 }: {
   selectedAction: string;
   handleActionClick: any;
@@ -66,10 +67,11 @@ export default function PlaceOrder({
   setTempSolValue: (value: string) => void;
   setAmount: (value: any) => void;
   setValue: (value: number) => void;
+  className?: string;
 }) {
   const { t } = useLang();
   return (
-    <Card className="shadow-md dark:shadow-blue-900/5 border">
+    <Card className={`shadow-md dark:shadow-blue-900/5 border ${className}`}>
       <CardHeader>
         {/* <CardTitle>{t("trading.placeOrder")}</CardTitle> */}
       </CardHeader>

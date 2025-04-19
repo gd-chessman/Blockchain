@@ -749,16 +749,13 @@ function TradingContent() {
         <div className="lg:col-span-3 order-1">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <TradingChart tokenInfor={tokenInfor} address={address} />
-            <div className="order-2 lg:order-none">
-              {/* <ChatBubble /> */}
-              <HistoryTransactions
+            <HistoryTransactions
                 pendingOrders={pendingOrders}
                 orders={orderHistories}
                 historyTransactionsRef={historyTransactionsRef}
                 tokenAddress={address}
+                className="order-2 lg:order-none"
               />
-            </div>
-            <div className="lg:col-span-2">
               <PlaceOrder
                 selectedAction={selectedAction}
                 handleActionClick={handleActionClick}
@@ -789,14 +786,15 @@ function TradingContent() {
                 setTempSolValue={setTempSolValue}
                 setAmount={setAmount}
                 setValue={setValue}
+                className="lg:col-span-2"
               />
-            </div>
             <ConnectedMembers
               connects={connects}
               memberBalances={memberBalances}
               checkedConnections={checkedConnections}
               handleCheckboxChange={handleCheckboxChange}
               setShowToast={setShowToast}
+              className={walletInfor?.role === "member" ? "hidden" : ""}
             />
           </div>
         </div>
