@@ -741,16 +741,29 @@ function TradingContent() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-        <OtherCoins className="" />
-        <TradingChart tokenInfor={tokenInfor} address={address} className="lg:col-span-2"/>
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 auto-rows-min">
+        {/* Cột 1 */}
+        <OtherCoins className="lg:col-span-1 lg:row-span-2" />
+
+        {/* TradingChart chiếm cột 2-3, dòng 1 */}
+        <TradingChart
+          tokenInfor={tokenInfor}
+          address={address}
+          className="lg:col-span-2 lg:col-start-2 lg:row-start-1"
+        />
+
+        {/* HistoryTransactions chiếm cột 4, dòng 1 */}
         <HistoryTransactions
           pendingOrders={pendingOrders}
           orders={orderHistories}
           historyTransactionsRef={historyTransactionsRef}
           tokenAddress={address}
-          className="order-2 lg:order-none"
+          className={`lg:col-span-1 lg:col-start-4 lg:row-start-1 ${
+            walletInfor?.role === "member" ? "lg:row-span-2" : ""
+          }`}
         />
+
+        {/* PlaceOrder chiếm cột 2-3, dòng 2 */}
         <PlaceOrder
           selectedAction={selectedAction}
           handleActionClick={handleActionClick}
@@ -781,15 +794,19 @@ function TradingContent() {
           setTempSolValue={setTempSolValue}
           setAmount={setAmount}
           setValue={setValue}
-          className="lg:col-span-2"
+          className="lg:col-span-2 lg:col-start-2 lg:row-start-2"
         />
+
+        {/* ConnectedMembers chiếm cột 4, dòng 2 */}
         <ConnectedMembers
           connects={connects}
           memberBalances={memberBalances}
           checkedConnections={checkedConnections}
           handleCheckboxChange={handleCheckboxChange}
           setShowToast={setShowToast}
-          className={walletInfor?.role === "member" ? "hidden" : ""}
+          className={`lg:col-span-1 lg:col-start-4 lg:row-start-2 ${
+            walletInfor?.role === "member" ? "hidden" : ""
+          }`}
         />
       </div>
 
