@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { io, Socket } from 'socket.io-client';
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface Token {
   id: number;
@@ -56,23 +57,29 @@ const preloadImages = async (tokens: Token[], shouldCache: boolean = false) => {
 };
 
 export function useWsSubscribeTokens(params?: SubscribeParams) {
+  const queryClient = useQueryClient();
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [tokens, setTokens] = useState<Token[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const mountedRef = useRef(true);
   const pathname = usePathname();
   const isTradingPage = pathname?.startsWith('/trading');
   const isDashboardPage = pathname?.startsWith('/dashboard');
-  const tokenStackRef = useRef<Token[]>([]); // Stack chứa tối đa 100 token
+  const tokenStackRef = useRef<Token[]>([]);
   const updateIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const isInitialLoadRef = useRef(true);
-  const MAX_STACK_SIZE = 50; // Giới hạn stack 100 token
-  const DISPLAY_INTERVAL = 2000; // Hiển thị mỗi s
-  const TOKENS_PER_UPDATE = 1; // Số token cập nhật mỗi lần
+  const MAX_STACK_SIZE = 50;
+  const DISPLAY_INTERVAL = 2000;
+  const TOKENS_PER_UPDATE = 1;
+
+  const { data: tokens = [], isLoading } = useQuery<Token[]>({
+    queryKey: ['wsTokens', params],
+    initialData: [],
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    gcTime: 1000 * 60 * 30, // 30 minutes
+  });
 
   const convertToken = (token: any): Token => {
-    // Optimize logo URL
     const logoUrl = token.slt_logo_url || token.logoUrl;
     const optimizedLogoUrl = logoUrl ? 
       (logoUrl.startsWith('http') ? logoUrl : `https://${logoUrl}`) : 
@@ -97,18 +104,15 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
   const updateTokens = () => {
     if (!mountedRef.current || tokenStackRef.current.length === 0) return;
 
-    // Lấy 2 token mới nhất từ stack và xóa chúng khỏi stack
     const newTokens = tokenStackRef.current.slice(0, TOKENS_PER_UPDATE);
     tokenStackRef.current = tokenStackRef.current.slice(TOKENS_PER_UPDATE);
     
     if (newTokens.length > 0) {
-      // Cập nhật giao diện ngay lập tức
-      setTokens(prevTokens => {
-        const updatedTokens = [...newTokens, ...prevTokens].slice(0, params?.limit || 24);
+      queryClient.setQueryData(['wsTokens', params], (oldData: Token[] = []) => {
+        const updatedTokens = [...newTokens, ...oldData].slice(0, params?.limit || 24);
         return updatedTokens;
       });
 
-      // Preload ảnh sau khi đã cập nhật giao diện
       setTimeout(() => {
         preloadImages(newTokens, true).catch(console.error);
       }, 0);
@@ -131,7 +135,6 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
         console.log("✅ Connected to Socket.IO server - useWsSubscribeTokens");
         setIsConnected(true);
         setError(null);
-        // Reset stack khi kết nối lại
         tokenStackRef.current = [];
         newSocket.emit('subscribeTokens', params || {});
       });
@@ -158,27 +161,22 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
             const convertedTokens = rawTokens.map(convertToken);
 
             if (isInitialLoadRef.current) {
-              // Cập nhật giao diện trước
               const initialTokens = convertedTokens.slice(0, params?.limit || 24);
-              setTokens(initialTokens);
+              queryClient.setQueryData(['wsTokens', params], initialTokens);
               tokenStackRef.current = convertedTokens.slice(params?.limit || 24);
               isInitialLoadRef.current = false;
               console.log('Initial load:', convertedTokens.length, 'tokens');
 
-              // Preload ảnh sau khi đã cập nhật giao diện
               setTimeout(() => {
                 preloadImages(initialTokens, false).catch(console.error);
               }, 0);
             } else {
-              // Các lần cập nhật sau
               const existingAddresses = new Set(tokenStackRef.current.map(token => token.address));
               const uniqueNewTokens = convertedTokens.filter((token: Token) => !existingAddresses.has(token.address));
               
-              // Cập nhật stack trước
               tokenStackRef.current = [...tokenStackRef.current, ...uniqueNewTokens]
                 .slice(-MAX_STACK_SIZE);
 
-              // Preload ảnh sau khi đã cập nhật stack
               setTimeout(() => {
                 preloadImages(uniqueNewTokens, true).catch(console.error);
               }, 0);
@@ -202,11 +200,10 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
     }
   };
 
-  // Effect to handle page navigation
   useEffect(() => {
     if (isTradingPage || isDashboardPage) {
       isInitialLoadRef.current = true;
-      tokenStackRef.current = []; // Reset stack
+      tokenStackRef.current = [];
       connect();
     } else {
       if (socket) {
@@ -218,11 +215,9 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
     }
   }, [isTradingPage, isDashboardPage]);
 
-  // Effect to handle component mount/unmount
   useEffect(() => {
     mountedRef.current = true;
     
-    // Cập nhật tokens mỗi 0.5s
     updateIntervalRef.current = setInterval(updateTokens, DISPLAY_INTERVAL);
     
     return () => {
@@ -245,5 +240,5 @@ export function useWsSubscribeTokens(params?: SubscribeParams) {
     }
   };
 
-  return { socket, tokens, sendMessage, error, isConnected };
+  return { socket, tokens, sendMessage, error, isConnected, isLoading };
 }
