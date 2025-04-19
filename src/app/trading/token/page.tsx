@@ -1,5 +1,5 @@
 "use client";
-import ChatBubble from '@/components/chat/ChatBubble';
+
 import TradingTokenMaster from '@/components/trading/token/TradingTokenMaster'
 import TradingTokenMember from '@/components/trading/token/TradingTokenMember'
 import { getInforWallet } from '@/services/api/TelegramWalletService';
@@ -17,7 +17,6 @@ export default function Trading() {
     <>
       {walletInfor?.role === 'master' && <TradingTokenMaster />}
       {walletInfor?.role === 'member' && <TradingTokenMember />}
-      {/* <ChatBubble /> */}
     </>
   )
 }
