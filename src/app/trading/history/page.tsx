@@ -6,12 +6,26 @@ import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getOrderHistoriesByOwner } from "@/services/api/OnChainService";
 import { useLang } from "@/lang/useLang";
+import { truncateString } from "@/utils/format";
+import { Copy } from "lucide-react";
+import { ToastNotification } from "@/ui/toast";
 
 export default function History() {
   const { t } = useLang();
   const searchParams = useSearchParams();
   const address = searchParams?.get("address");
   const byOwner = searchParams?.get("by");
+  const [showToast, setShowToast] = useState(false);
+
+  const handleCopy = () => {
+    if (byOwner) {
+      navigator.clipboard.writeText(byOwner);
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
+    }
+  };
 
   const { data: orderHistoriesByOwner, isLoading: isLoadingOrderHistoriesByOwner } = useQuery<any[]>({
     queryKey: ["orderHistories", address, byOwner],
@@ -30,10 +44,25 @@ export default function History() {
 
   return (
     <div className="container mx-auto p-6">
-      <div>
-        
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold">{t("trading.historyTransactions")}</h1>
+        <div className="flex items-center gap-2">
+          <p>{truncateString(byOwner, 12)}</p>
+          <button
+            onClick={handleCopy}
+            className="p-1 hover:bg-blue-400 rounded-full transition-colors"
+          >
+            <Copy size={16} />
+          </button>
+        </div>
       </div>
       <HistoryTransactions orders={orderHistoriesByOwner} />
+      {showToast && (
+        <ToastNotification 
+          message={t("createCoin.copySuccess")} 
+          duration={3000}
+        />
+      )}
     </div>
   );
 }
