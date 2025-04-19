@@ -40,7 +40,7 @@ export default function IframeChartPage({ token }: IframeChartPageProps) {
     style={{ 
       position: 'relative',
       width: '100%',
-      height: '470px',
+      height: '29.375rem',
       overflow: 'hidden',
       opacity: isLoading ? 0 : 1,
       transition: 'opacity 0.3s ease-in-out'
@@ -50,7 +50,7 @@ export default function IframeChartPage({ token }: IframeChartPageProps) {
         className='rounded'
         style={{ 
           width: '100%', 
-          height: '500px',
+          height: '31.25rem',
           border: 'none',
           position: 'absolute',
           top: 0,
