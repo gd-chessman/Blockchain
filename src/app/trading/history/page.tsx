@@ -5,10 +5,16 @@ import HistoryTransactions from "@/components/trading/history/HistoryTransaction
 import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getOrderHistoriesByOwner } from "@/services/api/OnChainService";
+import { getTokenInforByAddress } from "@/services/api/SolonaTokenService";
 export default function History() {
   const searchParams = useSearchParams();
   const address = searchParams?.get("address");
   const byOwner = searchParams?.get("by");
+
+  const { data: tokenInfor, refetch } = useQuery({
+    queryKey: ["token-infor", byOwner],
+    queryFn: () => getTokenInforByAddress(byOwner),
+  });
 
   const { data: orderHistoriesByOwner, isLoading: isLoadingOrderHistoriesByOwner } = useQuery(
     {

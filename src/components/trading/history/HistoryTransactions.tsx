@@ -29,7 +29,7 @@ interface Transaction {
     volumeUSD: number;
 }
 
-export default function HistoryTransactions({ pendingOrders = [], orders = [], historyTransactionsRef , className}: { pendingOrders?: any[], orders?: any[], historyTransactionsRef?: any, className?: string }) {
+export default function HistoryTransactions({ orders = [], historyTransactionsRef , className}: { orders?: any[], historyTransactionsRef?: any, className?: string }) {
     const { t } = useLang();
     const [showToast, setShowToast] = useState(false);
     
@@ -54,9 +54,6 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
 
     return (
         <Card className="shadow-md dark:shadow-blue-900/5 border h-full">
-            <CardHeader>
-                {/* <CardTitle>{t("trading.historyTransactions")}</CardTitle> */}
-            </CardHeader>
             <CardContent>
                 <div ref={historyTransactionsRef} className={`overflow-x-auto max-h-[31.25rem] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 ${className}`}>
                     <table className="w-full">
@@ -72,7 +69,7 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
                             </tr>
                         </thead>
                         <tbody>
-                            {[...pendingOrders, ...filteredOrders].map(
+                            {filteredOrders.map(
                                 (order: Transaction, index: number) => (
                                     <tr key={index} className="text-sm border-b">
                                         <td className="py-3 px-1">
@@ -92,7 +89,7 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
                                         <td className="py-3 px-1">
                                             ${formatPrice(order.from.nearestPrice)}
                                         </td>
-                                        <td className="py-3 px-">
+                                        <td className="py-3 px-1">
                                             {formatNumberWithSuffix(order.from.amount)}
                                         </td>
                                         <td className="py-3 px-1">
