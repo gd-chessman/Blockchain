@@ -2,7 +2,9 @@ import { useLang } from '@/lang/useLang';
 import { Card, CardContent, CardHeader, CardTitle } from '@/ui/card'
 import React, { RefObject, useEffect, useState } from 'react'
 import { useWsTokenTransaction } from '@/hooks/useWsTokenTransaction';
-import { formatNumberWithSuffix } from '@/utils/format';
+import { formatNumberWithSuffix, truncateString } from '@/utils/format';
+import { Copy } from 'lucide-react';
+import { ToastNotification } from '@/ui/toast';
 
 interface Transaction {
     blockUnixTime: number;
@@ -31,6 +33,7 @@ interface Transaction {
 export default function HistoryTransactions({ pendingOrders = [], orders = [], historyTransactionsRef, tokenAddress , className}: { pendingOrders?: any[], orders?: any[], historyTransactionsRef: any, tokenAddress: any, className?: string }) {
     const { t } = useLang();
     const [realTimeOrders, setRealTimeOrders] = useState<Transaction[]>([]);
+    const [showToast, setShowToast] = useState(false);
     const { transaction } = useWsTokenTransaction(tokenAddress);
     
     useEffect(() => {
@@ -69,21 +72,22 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
                         <thead>
                             <tr className="text-sm text-muted-foreground border-b">
                                 <th className="text-left py-3 px-1">{t("trading.time")}</th>
-                                <th className="text-left py-3 px-1">{t("trading.type")}</th>
+                                <th className="text-left py-3 px-1 whitespace-nowrap">{t("trading.type")}</th>
                                 <th className="text-left py-3 px-1">{t("trading.price")}</th>
                                 <th className="text-left py-3 px-1">{t("trading.amount")}</th>
                                 <th className="text-left py-3 px-1">{t("trading.total")}</th>
                                 <th className="text-left py-3 px-1">{t("trading.status")}</th>
+                                <th className="text-left py-3 px-1">{t("trading.address")}</th>
                             </tr>
                         </thead>
                         <tbody>
                             {[...pendingOrders, ...allOrders].map(
                                 (order: Transaction, index: number) => (
                                     <tr key={index} className="text-sm border-b">
-                                        <td className="py-3 px-1">
+                                        <td className="py-3 px-1 text-xs">
                                             {formatTime(order.blockUnixTime || order.block_unix_time)}
                                         </td>
-                                        <td className="py-3 px-1">
+                                        <td className="py-3 px-1 text-xs">
                                             <span
                                                 className={
                                                     order.side === "buy"
@@ -109,6 +113,21 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
                                                 {t("trading.completed")}
                                             </span>
                                         </td>
+                                        <td className="py-3 px-1">
+                                            <div className="flex items-center gap-1">
+                                                {truncateString(order.owner, 8)}
+                                                <button 
+                                                    onClick={() => {
+                                                        navigator.clipboard.writeText(order.owner);
+                                                        setShowToast(true);
+                                                        setTimeout(() => setShowToast(false), 3000);
+                                                    }}
+                                                    className="text-muted-foreground hover:text-foreground transition-colors"
+                                                >
+                                                    <Copy size={14} />
+                                                </button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 )
                             )}
@@ -116,6 +135,7 @@ export default function HistoryTransactions({ pendingOrders = [], orders = [], h
                     </table>
                 </div>
             </CardContent>
+            {showToast && <ToastNotification message={t("createCoin.copySuccess")} />}
         </Card>
     )
 }
