@@ -18,9 +18,11 @@ import TokenInforDetail from "./ui/TokenInforDetail";
 export default function TradingChart({
   tokenInfor,
   address,
+  className,
 }: {
   tokenInfor: any;
   address: any;
+  className?: string;
 }) {
   const { t } = useLang();
   const [showToast, setShowToast] = useState(false);
@@ -42,7 +44,7 @@ export default function TradingChart({
           onClose={() => setShowToast(false)}
         />
       )}
-      <Card className="shadow-md dark:shadow-blue-900/5 border lg:col-span-2">
+      <Card className={`shadow-md dark:shadow-blue-900/5 border lg:col-span-2 ${className}`}>
         <CardHeader>
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div className="flex items-center gap-2">
