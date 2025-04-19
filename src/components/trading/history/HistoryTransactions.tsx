@@ -125,7 +125,7 @@ export default function HistoryTransactions({ orders = [], historyTransactionsRe
                                                 {formatNumberWithSuffix(order.from.ui_amount)}
                                             </td>
                                             <td className="py-3 px-1">
-                                                ${formatVolume(order.volumeUSD)}
+                                                ${formatVolume(order.volumeUSD || (order.from.ui_amount * order.from.price))}
                                             </td>
                                             <td className="py-3 px-1 uppercase">
                                                 <span className="text-blue-600 whitespace-nowrap">
