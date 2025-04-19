@@ -1,11 +1,11 @@
 import { Card } from '@/ui/card'
 import React, { useState } from 'react'
 
-export default function ChatBubble() {
+export default function ChatBubble({className}: {className?: string}) {
   const [showChat, setShowChat] = useState(false)
 
   return (
-    <div className="w-full mb-6">
+    <div className={`w-full mb-6 ${className}`}>
       {!showChat ? (
         <button
           onClick={() => setShowChat(true)}
